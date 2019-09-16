@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<disco-web xmlns="http://www.disco.cn/schema/disco.cn/web" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.disco.com/schema/disco/web http://www.disco.com/schema/disco/web/disco-web-2.0.xsd ">
+	<modules>
+		<!-- ajax引擎配置 -->
+		<module path="/easyajax" action="com.eastinno.otransos.web.ajax.AjaxEngineAction">
+			<page name="engine-js" url="classpath:com/eastinno/otransos/web/ajax/engine.js" type="template" contentType="js" />
+			<page name="engine-util" url="classpath:com/eastinno/otransos/web/ajax/util-js.js" type="template" contentType="js" />
+			<page name="plain" url="classpath:com/eastinno/otransos/web/ajax/plain.txt" type="template" contentType="js" />
+			<page name="stub" url="classpath:com/eastinno/otransos/web/ajax/ajaxStub.txt" type="template" contentType="js" />
+			<page name="prototype" url="classpath:com/eastinno/otransos/web/ajax/prototype.js" type="template" contentType="js" />
+			<page name="rico" url="classpath:com/eastinno/otransos/web/ajax/rico.js" type="template" contentType="js" />
+		</module>
+	</modules>
+</disco-web>

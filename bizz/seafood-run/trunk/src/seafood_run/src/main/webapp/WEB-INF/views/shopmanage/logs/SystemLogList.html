@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)http://b2b2ctest.iskyshop.com/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="/static/common/base.css" />
+	<link rel="stylesheet" href="/static/common/plugin/assets/css/font-awesome.min.css" type="text/css"/>
+	<link href="/static/home/bcd/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+	<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+	<script src="/static/home/bcd/js/jquery.datetimepicker.js"></script>
+	<script type="text/javascript">
+	function gotoPage(n) {
+	    location.href = "/systemLog.java?cmd=list2&name=$!name&vdate1=$!vdate1&vdate2=$!vdate2&currentPage=" + n;
+	}
+	//后台传递需要前台弹窗提示的信息
+	#if($msg)
+		alert("$msg");
+	#end
+	
+	$(function(){
+		$(".datetime").datetimepicker({
+			format: "Y-m-d H:i:s",
+			allowBlank: true,
+			step: 10
+		});
+	});
+	</script>
+</head>
+<body>
+
+	<div class="cont">
+		<h3 class="seth">操作日志</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a class="this"><b>管理</b></a></li>
+			</ul>
+		</div>
+		<form name="ListForm" id="ListForm" action="/systemLog.java" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="cmd" value="list2"/>
+			<div class="search" style="margin-left: 20px;">
+				<span class="size100">操作员名称：
+					<input name="name" placeholder="操作人名称" type="text" id="regularName" value="$!name" />
+				</span>
+				<span class="size100">开始时间
+				<input name="vdate1" placeholder="开始时间" class="datetime" type="text" id="regularCode" value="$!regularCode" />
+				</span>
+				<span class="size100">结束时间
+				<input name="vdate2" placeholder="结束时间" class="datetime" type="text" id="proName" value="$!proName" />
+				</span>
+				<span>
+					<input name="" type="submit" value="搜索" style="cursor: pointer;" class="search_btn" />
+				</span>
+			</div>
+		</form>
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>对偏远地区、附近地区、普通地区进行设置</li>
+				<li>你可以根据需要控制商品分类是否显示</li>
+			</ul>
+		</div>
+		<form name="ListForm" id="ListForm" action="/regionClass.java?cmd=list"
+			method="post">
+			<div class="fshoptb2">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+														<th width="10%" align="center"><span class="form_btna">时间</span></th>
+														<th width="10%" align="center"><span class="form_btna">IP地址</span></th>
+														<th width="10%" align="center"><span class="form_btna">访问类</span></th>
+														<th width="10%" align="center"><span class="form_btna">操作内容</span></th>
+														<th width="10%" align="center"><span class="form_btna">操作人</span></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position">
+							<input name="ids" id="ids" type="checkbox" value="1">
+							</td>
+							<td align="center">$!obj.vdate</td>
+							<td align="center">$!obj.ip</td>
+							<td align="center">$!obj.action</td>
+							<td align="center">$!obj.cmd</td>
+							<td align="center">$!obj.user.name</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+<div class="operate_bar">
+				$!{paginationForBlueIdea}				
+			</div>
+		</form>
+
+	</div>
+</body>
+</html>

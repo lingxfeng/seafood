@@ -1,0 +1,7 @@
+#slide_box {border:#c2c2c2 1px solid;position:relative; background-color:#f4f5f6;width:677px;height: 496px;overflow: hidden;}
+#fW_Content {width:667px; height: 457px; overflow:hidden;margin:5px 5px 0px 5px;}
+#fW_Content IMG {width:667px; height: 457px;}
+#fW_Controls {z-index:100;position:absolute; text-align: right;line-height: 20px;background-color: transparent;width:240px;bottom:33px;height: 20px;right: 5px;}
+#fW_Controls A {border-left:#fff 1px solid; padding-bottom:0px; background-color: #000; PADDING-LEFT: 4px; padding-right: 4px;color: #fff; text-decoration: none; padding-top:0px;}
+#fW_Controls A.activeSlide {BACKGROUND: #ce0609; COLOR: #fff; FONT-WEIGHT: bold;}
+#output {padding-bottom:2px;font-weight:bold;line-height:32px;padding-left: 25px;width:652px; padding-right:0px; background-position: 0px -110px;height: 32px; COLOR: #000; OVERFLOW: hidden; PADDING-TOP: 2px;}

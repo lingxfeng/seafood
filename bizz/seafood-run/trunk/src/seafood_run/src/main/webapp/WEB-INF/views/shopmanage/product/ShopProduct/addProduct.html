@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script>
+function selClass(obj){
+  var pid=jQuery(obj).attr("id");
+  var level=jQuery(obj).attr("level");
+  var next=parseInt(jQuery(obj).attr("next"));
+  jQuery("#gc_class_"+level+" li").removeClass("this");
+  jQuery.ajax({type:'POST',url:'productType.java?cmd=findTypeByPId',data:{"parentId":pid,"level":level,"session":true},dataType:"json",
+               beforeSend:function(){
+			     jQuery("#load_dialog").show();
+				 for(var i=3;i>=next;i--){
+				   jQuery("#gc_class_"+i).empty();
+				   jQuery("#class_"+i).hide();
+				 }
+			   },
+			   success:function(data){
+			    jQuery.each(data, function(index,item){
+				   var count=next+1;
+				   var s="<li onclick='selClass(this)' id='"+item.id+"' name='"+item.name+"' level='"+next+"' next='"+count+"'><a href='javascript:void(0);'><span class='point'>"+item.name+"</span></a></li>";
+				   jQuery("#gc_class_"+next).append(s);
+				   jQuery("#class_"+next).show();
+				});
+			    jQuery("#load_dialog").hide();
+				jQuery(obj).addClass("this");
+				var first_class=jQuery("#gc_class_1 li[class='this']").attr("name");
+			    var second_class=jQuery("#gc_class_2 li[class='this']").attr("name");
+				var third_class=jQuery("#gc_class_3 li[class='this']").attr("name");
+				if(second_class==undefined||second_class==""){
+				  jQuery("#goods_second").attr("disabled","disabled");
+				  second_class="";
+				  third_class="";
+				}else{
+				  second_class=">"+second_class;
+				  jQuery("#goods_second").removeAttr("disabled");
+				}
+				if(third_class==undefined||third_class==""){
+				  third_class="";
+				}else{
+				  third_class=">"+third_class;
+				}
+				jQuery("#staple_info").html(first_class+second_class+third_class);
+			   }
+			 });
+}
+function cgc_show(){
+  var css=jQuery(".hidden_class").css("display");
+  if(css=="none"){
+    jQuery(".hidden_class").show();
+  }else jQuery(".hidden_class").hide();
+}
+function load_staple(id,name){
+	jQuery.ajax({type:'POST',url:'productType.java?cmd=findTypeByName',data:{"id":id,"name":name},dataType:"json",
+		success:function(data){
+			jQuery("#gc_class_2").empty();
+			  jQuery("#gc_class_3").empty();
+		      jQuery.each(data, function(index,item){
+			    if(index<2){
+				  var div_id="#class_"+(index+2);
+			      var ul_id="#gc_class_"+(index+2);
+				  jQuery(div_id).show();
+		          jQuery.each(item, function(cindex,citem){
+				      var s="<li onclick='selClass(this)' id='"+citem.id+"' name='"+citem.name+"' level='"+(index+2)+"' next='"+(index+3)+"'><a href='javascript:void(0);'><span class='point'>"+citem.name+"</span></a></li>";
+					  jQuery(ul_id).append(s);
+				  });
+				}
+			  });
+		      jQuery("#gc_class_1 li").removeClass();
+			    if(data.length==1){
+			    	jQuery("#gc_class_1 li[name='"+data[0][0].parent.name+"']").addClass("this");
+			    	jQuery("#gc_class_2 li[name='"+name+"']").addClass("this");
+			    	jQuery("#staple_info").html(data[0][0].parent.name+">"+name);
+			    }else if(data.length==2){
+			    	jQuery("#gc_class_1 li[name='"+data[0][0].parent.name+"']").addClass("this");
+			    	jQuery("#gc_class_2 li[name='"+data[1][0].parent.name+"']").addClass("this");
+			    	jQuery("#gc_class_3 li[name='"+name+"']").addClass("this");
+			    	jQuery("#staple_info").html(data[0][0].parent.name+">"+data[1][0].parent.name+">"+name);
+			    }else if(data.length==3){
+			    	jQuery("#gc_class_1 li[name='"+data[0][0].parent.name+"']").addClass("this");
+			    	jQuery("#gc_class_2 li[name='"+data[1][0].parent.name+"']").addClass("this");
+			    	jQuery("#gc_class_3 li[name='"+data[2][0].parent.name+"']").addClass("this");
+			    	jQuery("#staple_info").html(data[0][0].parent.name+">"+data[1][0].parent.name+">"+data[2][0].parent.name+">"+name);
+			    }
+			  jQuery(".hidden_class").hide();
+			  jQuery("#goods_second").removeAttr("disabled");
+		}});
+}
+function search_staple(){
+  var name=jQuery("#className").val();
+  if(name!=""){
+    load_staple("",name);
+  }
+}
+jQuery(document).ready(function(){
+  jQuery(".hidden_class").mouseleave(function(){
+      jQuery(this).hide();
+   });
+});
+function toAdd2(){
+	var pid;
+	for(var i =4;i>1;i--){
+		var ele = jQuery("#gc_class_"+i+" li[class=this]");
+		if(ele.length!=0){
+			pid = ele.attr("id");
+			break;
+		}
+	}
+	if(!pid){
+		alert("请选择一个分类");
+		return;
+	}
+	window.location.href='/shopProduct.java?cmd=toAdd2&pid='+pid;
+}
+</script>
+</head>
+<body>
+
+   <div class="cont">
+   <h3 class="seth">商品发布</h3>  
+<div class="nav_list">
+       <ul>
+       <li><a href="javascript:void(0);" class="this"><b>商品所在分类</b></a></li>
+       </ul>
+       </div>
+
+<div class="search">
+<span>分类搜索</span><span class="size250">
+<input name="className" type="text" id="className">
+</span><span><input name="" class="search_btn" type="button" value="搜索" onclick="search_staple();" style="cursor:pointer;"></span></div>
+
+<div class="selectclass" style="position:relative;">
+    <div id="load_dialog" style=" display:none;width:120px; height:50px;border:#CCCCCC 1px solid; background:#FFFFCC;position:absolute; top:100px; left:450px; text-align:center; vertical-align:middle; padding-top:10px;"><img src="/static/home/shopmanage/images/loading.gif">加载分类..</div>
+<div class="selectbig">
+<div class="selectsmall">
+<ul id="gc_class_1">
+#foreach($obj in $proTypes)
+<li onclick="selClass(this)" id="$obj.id" level="1" next="2" name="$obj.name"><a href="javascript:void(0);"><span class="point">$obj.name</span></a></li>
+#end
+</ul>
+</div>
+</div>
+<div class="selectbig" id="class_2" style="display:none">
+<div class="selectsmall">
+<ul id="gc_class_2">
+</ul>
+</div>
+</div>
+<div class="selectbig" id="class_3" style="display:none">
+<div class="selectsmall">
+<ul id="gc_class_3">
+</ul>
+</div>
+</div>
+<div class="selectbig" style="display:none">
+<div class="selectsmall">
+<ul id="gc_class_4">
+</ul>
+</div>
+</div>
+</div>
+
+<div class="nowclass">您当前选择的商品类别是：<strong><span id="staple_info"></span></strong></div>
+ 	    <div class="nextbtn"><input name="goods_second" type="button" id="goods_second" style="cursor:pointer;" onclick="toAdd2();" value="下一步"></div>
+
+</div> 
+
+
+
+
+</body></html>

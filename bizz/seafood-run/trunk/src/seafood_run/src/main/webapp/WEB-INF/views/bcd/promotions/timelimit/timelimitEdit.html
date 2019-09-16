@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css" />
+	<link href="/static/home/bcd/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+	<script src="/static/home/bcd/js/jquery-1.11.1.min.js"></script>
+	<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+	<script src="/static/home/bcd/js/jquery.datetimepicker.js"></script>
+	<script>
+	function submitForm(){
+		var result = true;
+		if(result){
+			$("#theForm").submit();	
+		}
+		return false;
+	}
+	
+	#if($msg)
+		alert("$msg");
+	#end
+	
+	$(function(){
+		$(".datetime").datetimepicker({
+			format: "Y-m-d H:i:s",
+			step: 10
+		});
+	});
+	</script>
+</head>
+<body>
+	<form action="/rushBuyRegular.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm"/>
+		<input name="id" id="id" type="hidden" value="$!{entry.id}" />
+		#if($entry) 
+		<input name="cmd" id="cmd" type="hidden" value="timeLimitUpdate" />
+		#else
+		<input name="cmd" id="cmd" type="hidden" value="timeLimitSave" />
+		#end
+
+		<div class="cont">
+			#if($entry)
+			<h1 class="seth">抢购修改</h1>
+			#else
+			<h1 class="seth">新增抢购</h1>
+			#end	
+			<div class="nav_list">
+				<ul>
+					<li><a href="/rushBuyRegular.java?cmd=timeLimitList" class=""><b>管理抢购</b></a></li>
+					#if($entry)
+					<li><a href="/rushBuyRegular.java?cmd=toTimeLimitUpdate&id=$entry.id" class="this"><b>修改活动</b></a></li>
+					<li><a href="/rushBuyRegular.java?cmd=toTimeLimitSave" class=""><b>新增抢购</b></a></li>
+					#else
+					<li><a href="/rushBuyRegular.java?cmd=toTimeLimitSave" class="this"><b>新增抢购</b></a></li>
+					#end
+					<li><a href="/rushBuyRecord.java?cmd=timeLimitRecordList" class=""><b>抢购记录</b></a></li>
+				</ul>
+			</div>
+			
+			<div class="operation">
+				<h3>友情提示</h3>
+				<ul>
+					<li><strong class="w">活动商品添加成功后，商品会被下架，只能在活动页看到该商品，该商品的实体店价格、微店价格、零售价会被修改为商品抢购价！</strong></li>
+				</ul>
+			</div>
+			
+			<div class="edit">
+				<div class="editul setcont" id="base">
+					<ul class="set1">
+						<li class="setcont_bg">活动名称</li>
+						<li>
+							<span class="webname">
+								<input name="name" type="text" id="name" value="$!{entry.name}" />
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">活动商品ID</li>
+						<li>
+							<span class="webname">
+								<input name="proId" type="number" id="proId" value="$!{entry.pro.id}" />
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">抢购价格</li>
+						<li>
+							<span class="webname">
+								<input name="activityPrice" type="number" id="activityPrice" value="$!{entry.activityPrice}" />
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">原价格</li>
+						<li>
+							<span class="webname">
+								<input name="previewPrice" type="number" id="previewPrice" value="$!{entry.previewPrice}" />
+							</span>
+						</li>						
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">限购数量</li>
+						<li>
+							<span class="webname">								
+								#if($entry)
+								<input name="buyNumLimit" type="number" id="buyNumLimit" value="$!{entry.buyNumLimit}" min="1"/>
+								#else
+								<input name="buyNumLimit" type="number" id="buyNumLimit" value="1" min="1"/>
+								#end
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">限制下单数量</li>
+						<li>
+							<span class="webname">								
+								#if($entry)
+								<input name="orderNumLimit" type="number" id="orderNumLimit" value="$!{entry.orderNumLimit}" min="1"/>
+								#else
+								<input name="orderNumLimit" type="number" id="orderNumLimit" value="1" min="1"/>
+								#end
+							</span>
+						</li>
+					</ul>
+					
+					
+					
+					<ul class="set1">
+						<li class="setcont_bg">抢购总量</li>
+						<li>
+							<span class="webname">
+								<input name="buyNum" type="number" id="buyNum" value="$!{entry.buyNum}" />
+							</span>
+						</li>
+					</ul>
+					
+					
+					<ul class="set1">
+				          <li class="setcont_bg">新用户专享</li>
+				          <li>
+				          	<span class="webname">
+				          	#if($entry)
+								<label>
+				              		<input name="isForNew" type="radio" value="0" #if($!entry.isForNew == 0)checked="checked"#end style="width:20px;">
+				             		不限制 </label>
+				             		<label>
+				              		<input type="radio" name="isForNew" value="1" #if($!entry.isForNew == 1)checked="checked"#end style="width:20px;">
+				              		只限新用户</label>
+				            #else
+				            	<label>
+				              		<input name="isForNew" type="radio" value="0" checked="checked" style="width:20px;">
+				             		不限制 </label>
+				             		<label>
+				              		<input type="radio" name="isForNew" value="1" style="width:20px;">
+				              		只限新用户</label>
+				            #end
+							</span>		
+				          </li>
+				          <li><strong class="w">注：新用户指没有下过单的会员</strong></li>
+				    </ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">抢购开始时间</li>
+						<li>
+							<span class="webname">
+								<input class="datetime" name="startDate" type="text" id="startDate" value="$!{entry.startDate}" />
+							</span>
+						</li>
+						<li><strong class="w">注：该时间点后，该抢购商品能够被抢购</strong></li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">抢购结束时间</li>
+						<li>
+							<span class="webname">
+								<input class="datetime" name="endDate" type="text" id="endDate" value="$!{entry.endDate}" />
+							</span>
+						</li>
+						<li><strong class="w">注：该时间点后，该抢购商品不能被抢购</strong></li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">活动上架时间</li>
+						<li>
+							<span class="webname">
+								<input class="datetime" name="shelvingDate" type="text" id="shelvingDate" value="$!{entry.shelvingDate}" />
+							</span>
+						</li>
+						<li><strong class="w">注：该时间点后，该活动会在抢购活动列表显示</strong></li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">活动下架时间</li>
+						<li>
+							<span class="webname">
+								<input class="datetime" name="unshelvingDate" type="text" id="unshelvingDate" value="$!{entry.unshelvingDate}" />
+							</span>							
+						</li>
+						<li><strong class="w">注：该时间点后，该活动不会在抢购活动列表显示</strong></li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">下单有效时间</li>
+						<li>
+							<span class="webname">
+								<input name="expireTime" type="number" id="expireTime" value="$!{entry.expireTime}" />
+							</span>
+						</li>
+						<li>
+							<strong class="w">注：单位为秒</strong>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">PC端显示位置</li>
+						<li>
+							<span class="webname">
+								<input name="pcShowPosition" min="1" step="1" type="number" id="pcShowPosition" value="$!{entry.pcShowPosition}" />
+							</span>
+						</li>
+						<li>
+							<strong class="w">注：位置从1开始，只允许整数</strong>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">微信端显示位置</li>
+						<li>
+							<span class="webname">
+								<input name="phoneShowPosition" min="1" step="1" type="number" id="phoneShowPosition" value="$!{entry.phoneShowPosition}" />
+							</span>
+						</li>
+						<li>
+							<strong class="w">注：位置从1开始，只允许整数</strong>
+						</li>
+					</ul>
+					
+				</div>				
+			</div>
+			<div class="submit">
+				<span class="pad120">
+					<input name="" type="submit" value="提交" onclick="submitForm();" />
+				</span>
+			</div>
+		</div>
+	</form>
+
+</body>
+</html>

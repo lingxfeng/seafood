@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script charset="utf-8" src="/static/home/kindeditor-4.1.10/kindeditor.js"></script>
+<script charset="utf-8" src="/static/home/kindeditor-4.1.10/lang/zh_CN.js"></script>
+<script>
+var editor;
+jQuery(document).ready(function(){
+	var options1 = {
+	        cssPath : '/static/home/kindeditor-4.1.10/plugins/code/prettify.css',
+	        filterMode : true,
+			uploadJson:'/cusUploadFile.java',
+			width : '860px',
+			height:'400px',
+			resizeType : 1,
+			allowImageUpload : true,
+			allowFlashUpload : true,
+			allowMediaUpload : true,
+			allowFileManager : true,
+			syncType:"form",
+			afterCreate : function() {
+								var self = this;
+								self.sync();
+							},
+			afterChange : function() {
+								var self = this;
+								self.sync();
+							},
+			afterBlur : function() {
+								var self = this;
+								self.sync();
+							},
+			afterError:function(){
+			},
+			items:['source', '|', 'fullscreen', 'undo', 'redo', 'cut', 'copy', 'paste',
+				'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+				'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+				'superscript', '|', 'selectall', 'clearhtml','quickformat','|',
+				'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+				'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image','flash', 'media', 'table', 'hr', 'emoticons', 'link', 'unlink', '|', 'about']
+	};
+	editor = KindEditor.create('#content',options1);  
+jQuery("#theForm").validate({
+    rules:{
+	 },
+	messages:{
+	 }
+  });
+  
+  #if($entry)
+	  jQuery("#dirId").val("$entry.dir.id");
+  	jQuery("#status").val("$entry.status");
+  	jQuery("#elite").val("$!{entry.elite}")
+ 	jQuery("#isTop").val("$!{entry.isTop}")
+ 	jQuery("#levelType").val("$!{entry.levelType}")
+	  jQuery.ajax({type:'GET',
+			url:'/shopNewsDoc.java?cmd=docDetails&id=$!{entry.id}',
+			dataType:"html",
+			success:function(data){
+				data = eval("("+data+")")
+				editor.html(data.details)
+			}
+});
+	#end
+});
+//品牌保存
+function saveShopNewsDoc(method){
+	editor.sync();
+	jQuery("#theForm").submit();
+}
+</script>
+
+</head>
+<body>
+<form action="/shopNewsDoc.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+  <input name="id" id="id" type="hidden" value="$!{entry.id}">
+  <input name="type" id="type" type="hidden" value="2"/>
+  #if($entry)
+  <input name="cmd" id="cmd" type="hidden" value="update">
+  #else
+  <input name="cmd" id="cmd" type="hidden" value="save">
+  #end
+  <div class="cont">
+    <h1 class="seth">shopNewsDoc</h1>
+    
+    <div class="nav_list"> 
+	 
+    <ul>
+         <li><a href="/shopNewsDoc.java?cmd=list&type=2"><b>管理</b></a></li> 
+	<li><a href="/shopNewsDoc.java?cmd=list&type=2" class="this"><b>新增</b></a></li>
+	  	</ul>
+		
+    </div>
+    <div class="edit">
+    <div class="editul setcont" id="base">
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>文章标题</li>
+        <li><span class="webname">
+          <input name="title" type="text" id="title" value="$!{entry.title}">
+        </span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>所属分类</li>
+        <li><span class="webname">
+        	<select name="dirId" id="dirId">
+        		<option value="0">请选择所属分类...</option>
+        		#foreach($obj in $dirs)
+        		<option value="$obj.id">$obj.name</option>
+        		#end
+        	</select>
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>文章图标</li>
+        <li><span class="webname">
+          <input name="imgPath" type="file" id="imgPath">
+          
+        </span><span>
+        	#if($entry && $entry.imgPath)
+        		<img src="$!entry.imgPath"/>
+        	#end
+        </span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>是否生效</li>
+        <li><span class="webname">
+        <select name="status" id="status">
+        	<option value="1">是</option>
+        	<option value="0">否</option>
+        </select>
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>是否推荐</li>
+        <li><span class="webname">
+        <select name="elite" id="elite">
+        	<option value="0">否</option>
+        	<option value="1">是</option>
+        </select>
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>是否置顶</li>
+        <li><span class="webname">
+        <select name="isTop" id="isTop">
+        	<option value="0">否</option>
+        	<option value="1">是</option>
+        </select>
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg">文章级别</li>
+        <li><span class="webname">
+        <select name="levelType" id="levelType">
+        	<option value="0">请选择文章级别...</option>
+        	<option value="1">普通</option>
+        	<option value="2">重要</option>
+        	<option value="3">公告</option>
+        	<option value="4">注意</option>
+        	<option value="5">聚焦</option>
+        	<option value="6">通知</option>
+        </select>
+        </span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>排序</li>
+        <li><span class="webname">
+          <input name="sequence" type="text" id="sequence" value="$!{entry.sequence}">
+        </span></li>
+      </ul>
+             
+       <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>文章内容</li>
+        <li><span class="webname">
+        	<textarea name="content" style="width:100%;height:400px;visibility:hidden;" id="content"></textarea>
+        </span></li>
+      </ul>
+          </div>
+    </div>  
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="saveShopNewsDoc();"></span>
+  </div>
+  </div>
+
+</form>
+
+
+</body></html>

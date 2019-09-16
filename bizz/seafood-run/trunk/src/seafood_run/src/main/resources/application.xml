@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+          http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<import resource="classpath:/com/eastinno/otransos/application/application.xml" />
+	<!-- 打开spring注解 -->
+	<context:annotation-config />
+	<!-- 设定Spring去那些包中找注解 -->
+	<context:component-scan base-package="com.eastinno.otransos,com.test,com.seafood" />
+	
+	<task:annotation-driven scheduler="qbScheduler" mode="proxy"/>  
+    <task:scheduler id="qbScheduler" pool-size="10"/> 
+	
+	<!--权限系统 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroDbRealm" />
+		<property name="cacheManager" ref="shiroEhcacheManager" />
+	</bean>
+	<!-- 用户授权信息Cache, 采用EhCache -->
+	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:com/eastinno/otransos/security/ehcache-shiro.xml" />
+	</bean>
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login.java" />
+		<property name="successUrl" value="/manage.java" />
+		<property name="unauthorizedUrl" value="/login.java?cmd=unauth" />
+		<property name="filterChainDefinitions">
+			<value>
+				/ = anon
+				/login.java* = anon
+				/weixinServlet** = anon
+				/goShop.java* = anon
+				/bcdShop.java* = anon
+				/common.java* = anon
+				/specialProType.java* = anon
+				/weixinBase.java* = anon
+				/systemRegion.java* = anon
+				/distributionOrder.java* = anon
+				/shopOrder.java* = anon
+				/randomCode.java* = anon
+				/shopSinceSome.java* = anon
+				/extApp.java* = anon
+				/randomSign.java* = anon
+				/manage.java* = user,frameperms
+				/shopManage.java* = anon
+				/regionClass.java* = user,frameperms
+				/visitorStatistics.java* = anon
+				/**/*.java* = shopPath
+				/** = anon
+			</value>
+		</property>
+		<!-- 声明自定义的过滤器 -->
+		<property name="filters">
+			<map>
+				 <entry key="frameperms" value-ref="urlPathFilter"/>
+				 <entry key="shopPath" value-ref="urlPathFilterShop"/>
+				 <entry key="authc" value-ref="authcFilter"/>
+			</map>
+		</property>
+	</bean>
+	
+	<aop:config>
+		<aop:pointcut id="bcdShopServiceImplMethods"
+						expression="execution(* com.eastinno.otransos.platform.weixin.service.impl.WxplateServiceImpl.*(..)) || execution(* com.eastinno.otransos.seafood.trade.service.impl.ShopPayMentServiceImpl.*(..)) || execution(* com.eastinno.otransos.seafood.util.TimeTask.*(..)) || execution(* com.eastinno.otransos.seafood.usercenter.service.impl.ShopMemberServiceImpl.addDistributor(..))" />
+		<aop:advisor advice-ref="bcdShopAdvice" pointcut-ref="bcdShopServiceImplMethods" />
+	</aop:config>
+	<tx:advice id="bcdShopAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="update*" propagation="REQUIRES_NEW" />
+<!-- 			<tx:method name="add*" propagation="REQUIRES_NEW" /> -->
+			<tx:method name="del*" propagation="REQUIRES_NEW" />
+			<tx:method name="record*" propagation="REQUIRES_NEW" />
+			<tx:method name="subscribe*" propagation="REQUIRES_NEW"/>
+			<tx:method name="job1" propagation="REQUIRES_NEW"/>
+			<tx:method name="addDistributor" propagation="REQUIRES_NEW"/>
+			<tx:method name="*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+</beans>

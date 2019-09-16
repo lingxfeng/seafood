@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0045)/goods_cart3.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<title>海鲜之家商城</title>
+<meta name="keywords" content="海鲜之家商城"/>
+<meta name="description" content="海鲜之家商城"/>
+<meta name="generator" content="海鲜之家商城"/>
+<meta name="author" content="海鲜之家商城"/>
+<meta name="copyright" content="海鲜之家商城"/>
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/goods.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+
+<style>
+.one_input {
+	float: left;
+	background-color: #FF6600;
+	width: 299px;
+	height: 59px;
+	font-size: 12px;
+	color: #FFFFFF;
+	border: #FF0000 1px;
+	cursor: pointer;
+	margin-top: 20px;
+}
+</style>
+</head>
+<body>
+#parse("/common/top.html")
+#parse("/common/left.html")
+<div class="main">
+  <div class="shopping_cart">
+	<form action="" method="post" target="_blank" id="theForm">
+	    <div class="payfor_box">
+	    <h3>微信扫一扫支付</h3>
+	    <h5 style="color:#F00;">付款金额&nbsp;:#if($!je)¥$fu.getYj($!je) #else¥$fu.getYj($!order.gross_price) #end</h5>
+	    <div>
+		    <div style="float:left;margin-left: 80px;">
+			    <img style="width: 300px;height: 300px;" src="/goShop.java?cmd=rcMpWxPayImg&code_url=$!{imgUrl}" alt="" /><br/>
+			    <input sytle="    width: 334px;height: 440px;" type="button" value="请使用微信扫一扫" class="one_input">
+		    </div>
+		    <div style="float:right;margin-right: 80px;">
+			    <img style="width: 335px; height: 440px;" src="/static/home/pcbcd/images/yemian.jpg" alt="" />
+		    </div>
+	    </div>
+	    </div>
+	</form>
+  </div>
+    ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+
+  <div class="footer">
+    <ul>
+                  <li class="hui2">Copyright 2012-2015 海鲜之家商城 Inc. All rights reserved</li>
+      <li class="hui2">Powered by 海鲜之家商城</li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: block;">
+  <div class="back_index"><a href="/goShop.java" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+
+</div>
+<div style="display:none;" id="pay_overlay">
+  <div class="white_content" style="top: 439.5px;"> <a href="javascript:void(0);" onclick="javascript:jQuery(&#39;#pay_overlay&#39;).hide();" class="white_close"><img src="./pay_files/close.jpg" width="14" height="14"></a>
+    <div class="white_box">
+      <h1>支付提醒</h1>
+      <dl class="white_dl">
+        <dt></dt>
+        <dd>
+          <div class="payf"><a href="">已经完成支付！</a></div>
+          <div class="payf"><a href="javascript:void(0);" onclick="javascript:jQuery(&#39;#pay_overlay&#39;).hide();">支付出现问题！</a></div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <div class="black_overlay"></div>
+</div>
+
+<script>
+function myrefresh(){
+	$.ajax({
+        type: "post",
+        url: "/shopTrade.java?cmd=toIndex",
+        dataType: "json",
+        data : "orderId="+$!order.id,
+        success: function(data) {
+            if (data.status=="1") {
+				var r=confirm("支付成功是否跳转到首页")
+				if (r==true){
+					window.location.href="/goShop.java";
+				}else{
+					
+				}
+				clearInterval(sh);
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("没找到");
+        }
+    });
+}
+var sh; 
+sh=setInterval("myrefresh()",5000); //指定1秒刷新一次
+</script>
+
+</body></html>

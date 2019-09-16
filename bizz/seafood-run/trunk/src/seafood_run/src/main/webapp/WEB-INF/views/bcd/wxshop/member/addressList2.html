@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>地址管理</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/><!--提示IE最新版显示-->
+<link href="/static/home/bcd/css/user.css" rel="stylesheet" type="text/css" />
+<link href="/static/home/bcd/css/darkwash.css" rel="stylesheet" type="text/css" />
+<link href="/static/home/bcd/css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link href="/static/home/bcd/css/font-awesome.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<style>
+.express_adrDiv{
+	background: #fff;
+	padding: 20px 0;
+	border-bottom:1px solid #ccc;
+}
+.express_adrCheck{
+	margin-top: 20px;
+	text-align: center;
+	color: #14c760;
+}
+.express_adrEdit{
+	margin-top: 20px;
+}
+.express_adrAdd{
+	margin-top: 5px;
+	text-align: center;
+	color: #14c760;
+}
+.express_adrCon{
+	text-align:left;
+	line-height:2;
+}
+
+.since_adrDiv{
+	background: #fff;
+	padding: 20px 0;
+}
+.since_people{
+	margin-top:20px;
+	background: #fff;
+
+	text-align:left;
+}
+.since_name{
+	border-bottom:1px solid #ccc;
+	padding: 20px 0 20px 25px;
+}
+
+.g{
+	color: #ccc;
+}
+
+
+</style>
+</head>
+
+<body style="background-color: #efefef;">
+	<div class="hy_1">收货地址列表</div>
+    <div id="container">
+        <div class="tab-container">
+            <div id="c1">
+                <a href="#c1" title="First" class="delivery" id="kdps">快递配送</a>
+                <div class="tab-content delivery-content">
+                    #foreach($address in $addressList)
+                    <div class="oh bg-fff express_adrDiv" onclick="choice($address.id, this);">		
+                        <div class="f-l w-10 express_adrCheck"><span #if(!$!address.isDefault) class="fa fa-check-circle g" #else class="fa fa-check-circle" #end id="tp$address.id"></span></div>
+                        <div class="f-l w-80 express_adrCon">
+                            <p>$!address.area.loadFullTitle("-")-$!address.area_info</p>
+                        	<p><span>$!address.trueName&nbsp;</span><span>$!address.telephone</span></p>
+                        </div>
+                        <div class="f-l w-10 express_adrEdit" onclick="javascript:window.location.href='wxShopMemberCenter.java?cmd=toAddressEdit&id=$address.getId()&url='+encodeURIComponent('$!url');"><a href="#"><i class="fa fa-pencil"></i></a></div>
+                    </div>
+                    #end
+                    <a  onclick="javascript:window.location.href='wxShopMemberCenter.java?cmd=toAddressSave&url='+encodeURIComponent('$!url');">
+                    <div class="oh bg-fff express_adrDiv">		
+                        <div class="f-l w-10 express_adrAdd"><i class="fa fa-plus-square"></i></div>
+                        <div class="f-l w-80 express_adrCon">
+                            <p>新增收货地址</p>
+                        </div>
+                    </div>
+                    </a>
+                    <div style="height:80px;"></div>
+                    <div class="ui-btn-wrap" style="position: fixed;bottom: 0;left: 0;width: 100%;">
+    					<button class="ui-btn-lg ui-btn-primary btn-no" onclick="submitForm();" style="border:1px solid red;">确认选择</button>
+					</div>
+                </div>
+            </div>
+
+            
+            <div id="c2">
+                <a href="#c2" title="Second" class="delivery" id="smzt">上门自提</a>
+                <div class="tab-content delivery-content">
+                    #foreach($!obj in $sssList)
+                    <div class="oh bg-fff express_adrDiv" onclick="choice2($!obj.id, this);">		
+                        <div class="f-l w-10 express_adrCheck"><span #if($!obj.isDefault)  class="fa fa-check-circle" #else class="fa fa-check-circle g" #end></span></div>
+                        <div class="f-l w-80 express_adrCon">
+                            <p>#if($!obj.shopDistributor.area.parent.parent)$!obj.shopDistributor.area.parent.parent.title - #end $!obj.shopDistributor.area.parent.title - $!obj.shopDistributor.area.title - $!obj.shopDistributor.openAccountAddress</p>
+                        	<p><span>$!obj.trueName&nbsp;</span><span>$!obj.telephone</span></p>
+                        </div>
+                        <div class="f-l w-10 express_adrEdit"><a href="#"><i class="fa fa-pencil"  onclick="javascript:window.location.href='/shopSinceSome.java?cmd=toUpdate&id=$!obj.id&url='+encodeURIComponent('$!url');"></i></a></div>
+                    </div>
+                    #end
+                    
+                    <a onclick="javascript:window.location.href='/shopSinceSome.java?cmd=getShopSinceSome&url='+encodeURIComponent('$!url');">
+                    <div class="oh bg-fff express_adrDiv">		
+                        <div class="f-l w-10 express_adrAdd"><i class="fa fa-plus-square"></i></div>
+                        <div class="f-l w-80 express_adrCon">
+                            <p>新增自提地址</p>
+                        </div>
+                    </div>
+                    </a>
+                    <div style="height:80px;"></div>
+                    <div class="ui-btn-wrap" style="position: fixed;bottom: 0;left: 0;width: 100%;">
+    					<button class="ui-btn-lg ui-btn-primary btn-no" onclick="submitForm2();" style="border:1px solid red;">确认选择</button>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<div>
+		<input type="hidden" id="sAdd" name="sAdd" value=""/>
+		<input type="hidden" id="smztDistri" name="smztDistri" value=""/>   
+	</div>
+	
+	
+	<div class="hei40"></div>
+	
+	<script>
+</script>
+
+<script>
+$(function(){
+	$(".delivery").click(function(){
+		$(".delivery-content").hide();
+		$(this).siblings(".delivery-content").show();
+	});
+	
+});
+
+$(document).ready(function(){
+	#if($!state==2)
+		location.hash="c2";
+		$("#smzt").click();
+	#else
+		location.hash="c1";
+		$("#kdps").click();
+	#end
+	
+})
+
+function choice(id, handler){
+	$("#sAdd").val(id);
+	$("div.express_adrDiv").find("span.fa-check-circle").addClass("g");
+	$(handler).find("span.fa-check-circle").removeClass("g");
+}
+
+function choice2(id, handler){
+	$("#sAdd").val(id);
+	$("#smztDistri").val(id);
+	$("div.express_adrDiv").find("span.fa-check-circle").addClass("g");
+	$(handler).find("span.fa-check-circle").removeClass("g");
+}
+
+function submitForm(){
+	var sAdd = $("#sAdd").val();
+	window.location.href="$!url&addrid="+sAdd+"&url="+encodeURIComponent('$!url');
+}
+function submitForm2(){
+	var sAdd = $("#sAdd").val();
+	var smztDistri = $("#smztDistri").val();
+	window.location.href="$!url&addrid="+sAdd+"&smzt="+smztDistri+"&url="+encodeURIComponent('$!url');
+}
+</script>
+</body>
+</html>

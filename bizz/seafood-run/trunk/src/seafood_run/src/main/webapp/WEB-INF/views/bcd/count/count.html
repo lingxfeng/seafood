@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>统计</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/common/base.css">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script type="text/javascript">
+	function updateData1(){
+		$.ajax({
+	        type: "GET",
+	        url: "shopDistributor.java?cmd=exportEntity",
+	        dataType: "json",
+	        success: function(data){
+	        	console.dir(data)
+	        			if(data.info == "导出成功!"){
+	        				alert("导出数据成功！请点击下载数据进行下载！")
+	        			}else{
+	        				alert("导出数据失败！请刷新后重试！若问题仍未解决，请联系管理员！")
+	        			}
+	        			$('#downloadData1').attr('href',data.str); 
+	                 }
+	    });
+	}
+	function updateData2(){
+		$.ajax({
+	        type: "GET",
+	        url: "shopDistributor.java?cmd=exportVirtual",
+	        dataType: "json",
+	        success: function(data){
+	        	console.dir(data)
+	        			if(data.info == "导出成功!"){
+	        				alert("导出数据成功！请点击下载数据进行下载！")
+	        			}else{
+	        				alert("导出数据失败！请刷新后重试！若问题仍未解决，请联系管理员！")
+	        			}
+	        			$('#downloadData2').attr('href',data.str); 
+	                 }
+	    });
+	}
+	function updateData3(){
+		$.ajax({
+	        type: "GET",
+	        url: "shopDistributor.java?cmd=exportShopMember",
+	        dataType: "json",
+	        success: function(data){
+	        	console.dir(data)
+	        			if(data.info == "导出成功!"){
+	        				alert("导出数据成功！请点击下载数据进行下载！")
+	        			}else{
+	        				alert("导出数据失败！请刷新后重试！若问题仍未解决，请联系管理员！")
+	        			}
+	        			$('#downloadData3').attr('href',data.str); 
+	                 }
+	    });
+	}
+</script>
+</head>
+
+<body>
+	<div class="cont">
+		<h3 class="seth">统计</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href=""><b>统计</b></a></li>
+			</ul>
+		</div>
+		<span class="btn_search" style="margin-left: 30px;margin-right: 40px;"><input type="button" onclick="updateData1();" value="刷新加盟店" class="search_btn"></span>
+		<span class="btn_search" style="width:20px;height:20px;"><a id="downloadData1" href="/static/EntityShop.xls" style="border-bottom: 1px,solid;"> 下载数据</a></span>
+		
+		<span class="btn_search" style="margin-left: 30px;margin-right: 40px;"><input type="button" onclick="updateData2();" value="刷新分销商" class="search_btn"></span>
+		<span class="btn_search" style="width:20px;height:20px;"><a id="downloadData2" href="/static/virtualShop.xls" style="border-bottom: 1px,solid;"> 下载数据</a></span>
+		
+		<span class="btn_search" style="margin-left: 30px;margin-right: 40px;"><input type="button" onclick="updateData3();" value="刷新消费者" class="search_btn"></span>
+		<span class="btn_search" style="width:20px;height:20px;"><a id="downloadData3" href="/static/shopMember.xls" style="border-bottom: 1px,solid;"> 下载数据</a></span>
+		
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>数据实时统计</li>
+				<li>会员购物之后又进行退款操作并成功的用户不在统计范围之内</li>
+			</ul>
+		</div>
+		<form name="listForm" id="listForm" action="/distributeLevel.java?cmd=customList" method="post">
+			<div class="fshoptb2">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="12%" align="center"><span class="form_btna">序号</span></th>
+							<th width="20%" align="center"><span class="form_btna">类别</span></th>
+							<th width="24%" align="center"><span class="form_btna">数量</span></th>
+						</tr>
+						<tr >
+							<td align="center">1</td>
+							<td align="center">加盟店数量</td>
+							<td align="center">$!one</td>
+						</tr>
+						<tr >
+							<td align="center">2</td>
+							<td align="center">二级分销商</td>
+							<td align="center">$!tow</td>
+						</tr>
+						<tr >
+							<td align="center">3</td>
+							<td align="center">三级分销商</td>
+							<td align="center">$!three</td>
+						</tr>
+						<tr >
+							<td align="center">4</td>
+							<td align="center">消费会员数量</td>
+							<td align="center">$!member</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

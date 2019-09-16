@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0052)/goods_cart0.htm?gid=53 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>我的购物车 - 海鲜之家商城V1.0</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="generator" content="">
+<meta name="author" content="">
+<meta name="copyright" content="">
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/goods.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script>
+jQuery(document).ready(function(){			
+ //添加到购物车
+   jQuery("a[id^=goods_cart_]").live("click",function(e){
+	var obj = jQuery(this);												  
+	  var goods_id=jQuery(this).attr("goods_id");
+	  var type=jQuery(this).attr("type");
+	  var goods_type=jQuery(this).attr("goods_type");
+	  var user_id=jQuery(this).attr("user_id");
+	  var buy=true;
+	  if(goods_type=="0"){
+	    if(""=="ADMIN"){
+			buy=false;
+	    }
+	  }
+	  if(goods_type=="1"){
+	    if(""==user_id){
+		   buy=false;
+		}
+	  }
+	  if(!buy){
+	     showDialog("msg_info","","不可以购买自己的商品！",2,"warning",3,'');
+	  }else{
+		  var shopCar = jQuery.cookie("discoshopCar");
+		  if(!shopCar){
+			  shopCar = goods_id;
+		  }else{
+			  if(shopCar.split(",").indexOf(goods_id)==-1){
+			  	shopCar+=","+goods_id
+			  }
+		  }
+			jQuery.cookie("discoshopCar",shopCar,{expires:10,path:"/"});
+			var num = shopCar.split(",").length;
+			var change_count=function(){
+				jQuery("b[id=cart_goods_count_top]").html(num);
+				 jQuery("#float_div").stop();		
+				 jQuery("#float_div").remove();
+			};
+			if(!jQuery("#float_div").is(':animated')){
+				   var tar_x= jQuery("b[id=cart_goods_count_top]").offset().left;
+				   var tar_y= jQuery("b[id=cart_goods_count_top]").offset().top;
+				   var src = jQuery("img[id="+type+"_"+goods_id+"]").attr("src");
+				   var x=jQuery(obj).offset().left;
+				   var y=jQuery(obj).offset().top;
+				   var html = "<div id='float_div' style='border:1px solid #ececec;left:"+x+"px;top:"+y+"px;position:absolute;padding:2px; background:#fff;z-index:9999'><img width='15px' height='15px' src='"+src+"' style=''/></div>";
+					jQuery("body").append(html);
+					jQuery("#float_div").animate({'left':tar_x,'top':tar_y,'width':15,'height':15},1000,'',change_count);
+				 }
+	  }
+   });			
+     
+});////
+</script>
+</head>
+<body>
+#parse("/common/top.html")
+#parse("/common/left.html")
+
+<div class="main">
+  <div class="shopping_cart">
+    <div class="shopping_ok"><span>商品已经成功加入购物车</span><a href="/goShop.java?cmd=queryPro" class="go_on_buy">继续购物</a><a href="/goShop.java?cmd=toShopCar" class="car_total">去购物车结算</a></div>
+  </div>
+    <div class="shopping_other">
+    <h3><strong>您可能还需要其他商品</strong></h3>
+    <div class="shopping_other_list">
+      <div class="shopping_other_list_box">
+      #foreach($obj in $yneeds)                       
+         <dl>
+          <dt><a href="/goShop.java?cmd=productDetail&id=$obj.id" target="_blank"><span class="img_cspan">
+            <p><img src='$obj.imgPaths.split("_")[0]' width="100" height="100" id="ztc_40"></p>
+            </span></a></dt>
+          <dd>
+            <h4><a href="/goShop.java?cmd=productDetail&id=$obj.id" target="_blank">$obj.name</a></h4>
+            <strong>¥$obj.amt</strong>
+            <em class="shopping_other_list_center_box_buy">
+            
+            <a href="javascript:void(0);" goods_id="$obj.id" goods_type="$obj.productType.id" user_id="$!user.id" type="ztc" id="goods_cart_$obj.id">加入购物车</a>
+                                          
+            </em>
+            </dd>
+        </dl>
+       #end                         
+         </div>
+    </div>
+  </div>
+    ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+#parse("/common/footer.html")
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/goods_cart0.htm?gid=53#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+ </div>
+
+
+</body></html>

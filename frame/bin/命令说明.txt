@@ -1,0 +1,5 @@
+%1      war run crud project
+%2      path
+%3      djs ssh ssh2 extjs
+%4      extjs   maven
+%5      platform

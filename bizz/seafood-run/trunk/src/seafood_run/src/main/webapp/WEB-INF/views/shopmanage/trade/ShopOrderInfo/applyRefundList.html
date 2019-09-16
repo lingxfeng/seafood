@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="/static/common/base.css"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script type="text/javascript">
+function gotoPage(n) {
+    window.location.href = "/applyRefund.java?cmd=applyRefundList&currentPage=" + n;
+}
+</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">订单退货管理</h3>
+		<div class="nav_list"> 
+	 
+    <ul>
+         <li><a href="/applyRefund.java?cmd=applyRefundList" #if(!$status) class="this" #end><b>订单退货管理</b></a></li>
+	  	</ul>
+		
+    </div>
+	<form name="queryForm" id="queryForm" action="/applyRefund.java" method="post" enctype="multipart/form-data">
+		<div class="search">
+			<span>用户名</span> 
+			<span class="size150">
+				<input name="nickname" type="text" name="nickname" id="" value="$!nickname"/>
+			</span>
+			<span>用户id</span> 
+			<span class="size150">
+				<input name="id" type="text" name="id" id="" value="$!id"/>
+			</span> 
+			<span class="btn_search">
+				<input name="" type="submit" value="搜索" style="cursor:pointer;" class="search_btn"/>
+			</span> 
+		  </div>
+		  <input type="hidden" name="cmd" value="applyRefundList"/>
+	</form>
+	
+	<form name="ListForm" id="ListForm" action="/shopOrderInfo.java?cmd=viewList" method="post">
+		<div class="fshoptb2">
+	
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				class="fshop_table2">
+				<tbody>
+					<tr>
+						<th width="3%"><span class="form_btna">&nbsp;</span></th>
+						<th width="10%" align="center"><span class="form_btna">订单编号</span></th>
+						<th width="5%" align="center"><span class="form_btna">用户名称</span></th>
+						<th width="5%" align="center"><span class="form_btna">用户id</span></th>
+						<th width="5%" align="center"><span class="form_btna">订单总价格</span></th>
+						<th width="10%" align="center"><span class="form_btna">自定义运费</span></th>
+						<th width="10%" align="center"><span class="form_btna">申请时间</span></th>
+						<th width="10%" align="center"><span class="form_btna">退款原因</span></th>
+						<th width="20%" align="center"><span class="form_btna">备注</span></th>
+						<th width="10%" align="center"><span class="form_btna">订单申请状态</span></th>
+						<th width="5%" align="center"><span class="form_btna">订单详情</span></th>
+						<th width="10%" align="center"><b class="form_btna">操作</b></th>
+					</tr>
+					#foreach($obj in $applyRefundList)
+					<tr id="$obj.id" level="$obj.id" levelnum="1">
+						<td class="check_position"><input name="ids" id="ids" type="checkbox" value="1"></td>
+						<td align="center">$!obj.order.code</td>
+						<td align="center">$!obj.shopMember.nickname</td>
+						<td align="center">$!obj.shopMember.id</td>
+						<td align="center">$!obj.order.gross_price</td>
+						<td align="center"><input type="number" id="f$obj.id" name="f$obj.id" min="0" value="$!obj.freight"/></td>
+						<td align="center">$!obj.createDate</td>
+						<td align="center">$!obj.reason</td>
+						<td align="center">$!obj.remarks</td>
+						<td id="s$obj.id" align="center">
+						#if($!obj.status==0)
+							申请中
+						#elseif($!obj.status==1)
+							通过
+						#elseif($!obj.status==2)
+							拒绝
+						#end
+						</td>
+						<td align="center"><a href="/shopOrderInfo.java?cmd=orderDetail&orderId=$!obj.order.id">订单详情</a></td>
+						<td id="cz$obj.id" align="center" class="hui oprate_con">
+						#if($!obj.status==0)
+						<a href="javascript:refund(1,$!obj.order.id,$!obj.id)" class="blue">同意</a>
+						<a href="javascript:refund(2,$!obj.order.id,$!obj.id)" class="blue">拒绝</a>
+						#end
+						</td>
+					</tr>
+					#end
+				</tbody>
+			</table>
+		</div>
+		
+	</form>
+		<div class="operate_bar">
+				$!{paginationForBlueIdea}
+				<div class="oper_sp">
+					<span class="oper_check"><input type="checkbox" name="all"
+						id="all" value="" onclick="selectAll(this)">全部</span> <span
+						class="oper_del"></span>
+				</div>
+			</div>
+	</div>
+	<script>
+		function refund(val,orderId,aId){
+			var msg;
+			val==1?msg="是否同意退货\\退款":msg="是否拒绝退货\\退款";
+			if(confirm(msg)){
+				$.ajax({
+			        type: "post",
+			        url: "/applyRefund.java?cmd=refund&date="+new Date().getTime(),
+			        dataType: "json",
+			        data: "type="+val+"&orderId="+orderId+"&freight="+$("#f"+aId).val(),
+			        success: function(data) {
+			            if (data.success) {
+			            	if(val==1){
+			            		$("#s"+aId).html("通过");
+					            alert("审核通过");
+			            	}else if(val==2){
+			            		$("#s"+aId).html("拒绝");
+					            alert("审核拒绝");
+			            	}
+			            	$("#cz"+aId).hide();
+			            } else {
+			                alert(data.errors.msg)
+			            }
+	
+			        },
+			        error: function(XMLHttpRequest, textStatus, errorThrown) {
+			            alert("没找到");
+			        }
+			    });
+			}
+		}
+	</script>
+</body>
+</html>

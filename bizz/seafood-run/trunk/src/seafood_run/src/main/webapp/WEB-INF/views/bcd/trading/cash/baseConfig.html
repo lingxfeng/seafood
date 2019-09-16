@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>退款/退货设置</title>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css"/>
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.bigcolorpicker.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/commonutil.js"></script>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<script>
+jQuery(document).ready(function(){
+	var isRefund;
+	var afterPay;
+	var afterSend;
+	var afterRecieve;
+	var recieveDays;
+	#foreach($obj in $pl.result)
+		#if("$obj.types"=="isRefund")
+			isRefund = '$!{obj.value}';
+		#end	
+		#if("$obj.types"=="afterPay")
+			afterPay =  '$!{obj.value}';
+		#end
+		#if("$obj.types"=="afterSend")
+			afterSend = '$!{obj.value}';
+		#end
+		#if("$obj.types"=="afterRecieve")
+			afterRecieve = '$!{obj.value}';
+		#end
+		#if("$obj.types"=="recieveDays")
+			recieveDays = '$!{obj.value}';
+		#end
+	#end
+	$("input[id=pay]").click(function(){
+		setRefund(1);
+	 });
+
+	$("input[id=notPay]").click(function(){
+		setRefund(0);
+	 });
+	if(isRefund==0){
+		$("input[id=notPay]").click();
+	}else{
+		$("input[id=pay]").click();
+	}
+	if(afterPay==1){
+		$("input[name=afterPay]").attr("checked","checked");
+	}
+	if(afterSend==1){
+		$("input[name=afterSend]").attr("checked","checked");
+	}
+	if(afterRecieve==1){
+		$("input[name=afterRecieve]").attr("checked","checked");
+	}
+	$("input[name=isRefund]").val(isRefund);
+	$("input[name=afterPay]").val(afterPay);
+	$("input[name=afterSend]").val(afterSend);
+	$("input[name=afterRecieve]").val(afterRecieve);
+	$("input[name=recieveDays]").val(recieveDays);
+	}
+);
+
+
+function setRefund(value){
+	if(value==0){
+		jQuery("#refundService").attr("style","padding-left:45px;display:none;");
+		$("input[name=afterPay]").val(0);
+		$("input[name=afterPay]").attr("checked",false);
+		$("input[name=afterSend]").val(0);
+		$("input[name=afterSend]").attr("checked",false);
+		$("input[name=afterRecieve]").val(0);
+		$("input[name=afterRecieve]").attr("checked",false);
+		$("input[name=recieveDays]").val("");
+	}else{
+		jQuery("#refundService").attr("style","padding-left:45px;display:block;");
+	}
+}
+
+function saveConfig(){
+	if($("input[name='afterPay']").is(':checked')){
+		$("input[name='afterPay']").val("1");
+	}else{
+		$("input[name='afterPay']").val("0");
+	}
+	if($("input[name='afterSend']").is(':checked')){
+		$("input[name='afterSend']").val("1");
+	}else{
+		$("input[name='afterSend']").val("0");
+	}
+	if($("input[name='afterRecieve']").is(':checked')){
+		$("input[name='afterRecieve']").val("1");
+	}else{
+		$("input[name='afterRecieve']").val("0");
+	}
+	var isRefund=$("input[name='isRefund']:checked").val();
+	$.ajax({
+        type: "post",
+        url: "/tradeRefund.java?cmd=updateConfig&pageType=tradeRefundConfig",
+        dataType: "json",
+        data: $("#ListForm").serialize(),
+        success: function(data) {
+        	alert("操作成功");
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("操作成功");
+        }
+    });
+}
+
+</script>
+<style type="text/css">
+.fshoptb2 .ddk_table {
+	width: 96%;
+	margin: 20px auto;
+}
+
+.fshoptb2 .ddk_table th {
+	height: 45px;
+	line-height: 45px;
+}
+.fshoptb2 .ddk_table td {
+	padding: 8px;		
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.label1{
+	padding: 8px;
+    text-align:right;		
+	font-size: 14px;
+	font-weight: bold;
+}
+</style>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">订单列表</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/tradeRefund.java?cmd=list" class="this"><b>退货单列表</b></a></li>
+				<li><a href="/tradeCommon.java?cmd=list&pageType=tradeRefundConfig"><b>退款/退货设置</b></a></li>
+			</ul>
+		</div>
+		<form name="ListForm" id="ListForm" action="/tradeRefund.java?cmd=updateConfig&pageType=tradeRefundConfig" method="post">
+			<div>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="ddk_table">					
+					<tbody>
+						<tr style="width:80%;">
+							<td width="120px">
+								<label class="label1">选择支持的支付方式</label>
+							</td>
+							<td>
+								<table>
+									#foreach($typeObj in $typePL.result)
+									<tr>
+										
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr style="width:80%;">
+							<td align="right">
+								
+							</td>
+						</tr>
+						<tr style="width:80%;">
+							<td align="right">
+								<label class="label1">最低提现金额</label>
+							</td>
+						</tr>
+						<tr style="width:80%;">
+							<td align="right">
+								<label class="label1">提现次数限制</label>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+		<div class="submit">
+		    <span style="padding-left:35px"><input name="" type="button" value="保存" onclick="saveConfig();"></span>
+		  </div>
+	</div>
+</body>
+</html>

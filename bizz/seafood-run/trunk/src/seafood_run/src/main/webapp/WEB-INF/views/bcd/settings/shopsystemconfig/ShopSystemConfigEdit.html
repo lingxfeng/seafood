@@ -1,0 +1,600 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title></title>	
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css"></link>
+	<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet"></link>	
+	<link rel="stylesheet" href="/static/home/kindeditor-4.1.10/themes/default/default.css" type="text/css"></link>
+	
+	<style>
+		.set1 ul {
+			border-bottom: 1px dashed #a0d8f9;
+		}
+		.imgSpace {max-height:70px; max-width:70px; display:block;}
+	</style>
+	
+	<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+	<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+	<script charset="utf-8" src="/static/home/kindeditor-4.1.10/kindeditor.js"></script>
+	<script charset="utf-8" src="/static/home/kindeditor-4.1.10/lang/zh_CN.js"></script>
+
+	<script>
+		function saveShopSystemConfig(){
+			if(validateForm()){
+				$("#theForm").submit();
+			}else{
+				alert("您有输入格式不对的内容，请修改后在提交！");	
+			}			
+		}
+		function validateForm(){
+			var result = true;
+			
+			//检查店铺介绍URL是否合格
+			var reg=/^http:\/\/(?:[\w-\.]{0,255})(?:(?:\/?[^\s]{0,255}){0,255})$/;
+			var shopUrl = $("#shopUrl").val();
+			if(shopUrl.length>0 && !reg.test(shopUrl)){
+				result = false;
+				$("#shopUrl").css("border", "solid 1px red");
+			}else{
+				$("#shopUrl").css("border", "");
+			}
+			
+			//检查二级域名是否合格
+			reg = /^[a-z0-9-\.]+$/;
+			var sld = $("#sld").val();
+			if(sld.length>0 && !reg.test(sld)){
+				result = false;	
+				$("#sld").css("border", "solid 1px red");
+			}else{
+				$("#sld").css("border", "");
+			}
+			
+			//检查邮政编码			
+			var zipLength = $("#zip").val().length;			
+			if(zipLength>0 && zipLength != 6){
+				result = false;
+				$("#zip").css("border", "solid 1px red");
+			}else{
+				$("#zip").css("border", "");
+			}				
+			
+			//检查联系电话
+			reg = /^1\d{10}$/;
+			var mobileTel = $("#mobileTel").val();
+			if(mobileTel.length>0 && !reg.test(mobileTel)){
+				result = false;
+				$("#mobileTel").css("border", "solid 1px red");
+			}else{
+				$("#mobileTel").css("border", "");
+			}	
+			
+			//检查Email地址
+			reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+			var email = $("#email").val(); 
+			if(email.length>0 && !reg.test(email)){
+				result = false;
+				$("#email").css("border", "solid 1px red");
+			}else{
+				$("#email").css("border", "");
+			}	
+			
+			//检查交易密码
+			reg = /^\d+$/;
+			var tradingPwd = $("#tradingPwd").val();
+			if(tradingPwd.length>0 && !reg.test(tradingPwd)){
+				result = false;
+				$("#tradingPwd").css("border", "solid 1px red");
+			}else{
+				$("#tradingPwd").css("border", "");
+			}
+			return result;
+		}
+		#if($msg)
+			alert($msg);
+		#end
+		
+		
+		//options为编辑配置属性pc
+		var options1 = {
+		        cssPath : '/static/home/kindeditor-4.1.10/plugins/code/prettify.css',
+		        filterMode : true,
+				uploadJson:'/cusUploadFile.java',
+				width : '860px',
+				height:'400px',
+				resizeType : 1,
+				allowImageUpload : true,
+				allowFlashUpload : true,
+				allowMediaUpload : true,
+				allowFileManager : true,
+				syncType:"form",
+				afterCreate : function() {
+									var self = this;
+									self.sync();
+								},
+				afterChange : function() {
+									var self = this;
+									self.sync();
+								},
+				afterBlur : function() {
+									var self = this;
+									self.sync();
+								},
+				afterError:function(){
+					alert(2)
+				},
+				items:['source', '|', 'fullscreen', 'undo', 'redo', 'cut', 'copy', 'paste',
+					'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+					'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+					'superscript', '|', 'selectall', 'clearhtml','quickformat','|',
+					'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+					'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image','flash', 'media', 'table', 'hr', 'emoticons', 'link', 'unlink', '|', 'about']
+		}; 
+		$(function(){
+			editor = KindEditor.create('#storeList',options1);
+			
+			//地区三级联动
+			$(".region").change(function(){
+				var me = this;
+				var regionLevel = $(this).attr("regionLevel");
+				var parentId = $(this).val();
+				if(regionLevel == "province"){
+					//更新城市一级
+					sendRegionAjax(parentId, "city");
+					//地区一级置空
+					$("#area").empty();
+					$("#area").append('<option selected value="">请选择位置</option>');
+				}else if(regionLevel == "city"){
+					//更新地区一级
+					sendRegionAjax(parentId, "area");
+				}
+			});
+			//地区的提交值
+			$("#area").change(function(){
+				var regionId = $("#area").val();
+				$("#systemRegionId").val(regionId);
+			});
+		});	
+		function sendRegionAjax(parentId, regionLevel){
+			$.ajax({
+				url: 'shopSystemConfig.java?cmd=getDetailRegionByArea',
+				type: 'post',
+				data: {
+					parentId: parentId,
+					regionLevel: regionLevel
+				},
+				dataType: 'html',
+				success: function(data, textStatus, jqXHR){
+					$("#"+regionLevel).empty();
+					if(data.length > 6){
+						$("#"+regionLevel).append('<option selected value="">请选择位置</option>');
+						$("#"+regionLevel).append(data);	
+					}else{
+						$("#"+regionLevel).append('<option selected value="">无</option>');
+						$("#systemRegionId").val(parentId);
+					}										
+				}
+			});
+		}
+	</script>	
+</head>
+<body>
+	<form action="/shopSystemConfig.java" method="post"	enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+		<input name="id" id="id" type="hidden" value="$!entry.id" /> 
+		<input name="cmd" id="cmd" type="hidden" value="update" />
+		<div class="cont">
+			<h1 class="seth">系统配置</h1>
+
+			<div class="nav_list">
+				<ul>
+					<li><a href="#" class="this"><b>编辑</b></a></li>
+				</ul>
+			</div>
+			
+			<div class="edit">
+				<div class="editul setcont" id="base">
+				
+					<ul class="set1">
+						<li>
+							<h1 style="color: #54b3eb;">参数设置</h1>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred">*</strong>店铺名称
+						</li>
+						<li>
+							<span class="webname">
+								<input name="name" type="text" id="name" value="$!entry.name" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">支持中文英文</strong>
+								<strong class="c"></strong>
+							</span>						
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>副标题
+						</li>
+						<li>
+							<span class="webname">
+								<input name="subtitle" type="text" id="subtitle" value="$!entry.subtitle" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">支持中文英文</strong>
+								<strong class="c"></strong>
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>店铺介绍URL
+						</li>
+						<li>
+							<span class="webname">
+								<input name="shopUrl" type="text" id="shopUrl" value="$!entry.shopUrl" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">示例：http://www.baidu.com/</strong>
+								<strong class="c"></strong>
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">店铺logo</li>
+						<li>
+							<span class="webname">
+								<input name="logoUrl" type="file" id="logoUrl" value="$!entry.logoUrl"/>
+							</span>
+							<span> 
+							#if($entry && $entry.logoUrl)
+								<img src="$entry.logoUrl" class="imgSpace" />
+							#end
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">底部logo</li>
+						<li>
+							<span class="webname">
+								<input name="bUrl" type="file" id="bUrl" value="$entry.bUrl"/>
+							</span>
+							<span class="imgSpace"> 
+							#if($entry && $entry.bUrl)
+								<img src="$entry.bUrl" class="imgSpace"/>
+							#end
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">分享图片</li>
+						<li>
+							<span class="webname">
+								<input name="shareUrl" type="file" id="shareUrl" />
+							</span>
+							<span> 
+							#if($entry && $entry.shareUrl)
+								<img src="$entry.shareUrl" class="imgSpace"/>
+							#end
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">微店背景图</li>
+						<li>
+							<span class="webname">
+								<input name="backgroundUrl" type="file" id="backgroundUrl" />
+							</span>
+							<span> 
+							#if($entry && $entry.backgroundUrl)
+								<img src="$entry.backgroundUrl" class="imgSpace"/>
+							#end
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">商家介绍图</li>
+						<li>
+							<span class="webname">
+								<input name="introduceUrl" type="file" id="introduceUrl" />
+							</span>
+							<span> 
+							#if($entry && $entry.introduceUrl)
+								<img src="$entry.introduceUrl"  class="imgSpace"/>
+							#end
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>二级域名
+						</li>
+						<li>
+							<span class="webname">
+								<input name="sld" type="text" id="sld" value="$!entry.sld" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">示例：www.mydomain.cn</strong>
+								<strong class="c"></strong>
+							</span>						
+						</li>
+					</ul>
+										
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>省份
+						</li>
+						<li>
+							<span class="webname">								
+								<select name="province" id="province" regionLevel="province" class="region" >
+									<option value="">请选择地区</option>
+									#foreach($province in $provinceList)
+										#if($entry.systemRegion.getParent().getParent())
+											#if($entry.systemRegion.getParent().getParent().getId().compareTo($province.getId()) == 0)
+											<option selected value="$!province.getId()">$!province.getTitle()</option>
+											#else
+											<option value="$!province.getId()">$!province.getTitle()</option>
+											#end
+										#else
+											#if($entry.systemRegion.getParent().getId().compareTo($province.getId()) == 0)
+											<option selected value="$!province.getId()">$!province.getTitle()</option>
+											#else
+											<option value="$!province.getId()">$!province.getTitle()</option>
+											#end
+										#end
+									#end				
+								</select>
+							</span>
+							<input name="provinceId" type="hidden" id="provinceId" value="$!entry.systemResion.getParent().getParent().getId()" />
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>城市
+						</li>
+						<li>
+							<span class="webname">								
+								<select name="city" id="city" regionLevel="city" class="region">
+									<option value="">请选择地区</option>
+									#if($entry.systemRegion.getParent().getParent())
+										#foreach($city in $entry.systemRegion.getParent().getParent().getChildren())
+											#if($city.getId().compareTo($entry.systemRegion.getParent().getId()) == 0)
+											<option selected value="$!city.getId()">$!city.getTitle()</option>
+											#else
+											<option value="$!city.getId()">$!city.getTitle()</option>
+											#end
+										#end
+									#else
+										#foreach($province in $provinceList)
+											#if($entry.systemRegion.getParent().getId().compareTo($province.getId()) == 0)
+											<option selected value="$!province.getId()">$!province.getTitle()</option>
+											#else
+											<option value="$!province.getId()">$!province.getTitle()</option>
+											#end
+										#end
+									#end
+								</select>
+							</span>
+							<input name="cityId" type="hidden" id="cityId" value="$!entry.systemResion.getParent().getId()" />													
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>地区
+						</li>
+						<li>
+							<span class="webname">								
+								<select name="area" id="area" regionLevel="area" class="region">
+									<option value="">请选择地区</option>
+									#foreach($area in $entry.systemRegion.getParent().getChildren())
+										#if($entry.systemRegion.getId().compareTo($area.getId()) == 0)
+										<option selected value="$!area.getId()">$!area.getTitle()</option>
+										#else
+										<option value="$!area.getId()">$!area.getTitle()</option>
+										#end
+									#end
+								</select>
+							</span>					
+							<input name="systemRegionId" type="hidden" id="systemRegionId" value="$!entry.systemRegion.getId()" />		
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>联系地址
+						</li>
+						<li>
+							<span class="webname">
+								<input name="address" type="text" id="address" value="$!entry.address" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">该地址请尽可能详细</strong>
+								<strong class="c"></strong>
+							</span>						
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>邮政编码
+						</li>
+						<li>
+							<span class="webname">
+								<input name="zip" type="text" id="zip" value="$!entry.zip" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">示例：100000</strong>
+								<strong class="c"></strong>
+							</span>						
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>联系人
+						</li>
+						<li>
+							<span class="webname">
+								<input name="linkman" type="text" id="linkman" value="$!entry.linkman" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">例如：张三</strong>
+								<strong class="c"></strong>
+							</span>						
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>联系电话
+						</li>
+						<li>
+							<span class="webname">
+								<input name="mobileTel" type="text" id="mobileTel" value="$!entry.mobileTel" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">例如：13548618888</strong>
+								<strong class="c"></strong>
+							</span>						
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>客服姓名
+						</li>
+						<li>
+							<span class="webname">
+								<input name="cName" type="text" id="cName" value="$!entry.cName" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">支持中文英文</strong>
+								<strong class="c"></strong>
+							</span>						
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>E-mail
+						</li>
+						<li>
+							<span class="webname">
+								<input name="email" type="text" id="email" value="$!entry.email" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">示例：215864133@qq.con</strong>
+								<strong class="c"></strong>
+							</span>						
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>价格标签
+						</li>
+						<li>
+							<span class="webname">
+								<input name="priceTag" type="text" id="priceTag" value="$!entry.priceTag" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">支持中文英文</strong>
+								<strong class="c"></strong>
+							</span>						
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>描述
+						</li>
+						<li>
+							<span class="webname">
+								<input name="descripton" type="text" id="descripton" value="$!entry.descripton" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">该描述会在店铺简介中显示</strong>
+								<strong class="c"></strong>
+							</span>						
+						</li>
+					</ul>
+					
+					<!-- <ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>
+						</li>
+						<li>
+							<span class="webname">运费
+								<input name="freight" type="text" id="freight" value="$!entry.freight" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">不满足包邮条件的运费</strong>
+								<strong class="c"></strong>
+							</span>						
+						</li>
+					</ul> -->
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>交易密码
+						</li>
+						<li>
+							<span class="webname">
+								<input name="tradingPwd" type="text" id="tradingPwd" value="$!entry.tradingPwd" />
+							</span>
+							<span id="nothis">
+								<strong class="q"></strong>
+								<strong class="w">该交易码会在每次用户购买商品时使用</strong>
+								<strong class="c"></strong>
+							</span>						
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">
+							<strong class="sred"></strong>门店列表
+						</li>
+						<li>
+							<span class="webname"> 
+								<!-- <textarea name="storeList" id="storeList" cols="40" rows="6">$!entry.storeList</textarea> -->								
+				                <textarea name="storeList" style="width:100%;height:400px;" id="storeList">$!entry.storeList</textarea>
+							</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="submit">
+				<span class="pad120">
+					<input name="" type="button" value="提交" onclick="saveShopSystemConfig();" />
+				</span>
+			</div>
+		</div>
+	</form>
+	
+</body>
+	
+</html>

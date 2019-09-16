@@ -1,0 +1,109 @@
+<style>
+.box_table {
+	border-collapse: collapse;
+	font-size: 12px;
+	background-color: #FFF;
+}
+
+.box_table td {
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.box_table .input_green {
+	border: 1px solid #7abd54;
+}
+
+.box_table .input_yzm {
+	width: 80px;
+}
+
+.yzm {
+	float: left;
+	margin-right: 5px;
+}
+
+.nosee {
+	float: left;
+	line-height: 24px;
+}
+
+.pizhu {
+	display: block;
+	margin-top: 3px;
+	color: #CCC;
+	font-style: normal;
+}
+
+.box_table strong {
+	color: #F00;
+	font-size: 14px;
+	margin-left: 5px;
+}
+
+.settedtab_b {
+	padding-left: 10px;
+	color: #F90
+}
+</style>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css"
+	rel="stylesheet" />
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script>
+function toSubmit(id){
+	var isShow=$("input[name='isShow']:checked").val();
+	jQuery("#user_login").remove();
+	$.ajax({
+        type: "post",
+        url: "/shopDiscuss.java?cmd=changeDiscussShow",
+        dataType: "json",
+        data: "isShow="+isShow+"&id="+id,
+        success: function(data) {
+            var datajson = eval(data);
+            if (data.success) {
+            	if(isShow=="0")
+            	$("#showorhide"+id).html("隐藏")
+            	else
+            	$("#showorhide"+id).html("展示");
+            } else {
+            	alert("修改失败");
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("没找到");
+        }
+    });
+	  
+}
+</script>
+<form action="" method="post" id="theForm">
+	<table style="float: left;" width="100%" border="0" cellspacing="0"
+		cellpadding="0" class="box_table">
+		<tr>
+			<td width="100" align="right" valign="middle"><span
+				class="login_nameu">产品名：</span></td>
+			<td align="left"><span>$shopDiscuss.pro.name</span></td>
+		</tr>
+		<tr>
+			<td align="right" valign="top"><span class="login_nameu">会员名：</span></td>
+			<td align="left"><span>$shopDiscuss.user.name</span></td>
+		</tr>
+		<tr align="right" valign="top">
+			<td>内容：</td>
+			<td align="left"><span>$shopDiscuss.content</span></td>
+		</tr>
+		<tr>
+			<td align="right" valign="top"><span class="login_nameu">评论时间：</span></td>
+			<td align="left"><span>$shopDiscuss.createDate</span></td>
+		</tr>
+		<tr>
+			<td align="right" valign="top"><span class="login_nameu">状态：</span></td>
+			<td align="left"><input type="radio" name="isShow" value="1" #if($shopDiscuss.isShow) checked #end>显示&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="isShow" value="0" #if(!$shopDiscuss.isShow) checked #end)>隐藏</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><span class="inputbtn"> <input type="button" style="cursor: pointer;" value="取消" onclick="javascript:jQuery(&quot;#user_login&quot;).remove();" /> <input type="button" style="cursor: pointer;" value="确定" onclick="toSubmit($shopDiscuss.id);" /></span></td>
+			
+		</tr>
+	</table>
+</form>

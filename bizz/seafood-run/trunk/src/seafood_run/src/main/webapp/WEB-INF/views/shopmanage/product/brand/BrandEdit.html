@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>品牌管理</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/commonutil.js"></script>
+<script>
+jQuery(document).ready(function(){
+ 	var isRecommend = "$!{entry.isRecommend}";
+ 	if(isRecommend=="true" || isRecommend==""){
+ 		setIsNo('isRecommend',true);
+ 	}else{
+ 		setIsNo('isRecommend',false);
+ 	}
+jQuery("#theForm").validate({
+    rules:{
+    	name:{required:true,maxlength:20},
+    	typeName:{required:true,maxlength:20},
+    	imgPath:{required:true},
+    	indexC:{required:true,maxlength:1},
+    	code:{required:true,maxlength:20}
+	 },
+	messages:{
+		 name:{required:"品牌名称不能为空",maxlength:"名称不能大于20字符"},
+		 typeName:{required:"品牌分类不能为空",maxlength:"品牌分类名称不能大于20字符"},
+		 imgPath:{required:"品牌分类不能为空"},
+		 indexC:{required:"首字符不能为空",maxlength:"首字符只能是一个字符"},
+		 code:{required:"品牌编码不能为空",maxlength:"品牌编码不能大于20字符",remote:"品牌编码不能重复"},
+	 }
+  });
+});
+//品牌保存
+function saveBrand(method){
+	jQuery("#theForm").submit();
+}
+
+function checkCode(){
+	if($("#code").val()==""){
+		return ;
+	}
+	$.ajax({
+        type: "post",
+        url: "brand.java?cmd=checkCode",
+        data: "code="+$("#code").val(),
+        success: function(data) {
+            var datajson = eval(data);
+            if (data.success) {
+                
+            } else {
+            	alert(data.errors.msg)
+            	$("#code").focus();
+            	$("#code").val("");
+            }
+            	
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("没找到");
+        }
+    });
+}
+</script>
+
+</head>
+<body>
+<form action="/brand.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+  <input name="id" id="id" type="hidden" value="$!{entry.id}" />
+  #if($entry)
+    	<input name="cmd" type="hidden" value="update">
+    #else
+    <input name="cmd" type="hidden" value="save">
+    #end
+  <div class="cont">
+    <h1 class="seth">品牌管理</h1>
+    
+    <div class="nav_list"> 
+	 
+    <ul>
+         <li><a href="/brand.java?cmd=list"><b>品牌管理</b></a></li> 
+	<li><a href="/brand.java?cmd=list" class="this"><b>
+		#if($!entry)
+			编辑品牌
+		#else
+			新增品牌
+		#end
+	</b></a></li>
+	  	</ul>
+		
+    </div>
+    <div class="edit">
+    <div class="editul setcont" id="base">
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>品牌名称</li>
+        <li><span class="webname">
+          <input name="name" type="text" id="name" value="$!{entry.name}"/>
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>品牌分类</li>
+        <li>
+        <span class="webname">
+        	<select name="brandTypeId">
+        	<option>请选择</option>
+        	#foreach($obj in $bTypeList)
+			  <option value="$obj.id" #if($obj.id == $entry.brandType.id) selected="selected" #end>$obj.name</option>
+			  #end
+			</select>
+        </span>
+        <span id="nothis"><strong class="q"></strong><strong class="w">输入品牌类型，系统自动归类相同类型的品牌</strong><strong class="c"></strong></span>
+        </li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>品牌首字符</li>
+        <li><span class="webname">
+          <input name="indexC" type="text" id="indexC" value="$!{entry.indexC}" />
+        </span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>品牌编码</li>
+        <li><span class="webname">
+          <input name="code" type="text" id="code" value="$!{entry.code}"  onblur="checkCode();" />
+        </span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>品牌图标</li>
+        <li><span class="webname">
+          <input name="imgPath" type="file" id="imgPath">
+        </span><span id="nothis"><img id="imgPath" src="$!{entry.imgPath}"></img><strong class="w">最佳尺寸142*66，支持格式gif,jpg,jpeg,png</strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg">是否推荐品牌</li>
+        <li><span class="webname">
+          <input name="isRecommend" id="isRecommend" type="hidden" value="$!{entry.isRecommend}">
+            <img src="/static/home/shopmanage/images/on.jpg" width="61" height="23" id="isRecommendOn" onclick="setIsNoimg('isRecommend');" style="cursor:pointer"> <img src="/static/home/shopmanage/images/off.jpg" width="61" height="23" id="isRecommendOff" onclick="setIsNoimg('isRecommend');" style="cursor: pointer; display: none;"></span><span id="nothis"><strong class="q"></strong><strong class="w">推荐品牌会显示在首页</strong><strong class="c"></strong></span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred"></strong>售后服务</li>
+        <li><span class="webname">
+          <input name="afterSaleService" type="text" id="afterSaleService" value="$!{entry.afterSaleService}" />
+        </span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg">排序</li>
+        <li><span class="webname">
+          <input name="sequence" type="text" id="sequence" value="$!{entry.sequence}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w">序号越小显示越靠前</strong><strong class="c"></strong></span></li>
+      </ul>
+          </div>
+    </div>  
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="saveBrand();"></span>
+  </div>
+  </div>
+
+</form>
+
+
+</body></html>

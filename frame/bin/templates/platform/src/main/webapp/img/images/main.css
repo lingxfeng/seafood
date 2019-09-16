@@ -1,0 +1,213 @@
+body {
+	font: 12px/24px Arial, Helvetica, sans-serif; margin: 0px auto; padding: 0px; color: rgb(68, 68, 68); font-size-adjust: none; font-stretch: normal;
+}
+div {
+	margin: 0px; padding: 0px;
+}
+p {
+	margin: 0px; padding: 0px;
+}
+ul {
+	margin: 0px; padding: 0px;
+}
+li {
+	margin: 0px; padding: 0px;
+}
+dl {
+	margin: 0px; padding: 0px;
+}
+dt {
+	margin: 0px; padding: 0px;
+}
+dd {
+	margin: 0px; padding: 0px;
+}
+h1 {
+	margin: 0px; padding: 0px;
+}
+h2 {
+	margin: 0px; padding: 0px;
+}
+h3 {
+	margin: 0px; padding: 0px;
+}
+h4 {
+	margin: 0px; padding: 0px;
+}
+h5 {
+	margin: 0px; padding: 0px;
+}
+h6 {
+	margin: 0px; padding: 0px;
+}
+form {
+	margin: 0px; padding: 0px;
+}
+input {
+	margin: 0px; padding: 0px;
+}
+select {
+	margin: 0px; padding: 0px;
+}
+button {
+	margin: 0px; padding: 0px;
+}
+textarea {
+	margin: 0px; padding: 0px;
+}
+iframe {
+	margin: 0px; padding: 0px;
+}
+table {
+	margin: 0px; padding: 0px;
+}
+th {
+	margin: 0px; padding: 0px;
+}
+td {
+	margin: 0px; padding: 0px;
+}
+object {
+	margin: 0px; padding: 0px;
+}
+p {
+	margin: 0px 0px 10px;
+}
+a {
+	color: rgb(51, 51, 51); line-height: 24px; font-size: 12px; text-decoration: none; cursor: pointer;
+}
+a:hover {
+	color: rgb(51, 51, 51); line-height: 24px; font-size: 12px; text-decoration: none; cursor: pointer;
+}
+a:hover {
+	color: rgb(186, 38, 54);
+}
+img {
+	border: 0px currentColor;
+}
+ul {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+li {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+form {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+h1 {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+h2 {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+h3 {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+h4 {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+h5 {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+h6 {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+h7 {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+h8 {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+dl {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+dt {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+dd {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+textarea {
+	list-style: none; margin: 0px; padding: 0px; line-height: 24px; font-size: 12px; font-weight: normal;
+}
+input {
+	margin: 0px; padding: 0px;
+}
+select {
+	margin: 0px; padding: 0px;
+}
+.clear_div {
+	margin: 0px auto !important; padding: 0px !important; width: auto !important; height: 0px !important; line-height: 0; overflow: hidden; clear: both; font-size: 0px; float: none !important; diplay: block;
+}
+.no_display {
+	display: none;
+}
+ol {
+	list-style: none;
+}
+ul {
+	list-style: none;
+}
+:focus {
+	outline: 0px;
+}
+a img {
+	border: 0px currentColor;
+}
+img {
+	vertical-align: middle;
+}
+button {
+	cursor: pointer;
+}
+a:focus {
+	
+}
+.b_d_news {
+	margin: 20px auto; width: 921px;
+}
+.b_pro_title {
+	width: 921px; float: left; display: inline;
+}
+.b_pro_title {
+	border-bottom-color: rgb(182, 124, 0); border-bottom-width: 1px; border-bottom-style: solid;
+}
+.b_pro_title ul {
+	float: left; display: inline;
+}
+.b_pro_title li {
+	float: left; display: inline;
+}
+.b_pro_title li {
+	margin: 0px 16px;
+}
+.b_pro_title li a {
+	width: 95px; height: 29px; text-align: center; color: rgb(184, 124, 0); line-height: 29px; font-size: 14px; font-weight: bold; float: left; display: block;
+}
+.b_pro_title li a:hover {
+	width: 95px; height: 29px; text-align: center; color: rgb(184, 124, 0); line-height: 29px; font-size: 14px; font-weight: bold; float: left; display: block;
+}
+.b_pro_title li.selected a {
+	background: url("menu.jpg") no-repeat left top; color: rgb(255, 255, 255);
+}
+.b_pro_title li.selected a:hover {
+	background: url("menu.jpg") no-repeat left top; color: rgb(255, 255, 255);
+}
+.b_pro_list {
+	border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor rgb(216, 216, 216) rgb(216, 216, 216); width: 919px; height: 301px; overflow: hidden; float: left; display: inline;
+}
+.b_pro_list li {
+	width: 919px; height: 301px; overflow: hidden; float: left; display: none;
+}
+.b_pro_list li.selected {
+	display: inline;
+}
+.b_pro_list li img {
+	border-width: medium 1px 1px medium; border-style: none solid solid none; border-color: currentColor rgb(216, 216, 216) rgb(216, 216, 216) currentColor; width: 183px; height: 150px; float: left; display: inline;
+}
+.b_pro_list li img.noRightBorder {
+	border-right-color: currentColor; border-right-width: medium; border-right-style: none;
+}
+.b_pro_list li img.noBottomBorder {
+	border-bottom-color: currentColor; border-bottom-width: medium; border-bottom-style: none;
+}

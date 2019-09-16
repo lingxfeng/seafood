@@ -1,0 +1,201 @@
+<script>
+jQuery(document).ready(function(){
+  jQuery("#navul li").each(function(){
+    var original_url=jQuery(this).attr("original_url");
+	if("/index.htm".indexOf(original_url)>=0){
+	   jQuery(this).addClass("this");
+	}
+  });
+//鼠标经过左侧分类
+  jQuery(".sale_two_img img").lazyload({effect:"fadeIn",width:170,height:170});		
+  jQuery(".left_menu_dl").mouseover(function(){	
+	var child_count = jQuery(this).attr("child_count");
+	if(child_count>0){
+	 var id=jQuery(this).attr("id");
+	  jQuery("#dts_"+id).addClass("left_menu_this").removeClass("left_menu_dt");	
+      jQuery("#child_"+id).show();
+	}
+	var gc_id=jQuery(this).attr("id");
+	var gc_color=jQuery(this).attr("gc_color");
+	jQuery("#dts_"+gc_id).attr("style","border:1px solid "+gc_color+"; border-left:3px solid "+gc_color+";border-right:none");
+	jQuery("#left_menu_con_"+gc_id).attr("style","border:1px solid "+gc_color+"; border-left:1px solid "+gc_color+";").find(".menu_con_right_top").css("background-color",gc_color);				
+	//设置div高度为每行div中最高的高度
+	var begin=0;
+	var end=2;
+	jQuery("#child_"+gc_id).find(".left_menu_con_center_left").each(function(){	
+	 var max_height=0;
+		var index =jQuery(this).index();
+		var	height = jQuery(this).height();
+		if(index>end||index<begin){
+			begin=begin+3;
+			end=end+3;
+		}
+	    if(height>max_height){
+		    max_height = height;
+	    }			   
+		   for(var i=begin;i<=end;i++){
+			   var temp_height = jQuery("#child_"+gc_id).find(".left_menu_con_center_left").eq(i).height();
+				if(temp_height>max_height){
+					max_height = temp_height;
+				   } 
+				 jQuery("#child_"+gc_id).find(".left_menu_con_center_left").eq(i).height(max_height);
+			}	
+	});
+
+	var top=jQuery("#child_"+gc_id).offset().top;
+	var scroll_top = jQuery(document).scrollTop();
+	var height=jQuery("#left_menu_con_"+gc_id).height();
+	var all_h=top-scroll_top+height;
+	var doc_h=jQuery(window).height();
+	var margin_top=doc_h-all_h;
+	if(margin_top<=5){
+		margin_top=margin_top-20;
+	   jQuery("#left_menu_con_"+gc_id).css('margin-top',margin_top+'px');
+	}else{
+	   jQuery("#left_menu_con_"+gc_id).css('margin-top','0px');
+	}
+  }).mouseleave(function(){
+	 jQuery("dt[id^=dts_]").removeAttr("style");
+	jQuery("div[id^=left_menu_con_]").removeAttr("style"); 
+	 var child_count = jQuery(this).attr("child_count");
+	if(child_count>0){ 
+     var id=jQuery(this).attr("id");
+	  jQuery("#dts_"+id).removeClass("left_menu_this").addClass("left_menu_dt");	
+      jQuery("#child_"+id).hide();
+	}
+  });
+  #if(!$index)
+	  jQuery(".nav_left").mouseover(function(){
+		  jQuery("#other_menu").show();
+	   });
+	  jQuery(".nav_left").mouseleave(function(){
+		  jQuery("#other_menu").hide();	  
+	   });
+	#else
+		jQuery("#other_menu").show();
+	#end
+	
+	
+});
+
+function zkyc(){
+	$(".left_menu_dl").siblings().each(function(){
+		if($(this).attr("dlys")>8){
+			var id=$(this).attr("id");
+			if($("#"+id).is(":hidden")){
+				$($("#"+id).show())
+				$("#jt").attr('src',"static/home/shopmanage/images/arrow_02.gif");
+			}else{
+				$($("#"+id).hide())
+				$("#jt").attr('src',"static/home/shopmanage/images/arrow_01.gif");
+			}
+		}
+	});
+}
+</script>
+<style>
+.left_menu_dl2 {
+    height: 25px;
+    float: left;
+    width: 178px;
+    background-color: #EDEBF1;
+}
+.left_menu_dt2 {
+    height: 25px;
+    width: 180px;
+    z-index: 1;
+    cursor: pointer;
+    position: relative;
+    float: left;
+}
+</style>
+<div class="nav">
+  <div class="nav_center">
+    <div class="nav_left">
+      <h2><a href="/goShop.java?cmd=allPType"><span>全部分类<em><img src="/static/home/shopmanage/images/nav_top.gif" width="7" height="4"></em></span></a> </h2>
+      <div class="other_menu" style="display:none" id="other_menu">
+        <div class="left_menu" id="left_menu"> 
+        #set($numdouble=0)
+        #set($num=1)
+        #foreach($obj in $topPTypes)
+        	<dl #if($numdouble==0) class="left_menu_dl" #else class="left_menu_dl double" #end child_count="$obj.chilren.size()" #if($obj.curColor && $obj.curColor!="") gc_color="$obj.curColor" #else gc_color="#E60012" #end id="$!{obj.id}" dlys="$num" style="position:relative; height:61px; #if($num>8)display: none#end">
+            <!--left_menu_this经过状态，和left_menu_dt不经状态过交换-->
+                                                             <!-- 鼠标经过父级时添加style="border:1px solid #F00; border-left:3px solid #F00;"添加底层颜色-->
+            <dt class="left_menu_dt" id="dts_${obj.id}"><i class="left_menu_i"><img src="$!obj.imgPath" width="16" height="16"></i><strong class="left_menu_str"><a href="$!html.autoLink($!obj)">$!obj.name </a></strong>
+            <b class="left_menu_str_b">
+            	#foreach($obj2 in $tu.getIsRecommend($obj))
+            		<a href="$!html.autoLink($!obj2)">$obj2.name</a>
+            	#end
+            </b>
+            </dt>
+            
+           
+            
+            
+            <dd class="left_menu_dd" style="display:none" id="child_$!{obj.id}">
+            <!--存在广告时left_menu_con this   鼠标经过父级时添加style="border:1px solid #F00; border-left:3px solid #F00;"添加底层颜色-->
+                           <div class="left_menu_con  this " id="left_menu_con_$!{obj.id}">
+                                          <div class="menu_con_right_top">
+                	<dl>
+                    	<dt>
+                    	#foreach($obj2 in $obj.getAllBrands())
+                    		<span><a href="$!html.autoLink($!obj2)">$obj2.name</a></span>
+                    		<!-- <span><a href="#">$obj2.name</a></span> -->
+                    	#end
+                    	</dt>  
+                    </dl>
+                </div>
+                            <span class="left_menu_sp">
+                 	
+                <div class="left_menu_con_center">
+                	#foreach($obj2 in $obj.chilren)
+                     <div class="left_menu_con_center_left">
+                    	<dl>
+                        	<dt><a href="$!html.autoLink($!obj2)">$obj2.name</a></dt>
+                        		#foreach($obj3 in $obj2.chilren)
+                        			<dd><a href="$!html.autoLink($!obj3)">$obj3.name</a></dd>
+                        		#end
+                                                        
+                  		</dl>
+                    </div>
+                    #end
+                 </div>
+                 #if($obj.advImg)
+                 <div class="right_menu_con_right_img">
+                                	<a href="$obj.advUrl"><img src="$obj.advImg"></a>
+                </div>
+                #end
+                                </span> 
+             </div>
+            </dd>
+          </dl>
+          #if($topPTypes.size()==$num)
+           <dl class="left_menu_dl2" child_count="0" gc_color="#E60012" id="" style="position:relative; background-color:transparent; height:18px; opacity:.5;" >
+            	<dt class="left_menu_dt2" id="" style="left:64px; height:18px; width:50px; background-color:#EDEBF1;" onclick="zkyc();">
+            	<i class="left_menu_i" style="top:5px; left:13px;">
+            	<img id="jt" src="static/home/shopmanage/images/arrow_01.gif" style="width:25px; height:10px;"></i>
+            </dt>
+            
+          </dl>
+          #end
+          #if($numdouble==1)
+          #set($numdouble=0)
+          #else
+          #set($numdouble=$numdouble+1)
+          #end
+          #set($num=$num+1)
+        #end
+           </div>
+      </div>
+    </div>
+	<ul id="navul">
+		<li><a href="/goShop.java" id="1" original_url="index.htm"><span>首页</span></a></li>
+		<li><a href="/pcIntegralShop.java?cmd=init" id="1"><span>积分商城</span></a></li>
+		<li><a href="/pcRushBuyShop.java?cmd=timeLimitList" id="1"><span>限时抢购</span></a></li>
+		<li><a href="/pcRushBuyShop.java?cmd=secKillList" id="1"><span>秒杀活动</span></a></li>
+		<!--<li><a href="/pcIntegralShop.java?cmd=init" id="1" target="_blank"><span>积分</span></a></li> -->
+		<li><a href="/pcShopMember.java?cmd=toSweepStake" target="_blank"><span>抽奖</span></a></li>
+		
+	</ul>
+  </div>
+</div>

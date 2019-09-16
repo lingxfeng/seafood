@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css" />
+	<link href="/static/home/bcd/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+	<script src="/static/home/bcd/js/jquery-1.11.1.min.js"></script>
+	<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+	<script src="/static/home/bcd/js/jquery.datetimepicker.js"></script>
+	<script>
+	function submitForm(){
+		var result = true;
+		if(result){
+			$("#theForm").submit();	
+		}
+		return false;
+	}
+	
+	#if($msg)
+		alert("$msg");
+	#end
+	
+	$(function(){
+		$(".datetime").datetimepicker({
+			format: "Y-m-d H:i:s",
+			step: 10
+		});
+	});
+	</script>
+</head>
+<body>
+	<form action="/shopMember.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm">
+		<input name="memberId" id="memberId" type="hidden" value="$!{member.id}" />
+		<input name="cmd" id="cmd" type="hidden" value="updateMemberRAmt" />
+		<div class="cont">
+			<h1 class="seth">用户金额修改</h1>
+			<div class="nav_list">
+				<ul>					
+					<li><a href="javascript:void(0)" class="this"><b>用户金额修改</b></a></li>
+				</ul>
+			</div>
+			<div class="edit">
+				<div class="editul setcont" id="base">
+								
+					<ul class="set1">
+						<li class="setcont_bg">用户ID</li>
+						<li>
+							<span class="webname">
+								$!{member.id}
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">用户昵称</li>
+						<li>
+							<span class="webname">
+								$!{member.nickname}
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">用户金额</li>
+						<li>
+							<span class="webname">
+								$fu.getYj($!{member.remainderAmt})
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">修改用户金额</li>
+						<li>
+							<span class="webname">
+								<input name="amt" id="integral" value="0" onkeypress="if (event.keyCode!=46 && event.keyCode!=45 && (event.keyCode<48 || event.keyCode>57)) event.returnValue=false"/>
+							</span>
+						</li>
+						<li><strong class="w">注：如果要减少用户金额，请给负值。例如减2积分，则输入-2</strong></li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">备注信息</li>
+						<li>
+							<span class="webname">
+								<textarea rows="" cols="" name="description" style=" width: 500px; height: 100px;  "></textarea>
+							</span>
+						</li>
+					</ul>
+										
+				</div>				
+			</div>
+			<div class="submit">
+				<span class="pad120">
+					<input name="" type="submit" value="提交" />
+				</span>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<title>海鲜之家商城</title>
+<meta name="keywords" content="www.baichunda.com"/>
+<meta name="description" content="www.baichunda.com"/>
+<meta name="generator" content="www.baichunda.com"/>
+<meta name="author" content="www.baichunda.com"/>
+<meta name="copyright" content="Copyright 2012-2015 海鲜之家商城，All Rights Reserved"/>
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/index.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script src="/static/home/shopmanage/js/jquery.SuperSlide.2.1.1.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.iskyshop.validate.js" type="text/javascript"></script>
+<script>
+jQuery(document).ready(function(){							
+	
+
+  //鼠标经过楼层标题
+  jQuery(".storey_tab ul li").mouseover(function(){								 
+	jQuery(this).siblings().removeClass("this");
+	jQuery(this).addClass("this");
+	var i = jQuery(this).index();
+	jQuery(this).parent().parent().siblings().not(".hot_sell").hide();
+	jQuery(this).parent().parent().siblings().eq(i).show();
+	
+  });
+  var head_h=jQuery("#head_h").height();
+  jQuery("#head_unbomb").height(head_h);
+  jQuery(window).scroll(function(){
+	  var top = jQuery(document).scrollTop();
+	  //顶部搜索框跟随
+	  if(top==0){
+		  jQuery("#top").attr("style","");
+	  }else{
+		  jQuery("#top").attr("style","position:fixed;top:0px");
+	  }
+	  if(top>head_h){
+		   jQuery("#head_h").addClass("head_fixd");
+	  }else{
+		   jQuery("#head_h").removeClass("head_fixd");
+	  }
+	  //楼层导航跟随
+	  jQuery("li[floor_id^=floor_] b").css("display","block");
+	  jQuery("div[id^=floor_]").each(function(){
+	     var floor_top=jQuery(this).offset().top-top;
+		 if(floor_top<=580&&floor_top>=0){
+		  var floor_id=jQuery(this).attr("id");
+		   jQuery("li[floor_id="+floor_id+"] b").css("display","none");
+		 }
+	  });
+  });	
+  //右上角公告切换
+  	jQuery(".top_mr_tab li").mouseover(function(){
+		jQuery(this).siblings().removeClass("this");
+		jQuery(this).addClass("this");
+		var i = jQuery(this).index();
+		jQuery(".top_mr_box").hide();		
+		jQuery(".top_mr_box").eq(i).show();										
+	});
+  
+  //用户登录、商家入驻tab页切换
+  jQuery("#top_mid_login_tab>li").css("cursor","pointer").mouseover(function(){
+      var id=jQuery(this).attr("id");
+	  jQuery("#top_mid_login_tab>li").removeClass("this");
+	  jQuery(this).addClass("this");
+	  if(id=="top_mid_login_tab_user"){
+	     jQuery("#top_mid_login_tab_seller_info").hide();
+		 jQuery("#top_mid_login_tab_user_info").show();
+	  }
+	  if(id=="top_mid_login_tab_seller"){
+	     jQuery("#top_mid_login_tab_user_info").hide();
+		 jQuery("#top_mid_login_tab_seller_info").show();
+	  }
+  });
+ //
+});
+</script>
+</head>
+<body>
+#parse("/common/top.html")
+#parse("/common/left.html")
+#parse("/common/index_lb.html")
+<div class="main">
+  <div class="top_index">
+    <div class="top_mid">
+      <div class="top_mid">
+        <div class="banner_nothing"></div>
+        <div class="bottom_slide">
+          <script>
+          jQuery('document').ready(function() {
+        	    jQuery('.picScroll').slide({
+        	        mainCell: 'ul',
+        	        autoPlay: true,
+        	        effect: 'left',
+        	        vis: 3,
+        	        scroll: 3,
+        	        autoPage: true
+        	    });
+        	    jQuery('.picScroll').mouseover(function() {
+        	        jQuery('.picScroll .next').show();
+        	        jQuery('.picScroll .prev').show();
+        	    }).mouseleave(function() {
+        	        jQuery('.picScroll .next').hide();
+        	        jQuery('.picScroll .prev').hide();
+        	    });
+        	})
+          </script>
+          <div class="picScroll">
+   <div class="tempWrap" style="overflow:hidden; position:relative; width:759px">
+    <ul style="width: 2277px; left: -759px; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
+    #foreach($obj in $NU.getLinkImg("index_gg",6))
+     <li style="float: left; width: 252.888888835907px;"><a href="$obj.linkUrl" target="$obj.imgTarget"><span class="img_cspan"><p><img src="$obj.imgPath"/></p></span></a></li>
+     #end
+    </ul>
+   </div>
+   <a href="javascript:void(0);" class="next" style="display: none;"></a>
+   <a href="javascript:void(0);" class="prev" style="display: none;" i=""></a>
+  </div> 
+        </div>
+      </div>
+    </div>
+    <div class="top_mid_right">
+	<div class="top_mr_news">
+        <ul class="top_mr_tab">
+          <li class="this">公告</li>
+          <li>规则</li>
+          <li>安全</li>
+          <li>指南</li>
+        </ul>
+        <ul class="top_mr_box" style="display:block">
+             <li><b><a href="">[快讯]</a></b><a href="" target="_blank">海鲜之家 年中大促 玩转手机！</a></li>
+             <li><b><a href="">[重要]</a></b><a href="" target="_blank">海鲜之家 B2B2C商城系统打造最优秀的京东...</a></li>
+             <li><b><a href="">[快讯]</a></b><a href="" target="_blank">关于海鲜之家 B2B2C商城上线的重要通知</a></li>
+             <li><b><a href="">[快讯]</a></b><a href="" target="_blank">海鲜之家 年中大促 玩转手机！</a></li>
+             <li><b><a href="">[重要]</a></b><a href="" target="_blank">海鲜之家 B2B2C商城系统打造最优秀的京东...</a></li>
+             <li><b><a href="">[快讯]</a></b><a href="" target="_blank">关于海鲜之家 B2B2C商城上线的重要通知</a></li>
+             <li><b><a href="">[快讯]</a></b><a href="" target="_blank">海鲜之家 年中大促 玩转手机！</a></li>
+     
+        </ul>
+        <ul class="top_mr_box" style="display:none">
+             <li><b><a href="">[通知]</a></b><a href="" target="_blank">虚假交易规则优化生效公告</a></li>
+             <li><b><a href="">[快讯]</a></b><a href="" target="_blank">海鲜之家 年中大促 玩转手机！</a></li>
+             <li><b><a href="">[重要]</a></b><a href="" target="_blank">海鲜之家 B2B2C商城系统打造最优秀的京东...</a></li>
+             <li><b><a href="">[快讯]</a></b><a href="" target="_blank">关于海鲜之家 B2B2C商城上线的重要通知</a></li>
+        </ul>
+        <ul class="top_mr_box" style="display:none">
+             <li><b><a href="">[注意]</a></b><a href="" target="_blank">卡单、失效都是骗人的</a></li>
+             <li><b><a href="">[注意]</a></b><a href="" target="_blank">更换收货地址的陷阱！</a></li>
+             <li><b><a href="">[快讯]</a></b><a href="" target="_blank">海鲜之家 年中大促 玩转手机！</a></li>
+             <li><b><a href="">[重要]</a></b><a href="" target="_blank">海鲜之家 B2B2C商城系统打造最优秀的京东...</a></li>
+             <li><b><a href="">[快讯]</a></b><a href="" target="_blank">关于海鲜之家 B2B2C商城上线的重要通知</a></li>
+        </ul>
+        <ul class="top_mr_box" style="display:none">
+             <li><b><a href="">[聚焦]</a></b><a href="" target="_blank">海鲜之家 B2B2C商城安装手册</a></li>
+             <li><b><a href="">[聚焦]</a></b><a href="" target="_blank">店铺数据直播间</a></li>
+             <li><b><a href="">[聚焦]</a></b><a href="" target="_blank">海鲜之家 金牌卖家再启航</a></li>
+        </ul>
+      </div>
+      <div class="top_mid_login">
+        <ul id="top_mid_login_tab">
+ 		  <li class="" id="top_mid_login_tab_user" style="width: 100%; border-bottom:1px solid #ccc; border-left-style: none; cursor: pointer; text-align: center;">当前用户</li>
+          <!-- <li id="top_mid_login_tab_seller" class="this" style="cursor: pointer;">招商入驻</li> -->
+        </ul>
+                <div class="top_mid_login_dl" id="top_mid_login_tab_user_info" style="/* display: none; */">
+          #if($!user)
+          	#if($!user.pic)
+				<div class="login_dl_one_left"><img src="$!user.pic" width="50" height="50"></div>
+          	#else
+          		<div class="login_dl_one_left"><img src="/static/home/bcd/images/avatar3.jpg" width="50" height="50"></div>
+          	#end
+          <div class="login_dl_one_right">
+          	<div class="login" style="margin-left:20px;margin-top: -9px;">$!user.name</div>
+            <div class="login_dl" style="margin-left: 20px;margin-top: 5px;"><a href="/shopMemberCenter.java?cmd=signOut">退出</a></div>
+          </div>
+          #else
+          <div class="login_dl_one_left"><img src="/static/home/shopmanage/images/tx.png" width="50" height="50"></div>
+          <div class="login_dl_one_right">
+            <div class="login_dl"><a href="/shopMemberCenter.java?cmd=toLogin">登录</a></div>
+            <div class="login_zx"><a href="/shopMemberCenter.java?cmd=toRegister">注册</a></div>
+          </div>
+          #end
+        </div>
+        <!-- <div class="top_mid_login_sh" style="" id="top_mid_login_tab_seller_info">
+          <div class="top_mid_login_sh_left"><a href="/userCenter.java?cmd=sjrz">申请商家入驻</a></div>
+          <div class="top_mid_login_sh_bottom"><a href="/userCenter.java?cmd=sjdl">登录商家管理中心</a></div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <script>
+jQuery(function(){ 
+   jQuery(".storey_list li").mouseenter(function(){
+	  jQuery(".storey_list li").stop();											 
+      jQuery(this).parent().parent().find("li").animate({"opacity":"0.2"},{queue:false, duration:1000});
+	  jQuery(this).animate({"opacity":"0.9"},{queue:false, duration:1000});
+   }).mouseleave(function(){
+	  jQuery(".storey_list li").stop();
+      jQuery(this).animate({"opacity":"0.9"},{queue:false, duration:1000});
+   });	
+   jQuery(".storey_list").mouseleave(function(){
+	  jQuery(".storey_list li").stop();
+      jQuery(this).parent().parent().find("li").css("opacity","1.0"); 
+	});
+   jQuery(".hot_sell_ul li").mouseenter(function(){		
+	  jQuery(".hot_sell_ul li").stop();											 
+	  jQuery(this).parent().find("li").animate({"opacity":"0.2"},{queue:false, duration:1000});
+	  jQuery(this).animate({"opacity":"0.9"},{queue:false, duration:1000});
+   }).mouseleave(function(){
+	  jQuery(".hot_sell_ul li").stop();
+      jQuery(this).animate({"opacity":"1.0"},{queue:false, duration:1000});
+   });
+   jQuery(".hot_sell_ul").mouseleave(function(){
+      jQuery(".hot_sell_ul li").stop();
+      jQuery(this).parent().find("li").css("opacity","1.0");
+   });
+   //
+   jQuery(".storey_show_2_right li").mouseenter(function(event){
+	  jQuery(".storey_show_2_right li").stop();
+	  jQuery(".storey_show_2_left").stop();
+	  jQuery(".storey_show_2_right li").animate({"opacity":"0.2"},{queue:false, duration:1000});
+	  jQuery(".storey_show_2_left").animate({"opacity":"0.2"},{queue:false, duration:1000});
+	  jQuery(this).animate({"opacity":"0.9"},{queue:false, duration:1000});
+	  jQuery(this).find(".storey_show_on").show();
+   }).mouseleave(function(){
+	  jQuery(".storey_show_2_right li").stop();
+	  jQuery(".storey_show_2_left").stop();
+      jQuery(this).animate({"opacity":"1.0"},{queue:false, duration:1000});
+	  jQuery(this).find(".storey_show_on").hide(); 
+   });
+   jQuery(".storey_show_2_right").mouseleave(function(){
+      jQuery(".storey_show_2_right li").stop();
+	  jQuery(".storey_show_2_left").stop();
+      jQuery(".storey_show_2_right li").css("opacity","1.0");
+	  jQuery(".storey_show_2_left").css("opacity","1.0");
+	  jQuery(this).find(".storey_show_on").hide(); 
+   });
+   //
+   jQuery(".storey_show_2_left").mouseenter(function(){	
+	  jQuery(".storey_show_2_right li").stop();
+	  jQuery(".storey_show_2_left").stop();												 
+	  jQuery(this).css("opacity","0.2");												
+	  jQuery(".storey_show_2_right li").animate({"opacity":"0.2"},{queue:false, duration:1000});											
+	  jQuery(this).animate({"opacity":"0.9"},{queue:false, duration:1000});
+	  jQuery(this).find(".storey_show_on").show();
+   }).mouseleave(function(){
+	  jQuery(".storey_show_2_right li").stop();
+	  jQuery(".storey_show_2_left").stop();
+      jQuery(".storey_show_2_right li").css("opacity","1.0");
+	  jQuery(this).css("opacity","1.0");
+	  jQuery(this).find(".storey_show_on").hide();
+   });
+   //
+   jQuery(".goods_pic img").lazyload({effect:"fadeIn",width:230,height:230});
+   jQuery(".storey_show_2_left img").lazyload({effect:"fadeIn",width:230,height:230});
+   //back_floor
+   jQuery(".back_floor>ul>li").click(function(){
+	  var id=jQuery(this).attr("floor_id");									   
+      var top = jQuery("#"+id).offset().top-80;
+      jQuery('body,html').animate({scrollTop:top},1000);
+   }); 
+})
+</script>
+<!--楼层开始-->
+#set($num=1)
+#foreach($obj in $indexfloors)
+	<div class="storey ${obj.floorColor}" id="floor_$num">
+  <div class="storey_left">
+    <h1><b>${num}F</b><span>$obj.name</span></h1>
+    <div class="storey_bd">
+      <div class="storey_ul">
+        <ul>
+        			#foreach($obj2 in $su.getPtypeQuery().setAncestor($obj.productType).setLevel(2).list())
+        				<li><a href="$html.autoLink($obj2)" target="_blank">$obj2.name</a></li>
+        			#end
+                            </ul>
+      </div>
+      <div class="advert"><div style="float:left;overflow:hidden;"><a href="$obj.advUrl" target="_blank"><img src="$obj.advImg"></a></div></div>
+    </div>
+  </div>
+  <div class="storey_right">
+  <!-- 获取4个推荐的子类 -->
+  	#set($chilrenPTypeIsRecommment= $su.getPtypeQuery().setAncestor($obj.productType).setIsChildren(true).setIsRecommend(true).setNum(4).list())
+    <div class="storey_tab">
+      <ul>		#set($num2=1)
+      			#foreach($obj2 in $chilrenPTypeIsRecommment)
+                <li #if($num2==1) class="this" #end style="cursor:pointer;" id="$obj2.id" store_gc="$num"><a href="javascript:void(0);">$obj2.name</a><s></s></li>
+      			#set($num2=$num2+1)
+      			#end
+              </ul>
+    </div>
+    		#set($num8=1)
+    		#foreach($obj2 in $chilrenPTypeIsRecommment)
+   #if($obj.isTopPro)
+    		#set($styleNum=1)
+    	<div class="storey_show_2" #if($num8!=1) style="display:none" #end>
+    			#foreach($obj3 in $su.getProductQuery().setProductType(${obj2}).setIsTop(true).setNum(1).setOrderBy("createDate").setIsDesc(true).list())
+                <div class="storey_show_2_left" style="opacity: 1;">
+                <a href="$html.autoLink($obj3)" target="_blank"><img id="style2_$styleNum" src='$obj3.imgPaths.split("_")[0]' original='${obj3.imgPaths.split("_")[0]}' onerror="this.src='$obj2.advImg';" width="230" height="230" style="display: inline;" name="style2_$styleNum"></a>
+                        <div class="storey_show_on" style="display: none;">
+           <div class="storey_show_2_right_word"><a href="$html.autoLink($obj3)" target="_blank">$obj3.name </a></div>
+           <div class="storey_show_2_right_price">¥$obj3.amt</div>
+        </div>
+                </div>
+                #end
+                #set($styleNum=$styleNum+1)
+        <div class="storey_show_2_right">
+          <ul>
+          		#foreach($obj3 in $su.getProductQuery().setProductType(${obj2}).setIsRecommend(true).setNum(8).list())
+          			<li style="opacity: 1;">
+                           <div class="storey_show_2_right_img">
+                            <a href="$html.autoLink($obj3)" target="_blank"> <img id="style2_$styleNum" src='$obj3.imgPaths.split("_")[0]' height="137" width="137" name="$styleNum"></a>
+                            </div>
+                            <div class="storey_show_on" style="display: none;">
+              <div class="storey_show_2_right_word"><a href="$html.autoLink($obj3)" target="_blank">$obj3.name</a></div>
+              <div class="storey_show_2_right_price">¥$obj3.amt</div>
+              </div>
+                          </li>
+                     #set($styleNum=$styleNum+1)     
+          		#end
+          </ul>
+        </div>
+      </div>
+      
+  #else
+    	<div class="storey_list" #if($num8!=1) style="display:none" #end>
+                <ul>
+                #foreach($obj3 in $su.getProductQuery().setProductType(${obj2}).setIsRecommend(true).setNum(4).list())
+                    <li>
+                        <div class="bd_right">
+                            <div class="storey_ps">
+                                <div class="storey_hover">
+                                    <p>
+                                        <span class="goods_pic"><a href="$html.autoLink($obj3)" target="_blank"><img src='$obj3.imgPaths.split("_")[0]' original='$obj3.imgPaths.split("_")[0]' onerror="this.src='$shopConfig.proImg';" width="28" height="28"></a></span>
+                                    </p>
+                                    <span class="goods_name"><a href="$html.autoLink($obj3)" target="_blank">$obj3.name</a></span>
+                                    <span class="goods_price">¥<b>$obj3.amt</b><em>¥$obj3.amt</em></span>
+                                    <span class="goods_pic"><a href="$html.autoLink($obj3)" target="_blank"></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                 #end
+                </ul>
+          </div>
+   #end
+   #set($num8=$num8+1)
+    		#end
+              <div class="hot_sell">
+      <div class="hot_sell_br">         <h2>热销排行</h2>
+        <ul class="hot_sell_ul">
+                    #set($nums=1)
+                    #foreach($obj2 in $su.getProductQuery().setProductType($obj.productType).setOrderBy("saleNum").setIsDesc(true).setNum(5).list())
+                    	<li> <em class="number_0$!nums"></em> <span class="hot_goods_pic"><a href="$html.autoLink($obj2)" target="_blank"><span class="img_cspan">
+            <p><img src='$obj2.imgPaths.split("_")[0]' width="80" height="80"></p>
+            </span></a></span>
+            <div class="hot_describe">
+              <p class="hot_goods_promo">已售${obj2.saleNum}件</p>
+              <p class="hot_goods_name"><a href="$html.autoLink($obj2)" target="_blank">$obj2.name</a></p>
+              <p class="hot_goods_price">¥<b>$obj2.amt</b></p>
+            </div>
+          </li>
+          			#set($nums=$nums+1)
+                    #end
+                  </ul>
+      </div>
+    </div>
+  </div>
+</div>
+#set($num=$num+1)
+#end
+<!-- 楼层结束 -->
+	<div class="back_box_x" style="display:none;">
+                <div class="back_floor">
+                    <ul>
+                    #set($num=1)
+                    #foreach($obj in $indexfloors)
+                    	<li floor_id="floor_$num">
+                            <a href="javascript:void(0);"><b><img src="$obj.logoImg"></b> <span>$obj.name</span></a>
+                        </li>
+                     #set($num=$num+1)
+                    #end
+                    </ul>
+                </div>
+            </div>
+    <!-- <div class="friendlink">
+    <h1>友情链接</h1>
+    <ul class="linkimg">
+    		#foreach($obj in $tu.getLinkImgs("friendlylink",20))
+    			<li> <a href="$obj.linkUrl" target="_blank"><img src="$obj.imgPath" width="92" height="35"></a></li>
+    		#end
+    </ul>
+    <div class="linka"> </div>
+  </div> -->
+<!--     <div class="shopping">     
+	    #foreach($obj in $eliteHelpDirs)
+	    <div class="shopone">
+	      <h3>$obj.name</h3>
+	      <ul>
+	      				#foreach($obj2 in $tu.getEliteNewsDocsByDir($obj,6))
+	      					<li><a href="/shopContent.java?cmd=toNewsDoc&newDocId=$obj2.id" target="_blank">$obj2.title</a></li>
+	      				#end
+	              </ul>
+	    </div>
+	    #end
+     </div> -->
+  ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+#parse("/common/footer.html")
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/goShop.java" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/goShop.java#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+ </div>
+
+
+</body></html>

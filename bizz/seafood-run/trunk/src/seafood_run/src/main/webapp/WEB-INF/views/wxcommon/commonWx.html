@@ -1,0 +1,9 @@
+<script type="text/javascript">
+function getWeixinUrl(url){
+	url = encodeURIComponent(url);
+	var weixinurl="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$!{account.appid}&redirect_uri=" + url
+	+ "&response_type=code&scope=snsapi_base&state=1"
+	+ "#wechat_redirect";
+	return weixinurl;
+}
+</script>

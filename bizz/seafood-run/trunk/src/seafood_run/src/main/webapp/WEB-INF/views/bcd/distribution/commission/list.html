@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"
+		type="text/css">
+		<link rel="stylesheet" href="/static/common/base.css">
+		<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+		<script type="text/javascript">
+		function gotoPage(n) {
+		    //location.href = "/commissionConfig.java?cmd=list&currentPage=" + n;
+			$("#name").val("$!name")
+			$("#currentPage").val(n)
+			$("#ListForm").submit();
+		}
+		</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">goodExtended</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/commissionConfig.java?cmd=list" class="this"><b>自定义佣金商品</b></a></li>
+				<li><a href="/commissionConfig.java?cmd=commissionProduct"><b>新增自定义商品</b></a></li>
+				<li><a href="/commissionConfig.java?cmd=defaultConfig"><b>基本设置</b></a></li>
+			</ul>
+		</div>
+		
+		<form id="ListForm" action="/commissionConfig.java" method="post" enctype="multipart/form-data">
+			<input name="cmd" value="list" type="hidden"/>
+			<input type="hidden" id="currentPage" name="currentPage" value=""/>
+			<div class="search" style="margin-left: 20px;">
+				<span class="size100">
+					商品标题<input name="name" placeholder="商品标题" type="text" id="name" value="$!name">
+				</span>
+				<span>
+					<input name="" type="submit" value="搜索" style="cursor: pointer;" class="search_btn">
+				</span>
+			</div>
+		</form>
+		
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>使用搜索栏可以更快速地定位商品哦！</li>
+			</ul>
+		</div>
+
+		<form name="ListForm" id="ListForm" action="/commissionConfig.java?cmd=list"
+			method="post">
+			<div class="fshoptb2">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+														<th width="30%" align="center"><span class="form_btna">商品标题</span></th>
+														<th width="10%" align="center"><span class="form_btna">微店总佣金</span></th>
+														<th width="10%" align="center"><span class="form_btna">上级微店佣金</span></th>
+														<th width="10%" align="center"><span class="form_btna">二级微店佣金</span></th>
+														<th align="center"><b class="form_btna">操作</b></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"><input name="ids" id="ids"
+								type="checkbox" value="1"></td>
+							<td align="center">$!obj.product.name</td>
+							
+							
+							<td align="center">$fu.getYj($!obj.totalcomission)</td>
+							<td align="center">$fu.getYj($!obj.leve1)</td>
+							<td align="center">$fu.getYj($!obj.leve2)</td>
+							<td align="center" class="hui oprate_con">
+							<a href="/commissionConfig.java?cmd=toEdit&configid=${obj.id}&id=$!{obj.product.id}" class="blue">编辑</a>|
+							<a href="javascript:void(0);"
+							onclick="if(confirm('是否删除自定义商品?'))window.location.href='/commissionConfig.java?cmd=remove&id=${obj.id}'"
+							class="blue">删除</a></td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+				<div class="operate_bar">
+					$!{paginationForBlueIdea}
+					<div class="oper_sp">
+						<span class="oper_check"><input type="checkbox" name="all"
+							id="all" value="" onclick="selectAll(this)">全部</span> <span
+							class="oper_del"></span>
+					</div>
+				</div>
+		</form>
+	</div>
+</body>
+</html>

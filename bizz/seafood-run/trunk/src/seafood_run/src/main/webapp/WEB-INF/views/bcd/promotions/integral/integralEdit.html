@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css" />
+	<link href="/static/home/bcd/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+	<script src="/static/home/bcd/js/jquery-1.11.1.min.js"></script>
+	<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+	<script src="/static/home/bcd/js/jquery.datetimepicker.js"></script>
+	<script>
+	function submitForm(){
+		var result = true;
+		if(result){
+			$("#theForm").submit();	
+		}
+		return false;
+	}
+	
+	#if($msg)
+		alert("$msg");
+	#end
+	
+	$(function(){
+		$(".datetime").datetimepicker({
+			format: "Y-m-d H:i:s",
+			step: 10
+		});
+	});
+	</script>
+</head>
+<body>
+	<form action="/shopMember.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm"/>
+		<input name="memberId" id="memberId" type="hidden" value="$!{entry.id}" />
+		<input name="cmd" id="cmd" type="hidden" value="updateMemberIntegral" />
+
+		<div class="cont">
+			<h1 class="seth">用户积分修改</h1>
+				
+			<div class="nav_list">
+				<ul>					
+					<li><a href="/shopMember.java?cmd=toUpdateMemberIntegral" class="this"><b>用户积分设置</b></a></li>
+					<li><a href="/integralBuyRegular.java?cmd=toSave" class=""><b>新增积分活动</b></a></li>
+					<li><a href="/integralBuyRegular.java?cmd=list" class=""><b>积分活动列表</b></a></li>
+					<li><a href="/integralBuyRecord.java?cmd=list" class=""><b>积分购物记录</b></a></li>
+					<li><a href="/integralChangeRule.java?cmd=toUpdateIntegralRule" class=""><b>积分规则设置</b></a></li>
+					<li><a href="/integralRechargeRecord.java?cmd=list"><b>积分充值记录</b></a></li>
+				</ul>
+			</div>
+			<div class="edit">
+				<div class="editul setcont" id="base">				
+					<ul class="set1">
+						<li class="setcont_bg">用户ID</li>
+						<li>
+							<span class="webname">
+								<input name="memberId" type="number" id="id" value="$!{member.id}" readonly/>
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">用户昵称</li>
+						<li>
+							<span class="webname">
+								<input name="" type="text" id="" value="$!{member.nickname}" readonly/>
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">用户累计积分</li>
+						<li>
+							<span class="webname">
+								<input name="" type="number" id="" value="$!{member.totalIntegral}" readonly/>
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">用户可用积分</li>
+						<li>
+							<span class="webname">
+								<input name="" type="number" id="" value="$!{member.availableIntegral}" readonly/>
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">增加积分数量</li>
+						<li>
+							<span class="webname">
+								<input name="integral" type="number" id="integral" value="0" />
+							</span>
+						</li>
+						<li><strong class="w">注：如果要减少用户积分，请给负值。例如减2积分，则输入-2</strong></li>
+					</ul>
+										
+				</div>				
+			</div>
+			<div class="submit">
+				<span class="pad120">
+					<input name="" type="submit" value="提交" onclick="submitForm();" />
+				</span>
+			</div>
+		</div>
+	</form>
+
+</body>
+</html>

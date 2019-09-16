@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <meta charset="utf-8">
+    <!-- 引入 ECharts 文件 -->
+    <script src="/static/home/echart/www/js/echarts.min.js"></script>
+    <script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+    <link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+/** 重置浏览器默认标签样式 */
+body,ul,li{margin:0;padding:0;}
+.xttblog{
+	width: 1600px;
+	height: 500px;
+	margin-top:20px;
+	margin-left: 80px;
+	margin-right: 20px;
+}
+.box{margin-left: 5px;margin-top: 5px;list-style-type:none;}
+.box:after{
+	content: ".";
+	display: block;
+	line-height: 0;
+	width:0;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+	overflow: hidden;
+}
+.box li{float:left;line-height: 0px;}
+.box li a,.box li a:visited{
+	display:block;
+	border: 1px solid #ccc;
+	width: 1600px;
+	height: 500px;
+	text-align: center;
+	margin-left: -5px;
+	margin-top: -5px;
+	margin-bottom:20px;
+	position: relative;
+	z-index: 1;
+}
+.box li a:hover{border-color: #f00;z-index: 2;}
+</style>
+</head>
+<body>
+	<div class="cont">
+  <h1 class="seth">月度收入统计</h1>
+  <div class="system_top">
+    <div class="wela" style="width:99%">
+      <h2>概况<span style="float:right;"></h2>
+      <ul>
+        <li><a href="#"><em>全年成交额</em><i><b class="wela_bg_yellow">5521332</b></i></a></li>
+        <li><a href="#"><em>最该高成交月份</em><i><b class="wela_bg_blue">2018-10（743052）</b></i></a></li>
+        <li><a href="#"><em>平均月成交额</em><i><b class="wela_bg_blue">460111</b></i></a></li>
+      </ul>
+    </div>
+  </div>
+  
+  
+  		<form name="ListForm" id="ListForm" action="/visitorStatistics.java" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="cmd" value="goMonth"/>
+<!-- 			<div class="search" style="margin-left: 20px;">
+				<span class="size120">选择时间：<input class="datetime" name="startDate" placeholder="开始时间" type="text" id="startDate" value="$!startDate" />-<input class="datetime" name="endDate" placeholder="结束时间" type="text" id="endDate" value="$!endDate" /> </span>
+				<span>
+					<input name="" type="submit" value="搜索" style="cursor: pointer;" class="search_btn" />
+				</span>
+			</div> -->
+		</form>
+		<form >
+						<div class="fshoptb2">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+														<th width="5%" align="center"><span class="form_btna">序号</span></th>
+														<th width="20%" align="center"><span class="form_btna">月份</span></th>
+														<th width="50%" align="center"><span class="form_btna">销售金额</span></th>
+						</tr>
+						 #set($num=1)
+						#foreach($obj in $final)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"><input name="ids" id="ids"
+								type="checkbox" value="1"></td>
+								<td align="center">$!num</td>
+							<td align="center">$!obj.month</td>
+							<td align="center">$!obj.total 元</td>
+						</tr>
+						#set($num=$num+1)
+						#end
+					</tbody>
+				</table>
+			</div>
+		</form>
+  
+  
+  <!-- <div class="xttblog">
+	<ul class="box">
+		<li><a><span id="main2" style="width:1600px;height:500px;"></span></a></li>
+		
+	</ul>
+</div> -->
+  
+  <div class="system_info">
+    <h3 style="width:2000px;"></h3>
+    <!-- <div class="system_info_box"> <span><strong>服务器操作系统：$!system001</strong></span> <span><strong>Web服务器：Apache Tomcat/8.0.37</strong></span> <span><strong>JAVA版本：$!javaVer </strong></span> <span><strong>数据库版本信息：MySQL 5.1.73</strong></span> <span><strong>海鲜之家商城版本号：1.0</strong></span> <span><strong>安装日期：2015-03-17 14:04:51</strong></span> </div> -->
+  </div>
+</div>
+	
+	
+	
+	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <!-- <div id="main" style="width: 600px;height:300px;"></div>
+    <div id="main2" style="width: 600px;height:300px;"></div>
+    <div id="main3" style="width: 600px;height:300px;"></div> -->
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart5 = echarts.init(document.getElementById('main2'));
+        
+		$(function () {
+	    	
+			var datapvmonth = [["2018-01",296393],["2018-02",181778],["2018-03",450302],["2018-04",529241],["2018-05",312363],["2018-06",440216],["2018-07",671326],["2018-08",450475],["2018-09",634183],["2018-10",743052],["2018-11",361048],["2018-12",450955]]
+           
+  			 myChart5.setOption(option = {
+  				    tooltip: {
+  				        trigger: 'axis',
+  				        position: function (pt) {
+  				            return [pt[0], '50%'];
+  				        }
+  				    },
+  				    title: {
+  				        left: 'center',
+  				        text: '月度收入统计',
+  				    },
+  				    toolbox: {
+                    left: 'right',
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+  				    xAxis: {
+  				        type: 'category',
+  				        boundaryGap: false,
+  				        data: datapvmonth.map(function (item) {
+  	                        return item[0];
+  	                    })
+  				    },
+  				    yAxis: {
+  				        type: 'value',
+  				        boundaryGap: [0, '100%']
+  				    },
+  				    dataZoom: [{
+  				        type: 'inside'
+  				    }, {
+  				        start: 0,
+  				        end: 10,
+  				        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+  				        handleSize: '80%',
+  				        handleStyle: {
+  				            color: '#fff',
+  				            shadowBlur: 3,
+  				            shadowColor: 'rgba(0, 0, 0, 0.6)',
+  				            shadowOffsetX: 2,
+  				            shadowOffsetY: 2
+  				        }
+  				    }],
+  				    series: [
+  				        {
+  				            name:'访问量',
+  				            type:'line',
+  				            smooth:true,
+  				            symbol: 'none',
+  				            sampling: 'average',
+  				            itemStyle: {
+  				                normal: {
+  				                    color: 'rgb(255, 70, 131)'
+  				                }
+  				            },
+  				            areaStyle: {
+  				                normal: {
+  				                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+  				                        offset: 0,
+  				                        color: 'rgb(255, 158, 68)'
+  				                    }, {
+  				                        offset: 1,
+  				                        color: 'rgb(255, 70, 131)'
+  				                    }])
+  				                }
+  				            },
+  				            data: datapvmonth.map(function (item) {
+  		                        return item[1];
+  		                    })
+  				        }
+  				    ]
+  				});
+    			 
+    			
+   	    	
+		});
+    </script>
+</body>
+</html>

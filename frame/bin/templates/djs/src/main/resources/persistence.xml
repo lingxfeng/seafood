@@ -1,0 +1,12 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+ <persistence-unit name="djs-app-unit" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>		
+		<properties>
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.use_sql_comments">true</property><!-- 是否显示原始HQL以便跟SQL对照 -->
+			<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+			<property name="hibernate.cache.use_second_level_cache">false</property>
+		</properties>
+	</persistence-unit>
+</persistence>

@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>抽奖管理</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/commonutil.js"></script>
+<script>
+function changeType(type){
+	if(type == 0){
+		if(!$("#product").hasClass('box_hide')){
+			$("#product").addClass('box_hide');
+		}
+		if(!$("#interval").hasClass('box_hide')){
+			$("#interval").addClass('box_hide');
+		}
+	}else if(type == 1){
+		if($("#product").hasClass('box_hide')){
+			$("#product").removeClass('box_hide');
+		}
+		if(!$("#interval").hasClass('box_hide')){
+			$("#interval").addClass('box_hide');
+		}
+	}else if(type == 3){
+		if(!$("#product").hasClass('box_hide')){
+			$("#product").addClass('box_hide');
+		}
+		if($("#interval").hasClass('box_hide')){
+			$("#interval").removeClass('box_hide');
+		}
+	}
+}
+function saveBrand(method){
+	jQuery("#theForm").submit();
+}
+</script>
+<style>
+.box_hide{
+	display: none;
+}
+</style>
+
+</head>
+<body>
+<form action="/sweepstakeRegular.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+  <input name="id" id="id" type="hidden" value="$!{entry.id}" />
+  #if($entry)
+    <input name="cmd" type="hidden" value="update">
+  #else
+    <input name="cmd" type="hidden" value="save">
+  #end
+<div class="cont">
+    <h1 class="seth">抽奖设置</h1>
+    <div class="nav_list"> 
+    <ul>
+    	<li><a href="/sweepstakeRegular.java?cmd=list"><b>抽奖设置</b></a></li> 
+		<li><a href="/" class="this"><b>
+			#if($!entry)
+				编辑设置
+			#else
+				新增设置
+			#end
+			</b></a>
+		</li>
+	</ul>
+</div>
+    <div class="edit">
+    <div class="editul setcont" id="base">
+	<ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>奖项名称</li>
+        <li><span class="webname">
+          	<input name="name" type="text" id="name" value="$!{entry.name}"/>
+        	</span>
+        </li>
+	</ul>
+	<ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>奖项位置</li>
+        <li><span class="webname">
+          	<input name="position" type="text" id="position" value="$!{entry.position}"/>
+        	</span><span id="nothis"><strong class="w">从奖盘最上方区域为1，按顺时针依次为1,2,3......12，请录入12个位置</strong><strong class="c"></strong></span>
+        </li>
+	</ul>
+	<ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>中奖概率</li>
+        <li><span class="webname">
+          	<input name="rating" type="text" id="rating" value="$!{entry.rating}"/>/$!minbase
+        	</span>
+        </li>
+	</ul>
+	 <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>奖品图标</li>
+        <li><span class="webname">
+          <input name="imgPaths" type="file" id="imgPaths">
+        </span><span id="nothis"><img id="imgPaths" src="$!{entry.imgPaths}"></img><strong class="w">最佳尺寸142*66，支持格式gif,jpg,jpeg,png</strong><strong class="c"></strong></span></li>
+      </ul>
+	 <ul class="set1 box_hide">
+        <li class="setcont_bg"><strong class="sred">*</strong>奖品名称</li>
+        <li><span class="webname">
+          <input name="productname" type="text" id="productname" value ="$!entry.productname">
+        </span></li>
+      </ul>
+      
+	<ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>奖品类型</li>
+        <li>
+	        <span class="webname">
+	        	<select name="status" id = "status" onchange="changeType(this.value);">
+					<option value="0"  #if($!{entry.status}==0) selected="selected" #end>无奖品</option>
+					<option value="1"  #if($!{entry.status}==1) selected="selected" #end>商品类奖品</option>
+					<option value="3"  #if($!{entry.status}==3) selected="selected" #end>积分</option>
+				</select>
+	        </span>
+        </li>
+    </ul>
+	<ul class="set1" id = "product" class = "box_hide">
+        <li class="setcont_bg"><strong class="sred"></strong>商品名称</li>
+        <li>
+	        <span class="webname">
+	          <input name="productname" type="text" id="productname" value="$!entry.productname">
+	        </span>
+        </li>
+    </ul>
+    <ul class="set1" id = "interval" class = "box_hide">
+        <li class="setcont_bg"><strong class="sred"></strong>积分额</li>
+        <li>
+	        <span class="webname">
+	          <input name="integal" type="text" id="integal" value="$!entry.integal">
+	        </span>
+        </li>
+    </ul>
+   
+    </div>
+    </div>  
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="saveBrand();"></span>
+  </div>
+  </div>
+
+</form>
+<script>
+jQuery(document).ready(function(){
+	if($!entry.status){
+		if($!{entry.status}==1){
+			$("#product").removeClass('box_hide');
+		}else if($!{entry.status}==3){
+			$("#interval").removeClass('box_hide');
+		}
+	}
+	
+})
+
+</script>
+
+</body>
+</html>

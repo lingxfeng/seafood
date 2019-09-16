@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"
+		type="text/css">
+		<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css"
+			type="text/css" rel="stylesheet">
+			<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+			<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+			<script type="text/javascript">
+				//修改上级
+				$(document).ready(function() {
+					$("#customerLockType").val($!{obj.customerLockType});
+					if($("#descriptionType").val()=="1"){
+						$("#descriptionType").attr("checked",true);
+					}
+				});
+				function saveBaseSet() {
+					if ($("#descriptionType").attr("checked")) {
+						$("#descriptionType").val("1");
+					} else {
+						$("#descriptionType").val("0");
+					}
+					$("#theForm").submit();
+				}
+			</script>
+</head>
+<body>
+	<form action="/distributionBaseSet.java" method="post"
+		enctype="multipart/form-data" name="theForm" id="theForm"
+		novalidate="novalidate">
+		<input name="cmd" id="cmd" type="hidden" value="save" />
+		<div class="cont">
+			<h1 class="seth">goodExtended</h1>
+			<div class="nav_list">
+				<ul>
+					<li><a href="/distributionMember.java?cmd=list"><b>微店会员</b></a></li>
+					<li><a href="/distributionApply.java?cmd=list"><b>会员申请</b></a></li>
+					<li><a href="/distributionBaseSet.java?cmd=loadBaseSet"
+						class="this"><b>基本设置</b></a></li>
+				</ul>
+			</div>
+			<div class="edit">
+				<div class="editul setcont" id="base">
+					<ul class="set1">
+						<li class="setcont_bg"><strong class="sred">*</strong>申请成为微店条件</li>
+						<li>购买金额<input name="disCondition" id="disCondition"
+							type="text" value="$!{obj.disCondition}" />元
+						</li>
+					</ul>
+					<div class="operation">
+						<h3>温馨提示</h3>
+						<ul>
+							<li>默认值为0，代表无消费要求。设置购买金额，会限制部分用户成为微店，可能会有潜在的风险，请谨慎使用</li>
+						</ul>
+					</div>
+					<ul class="set1" id="distributionCode">
+						<li class="setcont_bg"><strong class="sred">*</strong>客户关系锁定设置</li>
+						<li><span class="webname"> <select
+								name="customerLockType" id="customerLockType">
+									<option value="0">不锁定</option>
+									<option value="1">锁定</option>
+							</select>
+						</span></li>
+					</ul>
+					<ul class="set1" id="distributionCode">
+						<li class="setcont_bg"><strong class="sred">*</strong>微店协议</li>
+						<li>启用<input type="checkbox" id="descriptionType"
+							name="descriptionType" value="$!{obj.descriptionType}" />
+						</li>
+					</ul>
+					<ul class="set1" id="distributionCode">
+						<li class="setcont_bg">&nbsp;</li>
+						<li><textarea rows="5" style="width: 300px;"
+								name="description">$!{obj.description}</textarea></li>
+					</ul>
+				</div>
+			</div>
+			<div class="submit">
+				<span class="pad120"><input name="" type="button" value="提交"
+					onclick="saveBaseSet();"></span>
+			</div>
+		</div>
+	</form>
+
+
+</body>
+</html>

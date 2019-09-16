@@ -1,0 +1,297 @@
+<!DOCTYPE html >
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		
+	<link rel="stylesheet" href="/static/home/bcd/css/font-awesome.css" type="text/css" />
+	<script src="/static/home/bcd/js/stage2/jquery-1.8.0.min.js"></script>
+	<script src="/static/home/bcd/js/stage2/jQueryRotate.2.2.js"></script>
+	<script src="/static/home/bcd/js/stage2/script.js"></script>
+	
+	<style type="text/css">
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	html{
+		font-size: 100%;
+	}
+	body {
+		font-size: 1em;
+	}
+	.box{			
+		width: 40em;
+		height: 72.62em;		
+		background-image: url(/static/home/bcd/images/stage2/dabeijing3.jpg);
+		background-repeat:no-repeat;
+		background-size: 100% 100%;
+	}	
+	.box-middle{
+		padding-top: 9.31em;
+		margin-bottom: 3.37em;
+	}
+	.middle-circle{		
+		margin-left: 2.3em;
+		width: 35em;
+		height: 35em;
+		background-image: url($!obj.imgPaths);
+		background-repeat:no-repeat;
+		background-size: 100% 100%;
+	}
+	.rotate-con-zhen img{
+		margin-top: 14em;
+    	margin-left: 14em;
+		width: 6.75em;
+		height: 6.75em;
+	}
+	.bottom-record{
+		display: block;
+		float: right;
+		margin-top: -1.2em;    
+		margin-right: 1em;
+		padding: .2em;
+		font-size: 1.5em;
+		font-weight: bold;
+		background-color: yellow;
+		
+		-moz-border-radius: .3em; 
+		-webkit-border-radius: .3em; 
+		border-radius: .3em;
+	}
+	.bottom{
+		width: 40em;
+		height: 28.37em;
+	}
+	.bottom-ruler{
+		margin-bottom: 3.25em;
+	}
+	.bottom-title{		
+		display: block;
+		margin-left: 1.37em;
+		margin-bottom: .4em;		
+		font-size: 2em;
+		font-style: italic;
+		font-weight: bold;
+		letter-spacing: .06em;
+		color: white;
+	}
+	.bottom-ruler p{
+		margin-left: 4.25em;		
+		line-height: 1.1em;
+		font-size: .8em;
+		font-weight: bold;
+		letter-spacing: .04em;
+		color: white;
+	}
+	.bottom-msg{
+		margin-left: 3.75em;
+		width: 32em;
+		height: 3.4em;		
+		background-color: white;
+		overflow: hidden;
+		
+		-moz-border-radius: 1em; 
+		-webkit-border-radius: 1em; 
+		border-radius: 1em;		
+	}	
+	.bottom-msg p{
+		text-align: center;
+		line-height: 2.3em;
+		font-size: 1.5em;
+		font-weight: bold;
+		color: gray;
+		
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;	
+	}
+	
+	#details2{
+		display: none;
+	}
+	#details{
+		display: none;
+	}
+	.add_box{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 40em;
+		height: 72.62em;		
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+	.add_box_main{
+		position: relative;		
+		margin-left: 5em;
+		margin-top: 20em;		
+		border-radius: 10px 10px 5px 5px;
+		width: 30em;
+		height: 15em;
+		color: #999;
+		background-color: white;
+	}
+	.add_box_main_close{
+		float: right;
+		margin-right: 1em;
+    	margin-top: 1em;
+	    height: 1.7em;
+    	width: 1.7em;	    	    
+	}
+	.add_box_main_close img{
+		height: 1.7em;
+    	width: 1.7em;
+	}
+	.add_box_main p{
+		margin-left: .8em;
+		margin-top: 2em;
+		font-size: .9em;		
+	}
+	.box_title{
+		display: block;
+		margin: 0em auto;
+		border-radius: 10px 10px 0 0;
+		height: 4em;
+		line-height: 4em;
+		text-align: center;
+		background-color: rgb(238, 238, 238);	
+	}
+	.box_record{
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		border-radius: 0 0 5px 5px;		
+		height: 3em;
+		width: 30em;		
+		text-align: center;
+		line-height: 3em;
+		background-color: #ffc501;		
+	}
+	.box_record:hover{
+		background-color: #F5E7B9;
+	}
+	</style>
+	
+	<title>抽奖</title>
+	<script>		
+		var fontSize = window.innerWidth/640*16;		
+		$("html").css("font-size", fontSize+"px");
+		
+		$(function(){
+			$(".bottom-record").click(function(){
+				window.location.href = "/wxShopPromotions.java?cmd=customList";	
+			});
+		});
+	</script>
+</head>
+<body>
+<div class="box">	
+	<div class="box-middle">
+		<div class="middle-circle">		
+			<div class="rotate-con-zhen">
+				<img class="rotate-zhen" src="/static/home/bcd/images/stage2/start.png">
+			</div>
+		</div>
+		<span class="bottom-record">获奖记录</span>
+	</div>
+	
+	<div class="box-bottom">
+		<div class="bottom-ruler">
+			<span class="bottom-title">活动规则：</span>
+			$!obj.details
+		</div>
+		<div class="bottom-winner">	
+			<span class="bottom-title">获奖名单：</span>			
+			<div class="bottom-msg">
+				<p>恭喜用户<span>彬哥</span>获得<span>一等奖</span></p>				
+			#foreach($obj in $winner)
+				<p>恭喜用户<span>$!obj.user.nickname</span>获得<span>$!obj.productname</span></p>
+			#end
+			</div>		
+		</div>
+	</div>
+	
+	<input type="hidden" name="sweepstakeid" id="sweepstakeid" value="" >
+	<input type="hidden" name="sweepstaketype" id="sweepstaketype" value="" >
+</div>	
+
+<section id="details" class="add_box">
+	<div class="add_box_main" >
+		<div class="add_box_main_close"><a href="javascript:void(0);" onclick="hideAddBox();"><img src="/static/home/bcd/images/close_ico.png"></a></div>
+        <span class="box_title">恭喜您中奖了</span>
+        <p>中奖等级:<span id="sweepsrating"></span></p>
+        <p>详情:<span id="sweepaname"></span></p>
+        <div onclick="toaddr();" id ="btn1" class="box_record"><span>看看我的抽奖记录</span></div>
+    </div>
+</section>
+<section id="details2" class="add_box">
+	<div class="add_box_main"  >
+		<div class="add_box_main_close"><a href="javascript:void(0);" onclick="hideAddBox2();"><img src="/static/home/bcd/images/close_ico.png"></a></div>
+		<span class="box_title">很遗憾！您本次未能中奖！</span>        
+        <p>期待您下次中奖<span id="sweepsrating"></span></p>
+        <div  onclick="toaddr();" id ="btn2" class="box_record"><span>看看我的抽奖记录</span></div>
+    </div>
+</section>
+
+<script type="text/javascript">
+ jQuery(".rotate-zhen").click(function(){
+	 jQuery.ajax({
+			method:"post",
+			url:"/pcShopMember.java?cmd=sweepstake&date="+new Date().getTime(),
+			dataType:"json",
+			success:function(data,text){
+				console.dir(data)
+				if(data.flag==1){
+					alert("没有获取此用户,请重新登陆");
+				}else if(data.flag == 2){
+					alert("您的积分余额不足！无法进行抽奖")
+				}else{
+					position = data.position;
+					angle = data.angle;
+					alert(angle)
+					$(".rotate-zhen").rotate({
+					 	duration:5000,               //转动时间
+					 	angle: 0,                    //起始角度
+	           			animateTo:1440+angle,      //结束的角度
+						easing: $.easing.easeOutSine,//动画效果，需加载jquery.easing.min.js
+						callback: function(){
+							sweepstakeDetail(data.name,data.productname);
+							if(data.status == 0){
+								showAddBox2();
+							}else{
+								showAddBox();//简单的弹出获奖信息
+							}
+							
+						}
+										
+					})
+				}
+			}
+	 });
+ })
+function showAddBox(){
+    $(window).scrollTop(0);
+	$("#details").show();
+	
+}
+ function showAddBox2(){
+	    $(window).scrollTop(0);
+		$("#details2").show();
+		
+	}
+function hideAddBox(){
+    $("#details").hide();
+}
+function hideAddBox2(){
+    $("#details2").hide();
+}
+function sweepstakeDetail(name,productname){
+	$("#sweepsrating").html(name);
+	$("#sweepaname").html(productname);
+}
+function toaddr(){
+	window.location.href = "/pcShopMember.java?cmd=customList";	
+}
+</script>
+</body>
+</html>

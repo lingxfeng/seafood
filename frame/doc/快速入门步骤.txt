@@ -1,0 +1,11 @@
+快速入门操作步骤:
+１、在命令行中切换到disco\bin目录。
+２、输入disco project d:\test\djs -djs -extjs　会在d盘的test目录建立一个名为djs的web项目。
+３、切换到d:\test\djs\bin目录
+４、输入disco crud myapp.domain.Cat可以生成一个针对猫咪管理程序。
+５、检查src\main\resources\db.properties中的数据库配置属性是否与你的实际相符，特别是密码，如果不符则修改。
+６、在命令行执行disco war可以把应用发布成war包。把djs.war文件拷到tomcat等服务器的webapp目录下也可运行。
+７、在地址栏输入http://localhost:8080/cat.java可以得到结果。
+
+
+

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.eastinno.otransos</groupId>
+		<artifactId>parent</artifactId>
+		<version>2.1.5-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+	<groupId>com.eastinno.otransos</groupId>
+	<artifactId>otransos-cms</artifactId>
+	<packaging>jar</packaging>
+	<name>oTransOS CMS Module</name>
+	<dependencies>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-ext</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-security</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-application</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+	</dependencies>
+</project>

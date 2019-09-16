@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>订单列表</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<style type="text/css">
+.fshoptb2 .ddk_table {
+	width: 96%;
+	margin: 20px auto;
+}
+
+.fshoptb2 .ddk_table th {
+	height: 45px;
+	line-height: 45px;
+}
+.fshoptb2 .ddk_table td {
+	padding: 8px;		
+	font-size: 14px;
+	font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">订单列表</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/tradeRefund.java?cmd=list" class="this"><b>退货单列表</b></a></li>
+				<li><a href="/tradeRefund.java?cmd=list"><b>退款/退货设置</b></a></li>
+			</ul>
+		</div>
+
+		<div class="fshoptb2">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="ddk_table">					
+				<tbody>
+					<tr>
+						<td width="120px" align="right">订单号:</td>
+						<td align="left">$obj.tradeOrderGoods.tradeOrder.id</td>
+					</tr>
+					<tr>
+						<td align="right">退款时间:</td>
+						<td align="left">$!obj.operateTime</td>
+					</tr>
+					<tr>
+						<td align="right">退款类型:</td>
+						<td align="left">$!obj.refundType</td>
+					</tr>
+					<tr>
+						<td align="right">退款途径:</td>
+						<td align="left">$obj.refundWay</td>
+					</tr>
+					<tr>
+						<td align="right">收货人:</td>
+						<td align="left">$!obj.tradeOrderGoods.tradeOrder.orderReceiver</td>
+					</tr>
+					<tr>
+						<td align="right">收货人电话:</td>
+						<td align="left">$!obj.tradeOrderGoods.tradeOrder.orderOrdermobile</td>
+					</tr>
+					<tr>
+						<td align="right">退货商品:</td>
+						<td align="left">$!obj.tradeOrderGoods.goodsName</td>
+					</tr>
+					<tr>
+						<td align="right">是否收到货:</td>
+						<td align="left">$!obj.receiveGoods</td>
+					</tr>
+					<tr>
+						<td align="right">是否要退货:</td>
+						<td align="left">$!obj.refundGoods</td>
+					</tr>
+					<tr>
+						<td align="right">退款金额:</td>
+						<td align="left">$!obj.refundAmount</td>
+					</tr>
+					<tr>
+						<td align="right">退款说明:</td>
+						<td align="left">$!obj.refundDesc</td>
+					</tr>
+					<tr>
+						<td align="right">退款人姓名:</td>
+						<td align="left">退款人姓名</td>
+					</tr>
+					<tr>
+						<td align="right">退款人账号:</td>
+						<td align="left">退款人账号</td>
+					</tr>
+					<tr>
+						<td align="right">状态:</td>
+						<td align="left">
+							#if($obj.status=="0")
+				             	等待买家发货
+				             #end
+							 #if($obj.status=="1")
+				             	买家已发货
+				             #end
+				             #if($obj.status=="2")
+				             	处理中 
+				             #end
+				             #if($obj.status=="3")
+				             	已处理
+				             #end
+				             #if($obj.status=="4")
+				             	已拒绝
+				             #end
+				         </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

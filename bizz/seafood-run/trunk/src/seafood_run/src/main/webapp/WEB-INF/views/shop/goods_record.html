@@ -1,0 +1,26 @@
+#if($orderDetailList)
+<!--成交记录-->
+<div class="img_list_dl">
+	<div class="img_list_dl_word">
+	  	#foreach($obj in $orderDetailList)
+		<dl class="details_dis_dl">
+			<dt style="width: 20%;    text-align: center;">
+				<span>$obj.user.nickname</span>
+			</dt>
+			<dt style="width: 25%;    text-align: center;">
+				<span>$!obj.pro.name</span>
+			</dt>
+			<dt style="width: 20%;    text-align: center;">
+				<span>$!obj.num</span>
+			</dt>
+			<dt style="width: 25%;    text-align: center;">
+				<span>$obj.ceateDate</span>
+			</dt>
+		</dl>
+		#end
+	</div>
+</div>
+         <!--成交记录-->
+#else
+  <div class="novalue"> 还没有成交记录</div>
+#end

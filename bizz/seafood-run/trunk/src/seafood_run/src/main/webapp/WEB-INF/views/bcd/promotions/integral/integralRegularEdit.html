@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css" />
+	<link href="/static/home/bcd/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+	<script src="/static/home/bcd/js/jquery-1.11.1.min.js"></script>
+	<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+	<script src="/static/home/bcd/js/jquery.datetimepicker.js"></script>
+	<script>
+	function submitForm(){
+		var result = true;
+		if(result){
+			$("#theForm").submit();	
+		}
+		return false;
+	}
+	
+	#if($msg)
+		alert("$msg");
+	#end
+	
+	$(function(){
+		$(".datetime").datetimepicker({
+			format: "Y-m-d H:i:s",
+			step: 10
+		});
+	});
+	</script>
+</head>
+<body>
+	<form action="/integralBuyRegular.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm"/>
+		<input name="id" id="id" type="hidden" value="$!{entry.id}" />
+		#if($entry) 
+		<input name="cmd" id="cmd" type="hidden" value="update" />
+		#else
+		<input name="cmd" id="cmd" type="hidden" value="save" />
+		#end
+
+		<div class="cont">
+			#if($entry)
+			<h1 class="seth">积分活动修改</h1>
+			#else
+			<h1 class="seth">新增积分活动</h1>
+			#end
+
+			<div class="nav_list">
+				<ul>					
+					#if($entry)					
+					<li><a href="/integralBuyRegular.java?cmd=toSave" class=""><b>新增积分活动</b></a></li>
+					<li><a href="/integralBuyRegular.java?cmd=toUpdate&id=$entry.id" class="this"><b>修改积分活动</b></a></li>
+					#else
+					<li><a href="/integralBuyRegular.java?cmd=toSave" class="this"><b>新增积分活动</b></a></li>
+					#end
+					<li><a href="/integralBuyRegular.java?cmd=list" class=""><b>积分活动列表</b></a></li>
+					<li><a href="/integralBuyRecord.java?cmd=list" class=""><b>积分购物记录</b></a></li>
+					<li><a href="/integralChangeRule.java?cmd=toUpdateIntegralRule" class=""><b>积分规则设置</b></a></li>
+					<li><a href="/integralRechargeRecord.java?cmd=list"><b>积分充值记录</b></a></li>
+					<li><a href="/integralHistory.java?cmd=sendIntegral"><b>后台赠送记录</b></a></li>
+				</ul>
+			</div>
+			<div class="edit">
+				<div class="editul setcont" id="base">
+					
+					<ul class="set1">
+						<li class="setcont_bg">活动商品ID</li>
+						<li>
+							<span class="webname">
+								<input name="proId" type="number" id="proId" value="$!{entry.pro.id}" />
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">积分价格</li>
+						<li>
+							<span class="webname">
+								<input name="integralPrice" type="number" id="activityPrice" value="$!{entry.integralPrice}" />
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">每单限购数量</li>
+						<li>
+							<span class="webname">								
+								#if($entry)
+								<input name="buyNumLimit" type="number" id="buyNumLimit" value="$!{entry.buyNumLimit}" min="1"/>
+								#else
+								<input name="buyNumLimit" type="number" id="buyNumLimit" value="1" min="1"/>
+								#end
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">活动上架时间</li>
+						<li>
+							<span class="webname">
+								<input class="datetime" name="shelvingDate" type="text" id="shelvingDate" value="$!{entry.shelvingDate}" />
+							</span>
+						</li>
+						<li><strong class="w">注：该时间点后，该活动会在秒杀活动列表显示</strong></li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">活动下架时间</li>
+						<li>
+							<span class="webname">
+								<input class="datetime" name="unshelvingDate" type="text" id="unshelvingDate" value="$!{entry.unshelvingDate}" />
+							</span>							
+						</li>
+						<li><strong class="w">注：该时间点后，该活动不会在秒杀活动列表显示</strong></li>
+					</ul>		
+					
+				</div>				
+			</div>
+			<div class="submit">
+				<span class="pad120">
+					<input name="" type="submit" value="提交" onclick="submitForm();" />
+				</span>
+			</div>
+		</div>
+	</form>
+
+</body>
+</html>

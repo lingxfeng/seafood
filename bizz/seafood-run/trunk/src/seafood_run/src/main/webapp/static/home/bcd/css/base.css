@@ -1,0 +1,144 @@
+@charset "utf-8";
+
+/**
+	*
+	*	@Author  :   amu
+	*	@Time    :   2015.07.03
+	*	@Copy    :   amu.com
+	*
+*/
+
+/*------------------------------------------- 全局重置css -------------------------------------------*/
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin: 0;padding: 0;}
+* {margin:0;padding:0;list-style:none;text-decoration:none;box-sizing:border-box;outline:none}
+div{outline:none}
+
+/**
+	清除自带样式
+*/
+a img{border:0;}
+a{text-decoration: none;color:#666;outline:none}
+input{outline:none}
+button{outline:none;}
+img{outline:none;}
+.fb{font-weight:bolder;}
+
+/**
+	清除点击后A的虚线
+*/
+a{blr:expression(this.onFocus=this.close());} /* 只支持IE，过多使用效率低 */ 　
+a{blr:expression(this.onFocus=this.blur());} /* 只支持IE，过多使用效率低 */ 　
+a:focus {-moz-outline-style: none;} /* IE不支持 */ 
+a:focus {outline:none;-moz-outline:none;}
+
+/**
+	body定义
+*/
+body{font-family:"微软雅黑";font-size:14px;color:#666;margin:0 auto;min-width:320px;max-width:640px;}
+
+/**
+	左右浮动
+*/
+.fl{float:left;}
+.fr{float:right;}
+
+/**
+	行高
+*/
+.l40{height:40px;line-height:40px;}
+.l35{height:35px;line-height:35px;}
+.l25{height:25px;line-height:25px;}
+
+/**
+	定义字
+*/
+.f12{font-size:12px;}
+.f14{font-size:14px;}
+.f16{font-size:16px;}
+.f18{font-size:18px;}
+.f22{font-size:22px;}
+
+/**
+	清除浮
+*/
+.cb{clear:both;}
+
+/**
+	清除浮动不撑
+*/
+.oh:after{display:block;visibility:hidden;height:0px;content:".";clear:both;}
+
+/**
+	多于文字省
+*/
+.teps{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/**
+	阴影文字
+*/
+.text-sha{text-shadow: 1px 1px 0 #FFFFFF;}
+
+/**
+	宽度
+*/
+.wid-1200{width:1200px;margin:0 auto;}
+
+/**
+	外边距
+*/
+.m5{margin:5px;}
+.m10{margin:20px 0 10px 0;}
+
+
+/**
+	内边距
+*/
+.pad-5{padding:5px;}
+.pad-10{padding:10px;}
+
+/**
+	百分比宽度定义 
+*/
+.w-100{width:100%;}
+.w-90{width:90%;}
+.w-80{width:80%;}
+.w-75{width:75%;}
+.w-70{width:70%;}
+.w-60{width:60%;}
+.w-65{width:65%;}
+.w-55{width:55%;}
+.w-50{width:50%;}
+.w-45{width:45%;}
+.w-40{width:40%;}
+.w-33{width:33%;}
+.w-30{width:30%;}
+.w-25{width:25%;}
+.w-20{width:20%;}
+.w-23{width:23%;}
+.w-10{width:10%;}
+.cfff{color:#fff;}
+.bno{border:none;}
+.tc{text-align:center;}
+.tl{text-align:left;}
+.tr{text-align:right;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

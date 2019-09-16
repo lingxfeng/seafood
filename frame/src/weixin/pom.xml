@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>com.eastinno.otransos</groupId>
+		<version>2.1.5-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+	<groupId>com.eastinno.otransos</groupId>
+	<artifactId>otransos-weixin</artifactId>
+	<packaging>jar</packaging>
+	<name>oTransOS weixin Module</name>
+	<properties>
+		<source.version>1.7</source.version>
+		<target.version>1.7</target.version>
+		<file.encoding>UTF-8</file.encoding>
+		<maven.test.skip>true</maven.test.skip><!-- 跳过单元测试 -->
+		<downloadSources>true</downloadSources><!-- 自动下载并关联源码 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<maven-jar-plugin>2.4</maven-jar-plugin>
+		<maven-source-plugin>2.2.1</maven-source-plugin>
+		<maven-clean-plugin.version>2.5</maven-clean-plugin.version>
+		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
+
+		<junit.version>4.11</junit.version>
+		<otransos.version>2.1.5-SNAPSHOT</otransos.version>
+		<jetty.version>7.6.11.v20130520</jetty.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-application</artifactId>
+			<version>${otransos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-cms</artifactId>
+			<version>${otransos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-payment</artifactId>
+			<version>${otransos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.6</version>
+		</dependency>
+		<!-- jetty -->
+		<dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>${jetty.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
+

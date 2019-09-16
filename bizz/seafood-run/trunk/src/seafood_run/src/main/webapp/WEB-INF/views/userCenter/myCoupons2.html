@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0047)/buyer/address.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>收货地址-海鲜之家商城 -海鲜之家商城V1.0</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="generator" content=""/>
+<meta name="author" content=""/>
+<meta name="copyright" content=""/>
+
+<link type="text/css" rel="stylesheet" href="/static/home/shopmanage/css/activity/globalMaylike.css"/>
+<link type="text/css" rel="stylesheet" href="/static/home/shopmanage/css/activity/myjd.coupon20150805.css" source="combo"/>
+<link type="text/css" rel="stylesheet" href="/static/home/shopmanage/css/activity/coupon_style.css"/>
+<link type="text/css" rel="stylesheet" href="/static/home/shopmanage/css/activity/saved_resource.css"/>
+<link type="text/css" rel="stylesheet" href="/static/home/shopmanage/css/activity/saved_resource(3).css" source="widget"/>
+
+
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/user.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.iskyshop.validate.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script src="/static/home/shopmanage/js/jquery.SuperSlide.2.1.1.js"></script>
+<style id="poshytip-css-tip-skyblue" type="text/css">div.tip-skyblue{visibility:hidden;position:absolute;top:0;left:0;}div.tip-skyblue table, div.tip-skyblue td{margin:0;font-family:inherit;font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;}div.tip-skyblue td.tip-bg-image span{display:block;font:1px/1px sans-serif;height:10px;width:10px;overflow:hidden;}div.tip-skyblue td.tip-right{background-position:100% 0;}div.tip-skyblue td.tip-bottom{background-position:100% 100%;}div.tip-skyblue td.tip-left{background-position:0 100%;}div.tip-skyblue div.tip-inner{background-position:-10px -10px;}div.tip-skyblue div.tip-arrow{visibility:hidden;position:absolute;overflow:hidden;font:1px/1px sans-serif;}</style>
+<style>
+.coupon-item coupon-item-d .c-type2 {
+    color: #d2d2d2;
+}
+</style>
+<script>
+jQuery(document).ready(function(){
+	jQuery(".user_guess_box_like").slide({mainCell:'.guess_like_box_like',autoPlay:true,effect:'left', vis:6, scroll:2, autoPage:true,interTime:3000,prevCell:"#like_goods_left",nextCell:"#like_goods_right"});
+})
+function gotoPage(val){
+	window.location.href="/pcShopMemberCenter.java?cmd=getMyCoupons&amp;menuId=myCoupons&currentPage="+val;
+}
+</script>
+</head>
+<body>
+#parse("/common/top.html")
+#parse("/common/left.html")
+
+<div class="main">
+	<div class="usercenter"> <script src="/static/home/shopmanage/js/jquery.cookie.js"></script>
+	#parse("/common/userCenterLeft.html")
+	    
+	<div class="usercenter_right">
+	      <div class="myorder">
+	        <h4><span class="myorder_fright"></span><strong>我的优惠券</strong></h4>
+	      </div>
+	      <div class="user_list">
+	        <div class="user_list_title">
+	          <ul class="user_title_ul">
+	            <li class="this"><i></i><a href="./收货地址-海鲜之家商城 -海鲜之家商城V1.0_files/收货地址-海鲜之家商城 -海鲜之家商城V1.0.html">我的优惠券</a></li>
+	            <!-- <li ><i></i><a href="/pcShopMemberCenter.java?cmd=myCollection&menuId=shopsCollection">收藏店铺</a></li> -->
+	          </ul>
+	        </div>
+			<form action="" method="post" id="ListForm">
+	          <div class="show_smallimg">
+				<table border="0" cellpadding="0" cellspacing="0" class="user_order_table">
+					<tbody>
+	                <tr>
+	                	<td align="center">
+	                    <div class="coupon-items">
+							#foreach($obj in $couponList)
+							<div class="#if($!obj.coupon.currentStatus==2 || $!obj.coupon.currentStatus==0) coupon-item coupon-item-dgray #else coupon-item coupon-item-d #end">
+							    <div class="c-type">
+							        <div class="c-price">
+							            <strong>￥$!obj.coupon.value</strong>
+							        </div>
+							        <div class="c-limit">
+										【消费满&nbsp;$!obj.coupon.usecondition元&nbsp;可用】
+							        </div>
+									<div class="c-time">
+										$fu.getDate2($!obj.coupon.beginTime)--$fu.getDate2($!obj.coupon.outTime)
+									</div>
+							        <div class="c-type-top"></div>
+							        <div class="c-type-bottom"></div>
+							    </div>
+							    <div class="c-msg">
+									<div class="c-range">
+									     <div class="range-item">
+									         <span class="label">活动时间：</span>
+									         <span class="txt02">$fu.getDate2($!obj.coupon.beginTime)--$fu.getDate2($!obj.coupon.outTime)</span>
+									     </div>
+									     <div class="range-item">
+									         <span class="label">品类限制：</span>
+									         #if($!obj.coupon.type==0)
+									         <span class="txt" title="无">无</span>
+									         #elseif($!obj.coupon.type==1)
+									         	  #set($brands="")
+									         	  #foreach($obj in $obj.coupon.brandlist)
+											      #set($brands=$brands+$!obj.name+",")
+											      #end
+									         	 <span class="txt" title="$brands">
+											        $brands
+										         </span>
+									         #elseif($!obj.coupon.type==2)
+										         #set($products="")
+									         	  #foreach($obj in $obj.coupon.productlist)
+											      #set($products=$products+$!obj.name+",")
+											      #end
+										         <span class="txt" title="$products">$products</span>
+									         #end
+									     </div>
+									     <div class="range-item">
+									         <span class="label">平台限制：</span>
+									         #if($!obj.coupon.type==0)
+									         <span class="txt">全平台</span>
+									         #elseif($!obj.coupon.type==1)
+									         <span class="txt">品牌限制</span>
+									         #elseif($!obj.coupon.type==2)
+									         <span class="txt">商品限制</span>
+									         #end
+									     </div>
+									     #if($!obj.status==1)
+									     <div class="range-item">
+									         <span class="label">使用状态：</span>
+									         	<span class="txt">已使用</span>
+									     </div>
+									      #end
+									     #if($!obj.coupon.currentStatus==0)
+									     <div class="range-item">
+									         <span class="label">使用状态：</span>
+									         	<span class="txt">已失效</span>
+									     </div>
+									      #end
+									     <div class="range-item">
+											<span class="label">&nbsp;&nbsp;</span>
+											<span class="txt">&nbsp;&nbsp;</span>
+									     </div>
+									</div>
+									#if($!obj.status==0 && $!obj.coupon.currentStatus==1)
+									<div class="op-btns">
+											 #if($!obj.coupon.type==0)
+									         <a href="/goShop.java" class="btn" clstag="pageclick|keycount|coupon_new_201509238|26"><span class="txt">立即使用</span><b></b></a>
+									         #elseif($!obj.coupon.type==1)
+									         #set($brandIds="")
+									         	  #foreach($obj in $obj.coupon.brandlist)
+											      #set($brandIds=$brandIds+$!obj.id+",")
+											      #end
+									         <a href="/goShop.java?cmd=queryPro2&brandIds=$brandIds" class="btn" clstag="pageclick|keycount|coupon_new_201509238|26"><span class="txt">立即使用</span><b></b></a>
+									         #elseif($!obj.coupon.type==2)
+										         #set($pids="")
+									         	  #foreach($obj in $obj.coupon.productlist)
+											      #set($pids=$pids+$!obj.id+",")
+											      #end
+										         <a href="/goShop.java?cmd=queryPro2&gIds=$pids" class="btn" clstag="pageclick|keycount|coupon_new_201509238|26"><span class="txt">立即使用</span><b></b></a>
+									         #end
+                                        </div>
+                                    #elseif($!obj.status==1 && ($!obj.coupon.currentStatus==0 || $!obj.coupon.currentStatus==2))
+									<div class="op-btns">
+										<a href="javascript:void(0)" class="btn" style="    cursor: context-menu;"><span class="">已使用</span></a>
+									</div>
+									#end
+									#if($!obj.coupon.currentStatus==2)
+									<div class="used-onum">
+                                        <div>过期时间：$fu.getDate2($!obj.coupon.outTime)</div>
+                                    </div>
+                                    #end
+							    </div>
+							    <div class="c-del"></div>
+							</div>
+	                        #end
+	                    
+						</div>
+		                </td>
+		                </tr>
+					</tbody>
+				</table>     
+				</div>
+	        $!paginationForBcd
+	        </form>
+	        #parse("/userCenter/common/guessYL.html")
+			</div>
+		</div>  
+	</div>
+
+  <div class="footer">
+    <ul>
+                  <li class="hui2"></li>
+      <li class="hui2">海鲜之家商城V1.0</li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/buyer/address.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+ </div>
+<div id="contant"> </div>
+
+
+<div class="tip-skyblue"><div class="tip-inner tip-bg-image"></div><div class="tip-arrow"></div></div><div class="tip-skyblue"><div class="tip-inner tip-bg-image"></div><div class="tip-arrow"></div></div></body></html>

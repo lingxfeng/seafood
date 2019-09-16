@@ -1,0 +1,1122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/add_goods_second.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml" style=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<title>填写商品详细信息</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="/static/home/kindeditor-4.1.10/themes/default/default.css"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet"/>
+<link rel="stylesheet" href="/static/home/bcd/css/font-awesome.css"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.zh.cn.js" charset="utf-8"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.base.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script charset="utf-8" src="/static/home/kindeditor-4.1.10/kindeditor.js"></script>
+<script charset="utf-8" src="/static/home/kindeditor-4.1.10/lang/zh_CN.js"></script>
+<script src="/static/home/shopmanage/js/swfupload.js"></script>
+<script src="/static/home/shopmanage/js/swfupload.queue.js"></script>
+<script>
+jQuery.validator.addMethod("profix", function(value, element) {
+    return /^[0-9a-zA-Z]{0,6}$/.test(value);
+}, "前缀必须是6字之内字母数字的组合");
+//options为编辑配置属性pc
+var options1 = {
+        cssPath : '/static/home/kindeditor-4.1.10/plugins/code/prettify.css',
+        filterMode : true,
+		uploadJson:'/cusUploadFile.java',
+		width : '860px',
+		height:'400px',
+		resizeType : 1,
+		allowImageUpload : true,
+		allowFlashUpload : true,
+		allowMediaUpload : true,
+		allowFileManager : true,
+		syncType:"form",
+		afterCreate : function() {
+							var self = this;
+							self.sync();
+						},
+		afterChange : function() {
+							var self = this;
+							self.sync();
+						},
+		afterBlur : function() {
+							var self = this;
+							self.sync();
+						},
+		afterError:function(){
+			alert(2)
+		},
+		items:['source', '|', 'fullscreen', 'undo', 'redo', 'cut', 'copy', 'paste',
+			'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+			'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+			'superscript', '|', 'selectall', 'clearhtml','quickformat','|',
+			'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+			'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image','flash', 'media', 'table', 'hr', 'emoticons', 'link', 'unlink', '|', 'about']
+}; 
+var swf_upload;
+var photo_count=0;
+var user_goods_class_count=2;
+jQuery(document).ready(function() {
+ var settings_object = {//定义参数配置对象
+        upload_url : "/cusUploadFile.java",
+            flash_url : "/static/home/shopmanage/swf/swfupload.swf",
+            file_post_name : "imgFile",
+            use_query_string : false,
+            requeue_on_error : false,
+            file_types : "",
+            file_types_description: "商品图片",
+            file_size_limit : "1024",
+            file_upload_limit : 0,
+            file_queue_limit : 0,
+            debug : false,
+            prevent_swf_caching : true,
+            preserve_relative_urls : false,
+     
+            button_placeholder_id : "upload_imgs",
+            button_image_url : "/static/home/shopmanage/images/upload.jpg",
+            button_width : 160,
+            button_height : 28,
+            button_text : "<b></b> <span class='upload_text'>选择上传商品图片</span>",
+            button_text_style : ".upload_text { color: #666666;font-size:12px;margin-left:40px; }",
+            button_text_left_padding : 3,
+            button_text_top_padding : 5,
+            button_action : SWFUpload.BUTTON_ACTION.SELECT_FILES,
+            button_disabled : false,
+            button_cursor : SWFUpload.CURSOR.HAND,
+            button_window_mode : SWFUpload.WINDOW_MODE.TRANSPARENT,
+			file_dialog_start_handler:fileDialogStart,
+			file_dialog_complete_handler:fileDialogComplete,
+            upload_start_handler:upload_start_handler,
+            upload_success_handler:uploadSuccess,
+			upload_complete_handler:uploadComplete
+			
+    };   
+    swf_upload = new SWFUpload(settings_object);//实例化一个SWFUpload，传入参数配置对象
+			function fileDialogStart(){
+	  var stats = this.getStats();
+	  stats.successful_uploads=photo_count;
+	  this.setStats(stats);
+	}
+	function fileDialogComplete(numFilesSelected, numFilesQueued) {
+	try {
+	    var upload=0;
+		var stats = this.getStats();
+		var select_count=5-photo_count;
+		if (select_count!=0&&numFilesSelected > select_count) {
+		    alert("当前最多上传"+select_count+"张商品图片");	
+			this.cancelQueue();
+			upload=1;
+		}
+		if(stats.successful_uploads>=5){
+		    alert("已经上传5张图片,如要修改请先删除图片！");
+			this.cancelQueue();
+			upload=1;
+		}
+		if(upload==0){
+		   this.startUpload();
+		}
+	} catch (ex)  {
+        this.debug(ex);
+	}
+    }
+	function upload_start_handler(){
+	  jQuery("#upload_wait").show();
+	}
+	function uploadSuccess(file, serverData){//单个图片上传成功
+	  var obj=eval("("+serverData+")");
+	  photo_count++;
+	  var stats = this.getStats(); 
+	  if(obj.url!=""){
+	    if(stats.successful_uploads==1){
+	      jQuery("#goods_image_0").attr("src",obj.url);
+	    }
+	    jQuery("#goods_image_"+stats.successful_uploads).attr("src",obj.url);   
+	    jQuery("#goods_image_"+stats.successful_uploads).attr("image_id",obj.url);
+	  }
+	}
+	function uploadComplete(file) {
+	try {
+		if (this.getStats().files_queued == 0) {
+           jQuery("#upload_wait").hide();
+		} else {	
+		   if(this.getStats.successful_uploads>=5){
+			   this.cancelQueue();
+		   }else{
+		       this.startUpload();
+		   }
+		}
+	} catch (ex) {
+		this.debug(ex);
+	}
+}
+ //默认赋值
+  jQuery(":radio[id='status'][value='']").attr("checked",true);
+  //jQuery(":radio[id='goods_choice_type'][value='']").attr("checked",true);
+  //jQuery(":radio[id='goods_cod'][value='']").attr("checked",true);
+        //表单验证
+  jQuery("#theForm").validate({		
+	ignore: "",						  
+     rules: {
+	        productTypeId:{
+			     required:true
+			},
+			 code:{
+			     maxlength:20
+			},
+			name:{
+			     required:true,
+				 minlength:3,
+				 maxlength:50
+			    },
+			 amt:{
+			    required:true,
+				number:true,
+				range:[0.01,1000000] 
+			 },
+			 store_price:{
+			    required:true,
+				number:true,
+				range:[0.01,1000000] 
+			 },
+			 tydAmt:{
+				 required:true,
+				number:true,
+				range:[0.01,1000000] 
+			 },
+			 costAmt:{
+				 required:true,
+				number:true,
+				range:[0.01,1000000] 
+			 },
+			 brandId:{
+				required: true,
+				number: true,
+				range:[1,1000000]
+			 },
+			 sendPoints:{
+				required:true,
+				number:true,
+				range:[0,1000000] 
+			 },
+			 inventory:{
+			    number:true,
+				range:[0,1000000000] 
+			 }
+			},
+     messages: {
+	        productTypeId:{required:"商品分类不能为空"},
+			code:{maxlength:"输入字符长度不得超过20"},
+			name:{
+			    required: "商品名不能为空",
+			    minlength:"商品名最少为3个字符",
+			    maxlength:"商品名最多为50个字符"			   
+			  },
+			amt:{
+			    required:"商品原价不能为空",
+				number:"商品原价只能是数字格式",
+				range:"商品价格只能在0.01-1000000之间"
+				},
+			store_price:{
+			    required:"不能为空",
+				number:"只能是数字格式",
+				range:"只能在0.01-1000000之间"
+				},
+			tydAmt:{
+			    required:"不能为空",
+				number:"只能是数字格式",
+				range:"只能在0.01-1000000之间"
+				},
+			costAmt:{
+			    required:"不能为空",
+				number:"只能是数字格式",
+				range:"只能在0.01-1000000之间"
+				},
+			brandId:{
+				required: "请选择品牌",
+				number: "请选择品牌",
+				range: "请选择品牌"
+			},
+			inventory:{
+			    number:"商品库存只能为数字",
+				range:"商品库存数量只能在1-1000000000之间"
+			}
+		  }
+		 
+  }); 
+  //table切换
+  jQuery("#ul_table li").click(function(){
+	jQuery(this).parent().find("li a").removeClass("this");	
+	jQuery(this).find("a").addClass("this");
+	var id =jQuery(this).attr("id");
+	jQuery("table").hide();
+	jQuery("table[id=goods_"+id+"]").show();
+   });
+  //
+  //
+  editor = KindEditor.create('#goods_details_web',options1);   
+  //
+  #if($entry)
+		jQuery("#pack_details").val("$!{entry.pack_details}");
+		jQuery("#goods_service").val("$!{entry.goods_service}");
+		jQuery("#brandId").val("$!{entry.brand.id}");
+		#if($entry.isTop)
+			jQuery("#isTop").val("1");
+		#else
+			jQuery("#isTop").val("0");
+		#end
+		#if($entry.isRecommend)
+			jQuery("#isRecommend").val("1");
+		#else
+			jQuery("#isRecommend").val("0");
+		#end
+		if("$!{entry.imgPaths}"){
+			var imgPaths = "$entry.imgPaths".split("_");
+			  photo_count = imgPaths.length;
+			  for(var i=1;i<=photo_count;i++){
+				  if(i==1){
+					  jQuery("#goods_image_0").attr("src",imgPaths[0]);
+				  }
+				  jQuery("#goods_image_"+i).attr("src",imgPaths[i-1]);   
+				  jQuery("#goods_image_"+i).attr("image_id",imgPaths[i-1]);
+			  }
+		}
+	  jQuery.ajax({type:'GET',
+				url:'/shopProduct.java?cmd=goodDetails&id=$!{entry.id}',
+				dataType:"html",
+				success:function(data){
+					data = eval("("+data+")")
+					editor.html(data.good_details)
+				}
+	  });
+	  #foreach($obj in $attrVs)
+	  	#if($obj.type=="1")
+		  jQuery("#attr_${obj.attributeKey.id}").val("$obj.value");
+		#end
+		#if($obj.type=="2")
+			jQuery("#canshu_${obj.attributeKey.id}").val("$obj.value");
+		#end
+		#if($obj.type=="3")
+			var vals = "$obj.value".split("_");
+		  	for(var i =0;i<vals.length;i++){
+		  		jQuery("#guig_${obj.attributeKey.id}_"+vals[i]).attr("checked","checked")
+		  	}
+	  	#end
+	  #end
+	#end
+	
+
+	
+});
+function arrow_left(id){
+  var i=parseInt(id);
+  if(i>1){
+    var temp_src=jQuery("#goods_image_"+(i-1)).attr("src");
+	var temp_id=jQuery("#goods_image_"+(i-1)).attr("image_id");
+	var the_src=jQuery("#goods_image_"+i).attr("src");
+	var the_id=jQuery("#goods_image_"+i).attr("image_id");
+	if(temp_id!=""&&temp_id!=undefined&&the_id!=""&&the_id!=undefined){
+	  jQuery("#goods_image_"+(i-1)).attr("src",the_src);
+	  jQuery("#goods_image_"+(i-1)).attr("image_id",the_id);
+      jQuery("#goods_image_"+i).attr("src",temp_src);
+	  jQuery("#goods_image_"+i).attr("image_id",temp_id);
+	  if(i==2){
+	  jQuery("#goods_image_0").attr("src",the_src);
+	  jQuery("#goods_image_0").attr("image_id",the_id);	   
+	  }
+	}
+  }
+}
+function arrow_right(id){
+  var i=parseInt(id);
+  if(i<5){
+    var temp_src=jQuery("#goods_image_"+(i+1)).attr("src");
+	var temp_id=jQuery("#goods_image_"+(i+1)).attr("image_id");
+	var the_src=jQuery("#goods_image_"+i).attr("src");
+	var the_id=jQuery("#goods_image_"+i).attr("image_id");
+	if(temp_id!=""&&temp_id!=undefined&&the_id!=""&&the_id!=undefined){
+	  jQuery("#goods_image_"+(i+1)).attr("src",the_src);
+	  jQuery("#goods_image_"+(i+1)).attr("image_id",the_id);
+      jQuery("#goods_image_"+i).attr("src",temp_src);
+	  jQuery("#goods_image_"+i).attr("image_id",temp_id);
+	  if(i==1){
+	  jQuery("#goods_image_0").attr("src",temp_src);
+	  jQuery("#goods_image_0").attr("image_id",temp_id);	   
+	  }
+	}
+  }
+}
+function arrow_del(id){
+	arrow_remove(id);
+}
+function arrow_remove(id){
+    var stats = swf_upload.getStats(); 
+    var image_id=jQuery("#goods_image_"+id).attr("image_id");
+	jQuery("#goods_image_"+id).attr("src","/static/home/shopmanage/images/good.jpg");
+	jQuery("#goods_image_"+id).attr("image_id","");
+	if(id==1){
+	    jQuery("#goods_image_0").attr("src","/static/home/shopmanage/images/good.jpg");
+	}
+	stats.successful_uploads--;
+	swf_upload.setStats(stats);
+	photo_count--;
+	var i=parseInt(id);
+	while(i<5){
+	   var image_id=jQuery("#goods_image_"+(i+1)).attr("image_id");
+	    var image_src=jQuery("#goods_image_"+(i+1)).attr("src");
+			if(image_id!=""){
+			  jQuery("#goods_image_"+i).attr("image_id",image_id);
+			  jQuery("#goods_image_"+i).attr("src",image_src);
+			  if(i==1){
+			    jQuery("#goods_image_0").attr("image_id",image_id);
+			    jQuery("#goods_image_0").attr("src",image_src);			  
+			  }
+			  jQuery("#goods_image_"+(i+1)).attr("image_id","");
+			  jQuery("#goods_image_"+(i+1)).attr("src","/static/home/shopmanage/images/good.jpg");
+			}
+			i++;
+  }
+
+}
+/*Ajax分页*/
+function ajaxPage(url,currentPage,obj){
+  var ajax_page=jQuery(obj).parent().attr("ajax_page");
+  if(ajax_page=="goods_transport"){
+     jQuery.post("/admin/goods_transport.htm",{"currentPage":currentPage,"ajax":true},function(data){
+         jQuery("#ListForm").empty().html(data);
+      },"html");
+  }else if(ajax_page=="goods_img"){
+     var ajax_type=jQuery(obj).parent().attr("ajax_type");
+     var type=jQuery(obj).parent().attr("type");
+	 var album_id=jQuery(obj).parent().attr("album_id");
+     jQuery.post("/admin/goods_img.htm",{"currentPage":currentPage,"type":type,"album_id":album_id},function(text){
+       jQuery(ajax_type).empty();
+	   jQuery(ajax_type).append(text);
+     },"text");
+
+  }else if(ajax_page=="goods_album"){
+	  var ajax_type=jQuery(obj).parent().attr("ajax_type");
+     jQuery.post("/admin/goods_album.htm",{"currentPage":currentPage,"ajax_type":ajax_type},function(text){
+       jQuery(ajax_type).empty();
+	   jQuery(ajax_type).append(text);
+     },"text");
+  }
+}
+function saveForm(){
+  editor.sync();//同步编辑器的数据到texterea
+  var image_ids="";
+  for(var i=1;i<=5;i++){//商品其他图片
+	var image_id=jQuery("#goods_image_"+i).attr("image_id");
+	if(image_id!=""&&image_id!=undefined){
+	 	  image_ids +=image_id+"_";
+	}
+  }
+  if(!image_ids){
+	  alert("请至少上传一张商品图片！");
+ }else{
+ 	image_ids = image_ids.substr(0,(image_ids.length-1));
+  jQuery("#image_ids").val(image_ids);
+  var main_image_id=jQuery("#goods_image_1").attr("image_id");
+  var guigeles,guigValues="";
+  #foreach($obj in $guigs)
+  	guigeles = jQuery("input[type=checkbox][id^=guig_${obj.id}]:checked")
+  	for(var i =0;i<guigeles.length;i++){
+		guigValues+=guigeles[i].value+"_";
+	}
+  	if(guigValues){
+  		jQuery("#guig_${obj.id}").val(guigValues.substr(0,(guigValues.length-1)))
+  	}
+  	guigValues="";
+  #end
+  jQuery("#theForm").submit();
+  }
+  
+  
+}
+jQuery(function(){
+	if($('input[name="isPointsBuy"]:checked').val()==0){
+		jQuery("#point").hide();
+	}
+	jQuery("#judgeproduct").change(function(){
+		if($('input[name="isPointsBuy"]:checked').val()==1){
+			jQuery("#point").show();
+		}
+		else if($('input[name="isPointsBuy"]:checked').val()==0){
+			jQuery("#point").hide();
+		}
+	});	
+});
+</script>
+<style type="text/css">
+label.error {
+	color: #F00;
+	margin-left: 3px;
+}
+input.error {
+	border: 2px solid #F00;
+}
+</style>
+</head>
+<body>
+<div class="cont">
+  <h3 class="seth">商品发布</h3>
+  <div class="nav_list">
+    <ul id="ul_table">
+      <li id="info"><a href="javascript:void(0);" class="this"><b>商品详细</b></a></li>
+      <li id="img"><a href="javascript:void(0);"><b>商品图片</b></a></li>
+      <li id="description"><a href="javascript:void(0);"><b>详情描述</b></a></li>
+      <li id="pack"><a href="javascript:void(0);"><b>包装清单</b></a></li>
+      <li id="attribute"><a href="javascript:void(0);"><b>商品属性</b></a></li>
+      <li id="canshu"><a href="javascript:void(0);"><b>商品参数</b></a></li>
+      <li id="guig"><a href="javascript:void(0);"><b>商品规格</b></a></li>
+    </ul>
+  </div>
+  <div class="adddetail">
+  
+    <form action="/shopProduct.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabledetail" id="goods_info">
+        <tbody><tr>
+          <td colspan="2" class="tableh1">商品详细</td>
+        </tr>
+        <tr>
+          <td width="95" align="right">商品分类：</td>
+          <td><span>$!{pTypeStr}</span><span class="editbtn">
+            <!-- <input name="edit_class" type="button" id="edit_class" value="编辑" style="cursor:pointer;" onclick="window.location.href='shopProduct.java?cmd=toAdd'"> -->
+            <input name="productTypeId" type="hidden" id="productTypeId" value="$!{pid}">
+            <input name="imgPaths" type="hidden" id="image_ids">
+            <input name="id" type="hidden" id="id" value="$!{entry.id}">
+            #if($entry)
+            <input name="cmd" type="hidden" value="update"/>
+            #else
+            <input name="cmd" type="hidden" value="save"/>
+            #end
+            </span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">商品名称：</td>
+          <td class="sptable"><span class="tabtxt1 size1">
+            <input name="name" type="text" id="name" value="$!{entry.name}"/>
+            </span> <span class="hui2">商品标题名称长度至少3个字符，最长50个汉字</span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">所属品牌：</td>
+          <td class="sptable"><span class="tabtxt1 size1">
+            <select name="brandId" id="brandId">
+            	<option>选择品牌</option>
+            	#foreach($obj in $brands)
+            	<option value="$obj.id">$obj.name</option>
+            	#end
+            </select>
+        </tr>
+        <tr>
+          <td align="right" valign="top">零售价：</td>
+          <td class="sptable"><span class="tabtxt1 size2">
+            <input name="amt" type="text" id="amt" value="$!{entry.amt}">
+            </span> <span class="hui2">零售价必须是0.01~1000000之间的数字</span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">店铺价格：</td>
+          <td class="sptable"><span class="tabtxt1 size2">
+            <input name="tydAmt" type="text" id="tydAmt" value="$!{entry.tydAmt}" />
+            </span> <span class="hui2">
+            <ul class="tableli">
+              <li>店铺价格必须是0.01~1000000之间的数字</li>
+            </ul>
+            </span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">微店价格：</td>
+          <td class="sptable"><span class="tabtxt1 size2">
+            <input name="store_price" type="text" id="store_price" value="$!{entry.store_price}" />
+            </span> <span class="hui2">
+            <ul class="tableli">
+              <li>微店价格必须是0.01~1000000之间的数字</li>
+            </ul>
+            </span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">成本价格：</td>
+          <td class="sptable"><span class="tabtxt1 size2">
+            <input name="costAmt" type="text" id="costAmt" value="$!{entry.costAmt}" />
+            </span> <span class="hui2">
+            <ul class="tableli">
+              <li>成本价格必须是0.01~1000000之间的数字</li>
+            </ul>
+            </span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">单品包邮价格：</td>
+          <td class="sptable">
+          	<span class="tabtxt1 size2">
+            	<input name="productFreepostStart" type="number" id="" value="$!{productFreepostStart}" />
+            </span>            
+            <span class="hui2">价格必须是0.01~$!{productFreepostStart}(订单包邮)之间的数字</span>
+          </td>          
+        </tr>
+         <tr>
+          <td align="right" valign="top">单品附近地区邮费：</td>
+          <td class="sptable">
+          	<span class="tabtxt1 size2">
+            	<input name="productNearPostCost" type="number" id="" value="$!{productNearPostCost}" />
+            </span>            
+            <span class="hui2">邮费必须是0.01~1000000之间的数字</span>
+          </td>          
+        </tr>
+        <tr>
+          <td align="right" valign="top">单品非偏远地区邮费：</td>
+          <td class="sptable">
+          	<span class="tabtxt1 size2">
+            	<input name="productNormalPostCost" type="number" id="" value="$!{productNormalPostCost}" />
+            </span>            
+            <span class="hui2">邮费必须是0.01~1000000之间的数字</span>
+          </td>          
+        </tr>
+        
+        <tr>
+          <td align="right" valign="top">单品偏远地区邮费：</td>
+          <td class="sptable">
+          	<span class="tabtxt1 size2">
+            	<input name="productRemotePostCost" type="number" id="" value="$!{productRemotePostCost}" />
+            </span>            
+            <span class="hui2">邮费必须是0.01~1000000之间的数字</span>
+          </td>          
+        </tr>
+        
+       <tr>
+          <td align="right" valign="top">运费方案：</td>
+          <td class="sptable"><span class="tabtxt1 size1">
+            <select name="regionClassId" id="regionClassId">
+<!--             	<option>选择方案</option> -->
+            	#foreach($obj2 in $regionClassList)
+            	<option value="$obj2.id"  #if($!{obj2.id} == $!{entry.regionClass.id}) selected = "selected" #end>$obj2.name</option>
+            	#end
+            </select>
+        </tr>
+        
+        <tr>
+          <td align="right" valign="top">商品类型：</td>
+          <td class="sptable"><label>
+              <input name="isVirtual" type="radio" value="1" #if($!{entry.isVirtual}=="true")checked="checked"#end #if(!$entry)checked="checked"#end>
+              实物商品 </label>
+            <label>
+              <input type="radio" name="isVirtual" value="0" #if($!{entry.isVirtual}=="false")checked="checked"#end>
+              虚拟商品 </label>
+            <span class="hui2">充值卡、消费券等属于虚拟商品</span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">货到付款：</td>
+          <td class="sptable"><label>
+              <input name="isCod" type="radio" value="0" #if($!{entry.isCod}=="false")checked="checked"#end #if(!$entry)checked="checked"#end/>
+              不支持 </label>
+            <label>
+              <input type="radio" name="isCod" value="1" #if($!{entry.isCod}=="true")checked="checked"#end/>
+              支持 </label>
+            <span class="hui2">该商品是否支持货到付款</span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">是否置顶：</td>
+          <td class="sptable"><span class="tabtxt1 size2">
+          	<select name="isTop" id="isTop">
+          		<option value="0" #if($entry.isTop=="false") selected="selected" #end)>不置顶</option>
+          		<option value="1" #if($entry.isTop=="true") selected="selected" #end)>置顶</option>
+          	</select>
+            </span> <span class="hui2">
+            <ul class="tableli">
+              <li>置顶的商品将在首页特别显出</li>
+            </ul>
+            </span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">是否推荐：</td>
+          <td class="sptable"><span class="tabtxt1 size2">
+          	<select name="isRecommend" id="isRecommend">
+          		<option value="0" #if($entry.isRecommend=="false") selected="selected" #end)>不推荐</option>
+          		<option value="1" #if($entry.isRecommend=="true") selected="selected" #end)>推荐</option>
+          	</select>
+            </span> <span class="hui2">
+            <ul class="tableli">
+              <li>推荐的商品将会优先列出</li>
+            </ul>
+            </span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">展示排序：</td>
+          <td class="sptable"><span class="tabtxt1 size2">
+            <input name="sequence" type="text" id="sequence" value="$!{entry.sequence}">
+          </td>
+        </tr>
+		<!-- <tr>
+          <td align="right" valign="top">积分购买：</td>
+          <td class="sptable">
+          <label>
+              <input name="isPointBuy" type="radio" value="1" #if($!{entry.isPointBuy}=="true") checked="checked" #end #if(!$entry)checked="checked"#end/> 是</label>
+            <label>
+              <input type="radio" name="isPointBuy" value="0" #if($!{entry.isPointBuy}=="false") checked="checked" #end />否 </label>
+            <span class="hui2">该商品是否支持积分购买</span></td>
+        </tr> -->
+        <tr>
+          <td align="right" valign="top">购买赠送积分：</td>
+          <td class="sptable">
+				<span class="tabtxt1 size2" id="point">
+		          	<input type="text" name="sendPoints"  id="sendPoints" value="$!{entry.sendPoints}"/>
+	           </span> 
+            
+          </td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">商品库存：</td>
+          <td class="sptable"><span class="tabtxt1 size2">
+            <input name="inventory" type="text" id="inventory" value="$!{entry.inventory}"/>
+            </span> <span class="hui2">
+            <ul class="tableli">
+              <li>商铺库存数量必须为1~1000000000之间的整数</li>
+              <li>若启用了库存配置，则系统自动计算商品的总数，此处无需商家填写</li>
+            </ul>
+            </span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">商品销量：</td>
+          <td class="sptable"><span class="tabtxt1 size2">
+            <input name="saleNum" type="number" id="saleNum" value="$!{entry.saleNum}"/>
+            </span> <span class="hui2">
+            <ul class="tableli">
+              <li>商品销量数量必须为1~1000000000之间的整数</li>
+            </ul>
+            </span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">商品货号：</td>
+          <td class="sptable"><span class="tabtxt1 size2">
+            <input name="code" type="text" id="code" value="$!{entry.code}">
+            </span> <span class="hui2">
+            <ul class="tableli">
+              <li>商品货号是指商家个人管理商品的编号，买家不可见</li>
+              <li>最多可输入20个字符，支持输入中文、字母、数字、_、/、-和小数点</li>
+            </ul>
+            </span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">商品发布：</td>
+          <td class="prorelease"><span>
+            <label>
+              <input name="status" id="status" type="radio" value="1" #if($!{entry.status}=="1")checked="checked"#end #if(!$entry)checked="checked"#end/>
+              &nbsp;立即发布 </label>
+            </span> <span>
+            <label>
+              <input name="status" id="status" type="radio" value="0" #if($!{entry.status}=="0")checked="checked"#end />
+              &nbsp;放入仓库 </label>
+            </span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">简介：</td>
+          <td class="sptable"><span class="texttable">
+            <textarea name="intro" cols="" rows="" id="intro" value="">$!{entry.intro}</textarea>
+            </span> <span class="hui2 noteswidth">简介</span></td>
+        </tr>
+      </tbody></table>
+      <table id="goods_img" style="display:none" width="100%" border="0" cellspacing="0" cellpadding="0" class="tabledetail">
+        <tbody><tr>
+          <td class="tableh1" colspan="2">商品图片</td>
+        </tr>
+        <tr>
+          <td align="right" width="95" valign="top">商品图片：</td>
+          <script>
+		 function photo_switch(clz,obj){
+			 if(clz=="tab_body_b"){
+			 var album_id = jQuery(obj).attr("album_id");
+			 jQuery.post("/admin/goods_img.htm",{"type":"goods_img_album","album_id":album_id},function(text){
+				jQuery(".tab_body_b").empty();
+				jQuery(".tab_body_b").append(text);
+			  },"text");
+			 }
+			 jQuery("."+clz).show();			  
+			}
+			function show_album(clz,obj){
+				 jQuery(".tabbody_ul li").removeClass("this");
+			 	 jQuery(obj).addClass("this");
+				  jQuery("."+clz).show();		
+					}
+		  </script>
+          <td><div class="tab_body">
+              <ul class="tabbody_ul">
+                <li class="this" style="cursor:pointer;" onclick="show_album(&#39;tab_body_a&#39;,this)">上传图片</li>
+              </ul>
+              <div class="tabbodys">
+                <div class="tab_body_b" style="display:none;"> </div>
+                <div class="tab_body_a">
+                  <div class="tabimg">                                         <div class="tabimgbig"><img id="goods_image_0" src="/static/home/shopmanage/images/good.jpg" width="197" height="196"></div>
+                    <div class="tabimgcent">
+                      <div class="tabupload"> <a href="javascript:void(0);"><span id="upload_imgs"></span><img id="upload_wait" style="display:none;" src="/resources/style/common/images/loader.gif" /></a></div>
+                      <div class="tabimgsmall">
+                        <ul>
+                          <li class="tabimgs"><img id="goods_image_1" image_id="" src="/static/home/shopmanage/images/good.jpg" width="73" height="73"></li>
+                          <li class="taboper"><a href="javascript:void(0);" title="左移" onclick="arrow_left(&#39;1&#39;);" class="tableft"><img src="/static/home/shopmanage/images/arrow_left.png" width="16" height="16"></a><a href="javascript:void(0);" title="从服务器删除" onclick="arrow_del(&#39;1&#39;);" class="tabdel"><img src="/static/home/shopmanage/images/arrow_del.gif" width="15" height="13"></a><a href="javascript:void(0);" title="从商品删除" onclick="arrow_remove(&#39;1&#39;);" class="tabdel"><img src="/static/home/shopmanage/images/arrow_remove.gif" width="15" height="13"></a><a href="javascript:void(0);" title="右移" onclick="arrow_right(&#39;1&#39;);" class="tabright"><img src="/static/home/shopmanage/images/arrow_right.png" width="16" height="16"></a></li>
+                        </ul>
+                                                                        <ul>
+                          <li class="tabimgs"><img id="goods_image_2" image_id="" src="/static/home/shopmanage/images/good.jpg" width="73" height="73"></li>
+                          <li class="taboper"><a href="javascript:void(0);" title="左移" onclick="arrow_left(&#39;2&#39;);" class="tableft"><img src="/static/home/shopmanage/images/arrow_left.png" width="16" height="16"></a><a href="javascript:void(0);" title="从服务器删除" onclick="arrow_del(&#39;2&#39;);" class="tabdel"><img src="/static/home/shopmanage/images/arrow_del.gif" width="15" height="13"></a><a href="javascript:void(0);" title="从商品删除" onclick="arrow_remove(&#39;2&#39;);" class="tabdel"><img src="/static/home/shopmanage/images/arrow_remove.gif" width="15" height="13"></a><a href="javascript:void(0);" title="右移" onclick="arrow_right(&#39;2&#39;);" class="tabright"><img src="/static/home/shopmanage/images/arrow_right.png" width="16" height="16"></a></li>
+                        </ul>
+                        <ul>
+                          <li class="tabimgs"><img id="goods_image_3" image_id="" src="/static/home/shopmanage/images/good.jpg" width="73" height="73"></li>
+                          <li class="taboper"><a href="javascript:void(0);" title="左移" onclick="arrow_left(&#39;3&#39;);" class="tableft"><img src="/static/home/shopmanage/images/arrow_left.png" width="16" height="16"></a><a href="javascript:void(0);" title="从服务器删除" onclick="arrow_del(&#39;3&#39;);" class="tabdel"><img src="/static/home/shopmanage/images/arrow_del.gif" width="15" height="13"></a><a href="javascript:void(0);" title="从商品删除" onclick="arrow_remove(&#39;3&#39;);" class="tabdel"><img src="/static/home/shopmanage/images/arrow_remove.gif" width="15" height="13"></a><a href="javascript:void(0);" title="右移" onclick="arrow_right(&#39;3&#39;);" class="tabright"><img src="/static/home/shopmanage/images/arrow_right.png" width="16" height="16"></a></li>
+                        </ul>
+                        <ul>
+                          <li class="tabimgs"><img id="goods_image_4" image_id="" src="/static/home/shopmanage/images/good.jpg" width="73" height="73"></li>
+                          <li class="taboper"><a href="javascript:void(0);" title="左移" onclick="arrow_left(&#39;4&#39;);" class="tableft"><img src="/static/home/shopmanage/images/arrow_left.png" width="16" height="16"></a><a href="javascript:void(0);" title="从服务器删除" onclick="arrow_del(&#39;4&#39;);" class="tabdel"><img src="/static/home/shopmanage/images/arrow_del.gif" width="15" height="13"></a><a href="javascript:void(0);" title="从商品删除" onclick="arrow_remove(&#39;4&#39;);" class="tabdel"><img src="/static/home/shopmanage/images/arrow_remove.gif" width="15" height="13"></a><a href="javascript:void(0);" title="右移" onclick="arrow_right(&#39;4&#39;);" class="tabright"><img src="/static/home/shopmanage/images/arrow_right.png" width="16" height="16"></a></li>
+                        </ul>
+                        <ul>
+                          <li class="tabimgs"><img id="goods_image_5" image_id="" src="/static/home/shopmanage/images/good.jpg" width="73" height="73"></li>
+                          <li class="taboper"><a href="javascript:void(0);" title="左移" onclick="arrow_left(&#39;5&#39;);" class="tableft"><img src="/static/home/shopmanage/images/arrow_left.png" width="16" height="16"></a><a href="javascript:void(0);" title="从服务器删除" onclick="arrow_del(&#39;5&#39;);" class="tabdel"><img src="/static/home/shopmanage/images/arrow_del.gif" width="15" height="13"></a><a href="javascript:void(0);" title="从商品删除" onclick="arrow_remove(&#39;5&#39;);" class="tabdel"><img src="/static/home/shopmanage/images/arrow_remove.gif" width="15" height="13"></a><a href="javascript:void(0);" title="右移" onclick="arrow_right(&#39;5&#39;);" class="tabright"><img src="/static/home/shopmanage/images/arrow_right.png" width="16" height="16"></a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="tabshowimg"> <img src="/static/home/shopmanage/images/thumb.jpg" width="170" height="192"></div>
+                  </div>
+                  <div class="warning">
+                    <h2>最多可发布5张商品图片</h2>
+                    <ul>
+                      <li>支持多图片同时选取上传。支持格式上传，建议选择尺寸300x300以上、大小2M内的图片。</li>
+                      <li>图空间剩余:<span style="color:#FF0000;" id="img_remain_size">空间不限制大小</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div></td>
+        </tr>
+<!-- 		<tr>
+          <td align="right" valign="top">PC首页展示图：</td>
+          <td>
+        	<span>
+          		<input name="pcImgPath" type="file" id="pcImgPath">
+        	</span>
+        	<span id="nothis">      	
+        		<img id="pcImgPath2" src="$!{entry.pcImgPath}"></img>
+        		<a href="javascript:sczp($!{entry.id},'$!{entry.pcImgPath}')" style="color: red;">删除此照片</a>       		
+        	</span>
+      	</ul>
+        </td>
+        </tr> -->
+          <tr>
+          <td align="right" valign="top">展示视频：</td>
+          <td>
+        	<span>
+          		<input name="videoPath" type="file" id="videoPath">
+        	</span>
+        	#if($!{entry.videoPath})
+        	<span id="nothis">      	
+        		<video id="videoPath2" src="$!{entry.videoPath}" controls="controls" width="50%">您的浏览器不支持 video 标签。</video>
+        		<a href="javascript:scsp($!{entry.id},'$!{entry.videoPath}')" style="color: red;">删除此视频</a>       		
+        	</span>
+        	#end
+        	<span>
+               <ul>
+                 <li>视频时长不做限定，大小应在50M以内</li>
+                 <li>支持的视频格式为：wav;rm;rmvb;mpg;mpeg;asf;avi;swf;wmv;mp4;avi;flv;</li>
+               </ul>
+            </span>
+        </td>
+        </tr>
+      </tbody></table>
+      <table id="goods_description" style="display:none" width="100%" border="0" cellspacing="0" cellpadding="0" class="tabledetail">
+        <tbody><tr>
+          <td colspan="2" class="tableh1">详情描述</td>
+        </tr>
+                <tr>
+          <td align="right" valign="top" style="width:95px;">商品描述： </td>
+          <td id="detail_td_web"><div style="width:861px; float:left;">
+              <div class="detail_td_web_nav">
+                <div class="addphoto_c"><a id="detail_web" class="this" href="javascript:void(0);">电脑端</a></div>
+              </div>
+              <div id="goods_details_div_web" class="addphoto_c_textarea">
+                <textarea name="goods_details" style="width:100%;height:400px;visibility:hidden;" id="goods_details_web"></textarea>
+              </div>
+              
+            </div>
+            </td>
+        </tr>
+      </tbody></table>
+      <table id="goods_pack" style="display:none;" width="100%" border="0" cellspacing="0" cellpadding="0" class="tabledetail">
+        <tbody><tr>
+          <td colspan="2" class="tableh1">包装清单</td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">清单详情：</td>
+          <td><textarea name="pack_details" cols="140" rows="10" style="resize:none" id="pack_details"></textarea></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">售后保障：</td>
+          <td><textarea name="goods_service" cols="140" rows="10" style="resize:none" id="goods_service"></textarea></td>
+        </tr>
+      </tbody></table>
+      <table id="goods_attribute" style="display:none" width="100%" border="0" cellspacing="0" cellpadding="0" class="tabledetail">
+        <tbody>
+        <tr>
+          <td colspan="2" class="tableh1">商品属性</td>
+        </tr>
+        #foreach($obj in $attrs)
+        <tr>
+          <td align="right" valign="top">$obj.name：</td>
+          <td class="sptable"><span class="tabtxt1 size2">
+          <select name="attr_${obj.id}" id="attr_${obj.id}" style="width: 500px;">
+          	#set($num=1)
+          	#foreach($obj2 in $obj.value.split(","))
+          		<option value="$num">$obj2</option>
+          	#set($num=$num+1)
+          	#end
+          </select>
+          </td>
+        </tr>
+        #end
+      </tbody></table>
+      <table id="goods_canshu" style="display:none;" width="100%" border="0" cellspacing="0" cellpadding="0" class="tabledetail">
+        <tbody>
+        <tr>
+          <td colspan="2" class="tableh1">商品参数</td>
+        </tr>
+        #foreach($obj in $canshus)
+        <tr>
+          <td align="right" valign="top">$obj.name：</td>
+          <td class="sptable"><span class="tabtxt1 size2">
+          #if($obj.type_2=="4")
+          <select name="canshu_${obj.id}" id="canshu_${obj.id}" style="width: 500px;">
+          	#set($num=1)
+          	#foreach($obj2 in $obj.value.split(","))
+          		<option value="$num">$obj2</option>
+          	#set($num=$num+1)
+          	#end
+          #else
+          	<input name="canshu_${obj.id}" type="text" id="canshu_${obj.id}" value="" style="width: 500px;"/>
+          #end
+          </select>
+          </td>
+        </tr>
+        #end
+      </tbody></table>
+      <!-- <table id="goods_guig" style="display:none;" width="100%" border="0" cellspacing="0" cellpadding="0" class="tabledetail">
+        <tbody>
+        <tr>
+          <td colspan="2" class="tableh1">商品规格</td>
+        </tr>
+        #foreach($obj in $guigs)
+        <input type="hidden" name="guig_${obj.id}" id="guig_${obj.id}"/>
+        <tr>
+          <td align="right" valign="top">$obj.name：</td>
+          <td class="sptable">
+          #set($num=1)
+          #foreach($obj2 in $obj.value.split(","))
+          <label><input type="checkbox" id="guig_${obj.id}_$num" value="$num">$obj2 </label>
+          #set($num=$num+1)
+          #end
+            </td>
+        </tr>
+        #end
+      </tbody></table> -->
+      
+      #parse("/shopmanage/product/ShopProduct/addSpecPanel.html")
+      
+      <table id="goods_guig" style="display:none;" width="100%" border="0" cellspacing="0" cellpadding="0" class="tabledetail">
+      	<input type="hidden" id="guige_num" name="guige_num" value=""/>
+        <tbody id="gg_tbody">
+        <tr>
+          <td colspan="10" class="tableh1">商品规格</td>
+        </tr>
+        <tr>
+            <!-- <td colspan="10"><span class="newclass"><a href="javascript:void(0);" onclick="addGg();">新增一个规格</a></span></td> -->
+            <td colspan="10"><span class="newclass"><a href="javascript:void(0);" onclick="showAddSpec();">新增规格</a></span></td>
+          </tr>
+<!--         <tr>
+        
+        #set($num=0)
+        #foreach($obj in $guigs)
+        <td width="60px" id="gg_name_$num">$obj.name</td>
+        <td>
+        <select id="goods_gg_$num">
+        	<option value="">请选择</option>
+	        #foreach($obj2 in $obj.value.split(","))
+	        	<option value="$obj2">$obj2</option>
+	        #end
+        </select>
+        </td>
+        #set($num=$num+1)
+        #end
+        </tr> -->
+        
+        #set($ggname="")
+        #foreach($obj in $guigs)
+        	#set($ggname=$ggname+$obj.name+",")
+        #end
+        
+        #set($pgg=0)
+        #foreach($obj in $shopSpecList)
+       	<tr id="uppp_gg_$pgg">
+       		<td>$ggname</td>
+			<td>
+			<input id='uppgg_uname_$pgg' name='uppgg_name_$pgg' value='$obj.name' readonly="readonly"/>
+			<input type="hidden" id='uppgg_id_$pgg' name='uppgg_id_$pgg' value='$obj.id'/>
+			</td>
+			<td>库存</td>
+			<td><input id='uppgg_uinventory_$pgg' name='uppgg_inventory_$pgg' value='$!obj.inventory' type="number" required='required'/></td>
+			<td>成本价格</td>
+			<td><input id='uppgg_costAmt_$pgg' name='uppgg_costAmt_$pgg' value='$!obj.costAmt' type="number" required='required'/></td>
+			<td>体验店价格</td>
+			<td><input id='uppgg_tydAmt_$pgg' name='uppgg_tydAmt_$pgg' value='$!obj.tydAmt' type="number" required='required'/></td>
+			<td>微店价格</td>
+			<td><input id='uppgg_store_price_$pgg' name='uppgg_store_price_$pgg' value='$!obj.store_price' type="number" required='required'/></td>
+			<td>零售价格</td>
+			<td><input id='uppgg_amt_$pgg' name='uppgg_amt_$pgg' value='$!obj.amt' type="number" required='required' /></td>
+			<td>货号</td>
+			<td><input id='uppgg_code_$pgg' name='uppgg_code_$pgg' value='$!obj.code' required='required'/></td>
+			<td><a href='javascript:void(0);' onclick="upd_delGg($obj.id,$pgg)" class='blue' style='cursor: pointer;'>删除</a></td>
+       	</tr>
+       	#set($pgg=$pgg+1)
+        #end
+      </tbody>
+      </table>
+      
+      <span class="submittable" style="margin-left:125px; margin-top:20px; float:left">
+      <input id="submitButton" name="" type="button" value="提交" onclick="saveForm();"/>
+      <input name="goods_session" type="hidden" id="goods_session" value=""/>
+      <input type="hidden" id='upp_guige_num' name='upp_guige_num' value='$!pgg'/>
+      </span>
+    </form>
+  </div>
+</div>
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
+	
+	<script>
+	var count=0;
+	var num=0;
+		function addGg(){
+			var k="";
+			var v="";
+			for(var i=0;i<$num;i++){
+		       k+=$("#gg_name_"+i).text()+","
+		       if($("#goods_gg_"+i+" option:selected").val()!=""){
+		    	   v+=$("#goods_gg_"+i+" option:selected").val()+","
+		       }
+			}
+			if(v==""){
+				alert("请最少选择一个规格");
+				return;
+			}
+			var k_=k.substring(0,k.toString().length-1);
+			var v_=v.substring(0,v.toString().length-1);
+			var gg="<tr id='p_gg_"+count+"'>";
+			gg+="<td>"+k_+"</td>";
+			gg+="<td><input id='gg_name_"+count+"' name='gg_name_"+count+"' value='"+v_+"'/></td>";
+			for(var i=1;i<7;i++){
+				if(i==1){
+					gg+="<td>库存</td>";
+					gg+="<td><input id='gg_inventory_"+count+"' name='gg_inventory_"+count+"' value='' type='number' required='required' /></td>";
+				}else if(i==2){
+					gg+="<td>成本价格</td>";
+					gg+="<td><input id='gg_costAmt_"+count+"' name='gg_costAmt_"+count+"' value='' type='number' required='required' /></td>";
+				}else if(i==3){
+					gg+="<td>体验店价格</td>";
+					gg+="<td><input id='gg_tydAmt_"+count+"' name='gg_tydAmt_"+count+"' value='' type='number' required='required' /></td>";
+				}else if(i==4){
+					gg+="<td>微店价格</td>";
+					gg+="<td><input id='gg_store_price_"+count+"' name='gg_store_price_"+count+"' value='' type='number' required='required' /></td>";
+				}else if(i==5){
+					gg+="<td>零售价格</td>";
+					gg+="<td><input id='gg_amt_"+count+"' name='gg_amt_"+count+"' value='' type='number' required='required' /></td>";
+				}else if(i==6){
+					gg+="<td>货号</td>";
+					gg+="<td><input id='gg_code_"+count+"' name='gg_code_"+count+"' value='' required='required' /></td>";
+				}
+			}
+			gg+="<td><a href='javascript:void(0);' onclick='delGg("+count+")' class='blue' style='cursor: pointer;'>删除</a></td>";
+			gg+="</tr>";
+			$("#gg_tbody").append(gg)
+			count++;
+			//num++;
+			$("#guige_num").val(count)
+		}
+		
+		function StringBuffer () {
+			  this._strings_ = new Array();
+			}
+			StringBuffer.prototype.append = function(str) {
+			  this._strings_.push(str);
+			};
+			StringBuffer.prototype.toString = function() {
+			  return this._strings_.join("");
+		};
+		
+		function delGg(n){
+			$("#p_gg_"+n).remove();
+			//num--;
+			//$("#guige_num").val(num)
+		}
+		
+		function upd_delGg(id,n){
+			$.ajax({
+		        type: "post",
+		        url: "/shopProduct.java?cmd=delGuiGe",
+		        dataType: "json",
+		        data: "ggId="+id,
+		        success: function(data) {
+		            var datajson = eval(data);
+		            console.dir(datajson)
+		            if (data.success) {
+		                alert("删除成功");
+		                var c=$("#upp_guige_num").val();
+		                $("#upp_guige_num").val(c-1);
+		                $("#uppp_gg_"+n).remove();
+		            } else {
+		                alert("删除失败");
+		            }
+
+		        },
+		        error: function(XMLHttpRequest, textStatus, errorThrown) {
+		            alert("没找到");
+		        }
+		    });
+		}
+		
+		function sczp(id,pcImgPath){
+			$.ajax({
+		        type: "post",
+		        url: "/shopProduct.java?cmd=delPcProPic&date="+new Date().getTime(),
+		        dataType: "json",
+		        data: "id="+id+"&picPath="+pcImgPath,
+		        success: function(data) {
+		            if (data.success) {
+		                alert("删除成功");
+		                $("#pcImgPath2").attr("src","");
+		            } else {
+		                alert("删除失败");
+		            }
+		        },
+		        error: function(XMLHttpRequest, textStatus, errorThrown) {
+		            alert("没找到");
+		        }
+		    });
+		}
+		//删除视频
+		function scsp(id,videoPath){
+			$.ajax({
+		        type: "post",
+		        url: "/shopProduct.java?cmd=delVideo&date="+new Date().getTime(),
+		        dataType: "json",
+		        data: "id="+id+"&videoPath="+videoPath,
+		        success: function(data) {
+		            if (data.success) {
+		                alert("删除成功");
+		                $("#videoPath2").attr("src","");
+		            } else {
+		                alert("删除失败");
+		            }
+		        },
+		        error: function(XMLHttpRequest, textStatus, errorThrown) {
+		            alert("没找到");
+		        }
+		    });
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+ <div class="nav_left"> 
+   <h2><a href="/goShop.java?cmd=allPType"><span>全部分类<em><img src="/static/home/pcbcd/images/nav_top.gif" width="7" height="4" /></em></span></a> </h2> 
+   <div class="other_menu" style="" id="other_menu"> 
+    <div class="left_menu" id="left_menu">
+    #set($numdouble=0)
+    #set($num=1)
+    #foreach($obj in $!{su.getPtypeQuery().setNum(-1).setLevel(1).list()})
+    #if($num>8)
+    <dl #if($numdouble==0) class="left_menu_dl" #else class="left_menu_dl double" #end child_count="3" gc_color="#E60012" id="$!{obj.id}" dlys="1" style="position:relative; height:61px;display: none;" data-sequence="$num"> 
+    #else
+    <dl #if($numdouble==0) class="left_menu_dl" #else class="left_menu_dl double" #end child_count="3" gc_color="#E60012" id="$!{obj.id}" dlys="1" style="position:relative; height:61px; " data-sequence="$num"> 
+    #end
+      <!--left_menu_this经过状态，和left_menu_dt不经状态过交换--> 
+      <!-- 鼠标经过父级时添加style="border:1px solid #F00; border-left:3px solid #F00;"添加底层颜色--> 
+      <dt class="left_menu_dt" id="dts_$!{obj.id}">
+       <i class="left_menu_i"><img src="$!{obj.imgPath}" width="16" height="16" /></i>
+       <strong class="left_menu_str"><a href="/goShop.java?cmd=queryPro&pid=$!{obj.id}">$!{obj.name}</a></strong>
+       
+       <b class="left_menu_str_b"> 
+       #foreach($obj2 in $su.getPtypeQuery().setAncestor($obj).setNum(-1).setIsRecommend(true).list())
+       	<a href="/goShop.java?cmd=queryPro&pid=$!{obj2.id}">$!{obj2.name}</a>
+       #end
+       </b>
+      </dt> 
+      <dd class="left_menu_dd" style="display:none" id="child_$!{obj.id}"> 
+       <!--存在广告时left_menu_con this   鼠标经过父级时添加style="border:1px solid #F00; border-left:3px solid #F00;"添加底层颜色--> 
+       <div class="left_menu_con  this " id="left_menu_con_$!{obj.id}"> 
+        <div class="menu_con_right_top"> 
+         <dl> 
+          <dt> 
+          #foreach($obj3 in $obj.getAllBrands())
+          <span><a href="/goShop.java?cmd=toBrand&id=$!{obj3.id}">$!{obj3.name}</a></span> 
+          #end
+           <!-- <span><a href="#">中国盲文出版社</a></span> --> 
+          </dt> 
+         </dl> 
+        </div> 
+        <span class="left_menu_sp"> 
+         <div class="left_menu_con_center">
+         	#foreach($obj4 in $su.getPtypeQuery().setAncestor($obj).setIsChildren(true).setNum(-1).list())
+          <div class="left_menu_con_center_left"> 
+           <dl>
+           
+            <dt>
+             <a href="/goShop.java?cmd=queryPro&pid=$!{obj4.id}">$obj4.name</a>
+            </dt> 
+            #foreach($obj5 in $su.getPtypeQuery().setAncestor($obj4).setIsChildren(true).setNum(-1).list())
+            <dd>
+             <a href="/goShop.java?cmd=queryPro&pid=$!{obj5.id}">$obj5.name</a>
+            </dd> 
+            #end 
+           </dl> 
+          </div>
+          #end
+         </div> 
+         <!-- <div class="right_menu_con_right_img"> 
+          <a href=""><img src="$!{obj.advImg}" /></a> 
+         </div> --> </span> 
+       </div> 
+      </dd> 
+     </dl>
+     #if($numdouble==1)
+     #set($numdouble=0)
+     #else
+     #set($numdouble=1)
+     #end
+     #set($num=$num+1)
+    #end
+    
+     <dl class="left_menu_dl2" child_count="0" gc_color="#E60012" id="" style="position:relative; background-color:transparent; height:18px; opacity:.5;"> 
+      <dt class="left_menu_dt2" id="" style="left:64px; height:18px; width:50px; background-color:#EDEBF1;" onclick="zkyc();"> 
+       <i class="left_menu_i" style="top:5px; left:13px;"> <img id="jt" src="/static/home/pcbcd/images/arrow_01.png" style="width:25px; height:10px;" /></i> 
+      </dt> 
+     </dl> 
+    </div> 
+   </div> 
+  </div>
+  <script type="text/javascript">
+/* 	jQuery(".left_menu_dl2").click(function(){
+		var imgsrc=jQuery("#jt").attr("src");
+		if(imgsrc=="/static/home/pcbcd/images/arrow_01.png"){
+			jQuery("#left_menu>dl:gt(8)").show();
+			jQuery("#jt").attr("src","/static/home/pcbcd/images/arrow_02.png");
+		}else{
+			jQuery("#jt").attr("src","/static/home/pcbcd/images/arrow_01.png");
+			jQuery("#left_menu>dl:gt(8)").hide();
+			jQuery("#left_menu>dl:last").show();
+		}
+	}) */
+	jQuery("#other_menu").mouseout(function(){
+		jQuery("#jt").attr("src","/static/home/pcbcd/images/arrow_01.png");
+		jQuery("#left_menu>dl:gt(7)").hide();
+		jQuery("#left_menu>dl:last").show();
+	})
+	jQuery("#other_menu").mouseover(function(){
+		jQuery("#left_menu>dl:gt(7)").show();
+		jQuery("#jt").attr("src","/static/home/pcbcd/images/arrow_02.png");
+	})
+</script>
+<style>
+.left_menu_con.this{
+	width: 730px;
+}
+</style>

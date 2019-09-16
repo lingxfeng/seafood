@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <meta charset="utf-8">
+    <!-- 引入 ECharts 文件 -->
+    <script src="/static/home/echart/www/js/echarts.min.js"></script>
+    <script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+    <link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+/** 重置浏览器默认标签样式 */
+body,ul,li{margin:0;padding:0;}
+.xttblog{
+	width: 1200px;
+	height: 170px;
+	margin-top:20px;
+	
+	margin-left: auto;
+	margin-right: auto;
+}
+.box{margin-left: 5px;margin-top: 5px;list-style-type:none;}
+.box:after{
+	content: ".";
+	display: block;
+	line-height: 0;
+	width:0;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+	overflow: hidden;
+}
+.box li{float:left;line-height: 0px;}
+.box li a,.box li a:visited{
+	display:block;
+	border: 1px solid #ccc;
+	width: 400px;
+	height: 300px;
+	text-align: center;
+	margin-left: -5px;
+	margin-top: -5px;
+	margin-bottom:20px;
+	position: relative;
+	z-index: 1;
+}
+.box li a:hover{border-color: #f00;z-index: 2;}
+</style>
+</head>
+<body>
+	<div class="cont">
+  <h1 class="seth">网站浏览量统计</h1>
+  <div class="system_top">
+    <div class="wela">
+      <h2>IP统计<span style="float:right;">共计&nbsp;<b style="color:red;font-weight:bold;">$!ipall</b>&nbsp;&nbsp;</span></h2>
+      <ul>
+        <li><a href="#"><em>当日访问量</em><i><b class="wela_bg_yellow">$!ipcurrentday</b></i></a></li>
+        <li><a href="#"><em>当月访问量</em><i><b class="wela_bg_red">$!ipcurrentmonth</b></i></a></li>
+        <li><a href="#"><em>当年访问量</em><i><b class="wela_bg_blue">$!ipcurrentyear</b></i></a></li>
+      </ul>
+    </div>
+    <div class="wela">
+      <h2>PV统计<span style="float:right;">共计&nbsp;<b style="color:red;font-weight:bold;">$!pvall</b>&nbsp;&nbsp;</span></h2>
+      <ul>
+        <li><a href="#"><em>当日访问量</em><i><b class="wela_bg_yellow">$!pvcurrentday</b></i></a></li>
+        <li><a href="#"><em>当月访问量</em><i><b class="wela_bg_red">$!pvcurrentmonth</b></i></a></li>
+        <li><a href="#"><em>当年访问量</em><i><b class="wela_bg_blue">$!pvcurrentyear</b></i></a></li>
+      </ul>
+    </div>
+    <div class="wela">
+      <h2>会员统计<span style="float:right;">共计&nbsp;<b style="color:red;font-weight:bold;">$!memberall</b>&nbsp;&nbsp;</span></h2>
+      <ul>
+        <li><a href="#"><em>当日访问量</em><i><b class="wela_bg_yellow">$!membercurrentday</b></i></a></li>
+        <li><a href="#"><em>当月访问量</em><i><b class="wela_bg_red">$!membercurrentmonth</b></i></a></li>
+        <li><a href="#"><em>当年访问量</em><i><b class="wela_bg_blue">$!membercurrentyear</b></i></a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="xttblog">
+	<ul class="box">
+		<li><a ><span id="main" style="width: 380px;height:250px;"></span></a></li>
+		<li><a ><span id="main4" style="width: 380px;height:250px;"></span></a></li>
+		<li><a ><span id="main7" style="width: 380px;height:250px;"></span></a></li>
+		<li><a ><span id="main2" style="width: 380px;height:250px;"></span></a></li>
+		<li><a ><span id="main5" style="width: 380px;height:250px;"></span></a></li>
+		<li><a ><span id="main8" style="width: 380px;height:250px;"></span></a></li>
+		<li><a ><span id="main3" style="width: 380px;height:250px;"></span></a></li>
+		<li><a ><span id="main6" style="width: 380px;height:250px;"></span></a></li>
+		<li><a ><span id="main9" style="width: 380px;height:250px;"></span></a></li>
+	</ul>
+</div>
+  
+  <div class="system_info">
+    <h3></h3>
+    <!-- <div class="system_info_box"> <span><strong>服务器操作系统：$!system001</strong></span> <span><strong>Web服务器：Apache Tomcat/8.0.37</strong></span> <span><strong>JAVA版本：$!javaVer </strong></span> <span><strong>数据库版本信息：MySQL 5.1.73</strong></span> <span><strong>海鲜之家商城版本号：1.0</strong></span> <span><strong>安装日期：2015-03-17 14:04:51</strong></span> </div> -->
+  </div>
+</div>
+	
+	
+	
+	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <!-- <div id="main" style="width: 600px;height:300px;"></div>
+    <div id="main2" style="width: 600px;height:300px;"></div>
+    <div id="main3" style="width: 600px;height:300px;"></div> -->
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        var myChart2 = echarts.init(document.getElementById('main2'));
+        var myChart3 = echarts.init(document.getElementById('main3'));
+        var myChart4 = echarts.init(document.getElementById('main4'));
+        var myChart5 = echarts.init(document.getElementById('main5'));
+        var myChart6 = echarts.init(document.getElementById('main6'));
+        var myChart7 = echarts.init(document.getElementById('main7'));
+        var myChart8 = echarts.init(document.getElementById('main8'));
+        var myChart9 = echarts.init(document.getElementById('main9'));
+        
+		$(function () {
+			var keystrday = [$!keystrday];
+	    	var valstrdayip = [$!valstrdayip];
+	    	var valstrdaypv = [$!valstrdaypv];
+	    	var valstrdaymember = [$!valstrdaymember];
+
+			var dataipmonth = $!monthip
+			var dataipyear = $!yearip
+			
+			var datapvmonth = $!monthpv
+			var datapvyear = $!yearpv
+
+			var datamembermonth = $!monthmember
+			var datamemberyear = $!yearmember
+            myChart.setOption(option = {
+                title: {
+                    text: '每日IP访问量统计'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                xAxis: {
+                    data: keystrday
+                },
+                yAxis: {
+                    splitLine: {
+                        show: false
+                    }
+                },
+                toolbox: {
+                    left: 'center',
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                dataZoom: [{
+                    startValue: '2014-06-01'
+                }, {
+                    type: 'inside'
+                }],
+                visualMap: {
+                    top: 10,
+                    right: 10,
+                    pieces: [{
+                        gt: 0,
+                        lte: 50,
+                        color: '#096'
+                    }, {
+                        gt: 50,
+                        lte: 100,
+                        color: '#ffde33'
+                    }, {
+                        gt: 100,
+                        lte: 150,
+                        color: '#ff9933'
+                    }, {
+                        gt: 150,
+                        lte: 200,
+                        color: '#cc0033'
+                    }, {
+                        gt: 200,
+                        lte: 300,
+                        color: '#660099'
+                    }, {
+                        gt: 300,
+                        color: '#7e0023'
+                    }],
+                    outOfRange: {
+                        color: '#999'
+                    }
+                },
+                series: {
+                    name: '点击量',
+                    type: 'line',
+                    data: valstrdayip,
+                    markLine: {
+                        silent: true,
+                        data: [{
+                            yAxis: 50
+                        }, {
+                            yAxis: 100
+                        }, {
+                            yAxis: 150
+                        }, {
+                            yAxis: 200
+                        }, {
+                            yAxis: 300
+                        }]
+                    }
+                }
+            });
+			
+
+			 
+			 myChart2.setOption(option = {
+ 				    tooltip: {
+ 				        trigger: 'axis',
+ 				        position: function (pt) {
+ 				            return [pt[0], '50%'];
+ 				        }
+ 				    },
+ 				    title: {
+ 				        left: 'center',
+ 				        text: 'IP月度统计',
+ 				    },
+ 				    toolbox: {
+		                    left: 'right',
+		                    feature: {
+		                        saveAsImage: {}
+		                    }
+		                },
+ 				    xAxis: {
+ 				        type: 'category',
+ 				        boundaryGap: false,
+ 				        data: dataipmonth.map(function (item) {
+ 	                        return item[0];
+ 	                    })
+ 				    },
+ 				    yAxis: {
+ 				        type: 'value',
+ 				        boundaryGap: [0, '100%']
+ 				    },
+ 				    dataZoom: [{
+ 				        type: 'inside'
+ 				    }, {
+ 				        start: 0,
+ 				        end: 10,
+ 				        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+ 				        handleSize: '80%',
+ 				        handleStyle: {
+ 				            color: '#fff',
+ 				            shadowBlur: 3,
+ 				            shadowColor: 'rgba(0, 0, 0, 0.6)',
+ 				            shadowOffsetX: 2,
+ 				            shadowOffsetY: 2
+ 				        }
+ 				    }],
+ 				    series: [
+ 				        {
+ 				            name:'访问量',
+ 				            type:'line',
+ 				            smooth:true,
+ 				            symbol: 'none',
+ 				            sampling: 'average',
+ 				            itemStyle: {
+ 				                normal: {
+ 				                    color: 'rgb(255, 70, 131)'
+ 				                }
+ 				            },
+ 				            areaStyle: {
+ 				                normal: {
+ 				                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+ 				                        offset: 0,
+ 				                        color: 'rgb(255, 158, 68)'
+ 				                    }, {
+ 				                        offset: 1,
+ 				                        color: 'rgb(255, 70, 131)'
+ 				                    }])
+ 				                }
+ 				            },
+ 				            data: dataipmonth.map(function (item) {
+ 		                        return item[1];
+ 		                    })
+ 				        }
+ 				    ]
+ 				});
+			 
+			 myChart3.setOption(option = {
+					    color: ['#3398DB'],
+					    tooltip : {
+					        trigger: 'axis',
+					        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+					            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+					        }
+					    },
+					    toolbox: {
+		                    left: 'right',
+		                    feature: {
+		                        saveAsImage: {}
+		                    }
+		                },
+					    title: {
+					    	left: 'center',
+		                    text: 'IP年度统计'
+		                },
+					    grid: {
+					        left: '3%',
+					        right: '4%',
+					        bottom: '3%',
+					        containLabel: true
+					    },
+					    xAxis : [
+					        {
+					            type : 'category',
+					            data : dataipyear.map(function (item) {
+			                        return item[0];
+			                    }),
+					            axisTick: {
+					                alignWithLabel: true
+					            }
+					        }
+					    ],
+					    yAxis : [
+					        {
+					            type : 'value'
+					        }
+					    ],
+					    series : [
+					        {
+					            name:'访问量',
+					            type:'bar',
+					            barWidth: '60%',
+					            data:dataipyear.map(function (item) {
+			                        return item[1];
+			                    })
+					        }
+					    ]
+					});
+			 
+            myChart4.setOption(option = {
+                    title: {
+                        text: '每日PV访问量统计'
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    xAxis: {
+                        data:keystrday
+                    },
+                    yAxis: {
+                        splitLine: {
+                            show: false
+                        }
+                    },
+                    toolbox: {
+                        left: 'center',
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    dataZoom: [{
+                        startValue: '2014-06-01'
+                    }, {
+                        type: 'inside'
+                    }],
+                    visualMap: {
+                        top: 10,
+                        right: 10,
+                        pieces: [{
+                            gt: 0,
+                            lte: 50,
+                            color: '#096'
+                        }, {
+                            gt: 50,
+                            lte: 100,
+                            color: '#ffde33'
+                        }, {
+                            gt: 100,
+                            lte: 150,
+                            color: '#ff9933'
+                        }, {
+                            gt: 150,
+                            lte: 200,
+                            color: '#cc0033'
+                        }, {
+                            gt: 200,
+                            lte: 300,
+                            color: '#660099'
+                        }, {
+                            gt: 300,
+                            color: '#7e0023'
+                        }],
+                        outOfRange: {
+                            color: '#999'
+                        }
+                    },
+                    series: {
+                        name: '点击量',
+                        type: 'line',
+                        data: valstrdaypv,
+                        markLine: {
+                            silent: true,
+                            data: [{
+                                yAxis: 50
+                            }, {
+                                yAxis: 100
+                            }, {
+                                yAxis: 150
+                            }, {
+                                yAxis: 200
+                            }, {
+                                yAxis: 300
+                            }]
+                        }
+                    }
+                });
+    			
+    			
+    			
+    			 myChart5.setOption(option = {
+    				    tooltip: {
+    				        trigger: 'axis',
+    				        position: function (pt) {
+    				            return [pt[0], '50%'];
+    				        }
+    				    },
+    				    title: {
+    				        left: 'center',
+    				        text: 'PV月度统计',
+    				    },
+    				    toolbox: {
+		                    left: 'right',
+		                    feature: {
+		                        saveAsImage: {}
+		                    }
+		                },
+    				    xAxis: {
+    				        type: 'category',
+    				        boundaryGap: false,
+    				        data: datapvmonth.map(function (item) {
+    	                        return item[0];
+    	                    })
+    				    },
+    				    yAxis: {
+    				        type: 'value',
+    				        boundaryGap: [0, '100%']
+    				    },
+    				    dataZoom: [{
+    				        type: 'inside'
+    				    }, {
+    				        start: 0,
+    				        end: 10,
+    				        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+    				        handleSize: '80%',
+    				        handleStyle: {
+    				            color: '#fff',
+    				            shadowBlur: 3,
+    				            shadowColor: 'rgba(0, 0, 0, 0.6)',
+    				            shadowOffsetX: 2,
+    				            shadowOffsetY: 2
+    				        }
+    				    }],
+    				    series: [
+    				        {
+    				            name:'访问量',
+    				            type:'line',
+    				            smooth:true,
+    				            symbol: 'none',
+    				            sampling: 'average',
+    				            itemStyle: {
+    				                normal: {
+    				                    color: 'rgb(255, 70, 131)'
+    				                }
+    				            },
+    				            areaStyle: {
+    				                normal: {
+    				                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+    				                        offset: 0,
+    				                        color: 'rgb(255, 158, 68)'
+    				                    }, {
+    				                        offset: 1,
+    				                        color: 'rgb(255, 70, 131)'
+    				                    }])
+    				                }
+    				            },
+    				            data: datapvmonth.map(function (item) {
+    		                        return item[1];
+    		                    })
+    				        }
+    				    ]
+    				});
+    			 
+    			 
+    			 myChart6.setOption(option = {
+    					    color: ['#3398DB'],
+    					    tooltip : {
+    					        trigger: 'axis',
+    					        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+    					            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+    					        }
+    					    },
+    					    toolbox: {
+    		                    left: 'right',
+    		                    feature: {
+    		                        saveAsImage: {}
+    		                    }
+    		                },
+    					    title: {
+    					    	left: 'center',
+    		                    text: 'PV年度统计'
+    		                },
+    					    grid: {
+    					        left: '3%',
+    					        right: '4%',
+    					        bottom: '3%',
+    					        containLabel: true
+    					    },
+    					    xAxis : [
+    					        {
+    					            type : 'category',
+    					            data : datapvyear.map(function (item) {
+    			                        return item[0];
+    			                    }),
+    					            axisTick: {
+    					                alignWithLabel: true
+    					            }
+    					        }
+    					    ],
+    					    yAxis : [
+    					        {
+    					            type : 'value'
+    					        }
+    					    ],
+    					    series : [
+    					        {
+    					            name:'访问量',
+    					            type:'bar',
+    					            barWidth: '60%',
+    					            data:datapvyear.map(function (item) {
+    			                        return item[1];
+    			                    })
+    					        }
+    					    ]
+    					});
+	    			 
+   	            myChart7.setOption(option = {
+   	                    title: {
+   	                        text: '每日会员访问量统计'
+   	                    },
+   	                    tooltip: {
+   	                        trigger: 'axis'
+   	                    },
+   	                    xAxis: {
+   	                        data: keystrday
+   	                    },
+   	                    yAxis: {
+   	                        splitLine: {
+   	                            show: false
+   	                        }
+   	                    },
+   	                    toolbox: {
+   	                        left: 'center',
+   	                        feature: {
+   	                            saveAsImage: {}
+   	                        }
+   	                    },
+   	                    dataZoom: [{
+   	                        startValue: '2014-06-01'
+   	                    }, {
+   	                        type: 'inside'
+   	                    }],
+   	                    visualMap: {
+   	                        top: 10,
+   	                        right: 10,
+   	                        pieces: [{
+   	                            gt: 0,
+   	                            lte: 50,
+   	                            color: '#096'
+   	                        }, {
+   	                            gt: 50,
+   	                            lte: 100,
+   	                            color: '#ffde33'
+   	                        }, {
+   	                            gt: 100,
+   	                            lte: 150,
+   	                            color: '#ff9933'
+   	                        }, {
+   	                            gt: 150,
+   	                            lte: 200,
+   	                            color: '#cc0033'
+   	                        }, {
+   	                            gt: 200,
+   	                            lte: 300,
+   	                            color: '#660099'
+   	                        }, {
+   	                            gt: 300,
+   	                            color: '#7e0023'
+   	                        }],
+   	                        outOfRange: {
+   	                            color: '#999'
+   	                        }
+   	                    },
+   	                    series: {
+   	                        name: '点击量',
+   	                        type: 'line',
+   	                        data: valstrdaymember,
+   	                        markLine: {
+   	                            silent: true,
+   	                            data: [{
+   	                                yAxis: 50
+   	                            }, {
+   	                                yAxis: 100
+   	                            }, {
+   	                                yAxis: 150
+   	                            }, {
+   	                                yAxis: 200
+   	                            }, {
+   	                                yAxis: 300
+   	                            }]
+   	                        }
+   	                    }
+   	                });
+   	    			
+   	    			
+   	    			
+   	    			 myChart8.setOption(option = {
+   	    				    tooltip: {
+   	    				        trigger: 'axis',
+   	    				        position: function (pt) {
+   	    				            return [pt[0], '50%'];
+   	    				        }
+   	    				    },
+   	    				    title: {
+   	    				        left: 'center',
+   	    				        text: '会员月度统计',
+   	    				    },
+	   	    				 toolbox: {
+	 		                    left: 'right',
+	 		                    feature: {
+	 		                        saveAsImage: {}
+	 		                    }
+	 		                },
+   	    				    xAxis: {
+   	    				        type: 'category',
+   	    				        boundaryGap: false,
+   	    				        data: datamembermonth.map(function (item) {
+   	    	                        return item[0];
+   	    	                    })
+   	    				    },
+   	    				    yAxis: {
+   	    				        type: 'value',
+   	    				        boundaryGap: [0, '100%']
+   	    				    },
+   	    				    dataZoom: [{
+   	    				        type: 'inside'
+   	    				    }, {
+   	    				        start: 0,
+   	    				        end: 10,
+   	    				        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+   	    				        handleSize: '80%',
+   	    				        handleStyle: {
+   	    				            color: '#fff',
+   	    				            shadowBlur: 3,
+   	    				            shadowColor: 'rgba(0, 0, 0, 0.6)',
+   	    				            shadowOffsetX: 2,
+   	    				            shadowOffsetY: 2
+   	    				        }
+   	    				    }],
+   	    				    series: [
+   	    				        {
+   	    				            name:'访问量',
+   	    				            type:'line',
+   	    				            smooth:true,
+   	    				            symbol: 'none',
+   	    				            sampling: 'average',
+   	    				            itemStyle: {
+   	    				                normal: {
+   	    				                    color: 'rgb(255, 70, 131)'
+   	    				                }
+   	    				            },
+   	    				            areaStyle: {
+   	    				                normal: {
+   	    				                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+   	    				                        offset: 0,
+   	    				                        color: 'rgb(255, 158, 68)'
+   	    				                    }, {
+   	    				                        offset: 1,
+   	    				                        color: 'rgb(255, 70, 131)'
+   	    				                    }])
+   	    				                }
+   	    				            },
+   	    				            data: datamembermonth.map(function (item) {
+   	    		                        return item[1];
+   	    		                    })
+   	    				        }
+   	    				    ]
+   	    				});
+   	    			 
+   	    			 
+   	    			 myChart9.setOption(option = {
+   	    					    color: ['#3398DB'],
+   	    					    tooltip : {
+   	    					        trigger: 'axis',
+   	    					        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+   	    					            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+   	    					        }
+   	    					    },
+   	    					 toolbox: {
+   			                    left: 'right',
+   			                    feature: {
+   			                        saveAsImage: {}
+   			                    }
+   			                },
+   	    					    title: {
+   	    					    	left: 'center',
+   	    		                    text: '会员年度统计'
+   	    		                },
+   	    					    grid: {
+   	    					        left: '3%',
+   	    					        right: '4%',
+   	    					        bottom: '3%',
+   	    					        containLabel: true
+   	    					    },
+   	    					    xAxis : [
+   	    					        {
+   	    					            type : 'category',
+   	    					            data : datamemberyear.map(function (item) {
+   	    			                        return item[0];
+   	    			                    }),
+   	    					            axisTick: {
+   	    					                alignWithLabel: true
+   	    					            }
+   	    					        }
+   	    					    ],
+   	    					    yAxis : [
+   	    					        {
+   	    					            type : 'value'
+   	    					        }
+   	    					    ],
+   	    					    series : [
+   	    					        {
+   	    					            name:'访问量',
+   	    					            type:'bar',
+   	    					            barWidth: '60%',
+   	    					            data:datamemberyear.map(function (item) {
+   	    			                        return item[1];
+   	    			                    })
+   	    					        }
+   	    					    ]
+   	    					}); 
+		});
+    </script>
+</body>
+</html>

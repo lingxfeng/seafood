@@ -1,0 +1,876 @@
+﻿<!DOCTYPE HTML>
+
+<!-- saved from url=(0026)www.baichunda.com/ -->
+
+<HTML><HEAD>
+<META content="IE=11.0000" http-equiv="X-UA-Compatible">
+ 
+<META http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+
+<TITLE>海鲜之家商城</TITLE> 
+<meta name="keywords" content="www.baichunda.com">
+<meta name="description" content="www.baichunda.com">
+<meta name="generator" content="www.baichunda.com">
+<meta name="author" content="www.baichunda.com">
+<meta name="copyright" content="Copyright 2012-2015 海鲜之家商城，All Rights Reserved">
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/index.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet">
+ <link href="/static/home/pcbcd/css/global_site_index_new.css" rel="stylesheet" type="text/css"> 
+<script src="/static/home/pcbcd/js/jquery-1.6.2.js"></script>
+<script src="/static/home/pcbcd/js/jquery.lazyload.js"></script>
+<script src="/static/home/pcbcd/js/jquery.SuperSlide.2.1.1.js"></script>
+<script src="/static/home/pcbcd/js/jquery.shop.common.js"></script>
+<script src="/static/home/pcbcd/js/jquery.validate.min.js"></script>
+<script src="/static/home/pcbcd/js/jquery.iskyshop.validate.js" type="text/javascript"></script>
+
+<script>
+jQuery(document).ready(function(){							
+	
+
+  //鼠标经过楼层标题
+  jQuery(".storey_tab ul li").mouseover(function(){								 
+	jQuery(this).siblings().removeClass("this");
+	jQuery(this).addClass("this");
+	var i = jQuery(this).index();
+	jQuery(this).parent().parent().siblings().not(".hot_sell").hide();
+	jQuery(this).parent().parent().siblings().eq(i).show();
+	
+  });
+  var head_h=jQuery("#head_h").height();
+  jQuery("#head_unbomb").height(head_h);
+  jQuery(window).scroll(function(){
+	  var top = jQuery(document).scrollTop();
+	  //顶部搜索框跟随
+	  if(top==0){
+		  jQuery("#top").attr("style","");
+	  }else{
+		  jQuery("#top").attr("style","position:fixed;top:0px");
+	  }
+	  if(top>head_h){
+		   jQuery("#head_h").addClass("head_fixd");
+	  }else{
+		   jQuery("#head_h").removeClass("head_fixd");
+	  }
+	  //楼层导航跟随
+	  jQuery("li[floor_id^=floor_] b").css("display","block");
+	  jQuery("div[id^=floor_]").each(function(){
+	     var floor_top=jQuery(this).offset().top-top;
+		 if(floor_top<=580&&floor_top>=0){
+		  var floor_id=jQuery(this).attr("id");
+		   jQuery("li[floor_id="+floor_id+"] b").css("display","none");
+		 }
+	  });
+  });	
+  //右上角公告切换
+  	jQuery(".top_mr_tab li").mouseover(function(){
+		jQuery(this).siblings().removeClass("this");
+		jQuery(this).addClass("this");
+		var i = jQuery(this).index();
+		jQuery(".top_mr_box").hide();		
+		jQuery(".top_mr_box").eq(i).show();										
+	});
+  
+  //用户登录、商家入驻tab页切换
+  jQuery("#top_mid_login_tab>li").css("cursor","pointer").mouseover(function(){
+      var id=jQuery(this).attr("id");
+	  jQuery("#top_mid_login_tab>li").removeClass("this");
+	  jQuery(this).addClass("this");
+	  if(id=="top_mid_login_tab_user"){
+	     jQuery("#top_mid_login_tab_seller_info").hide();
+		 jQuery("#top_mid_login_tab_user_info").show();
+	  }
+	  if(id=="top_mid_login_tab_seller"){
+	     jQuery("#top_mid_login_tab_user_info").hide();
+		 jQuery("#top_mid_login_tab_seller_info").show();
+	  }
+  });
+ //
+});
+</script>
+
+</HEAD> 
+<BODY style="background-color: #f5f5f5;">
+
+
+<!--点击收藏-->
+<script type="text/javascript">
+jQuery(document).ready(function(){
+  jQuery(".top_pull").mouseover(function(){
+	jQuery(this).find("div").show();
+	jQuery(this).find("em").addClass("em_this");
+	jQuery(this).find("s").addClass("this");
+  	}).mouseleave(function(){
+    jQuery(this).find("div").hide();
+	jQuery(this).find("em").removeClass("em_this");
+	jQuery(this).find("s").removeClass("this");
+  });					
+								});
+var browserEvent = function (obj, url, title) {
+    var e = window.event || arguments.callee.caller.arguments[0];
+    var B = {
+        IE : /MSIE/.test(window.navigator.userAgent) && !window.opera
+        , FF : /Firefox/.test(window.navigator.userAgent)
+        , OP : !!window.opera
+    };
+    obj.onmousedown = null;
+    if (B.IE) {
+        obj.attachEvent("onmouseup", function () {
+            try {
+                window.external.AddFavorite(url, title);
+                window.event.returnValue = false;
+            } catch (exp) {}
+        });
+    } else {
+        if (B.FF || obj.nodeName.toLowerCase() == "a") {
+            obj.setAttribute("rel", "sidebar"), obj.title = title, obj.href = url;
+        } else if (B.OP) {
+            var a = document.createElement("a");
+            a.rel = "sidebar", a.title = title, a.href = url;
+            obj.parentNode.insertBefore(a, obj);
+            a.appendChild(obj);
+            a = null;
+        }
+    }
+};
+</script>
+<!--top1-->
+<div class="top" id="top" style="">
+  <div class="top_page">
+    
+    
+    #if($!user)
+    	<div class="top_right"><span><a href="/pcShopMemberCenter.java?cmd=toMyUserCenter&status=-1">$!user.name...</a> 您好，欢迎来到$!{sysconfig.siteName}！
+	    <a href="/shopMemberCenter.java?cmd=signOut">退出</a>
+    #else
+    	<div class="top_right"><span> 您好，欢迎来到$!{sysconfig.siteName}！
+	    [<a href="/shopMemberCenter.java?cmd=toLogin">登录商城</a>]
+	    [<a href="/shopMemberCenter.java?cmd=toRegister">免费注册</a>]
+    #end 
+    <!-- <b>|</b> 
+          微信商城
+          <span class="top_pull"> <em class="">客户服务<s class="this"></s></em>
+      <div class="top_this" style="display:none;">
+        <ul class="top_pull_con_style2">
+                  <li><a href="/goShop.java?cmd=sjrz" target="_blank">商家入驻</a></li>
+        </ul>
+      </div>
+      </span> <b>|</b> -->        
+      </div>
+    <span class="top_collect"><a href="javascript:void(0);" onclick="browserEvent(this, &#39;&#39;,&#39;&#39;)">收藏本站</a></span>  <!-- <b class="top_b">|</b> <span class="top_shop"><a href="/goShop.java" target="_blank">商家登录</a></span> -->  </div>
+</div>
+
+<!-- top notice -->
+
+<div style="width: 100%; padding-bottom: 30px; background-color: rgb(249, 249, 249);">
+<!--精选活动 begin --> 
+<div id="chuchuang_banner_top" data-singlemodule="1" data-tpa="YHD_HOME_CHUCHUANG_BANNER" style="margin: auto; width: 100%; height: 40px;text-align:center;">
+#foreach($obj in $NU.getLinkImg("index_gg_hengfu",1))
+<a href="$obj.linkUrl" target="_blank" data-recordTracker="1" data-tc="ad.0.0.17101-28724291.1" data-extTrackUrl="" data-ref="17101_28724291_1" data-advId="17101" data-ajax="0" data-nsf="">
+<img style="border: 0px currentColor; border-image: none; vertical-align: top;" alt="山西年货节" src="$obj.imgPath"  data-advId="17101" data-ajax="0">
+</a>
+#end
+</div>
+</div>
+<!--top2-->
+<div id="head_unbomb" style="height: 300px;"> 
+
+<script src="/static/home/shopmanage/js/jquery.cookie.js"></script>
+<script>
+jQuery(document).ready(function(){
+	search_history_data();
+	var head_h=jQuery("#head_h").height();
+	//搜索框获取焦点
+	jQuery("#keyword").click(function(){
+		var top = jQuery(document).scrollTop();
+		jQuery("div[id^='head_search_goodslist']").hide();
+		if(top>head_h){
+		   jQuery("#head_search_history_up").fadeIn();
+	  	}else{
+		   jQuery("#head_search_history").fadeIn();
+	  	}
+	}).keyup(function(){
+		if(jQuery(this).val()!=''){
+			jQuery("div[id^='head_search_history']").hide();
+		};
+		var keyword = jQuery(this).val();
+		<!--查询分类-->
+		jQuery.post("/goShop.java?cmd=searchProBykey",{"keyword":keyword},function(data){
+	    	if(data){
+				search_goodsclass_initialize();
+				jQuery.each(data.parent_gc,function(index,item){
+					if(index==0){
+						//构造提示框
+						jQuery("#head_search_goodslist>dl>dt>ul").append("<li class='this'><span><a href='/goShop.java?cmd=queryPro&pid="+item.id+"' target='_blank'>"+item.name+"</a></span></li>");
+						var str = "<dd id='head_search_dd_"+item.id+"'><span class='head_search_history_hot' style='margin-bottom:20px; height:25px; line-height:25px;'>"+item.name+"</span><span onclick='search_gc_close()' class='head_search_history_hot' style='margin-bottom:20px; height:25px;float:right; line-height:15px; color:#999;;cursor:pointer'>关闭</span><ul></ul></dd>"
+						jQuery("#head_search_goodslist>dl").append(str);
+						//下方的提示框
+						jQuery("#head_search_goodslist_up>dl>dt>ul").append("<li class='this'><span><a href='/goShop.java?cmd=queryPro&pid="+item.id+"' target='_blank'>"+item.name+"</a></span></li>");
+						str = "<dd id='head_search_up_dd_"+item.id+"'><span class='head_search_history_hot' style='margin-bottom:20px; height:25px; line-height:25px;'>"+item.name+"</span><span onclick='search_gc_close()' class='head_search_history_hot' style='margin-bottom:20px; height:25px;float:right; line-height:15px; color:#999;;cursor:pointer'>关闭</span><ul></ul></dd>"
+						jQuery("#head_search_goodslist_up>dl").append(str);
+					}else{
+						//构造提示框
+						jQuery("#head_search_goodslist>dl>dt>ul").append("<li><span><a href='/goShop.java?cmd=queryPro&pid="+item.id+"' target='_blank'>"+item.name+"</a></span></li>");
+						var str = "<dd id='head_search_dd_"+item.id+"' style='display:none'><span class='head_search_history_hot' style='margin-bottom:20px; height:25px; line-height:25px;'>"+item.name+"</span><span onclick='search_gc_close()' class='head_search_history_hot' style='margin-bottom:20px; height:25px;float:right; line-height:15px; color:#999;;cursor:pointer'>关闭</span><ul></ul></dd>"
+						jQuery("#head_search_goodslist>dl").append(str);
+						//下方的提示框
+						jQuery("#head_search_goodslist_up>dl>dt>ul").append("<li><span><a href='/goShop.java?cmd=queryPro&pid="+item.id+"' target='_blank'>"+item.name+"</a></span></li>");
+						var str = "<dd id='head_search_up_dd_"+item.id+"' style='display:none'><span class='head_search_history_hot' style='margin-bottom:20px; height:25px; line-height:25px;'>"+item.name+"</span><span onclick='search_gc_close()' class='head_search_history_hot' style='margin-bottom:20px; height:25px;float:right; line-height:15px; color:#999;;cursor:pointer'>关闭</span><ul></ul></dd>"
+						jQuery("#head_search_goodslist_up>dl").append(str);
+					}
+				})
+				jQuery.each(data.list_child,function(index,childs){
+						jQuery.each(childs,function(i,child){
+							jQuery("#head_search_goodslist>dl>dd").eq(index).find("ul").append("<li><a href='/goShop.java?cmd=productDetail&id="+child.id+"' target='_blank'>"+child.name+"</a></li>");
+							jQuery("#head_search_goodslist_up>dl>dd").eq(index).find("ul").append("<li><a href='/goShop.java?cmd=productDetail&id="+child.id+"' target='_blank'>"+child.name+"</a></li>");
+						})
+				})
+				var top = jQuery(document).scrollTop();
+				if(top>head_h){
+		   			jQuery("#head_search_goodslist_up").fadeIn();
+	  			}else{
+		   			jQuery("#head_search_goodslist").fadeIn();
+	  			}
+				//监听搜索分类提示鼠标上移事件
+				jQuery("div[id^='head_search_goodslist']>dl>dt>ul>li").mouseover(function() {
+                    var index = jQuery(this).index();
+					jQuery("div[id^='head_search_goodslist']>dl>dt>ul>li").removeClass("this");
+					jQuery("#head_search_goodslist>dl>dt>ul>li").eq(index).addClass("this");
+					jQuery("#head_search_goodslist_up>dl>dt>ul>li").eq(index).addClass("this");
+					jQuery("dd[id^='head_search_dd_']").hide();
+					jQuery("dd[id^='head_search_dd_']").eq(index).show();
+					jQuery("dd[id^='head_search_up_dd_']").hide();
+					jQuery("dd[id^='head_search_up_dd_']").eq(index).show();
+                });
+			}else{
+				search_goodsclass_initialize();
+			}
+	  	},"json");
+		<!--查询分类END-->
+	});
+	jQuery("div[id^='head_search_history']").mouseover(function(){
+		jQuery(this).show();
+	});
+	jQuery("div[id^='head_search_history']").mouseout(function(){
+		jQuery(this).hide();
+	});
+	jQuery(window).scroll(function(){
+		var top = jQuery(document).scrollTop();
+		if(top>head_h){
+			if(jQuery("#head_search_history").is(":visible")){
+				jQuery("#head_search_history").hide();
+				jQuery("#head_search_history_up").show();  
+		    };
+			if(jQuery("#head_search_goodslist").is(":visible")){  
+						jQuery("#head_search_goodslist").hide();
+						jQuery("#head_search_goodslist_up").show(); 
+			};
+	  	}else{
+		   if(jQuery("#head_search_history_up").is(":visible")){
+				jQuery("#head_search_history_up").hide();
+				jQuery("#head_search_history").show();
+		   };
+		   if(jQuery("#head_search_goodslist_up").is(":visible")){  
+				jQuery("#head_search_goodslist_up").hide();
+				jQuery("#head_search_goodslist").show(); 
+		   };
+	  	}
+		
+	});
+	//选定某一搜索历史
+	jQuery("#head_search_history").find("dl>dt>ul>li>span").click(function(){
+		jQuery("#keyword").val(jQuery(this).attr("data"));
+		jQuery("#searchForm").submit();
+	});
+	//鼠标经过用户中心
+   jQuery("#top_user_sp").mouseover(function(){
+		if(jQuery("#top_user_hb").size()==0){
+			jQuery.ajax({type:'POST',url:'/goShop.java?cmd=userCenterIndex',data:'',
+						   beforeSend:function(){
+							     jQuery("#top_user_hid").html('<div class="top_user_hb" id="top_user_hb"><span class="top_user_loading"><img src="/static/home/shopmanage/images/loading2.gif" /></span><b class="top_user_warning">加载中，请稍后...</b></div>');
+							     jQuery("#top_user_hid").show();
+							   },
+						  success:function(data){
+						     jQuery("#top_user_hid").empty();
+								 jQuery("#top_user_hid").html(data);
+							   }
+						});		
+		}else{
+			jQuery("#top_user_hid").show();
+			}
+	jQuery("#top_user_sp").addClass("top_user_sp_this");
+  	});
+   jQuery("#top_user").mouseleave(function(){
+    jQuery("#top_user_hid").hide();
+	jQuery("#top_user_sp").removeClass("top_user_sp_this");
+  });
+   
+   //鼠标经过购物车
+   jQuery("#goodscar_sp").mouseover(function(){
+			var gstatus =jQuery("#goodscar_con_box").attr("mark");
+			if(gstatus=="none")
+			  jQuery.ajax({type:'POST',url:'/goShop.java?cmd=searchshopCar',data:'',
+						   beforeSend:function(){
+							     jQuery("#goodscar_con_box").empty().html(' <div><span class="top_user_loading"><img src="/static/home/shopmanage/images/loading2.gif" /></span><b class="top_user_warning">加载中，请稍后...</b></div>');
+							     jQuery("#goodscar_con_box").show();
+							   },
+						  success:function(data){
+							  jQuery("#goodscar_con_box").attr("mark","show");
+							     jQuery("#goodscar_con_box").empty();
+								 jQuery("#goodscar_con_box").html(data);
+								
+								 
+							   }
+						});
+			  jQuery("#goodscar_sp").addClass("goodscar_sp_this");
+		   });
+		   jQuery("#goodscar").mouseleave(function(){
+			jQuery("#goodscar_con_box").attr("mark","none");
+			  jQuery("#goodscar_con_box").hide();
+			  jQuery("#goodscar_sp").removeClass("goodscar_sp_this");
+		   });
+});
+//初始化分类搜索提示模块
+function search_goodsclass_initialize(){
+	jQuery("div[class^='head_search_goodslist']").each(function(index,obj) {
+        jQuery(obj).remove();
+    });
+	var str = "<div class='head_search_goodslist' id='head_search_goodslist' style='display:none'><dl><dt><ul></ul></dt></dl></div>";
+	jQuery("#head_search").append(str);
+	str = "<div class='head_search_goodslist_up' id='head_search_goodslist_up' style='display:none'><dl><dt><ul></ul></dt></dl></div>";
+	jQuery("#head_search").append(str);
+}
+function search_gc_close(){
+	jQuery("div[id^='head_search_goodslist']").hide();
+}
+//加载搜索历史记录
+function search_history_data(){
+	var data = jQuery.cookie("search_history");
+	if(data==null){
+		jQuery("div[id^='head_search_history']").remove();
+	}else{
+		jQuery.each(data.split(","),function(index,item){
+			if(index<10){
+				jQuery("#head_search_history_up").find("dl>dt>ul").append("<li><span data='"+item+"'><a href='javascript:void(0)'>"+item+"</a></span><i onclick='search_data_del(this)'><a href='javascript:void(0)'>删除</a></i></li>");
+				jQuery("#head_search_history").find("dl>dt>ul").append("<li><span data='"+item+"'><a href='javascript:void(0)'>"+item+"</a></span><i onclick='search_data_del(this)'><a href='javascript:void(0)'>删除</a></i></li>");
+			}
+		});
+	}
+}
+//删除某一历史记录
+function search_data_del(obj){
+	var item = jQuery(obj).parent().find("span").attr("data");
+	var data = "";
+	var temp = jQuery.cookie("search_history");	
+	jQuery.each(temp.split(","),function(index,value){
+		if(item!=value){
+			if(data!=""){
+				data =data +","+value;
+			}else{
+				data = value;
+			}
+		}
+	});
+	if(data!=""){
+		jQuery.cookie("search_history",data);
+	}else{
+		jQuery.cookie("search_history",null);
+	}
+	search_html_restore();
+	search_history_data();
+}
+//删除全部历史记录
+function search_data_del_all(){
+	jQuery.cookie("search_history",null);
+	search_html_restore();
+	search_history_data();
+}
+//清空搜索历史下拉数据
+function search_html_restore(){
+	jQuery("#head_search_history_up").find("dl>dt>ul>li").each(function(index, element) {
+       if(index!=0){
+		   jQuery(this).remove();
+	   } 
+    });
+	jQuery("#head_search_history").find("dl>dt>ul>li").each(function(index, element) {
+       if(index!=0){
+		   jQuery(this).remove();
+	   } 
+    });
+}
+function search_form(){
+  var keyword=arguments[0];
+  var type=arguments[1];
+  if(keyword!=""&&keyword!=undefined){
+   jQuery("#keyword").val(keyword);
+  }
+  if(type!=""&&type!=undefined){
+    jQuery("#type").val(type);
+  }
+  jQuery("#searchForm").submit();	
+  jQuery("#keyword").val("");
+}
+		 		 		 
+function menu_cart_remove(id,spec,amt){
+	spec=spec==''?'0':spec;
+	jQuery.ajax({type:'POST',url:'/goShop.java?cmd=deleteShopCar',data:{"id":id,num:1,spec:spec},
+		  success:function(data){
+			  jQuery(".goodscar_list li[id="+id+"]").remove();
+			  var amtAll = jQuery("#cart_goods_price_top").html();
+				amtAll = parseFloat(amtAll)-parseFloat(amt);
+				jQuery("#cart_goods_price_top").html(amtAll);
+				var num = jQuery("#cart_goods_count_top").html()-1;
+				jQuery("#cart_goods_count_top").html(num)
+				jQuery("#st_count").html(num)
+		  }
+	});
+     }
+</script>
+<div class="head_width" id="head_h">
+  <div class="head"> 
+          <h1 class="logo"><span>
+      <p><a href="/goShop.java"> <img src="/static/home/bcd/images/logo.png" border="0"> </a></p>
+      </span></h1>
+    <form action="/goShop.java?cmd=queryPro" method="post" id="searchForm">
+      <input name="type" type="hidden" id="type" value="goods">
+      <div class="head_search" id="head_search" style="width:705px; margin-left:0px;"> 
+      <span class="head_seartxt">
+        <input name="keyword" type="text" id="keyword" placeholder="试试搜索，更加方便！" x-webkit-speech="" lang="zh-CN" onwebkitspeechchange="jQuery(&#39;#searchForm&#39;).submit()" class="h_sear_txt" style="padding-left:5px;width:618px;" autocomplete="off">
+        <input name="" type="submit" class="h_sear_btn" value="搜索">
+        </span><span class="head_searstr">热门搜索： 
+                </span>
+      	<!--搜索历史 -->
+    	  
+        	  
+        <!--搜索历史 -->
+            	
+      </div>
+    </form>
+    <!--用户中心开始-->
+    <div class="top_user" id="top_user">
+      <span class="top_user_sp" id="top_user_sp"><a href="/pcShopMemberCenter.java?cmd=toMyUserCenter&status=-1">用户中心</a><s></s></span>
+      <div class="top_user_hid" id="top_user_hid" style="display:none"> </div>
+    </div>
+    <div class="goodscar" id="goodscar">
+    
+    
+      <span class="goodscar_sp" id="goodscar_sp">
+      <span>
+      <i class="goodscar_img"></i>
+            <em class="goodscar_num"><b id="cart_goods_count_top">0</b></em>
+            <a href="/goShop.java?cmd=toShopCar">去购物车结算</a>
+      </span>
+      </span>
+      
+
+      <div class="goodscar_con_box" id="goodscar_con_box" style="display:none" mark="none"> </div>
+    </div>
+    <!--购物车结束-->
+  </div>
+</div>
+ </div>
+
+ <script>
+jQuery(document).ready(function(){
+  jQuery("#navul li").each(function(){
+    var original_url=jQuery(this).attr("original_url");
+	if("/index.htm".indexOf(original_url)>=0){
+	   jQuery(this).addClass("this");
+	}
+  });
+//鼠标经过左侧分类
+  jQuery(".sale_two_img img").lazyload({effect:"fadeIn",width:170,height:170});		
+  jQuery(".left_menu_dl").mouseover(function(){	
+	var child_count = jQuery(this).attr("child_count");
+	if(child_count>0){
+	 var id=jQuery(this).attr("id");
+	  jQuery("#dts_"+id).addClass("left_menu_this").removeClass("left_menu_dt");	
+      jQuery("#child_"+id).show();
+	}
+	var gc_id=jQuery(this).attr("id");
+	var gc_color=jQuery(this).attr("gc_color");
+	jQuery("#dts_"+gc_id).attr("style","border:1px solid "+gc_color+"; border-left:3px solid "+gc_color+";border-right:none");
+	jQuery("#left_menu_con_"+gc_id).attr("style","border:1px solid "+gc_color+"; border-left:1px solid "+gc_color+";").find(".menu_con_right_top").css("background-color",gc_color);				
+	//设置div高度为每行div中最高的高度
+	var begin=0;
+	var end=2;
+	jQuery("#child_"+gc_id).find(".left_menu_con_center_left").each(function(){	
+	 var max_height=0;
+		var index =jQuery(this).index();
+		var	height = jQuery(this).height();
+		if(index>end||index<begin){
+			begin=begin+3;
+			end=end+3;
+		}
+	    if(height>max_height){
+		    max_height = height;
+	    }			   
+		   for(var i=begin;i<=end;i++){
+			   var temp_height = jQuery("#child_"+gc_id).find(".left_menu_con_center_left").eq(i).height();
+				if(temp_height>max_height){
+					max_height = temp_height;
+				   } 
+				 jQuery("#child_"+gc_id).find(".left_menu_con_center_left").eq(i).height(max_height);
+			}	
+	});
+
+	var top=jQuery("#child_"+gc_id).offset().top;
+	var scroll_top = jQuery(document).scrollTop();
+	var height=jQuery("#left_menu_con_"+gc_id).height();
+	var all_h=top-scroll_top+height;
+	var doc_h=jQuery(window).height();
+	var margin_top=doc_h-all_h;
+	if(margin_top<=5){
+		margin_top=margin_top-20;
+	   jQuery("#left_menu_con_"+gc_id).css('margin-top',margin_top+'px');
+	}else{
+	   jQuery("#left_menu_con_"+gc_id).css('margin-top','0px');
+	}
+  }).mouseleave(function(){
+	 jQuery("dt[id^=dts_]").removeAttr("style");
+	jQuery("div[id^=left_menu_con_]").removeAttr("style"); 
+	 var child_count = jQuery(this).attr("child_count");
+	if(child_count>0){ 
+     var id=jQuery(this).attr("id");
+	  jQuery("#dts_"+id).removeClass("left_menu_this").addClass("left_menu_dt");	
+      jQuery("#child_"+id).hide();
+	}
+  });
+  		jQuery("#other_menu").show();
+		
+	
+});
+
+function zkyc(){
+	$(".left_menu_dl").siblings().each(function(){
+		if($(this).attr("dlys")>8){
+			var id=$(this).attr("id");
+			if($("#"+id).is(":hidden")){
+				$($("#"+id).show())
+				$("#jt").attr('src',"static/home/shopmanage/images/arrow_02.png");
+			}else{
+				$($("#"+id).hide())
+				$("#jt").attr('src',"static/home/shopmanage/images/arrow_01.png");
+			}
+		}
+	});
+}
+</script>
+<style>
+.left_menu_dl2 {
+    height: 25px;
+    float: left;
+    width: 178px;
+    background-color: #EDEBF1;
+}
+.left_menu_dt2 {
+    height: 25px;
+    width: 180px;
+    z-index: 1;
+    cursor: pointer;
+    position: relative;
+    float: left;
+}
+</style>
+
+<div class="nav">
+  <div class="nav_center">
+    #parse("/pcbcd/left.html")
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+	<ul id="navul">
+		<li><a href="/goShop.java?" id="1" original_url="index.htm"><span>首页</span></a></li>
+		<li><a href="/pcIntegralShop.java?cmd=init" id="1"><span>积分商城</span></a></li>
+		<li><a href="/pcRushBuyShop.java?cmd=timeLimitList" id="1"><span>限时抢购</span></a></li>
+		<li><a href="/pcRushBuyShop.java?cmd=secKillList" id="1"><span>秒杀活动</span></a></li>
+		<!--<li><a href="/pcIntegralShop.java?cmd=init" id="1" target="_blank"><span>积分</span></a></li> -->
+		<li><a href="/pcShopMember.java?cmd=toSweepStake" target="_blank"><span>抽奖</span></a></li>		
+	</ul>
+  </div>
+</div>
+
+<!-- 首页轮播管理 -->
+<script>
+	jQuery('document').ready(function(){
+		jQuery('.top_mid_slide').slide({
+			mainCell:'.top_mid_slider_ul',
+			titCell:'.banner_top li',
+			titOnClassName:'this',
+			trigger:'mouseover',
+			autoPlay:true
+			});
+	});
+</script>
+<div class="top_mid_slide">
+	<ul class="top_mid_slider_ul">
+	#foreach($obj in $NU.getLinkImg("index_pc",20))
+	
+		<li class="top_mid_slider_ul_li" style="display: none; background: url($obj.imgPath) 50% 0% no-repeat rgb(243, 243, 243);">
+			<a style="width: 1002px; height: 325px; display: block; margin-left: 20%;" href="$obj.linkUrl" target="${obj.imgTarget}"></a>
+		</li>
+	#end
+		</ul>
+	<div class="banner_top">
+		<ul style="right:400px">
+			#set($num=1)
+			#foreach($obj in $NU.getLinkImg("index_pc",20))
+			#if($num==1)
+				<li class="this" style="cursor: pointer;"></li>
+			#else
+				<li style="cursor: pointer;"></li>
+			#end
+			#set($num=$num+1)
+			#end
+								</ul>
+	</div>
+</div>
+
+<!--top3-->
+
+<div class="main">
+<div class="top_index">
+    <div class="top_mid">
+      <div class="top_mid">
+        <div class="banner_nothing"></div>
+        <div class="bottom_slide">
+          <script>
+          jQuery('document').ready(function() {
+        	    jQuery('.picScroll').slide({
+        	        mainCell: 'ul',
+        	        autoPlay: true,
+        	        effect: 'left',
+        	        vis: 3,
+        	        scroll: 3,
+        	        autoPage: true
+        	    });
+        	    jQuery('.picScroll').mouseover(function() {
+        	        jQuery('.picScroll .next').show();
+        	        jQuery('.picScroll .prev').show();
+        	    }).mouseleave(function() {
+        	        jQuery('.picScroll .next').hide();
+        	        jQuery('.picScroll .prev').hide();
+        	    });
+        	})
+          </script>
+          <div class="picScroll">
+   <div class="tempWrap" style="overflow:hidden; position:relative; width:759px">
+    <div class="tempWrap" style="overflow:hidden; position:relative; width:759px"><ul style="width: 1518px; left: 0px; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
+    #foreach($obj in $NU.getLinkImg("index_gg",6))
+    <li style="float: left; width: 253px;"><a href="$obj.linkUrl" target="$obj.imgTarget"><span class="img_cspan"><p><img src="$obj.imgPath"></p></span></a></li>
+    #end
+         </ul></div>
+   </div>
+   <a href="javascript:void(0);" class="next" style="display: none;"></a>
+   <a href="javascript:void(0);" class="prev" style="display: none;" i=""></a>
+  </div> 
+        </div>
+      </div>
+    </div>
+    <div class="top_mid_right">
+    	<img src="/static/home/pcbcd/images/shang_1.jpg" style=" float:left; margin-top:10px; margin-left:30px;">
+    	<p style=" float:left; margin-top:60px; margin-left:-36px;">健康</p>
+		<img src="/static/home/pcbcd/images/shang_2.jpg" style=" float:left; margin-top:10px; margin-left:30px;">
+		<p style=" float:left; margin-top:60px; margin-left:-36px;">安全</p>
+		<img src="/static/home/pcbcd/images/shang_3.jpg" style=" float:left; margin-top:10px; margin-left:30px;">
+		<p style=" float:left; margin-top:60px; margin-left:-36px;">保真</p>
+      <div class="top_mr_news" style="margin-top: 10px;">
+        <ul class="top_mr_tab">
+          <li class="this">公告</li>
+          <li>规则</li>
+          <li>安全</li>
+          <li>指南</li>
+        </ul>
+        <ul class="top_mr_box" style="display:block">
+             #foreach($obj in $newsDocggList)
+             <li><b><a href="">[快讯]</a></b><a href="/goShop.java?cmd=toService&name=bcdsright&docId=$obj.id&menuId=$obj.id" target="_blank">$obj.title</a></li>
+             #end
+        </ul>
+        <ul class="top_mr_box" style="display:none">
+             #foreach($obj in $newsDocgzList)
+             <li><b><a href="">[通知]</a></b><a href="/goShop.java?cmd=toService&name=bcdsright&docId=$obj.id&menuId=$obj.id" target="_blank">$obj.title</a></li>
+             #end
+        </ul>
+        <ul class="top_mr_box" style="display:none">
+             #foreach($obj in $newsDocaqList)
+             <li><b><a href="">[注意]</a></b><a href="/goShop.java?cmd=toService&name=bcdsright&docId=$obj.id&menuId=$obj.id" target="_blank">$obj.title</a></li>
+             #end
+        </ul>
+        <ul class="top_mr_box" style="display:none">
+             #foreach($obj in $newsDocznList)
+             <li><b><a href="">[注意]</a></b><a href="/goShop.java?cmd=toService&name=bcdsright&docId=$obj.id&menuId=$obj.id" target="_blank">$obj.title</a></li>
+             #end
+        </ul>
+      </div>
+      <div class="top_mid_login" style="margin-top: -70px;">
+        <ul id="top_mid_login_tab">
+ 		  <li class="this" id="top_mid_login_tab_user" style="width: 100%; border-bottom:1px solid #ccc; border-left-style: none; cursor: pointer; text-align: center;">马上登录</li>
+          <!-- <li id="top_mid_login_tab_seller" class="this" style="cursor: pointer;">招商入驻</li> -->
+        </ul>
+                <div class="top_mid_login_dl" id="top_mid_login_tab_user_info" style="/* display: none; */">
+                    #if($!user)
+          	#if($!user.pic)
+				<div class="login_dl_one_left"><img src="$!user.pic" width="50" height="50"></div>
+          	#else
+          		<div class="login_dl_one_left"><img src="/static/home/bcd/images/avatar3.jpg" width="50" height="50"></div>
+          	#end
+          <div class="login_dl_one_right">
+          	<div class="login" style="margin-left:20px;margin-top: -9px;">$!user.name</div>
+            <div class="login_dl" style="margin-left: 20px;margin-top: 5px;"><a href="/shopMemberCenter.java?cmd=signOut">退出</a></div>
+          </div>
+          #else
+          <div class="login_dl_one_left"><img src="/static/home/shopmanage/images/tx.png" width="50" height="50"></div>
+          <div class="login_dl_one_right">
+            <div class="login_dl"><a href="/shopMemberCenter.java?cmd=toLogin">登录</a></div>
+            <div class="login_zx"><a href="/shopMemberCenter.java?cmd=toRegister">注册</a></div>
+          </div>
+          #end
+        </div>
+        <!-- <div class="top_mid_login_sh" style="" id="top_mid_login_tab_seller_info">
+          <div class="top_mid_login_sh_left"><a href="/userCenter.java?cmd=sjrz">申请商家入驻</a></div>
+          <div class="top_mid_login_sh_bottom"><a href="/userCenter.java?cmd=sjdl">登录商家管理中心</a></div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <script>
+jQuery(function(){ 
+   jQuery(".storey_list li").mouseenter(function(){
+	  jQuery(".storey_list li").stop();											 
+      jQuery(this).parent().parent().find("li").animate({"opacity":"0.2"},{queue:false, duration:1000});
+	  jQuery(this).animate({"opacity":"0.9"},{queue:false, duration:1000});
+   }).mouseleave(function(){
+	  jQuery(".storey_list li").stop();
+      jQuery(this).animate({"opacity":"0.9"},{queue:false, duration:1000});
+   });	
+   jQuery(".storey_list").mouseleave(function(){
+	  jQuery(".storey_list li").stop();
+      jQuery(this).parent().parent().find("li").css("opacity","1.0"); 
+	});
+   jQuery(".hot_sell_ul li").mouseenter(function(){		
+	  jQuery(".hot_sell_ul li").stop();											 
+	  jQuery(this).parent().find("li").animate({"opacity":"0.2"},{queue:false, duration:1000});
+	  jQuery(this).animate({"opacity":"0.9"},{queue:false, duration:1000});
+   }).mouseleave(function(){
+	  jQuery(".hot_sell_ul li").stop();
+      jQuery(this).animate({"opacity":"1.0"},{queue:false, duration:1000});
+   });
+   jQuery(".hot_sell_ul").mouseleave(function(){
+      jQuery(".hot_sell_ul li").stop();
+      jQuery(this).parent().find("li").css("opacity","1.0");
+   });
+   //
+   jQuery(".storey_show_2_right li").mouseenter(function(event){
+	  jQuery(".storey_show_2_right li").stop();
+	  jQuery(".storey_show_2_left").stop();
+	  jQuery(".storey_show_2_right li").animate({"opacity":"0.2"},{queue:false, duration:1000});
+	  jQuery(".storey_show_2_left").animate({"opacity":"0.2"},{queue:false, duration:1000});
+	  jQuery(this).animate({"opacity":"0.9"},{queue:false, duration:1000});
+	  jQuery(this).find(".storey_show_on").show();
+   }).mouseleave(function(){
+	  jQuery(".storey_show_2_right li").stop();
+	  jQuery(".storey_show_2_left").stop();
+      jQuery(this).animate({"opacity":"1.0"},{queue:false, duration:1000});
+	  jQuery(this).find(".storey_show_on").hide(); 
+   });
+   jQuery(".storey_show_2_right").mouseleave(function(){
+      jQuery(".storey_show_2_right li").stop();
+	  jQuery(".storey_show_2_left").stop();
+      jQuery(".storey_show_2_right li").css("opacity","1.0");
+	  jQuery(".storey_show_2_left").css("opacity","1.0");
+	  jQuery(this).find(".storey_show_on").hide(); 
+   });
+   //
+   jQuery(".storey_show_2_left").mouseenter(function(){	
+	  jQuery(".storey_show_2_right li").stop();
+	  jQuery(".storey_show_2_left").stop();												 
+	  jQuery(this).css("opacity","0.2");												
+	  jQuery(".storey_show_2_right li").animate({"opacity":"0.2"},{queue:false, duration:1000});											
+	  jQuery(this).animate({"opacity":"0.9"},{queue:false, duration:1000});
+	  jQuery(this).find(".storey_show_on").show();
+   }).mouseleave(function(){
+	  jQuery(".storey_show_2_right li").stop();
+	  jQuery(".storey_show_2_left").stop();
+      jQuery(".storey_show_2_right li").css("opacity","1.0");
+	  jQuery(this).css("opacity","1.0");
+	  jQuery(this).find(".storey_show_on").hide();
+   });
+   //
+   jQuery(".goods_pic img").lazyload({effect:"fadeIn",width:230,height:230});
+   jQuery(".storey_show_2_left img").lazyload({effect:"fadeIn",width:230,height:230});
+   //back_floor
+   jQuery(".back_floor>ul>li").click(function(){
+	  var id=jQuery(this).attr("floor_id");									   
+      var top = jQuery("#"+id).offset().top-80;
+      jQuery('body,html').animate({scrollTop:top},1000);
+   }); 
+})
+</script>
+
+
+<!--楼层开始-->
+ 
+ <iframe width=100%  height="30000" frameborder=0 marginheight=0 marginwidth=0 scrolling=no src="/goShop.java?cmd=main" id="iframeid"></iframe>
+ 
+ <script>
+ $("#iframeid").load(function(){
+	 var mainheight = $(this).contents().find("body").height()+30;
+	 $(this).height(mainheight);
+	 }); 
+ </script>
+
+ 
+<!-- 楼层结束 -->
+<!-- bottom -->
+	<div class="back_box_x" style="display: none;">
+                <div class="back_floor">
+                   <ul>
+                    #set($num=1)
+                    #foreach($obj in $indexfloors)
+                        <li floor_id="floor_$!{num}">
+                            <a href="/goShop.java?cmd=queryPro&pid=$!{obj.productType.id}"><b style="display: block;"><img src="$obj.logoImg"></b> <span>$obj.name</span></a>
+                        </li>
+                    #set($num=$num+1)
+                    #end
+                   </ul>
+                </div>
+            </div>
+  ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+#parse("/pcbcd/s_foot.html")
+<div style=height:35px;">
+  </div><!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="#" target="_self" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/goShop.java#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+
+</div>
+
+ 
+ 
+</BODY></HTML>

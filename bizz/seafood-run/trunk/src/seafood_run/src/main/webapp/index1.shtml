@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>go to</title>
+</head>
+<script type="text/javascript">
+var host = window.location.origin ? window.location.origin : (window.location.protocol + "//" + window.location.host);
+if (host == "http://md.kmengfang.com") {
+    window.location.href = "http://md.kmengfang.com/html/maidou/"
+} else if (host == "http://www.kmengfang.com") {
+    window.location.href = "http://www.kmengfang.com/html/kmengfang/"
+} else if (host == "http://www.ccycgov.cn") {
+    window.location.href = "http://www.ccycgov.cn/html/ccycgov/"
+} else if (host == "http://ryds.iyu.com.cn") {
+    window.location.href = "http://ryds.iyu.com.cn/html/ryds/"
+}else if (host == "http://edtm.kmengfang.com") {
+    window.location.href = "http://edtm.kmengfang.com/manage.java"
+}else if (host == "http://yyhd.test.kmengfang.com") {
+    window.location.href = "http://yyhd.test.kmengfang.com/html/yyhd/"
+}else{
+	alert("梦坊SAAS租户系统没有找到对应的域名");
+}
+</script>
+<body>
+</body>
+</html>

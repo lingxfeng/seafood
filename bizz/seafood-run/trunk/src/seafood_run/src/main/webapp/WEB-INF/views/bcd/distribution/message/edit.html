@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script>
+jQuery(document).ready(function(){
+ 	
+jQuery("#theForm").validate({
+    rules:{
+	 },
+	messages:{
+	 }
+  });
+});
+//品牌保存
+function saveDistributeMessage(method){
+	jQuery("#theForm").submit();
+}
+</script>
+
+</head>
+<body>
+<form action="/distributeMessage.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+  <input name="id" id="id" type="hidden" value="$!{obj.id}">
+  #if($obj)
+  <input name="cmd" id="cmd" type="hidden" value="update">
+  #else
+  <input name="cmd" id="cmd" type="hidden" value="save">
+  #end
+  <div class="cont">
+    <h1 class="seth">微店通知</h1>
+    
+    <div class="nav_list"> 
+	 
+    <ul>
+         <li><a href="/distributeMessage.java?cmd=list"><b>通知列表</b></a></li> 
+	<li><a href="/distributeMessage.java?cmd=toAdd" class="this"><b>新增通知</b></a></li>
+	  	</ul>
+		
+    </div>
+    <div class="edit">
+    <div class="editul setcont" id="base">
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>标题</li>
+        <li><span class="webname">
+          <input name="mesTitle" type="text" id="first_word" value="$!{obj.mesTitle}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>内容</li>
+        <li><span class="webname">
+          <input name="mesDescription" type="text" id="first_word" value="$!{obj.mesDescription}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+      
+            
+          </div>
+    </div>  
+    
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="saveDistributeMessage();"></span>
+  </div>
+  </div>
+
+</form>
+
+
+</body></html>

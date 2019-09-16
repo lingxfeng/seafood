@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>微店等级</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/common/base.css">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script type="text/javascript">
+	function gotoPage(n) {
+	    location.href = "/distributeLevel.java?cmd=list&currentPage=" + n;
+	}
+	$(function(){
+		#foreach($obj in $pl.result)
+		$("#num1_"+"$obj.id").text(("$!entry.leve1") * ("$!obj.leve1"));
+		$("#num2_"+"$obj.id").text(("$!entry.leve2") * ("$!obj.leve2"));
+		$("#num3_"+"$obj.id").text(("$!entry.leve3") * ("$!obj.leve3"));
+		#end
+	})
+</script>
+</head>
+
+<body>
+	<div class="cont">
+		<h3 class="seth">微店等级</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/shopDistributorRating.java?cmd=list" class="this"><b>默认等级列表</b></a></li>
+				<li><a href="/shopDistributorRating.java?cmd=listCustom"><b>自定义等级列表</b></a></li>
+				<li><a href="/shopDistributorRating.java?cmd=toEdit"><b>添加等级</b></a></li>
+			</ul>
+		</div>
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>开启微店等级管理功能后，系统默认有一个等级，无法删除。</li>
+				<li>系统等级由用户自主设置，按照佣金金额来判断等级条件。请根据实际情况合理设置等级条件。</li>
+				<li>设置微店等级后，可以按照等级设置佣金比例。</li>
+				<li>默认等级的微店等级佣金按照基本佣金结算。其他等级佣金为基本佣金×倍数。（包含自定义佣金的商品）请具体核算成本后设置佣金。</li>
+			</ul>
+		</div>
+		<form name="listForm" id="listForm" action="/distributeLevel.java?cmd=list" method="post">
+			<div class="fshoptb2">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="12%" align="center"><span class="form_btna">等级名称</span></th>
+							<th width="20%" align="center"><span class="form_btna">等级描述</span></th>
+							<th width="24%" align="center"><span class="form_btna">等级条件(佣金金额)</span></th>
+							<th width="24%" align="center"><span class="form_btna">默认佣金倍数</span></th>
+							<th width="12%" align="center"><span class="form_btna">管理</span></th>
+						</tr>
+						#set($num=1)
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td align="center">$!obj.name</td>
+							<td align="center">$!obj.remark</td>
+							<td align="center">佣金大于等于$!obj.conditionf元</td>
+							<td align="center">
+								一级佣金：<span id="num1_$!obj.id"></span>%</br>
+								二级佣金：<span id="num2_$!obj.id"></span>%</br>
+								三级佣金：<span id="num3_$!obj.id"></span>%	
+							</td>
+							<td align="center" class="hui oprate_con">
+								<a href="/shopDistributorRating.java?cmd=toEdit&id=$!{obj.id}" class="blue">编辑</a>
+								<a href="/shopDistributorRating.java?cmd=remove&id=$!{obj.id}" class="blue">删除</a>
+							</td>
+						</tr>
+						#set($num=$num+1)
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+				<div class="oper_sp">
+					<span class="oper_check"></span> <span
+						class="oper_del"></span>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

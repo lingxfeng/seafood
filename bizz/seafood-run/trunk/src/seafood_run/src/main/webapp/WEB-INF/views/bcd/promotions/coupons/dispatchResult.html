@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>发放优惠券结果</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"
+	type="text/css">
+<link rel="stylesheet" href="/static/common/base.css">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script type="text/javascript">
+</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">发放优惠券结果</h3>
+			<div class="fshoptb2">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					
+					<tbody>
+					#if(!$!count)
+					<tr>
+						<th width="5%" align="center"><span class="form_btna">发放异常 </span></th>
+					</tr>
+					<tr>
+						<td align="center">发放未成功，请1分钟后重试！</td>
+					</tr>
+					#else
+						<tr>
+								<th width="5%" align="center"><span class="form_btna">优惠券金额 </span></th>
+								<th width="5%" align="center"><span class="form_btna">使用人身份限制</span></th>
+								<th width="10%" align="center"><span class="form_btna">发放人数</span></th>
+						</tr>
+						<tr id="$coupon.id" level="$coupon.id" levelnum="1">
+								<td align="center">$coupon.value</td>
+								#if($coupon.useType == 0)
+								<td align="center">所有可用</td>
+								#else
+								<td align="center">会员可用</td>
+								#end
+								<td align="center">$!count</td>
+						</tr>
+					#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+				<div class="oper_sp">
+					<span class="oper_check"><input type="checkbox" name="all"
+						id="all" value="" onclick="selectAll(this)">全部</span> <span
+						class="oper_del"></span>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</body>
+</html>

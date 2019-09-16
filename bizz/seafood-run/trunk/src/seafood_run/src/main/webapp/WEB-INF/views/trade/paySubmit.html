@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0045)/goods_cart3.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>订单提交成功 - Powered by 海鲜之家商城</title>
+<meta name="keywords" content="www.iskyshop.com">
+<meta name="description" content="www.iskyshop.com">
+<meta name="generator" content="www.iskyshop.com">
+<meta name="author" content="www.iskyshop.com">
+<meta name="copyright" content="Copyright 2012-2015 ISkyShop Inc. All rights reserved">
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/goods.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script>
+//返回当前页面高度
+function order_pay(){	
+  /* var h=jQuery(window).height();
+  var top= document.documentElement.scrollTop;
+  top=top+(h-top)/2;
+  jQuery('.black_overlay').css("height",h);
+  jQuery(".white_content").css("top",top);
+  jQuery('#pay_overlay').show() */
+  jQuery('#theForm').submit();
+}
+window.onscroll=function(){
+  var h=document.body.scrollHeight;
+  var top= document.documentElement.scrollTop;
+  top=top+(h-top)/2;
+  jQuery(".white_content").css("top",top);
+}
+jQuery(document).ready(function(){
+   jQuery(":radio[value=]").attr("checked",true);
+});
+</script>
+</head>
+<body>
+#parse("/common/top.html")
+#parse("/common/left.html")
+<div class="main">
+  <div class="shopping_cart">
+    <div class="shopping_step">
+      <ul>
+        <li class="shopping_step_a"><span></span><i></i><strong>1.我的购物车</strong></li>
+        <li class="shopping_step_bthree"><span></span><i></i><strong>2.填写核对订单信息</strong></li>
+        <li class="shopping_step_cthis"><span></span><i></i><strong>3.成功提交订单</strong></li>
+      </ul>
+    </div>
+     <form action="/shopTrade.java?cmd=toChoicepayment" method="post" target="_self" id="theForm">
+     <input name="syfje" type="hidden" id="syfje" value=""/>
+    <div class="shopping_payfor">
+      <div class="shopping_payfor_top"> <span class="shopping_payfor_topleft"></span>
+		<ul class="orderul">
+			<li class="shopping_payfor_title">订单提交成功</li>
+			<li class="order_hui">您的订单已成功生成，选择您想用的支付方式进行支付</li>
+			#if($!ccList && $!ccList.size()>0)
+			<li class="order_hui">
+			#if($!ccList)
+			请选择使用优惠券：
+				<select id ="couponId" name ="couponId" onchange="chooseCoupon()">
+					<option value="">请选择优惠券</option>
+					#foreach($obj in $ccList)
+					<option value ="$obj.id">$obj.coupon.value 元优惠券</option>
+					#end
+				</select>
+			</li>
+			#end
+			#end
+			
+			<div class="form">
+				  #if($!rAmt<=0)
+	              <input id="cbox" name="cbox" type="checkbox" value="0" disabled="disabled" style="margin-top: 6px;"/>
+	              #else
+	              <input id="cbox" name="cbox" type="checkbox" value="1" onclick="syye();" style="margin-top: 6px;"/>
+	              #end
+	              <label for="selectOrderBalance" value="0.00">使用佣金（账户当前佣金：$fu.getYj($!rAmt)元）</label>
+	              <label id="uyj"></label>
+	              <label id="ryj"></label>
+	        </div>
+	        
+			<li class="order_box"><span class="order_box_cont">
+				<p>商品价格：<b>¥$!{order.product_price}</b>&nbsp;&nbsp;运费：<b>¥$!order.freight</b> #if($!order.myCoupon)&nbsp;&nbsp;优惠券抵扣：<b>￥$!order.myCoupon.coupon.value</b>#end<span id="yh" style="display:none"></span></p>
+	            <p><span id="je">应付金额：<b>¥$!{order.gross_price}</b></span></p>
+	            </span>
+			</li>
+          <li class="order_bottom">您可以在用户中心<a href="/pcShopMemberCenter.java?cmd=getMyOrder&menuId=myOrder" target="_blank">“我的订单”</a>查看订单</li>        </ul>
+      </div>
+      <div class="shopping_payfor_bottom">
+        <h3 class="shopping_payfor_h3">您可以选择的付款方式</h3>
+        <div class="shopping_payfor_bmbox">
+                          <h4>在线支付</h4>
+          <ul>
+          #set($num=1)
+          #foreach($obj in $payConfs)
+          #if($obj.type.toString().equals("WEIXINMPSM") || $obj.type.toString().equals("ALIPAYPCWEB")|| $obj.type.toString().equals("YLPC"))
+            <li>
+              <label>
+              <!-- <input name="payTypeId" type="radio" value="$obj.id" #if($num==1) checked="checked" #end/> -->
+              	<input id="$obj.type.toString()" name="payTypeId" type="radio" value="$obj.id" #if($obj.type.toString().equals("WEIXINMPSM"))checked="checked"#end/>
+              	<span><img src="$obj.logo" width="115" height="41"/></span>
+              </label>
+              <p></p>
+            </li>
+             #end
+           #set($num=$num+1)
+           #end
+                      </ul>         
+                  </div>
+      </div>
+      <div class="shopping_payfor_next">
+           <input name="" type="button" value="确认支付" onclick="order_pay();" style="cursor:pointer;">
+            <input name="orderId" type="hidden" id="orderId" value="$!{order.id}">
+      </div>
+    </div>
+  </form>
+  </div>
+    ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+	window.history.forward(1);
+});
+function chooseCoupon(){
+	var couponId=$("#couponId").val();
+	var flag=false;
+	if($('#cbox').is(':checked')) {
+		flag=true;
+	}
+	if(couponId==""){
+		$("#je").html("应付金额：<b>¥"+$!{order.gross_price}+"</b>");
+		$("#yh").hide();
+		syye();
+		return ;
+	}
+	$.ajax({
+        type: "post",
+        url: "/shopTrade.java?cmd=chooseCoupon&date="+new Date().getTime(),
+        dataType: "json",
+        data: "orderId="+$!{order.id}+"&couponId="+couponId+"&flag="+flag,
+        success: function(data) {
+            if (data.success) {
+            	$("#yh").show();
+            	$("#yh").html("&nbsp;&nbsp;优惠券抵扣：<b>¥"+data.cValue+"</b>");
+            	$("#je").html("应付金额：<b>¥"+data.orderPrice+"</b>");
+            	$("#syfje").val(data.orderPrice)
+            } else {
+            	$("#yh").hide();
+            	$("#yh").val($!{order.gross_price})
+                alert(data.msg)
+            }
+
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("没找到");
+        }
+    });
+}
+</script>
+
+  <div class="footer">
+    <ul>
+                  <li class="hui2">Copyright 2012-2015 海鲜之家商城 Inc. All rights reserved</li>
+      <li class="hui2">Powered by 海鲜之家商城</li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: block;">
+  <div class="back_index"><a href="/goShop.java" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+
+</div>
+<div style="display:none;" id="pay_overlay">
+  <div class="white_content" style="top: 439.5px;"> <a href="javascript:void(0);" onclick="javascript:jQuery(&#39;#pay_overlay&#39;).hide();" class="white_close"><img src="./pay_files/close.jpg" width="14" height="14"></a>
+    <div class="white_box">
+      <h1>支付提醒</h1>
+      <dl class="white_dl">
+        <dt></dt>
+        <dd>
+          <div class="payf"><a href="">已经完成支付！</a></div>
+          <div class="payf"><a href="javascript:void(0);" onclick="javascript:jQuery(&#39;#pay_overlay&#39;).hide();">支付出现问题！</a></div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <div class="black_overlay"></div>
+</div>
+<script>
+	function syye(){
+		if($('#cbox').is(':checked')) {
+		    var je = $("#je>b").text().substring (1);
+		    $.ajax({
+		        type: "post",
+		        url: "/shopTrade.java?cmd=userbal&date="+new Date().getTime(),
+		        dataType: "json",
+		        data: "xfje="+je,
+		        success: function(data) {
+		            if (data.status=="1") {
+		            	$("#uyj").html("使用佣金："+data.sje+"&nbsp;&nbsp;");
+		            	$("#ryj").html("剩余佣金："+data.sye);
+		            	$("#je").html("应付金额：<b>¥"+data.syfje+"</b>");
+		            	if(data.syfje=="0"){
+		            		var b = $("input[name=payTypeId]");
+		            		b.attr("checked",false);
+		            	}
+		            } else {
+		            	alert("请先登录");
+		            }
+		        },
+		        error: function(XMLHttpRequest, textStatus, errorThrown) {
+		            alert("没找到");
+		        }
+		    });
+		}else{
+			$("#uyj").html("");
+        	$("#ryj").html("");
+        	var couponId=$("#couponId").val();
+        	if(couponId=="" || couponId==undefined){
+        		$("#je").html("应付金额：<b>¥"+$!{order.gross_price}+"</b>");
+        	}else{
+        		$("#je").html("应付金额：<b>¥"+$("#syfje").val()+"</b>");
+        	}
+        	var flag=false;
+        	$('input[name="payTypeId"]').each(function(){
+        		if(this.checked){
+        	    	flag=true;
+        	    }
+        	});
+			if(!flag){
+				$("input:radio[id='WEIXINMPSM']").attr("checked",true);
+			}
+		}
+	}
+</script>
+
+</body></html>

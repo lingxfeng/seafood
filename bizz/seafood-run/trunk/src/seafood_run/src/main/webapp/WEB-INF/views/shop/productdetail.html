@@ -1,0 +1,999 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0042)/goods_12.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<title>$product.name - 海鲜之家商城 B2B2C V2016版商城系统 - Powered by 海鲜之家商城</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="generator" content=""/>
+<meta name="author" content=""/>
+<meta name="copyright" content=""/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/goods.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/jquery.jqzoom.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.jqzoom-core.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script>
+var act_price=0;
+function img_switch(obj){
+  jQuery(".pro_imgbox a").removeClass("this");
+  jQuery(obj.parentNode.parentNode.parentNode).addClass("this");
+  var src=jQuery(obj).attr("big_img");
+  jQuery("#main_img").attr("src",src);
+}
+	var guige="";
+  var goods_inventory=45667;
+  var store_price=215.00;  
+	   jQuery(document).ready(function(){
+	jQuery(".enjoy_bg_center_img_c b").hide();
+	jQuery(".enjoy_bg_center_img_c b:first").show();
+	jQuery(".enjoy_bg_center_img_c li").click(function(){
+		jQuery(".enjoy_bg_center_img_c b").hide();
+		jQuery(this).find("b").show();
+	});
+	
+   	jQuery('.jqzoom').jqzoom({
+            zoomType: 'standard',
+			zoomWidth:450,
+			zoomHeight:400,
+            lens:true,
+            preloadImages: false,
+            alwaysOn:false,
+			title:true,
+			preloadText:'努力加载'
+        });
+//
+jQuery(".pro_tab_top[id=pro_tab] li").css("cursor","pointer").click(function(){
+  jQuery(".pro_tab_top[id=pro_tab] li").removeClass("this");
+  jQuery(this).addClass("this");
+  var target_id=jQuery(this).attr("target_id");
+  var index=jQuery(".pro_tab_top[id=pro_tab] li").index(jQuery(this));
+      for(var i=0;i<5;i++){
+	 var tem_target_id=jQuery(".pro_tab_top[id=pro_tab] li:eq("+i+")").attr("target_id");
+	 if(i<index){
+	   jQuery("#"+tem_target_id).hide();
+	 }else{
+	   jQuery("#"+tem_target_id).show();
+	 }	 
+  }
+    jQuery("body,html").animate({scrollTop:jQuery("#"+target_id).offset().top-37});
+});
+//
+jQuery(".deta_eval_a").click(function(){
+  jQuery(".pro_tab_top[id=pro_tab] li").removeClass("this");;
+  jQuery(".pro_tab_top[id=pro_tab] li[target_id=goods_eva]").addClass("this");
+  jQuery("#goods_detail").hide();
+  jQuery("#goods_eva").show();
+  jQuery("body,html").animate({scrollTop:jQuery("div[id=goods_eva]").offset().top-37});
+});
+//
+var count = 0-0;
+jQuery(".collect_product a").click(function(){
+	#if($user)
+		jQuery.post("/goShop.java?cmd=collectPro",{"id":"$!{id}"},function(data){
+			var obj = eval("(" + data + ")");
+			 if(obj.status=="0"){
+				 showDialog("msg_info","","商品收藏成功！",2,"succeed",3,'');
+				 jQuery(".collect_product a").html("<i></i>收藏商品("+obj.collectNum+")")
+			 }
+			 if(obj.status=="1"){
+			   showDialog("msg_info","","取消收藏该商品！",2,"warning",3,'');
+			   jQuery(".collect_product a").html("<i></i>收藏商品("+obj.collectNum+")")
+			 }
+		  },"text");
+	#end
+});
+
+  jQuery("input[id^=goods_count]").keyup(function(){
+	var count=jQuery(this).val().replace(/\D/g,'');
+	if(count=="" || count<1){
+       count=1;
+	}
+	if(count>=goods_inventory){
+		count=goods_inventory;
+	}
+	jQuery(this).val(count);
+  });
+  
+  //
+   var pro_tab_top=1;
+  jQuery(window).scroll(function(){
+      //var top= jQuery("#pro_tab").offset().top;
+      var top= 1;
+	  var scrolla=jQuery(window).scrollTop();
+	  var i=top-scrolla;
+	 if(i<=0){
+	   jQuery("#pro_tab").addClass("pro_fixed");	  
+	 }
+	 if(scrolla<pro_tab_top){
+	   jQuery("#pro_tab").removeClass("pro_fixed");
+	 }
+  });
+  //
+  jQuery(".consultation_top_nav li").css("cursor","pointer").live("click",function(){
+	   var consult_type=jQuery(this).attr("consult_type");
+	   var consult_value=jQuery(this).attr("consult_value");
+	   
+	   console.dir(consult_value);
+	   jQuery.ajax({type:'POST',url:'/goShop.java?cmd=getAdvice',data:{"proId":$id,"otherType":consult_type,"menuId":consult_value},
+				  success:function(data){
+			        jQuery("#goods_consult_list").empty();
+					jQuery("#goods_consult_list").append(data);
+				  }
+	  });
+  });
+   //
+  jQuery(".contrast a").click(function(e){	
+		if(jQuery("#goods_compare_cart dl").size()<4){
+	 e.stopPropagation();
+	 jQuery(".contrast_center").show();
+	 jQuery(".contrast_center_nothing").hide();
+	 jQuery('body').append('<div id="float_img"><img src="$!{product.imgPaths.split("_")[0]}" width="50" height="50" /></div');
+	 var x=jQuery(e.target).offset().left;
+	 var y=jQuery(e.target).offset().top;
+	 jQuery("#float_img").css({"left":x,"top":y,"position":"absolute"});
+	 var target_x=jQuery(".contrast_center_center").offset().left+jQuery(".contrast_center_center").width()/2;
+	 var target_y=jQuery(".contrast_center_center").offset().top+50;
+	 jQuery(".contrast").hide();
+	 jQuery(".contrast_off").show();
+	 if(!jQuery("#float_img").is(':animated')){
+	 jQuery("#float_img").animate({'left': target_x,'top': target_y,'opacity': 0},1000,'',
+		function(){
+		  jQuery('#float_img').remove();
+		  jQuery.ajax({type:'POST',url:'/goShop.java?cmd=comparisonAdd',data:{"id":"$!{product.id}"},
+					  success:function(data){
+		                   jQuery("#goods_compare_cart").empty().append(data);   
+						   if(jQuery("#goods_compare_cart dl").size()>1){
+							  jQuery(".contrast_b_yes a").attr("href","/goShop.java?cmd=comparison").attr("target","_blank").css("background","#F00");
+						   }
+						   if(jQuery("#goods_compare_cart dl").size()>0){
+						      jQuery(".contrast_center_center_nothing").hide();
+						   }
+		               }
+		  });
+	  });
+	 }
+	}else{
+	   showDialog("msg_info","","同时最多对比4件商品,请删除对比栏中一件商品！",2,"warning",3,'');
+	}
+	  });
+   jQuery(".contrast_off a").click(function(){
+	 jQuery.ajax({type:'POST',url:'/goShop.java?cmd=comparisonRemove',data:{"id":"$!{product.id}"},
+					  success:function(data){
+		                   jQuery("#goods_compare_cart").empty().append(data);  
+						   if(jQuery("#goods_compare_cart dl").size()<2){
+						     jQuery(".contrast_b_yes a").attr("href","javascript:void(0);").removeAttr("target").css("background","#CCC");
+						   }
+						   if(jQuery("#goods_compare_cart dl").size()==0){
+						      jQuery(".contrast_center_center_nothing").show();
+						   }
+						   jQuery(".contrast").show();
+	                       jQuery(".contrast_off").hide();
+		               }
+		  });									
+   });
+   jQuery(".contrast_center_center_close").live("mouseover",function(){
+	     jQuery(this).css("cursor","pointer");
+	  }).live("click",function(){
+      var goods_id=jQuery(this).attr("goods_id");
+	  jQuery.ajax({type:'POST',url:'/goShop.java?cmd=comparisonRemove',data:{"id":goods_id},
+					  success:function(data){
+		                   jQuery("#goods_compare_cart").empty().append(data);   
+						   if(jQuery("#goods_compare_cart dl").size()<2){
+						     jQuery(".contrast_b_yes a").attr("href","javascript:void(0);").removeAttr("target").css("background","#CCC");
+						   }
+						   if(jQuery("#goods_compare_cart dl").size()==0){
+						      jQuery(".contrast_center_center_nothing").show();
+						   }
+						   if(goods_id=='$!{product.id}'){
+						     jQuery(".contrast").show();
+	                         jQuery(".contrast_off").hide();
+						   }
+		               }
+	   });
+   });
+   //
+   jQuery(".contrast_b_clear").click(function(){
+	   jQuery.cookie("duibipros",null);
+	   jQuery("#goods_compare_cart").empty();        
+       jQuery(".contrast_b_yes a").attr("href","javascript:void(0);").removeAttr("target").css("background","#CCC");
+	   jQuery(".contrast").show();
+	   jQuery(".contrast_off").hide();
+	   jQuery(".contrast_center_center_nothing").show();
+   });
+   
+ if(goods_inventory==0 && "all"=="all"){
+	jQuery("#add_car_g").attr("class","add_car_btn_no").removeAttr("onclick");
+	jQuery("#buy_g").attr("class","add_atonce_buy_no").removeAttr("onclick");
+	jQuery("#buy_f").attr("class","add_atonce_buy_no").removeAttr("onclick");
+	jQuery("#goods_inventory").attr("style","color:#F00; font-size:16px");
+	jQuery("#notice").show();
+	}else{
+	jQuery("#add_car_g").attr("class","add_car_btn");
+	jQuery("#buy_g").attr("class","add_atonce_buy");
+	jQuery("#buy_f").attr("class","add_atonce_buy");
+				 	jQuery("#goods_inventory").removeAttr("style");
+	jQuery("#notice").hide();
+}   
+	if(0 == 1 && "15"!=""){
+		jQuery("#add_car_g").attr("class","add_car_btn_no").removeAttr("onclick");
+		jQuery("#buy_g").attr("class","add_atonce_buy_no").removeAttr("onclick");
+		jQuery("#buy_f").attr("class","add_atonce_buy_no").removeAttr("onclick");
+  	}
+	if(0 == 1){
+		jQuery("#add_car_g").attr("class","add_car_btn_no").removeAttr("onclick");
+		jQuery("#buy_g").attr("class","add_atonce_buy_no").removeAttr("onclick");
+		jQuery("#buy_f").attr("class","add_atonce_buy_no").removeAttr("onclick");
+  	}
+});////
+function add_cart(){
+  var add=true
+  var gsp="";
+  if(jQuery(".product_choose li[mark='spec']").length==0){
+    add=true;
+  }else{
+	jQuery(".product_choose li[mark='spec']").each(function(){
+	   jQuery.each(jQuery(this).find("a[class=this]"),function(){
+		  gsp=jQuery(this).attr("gsp")+","+gsp; 
+		  jQuery(this).parent().parent().attr("status","selected");
+	   });
+       if(jQuery(this).find("a[class=this]").length==0) 
+	   add=false;
+	});
+	if(jQuery(".product_choose li[mark='spec']").length==jQuery(".product_choose li[status='selected']").length){
+		   add=true;
+		}else{
+		   add=false;	
+	    }
+  }
+  var count=jQuery("#goods_count").val();
+  if(count==0){
+    add=false;
+	showDialog("msg_info","","至少购买一件商品！",2,"warning",3,'');
+	return;
+  }
+  //var goods_inventory="$!product.inventory";
+  var goods_inventory = $("#goods_inventory").text();
+  var goods_count = $("#goods_count").val();
+  goods_inventory = parseInt(goods_inventory);
+  if(goods_inventory < goods_count){
+    add=false;
+	showDialog("msg_info","","商品库存不足,不能购买！",2,"warning",3,'');
+	return;
+  }
+  if(add){
+		store_price = act_price;
+		var goods_id = "$!{product.id}";
+		var goods_num = jQuery("#goods_count").val();
+		var goods_spec="0";
+		
+		
+		
+		jQuery.ajax({type:'POST',url:'/goShop.java?cmd=addToCar',data:{"id":goods_id,num:goods_num,spec:goods_spec},
+			  success:function(data){
+				  num=data.num;
+				  window.location.href="/shopBase.java?cmd=toPage&topage=/shop/proaddtocar.html";
+			  }
+		});
+  }else{
+   error_show();
+  }
+ }
+
+function buy_goods(){
+  var add=true
+  var gsp="";
+  if(jQuery(".product_choose li[mark='spec']").length==0){
+    add=true;
+  }else{
+	jQuery(".product_choose li[mark='spec']").each(function(){
+	   jQuery.each(jQuery(this).find("a[class=this]"),function(){
+		  gsp=jQuery(this).attr("gsp")+","+gsp; 
+		  jQuery(this).parent().parent().attr("status","selected");
+	   });
+       if(jQuery(this).find("a[class=this]").length==0) 
+	   add=false;
+	});
+	if(jQuery(".product_choose li[mark='spec']").length==jQuery(".product_choose li[status='selected']").length){
+		 add=true;
+		}else{
+		add=false;	
+	    }
+  }
+  var count=jQuery("#goods_count").val();
+  if(count==0){
+    add=false;
+	showDialog("msg_info","","至少购买一件商品！",2,"warning",3,'');
+	return;
+  }
+//var goods_inventory="$!product.inventory";
+  var goods_inventory = $("#goods_inventory").text();
+  var goods_count = $("#goods_count").val();  
+  goods_inventory = parseInt(goods_inventory);
+  if(goods_inventory < goods_count){
+	    add=false;
+		showDialog("msg_info","","商品库存不足,不能购买！",2,"warning",3,'');
+		return;
+	  }   
+  if(0 == 1 && "15"!=""){
+	add=false;
+	showDialog("msg_info","","商品店铺已停业",2,"warning",3,'');
+	return;
+  }
+  var buy_type=arguments[0];
+  var combin_ids=arguments[1];
+  var shopspecId = $("#shopspec_id").val();	//规格id
+  if(add){
+	window.location.href="/shopTrade.java?cmd=confirmOrder&proIdNums=$!{product.id}_"+count+"_"+shopspecId;
+	
+  }else{
+	  error_show();
+  }
+ }
+//
+function goods_count_sub(){
+   var goods_count= jQuery("#goods_count").val();
+   if(goods_count>1){
+		goods_count--;
+		jQuery("#goods_count").val(goods_count);
+	}
+}
+function goods_count_add(){
+   var goods_count= jQuery("#goods_count").val();
+   var goods_inventory = $("#goods_inventory").text();
+   goods_inventory = parseInt(goods_inventory);
+   if(goods_count < goods_inventory){
+		goods_count++;
+		jQuery("#goods_count").val(goods_count);
+	 }else{
+		 showDialog("msg_info","","库存只有"+goods_inventory+"件！",2,"warning",3,'');
+		 jQuery("#goods_count").val(goods_inventory);
+	 }
+}
+function error_show(){
+  jQuery(".product_choose").addClass("choose_this");
+}
+function error_hide(){
+  jQuery(".product_choose").removeClass("choose_this");
+}
+
+
+
+
+jQuery(".pro_tab_top[tab_id=goods_evas] li").css("cursor","pointer").live("click",function(){
+	   jQuery(".pro_tab_top[tab_id=goods_evas] li").removeClass("this");
+	   jQuery(this).addClass("this");
+	   var goods_eva=jQuery(this).attr("goods_eva");
+	   jQuery.ajax({type:'POST',url:"/goShop.java?cmd=getGoodsEvaluation",data:{"currentPage":1,"proId":$!id,"type":goods_eva},
+				  beforeSend:function(){
+				   },
+				  success:function(data){
+	                jQuery("#goods_evas_list").empty();						
+	                jQuery("#goods_evas_list").append(data);																								                
+				  }
+			})
+	});
+
+function gotoPage(val){
+	var goods_eva=jQuery(this).attr("goods_eva");
+	var aa=""
+	jQuery.ajax({type:'POST',url:"/goShop.java?cmd=getGoodsEvaluation",data:{"currentPage":val,"proId":$!id,"type":#if($!type) $!type #else 0 #end},
+		  beforeSend:function(){
+		   },
+		  success:function(data){
+          jQuery("#goods_evas_list").empty();						
+          jQuery("#goods_evas_list").append(data);																								                
+		  }
+	})
+}
+
+
+</script>
+<style>
+div, h1, h2, h3, h4, h5, h6, b, i, em, strong, a, s, p, dl, dd, dt, ul, li, input, select {
+	behavior: url(ie-css3.htc);
+}
+</style>
+</head>
+<body>
+#parse("/common/top.html")
+<div class="main">
+  <div class="product_top"> 
+    <!--大图片开始-->
+    <div class="product_top_left">             <div class="product_details_img">
+        <div class="product_image"> 
+        	<a href='$product.imgPaths.split("_")[0]' class="jqzoom" rel="gal1" title="商品细节图" style="outline-style: none; text-decoration: none;"> 
+        	<img src='$product.imgPaths.split("_")[0]' title="商品细节图" id="main_img" width="400" height="400" style="opacity: 1;">
+        	</a> <i class="product_image_f"><img src="/static/home/shopmanage/images/product_image_f.png"></i> </div>
+        <div class="product_imgs"> 
+          <!--小图片开始-->
+          <div class="pro_imgbox"> 
+          #foreach($obj in $product.imgPaths.split("_"))
+          <a class="" href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: '$obj',largeimage: '$obj'}"><span>
+            <p><img src="$obj" big_img="$obj" width="50" height="50" onmouseover="img_switch(this);" style="cursor:pointer;"></p>
+            </span></a>  
+          #end
+            </div>
+        </div>
+      </div>
+      <div class="product_top_b">
+        <div class="collect_product">
+        
+        #if($user)
+      <a href="javascript:void(0);"><i></i>收藏商品($!product.collectNum)</a>
+      #else
+      <a href="javascript:void(0);" dialog_uri='/shopMemberCenter.java?cmd=toLogin2&rUrl=${tu.urlenCode("/goShop.java?cmd=productDetail&id=$!{id}")}' dialog_title="会员登录" dialog_width="430" dialog_height="100" dialog_id="user_login"><i></i>收藏商品(0)</a>
+      #end
+        </div>
+        <div class="contrast"><a href="javascript:void(0);"><i></i>加入对比</a></div>
+        <div class="contrast_off" style="display:none;"><a href="javascript:void(0);"><i></i>取消对比</a></div>
+        <!--右侧对比 -->
+        <div class="contrast_center" style="display:none;">
+          <div class="contrast_center_top"><span>对比栏<i><a href="javascript:void(0);" onclick="jQuery('.contrast_center').hide();jQuery('.contrast_center_nothing').show();">隐藏</a></i></span></div>
+          <div class="contrast_center_center">
+            <div id="goods_compare_cart">  </div>
+            <div class="contrast_center_center_nothing"></div>
+            <!--没有数据 display:none -->
+            <div class="contrast_b">               <div class="contrast_b_yes"><a href="javascript:void(0);" style="background:#CCC;">对比</a></div>
+                            <div class="contrast_b_clear"><a href="javascript:void(0);">清空</a></div>
+            </div>
+          </div>
+        </div>
+        <!--对比隐藏 -->
+        <div class="contrast_center_nothing" onclick="jQuery('.contrast_center').show();jQuery('.contrast_center_nothing').hide();"><a href="javascript:void(0);">对比栏</a></div>
+      </div>
+    </div>
+    <div class="product_top_right">
+      <h2 class="product_title">$product.name</h2>
+      <!-- <h2 class="product_title_h2"> <strong>当前商品为促销商品，用户登录后方可享受促销价格！</strong>    </h2> -->
+      <div class="product_data_left">
+		 <ul class="pro_details"> 
+		   <!-- <li class="pro_details_li"><span class="deta_left">参考价格：</span><span class="deta_right">
+		     <s>
+		      &yen;
+		     </s></span></li>  -->
+		   <li class="pro_details_li"><span class="deta_left">商城价格：</span><span class="deta_right"><strong class="deta_red" id="store_price">&yen;$product.amt</strong></span></li>
+		   #if($!user.disType==1)
+		   	<li class="pro_details_li"><span class="deta_left">微店价格：</span><span class="deta_right"><strong class="deta_red" id="weidian_price">&yen;$product.store_price</strong></span></li>
+		   #elseif($!user.disType==2)
+		   	<li class="pro_details_li"><span class="deta_left">店铺价格：</span><span class="deta_right"><strong class="deta_red" id="tiyandian_price">&yen;$product.tydAmt</strong></span></li>
+		   #end
+		   <li class="pro_details_li"><span class="deta_left">商品评价：</span>
+		   <span class="deta_right"> 
+		     <div class="five_star">
+		      <b title="好评率：$!{hpbfb}%" style="width:$!{hpbfb}%"></b>
+		     </div>
+		     <a href="javascript:void(0);" class="deta_eval_a">(已有0人评价)</a> 
+		     </span></li>
+		   <li class="pro_details_li"><span class="deta_left">销售情况：</span><span class="deta_right">已售出$!{product.saleNum}件 </span></li>
+		   <li class="pro_details_li"><span class="deta_left">赠送积分：</span><span class="deta_right" id="sendPoints">$product.sendPoints</span></li>  
+		   <li class="pro_details_li"><span class="deta_left">售后服务：</span><span class="deta_right">$!product.brand.afterSaleService</span></li>
+		  </ul>
+        <script>
+			  function goods_spec_set(obj){
+				guige="";
+				var spec=jQuery(obj).attr("spec");
+				var gsp="";
+				var sname="";
+				var load=true;
+				var count=0;
+				jQuery(".choose_right a[spec="+spec+"]").removeClass("this");
+			    jQuery(obj).addClass("this");
+				jQuery(".choose_right").each(function(){
+                    jQuery.each(jQuery(this).find("a[class=this]"),function(){
+					  gsp=jQuery(this).attr("gsp");
+					  if(spec && gsp){
+  					  	guige += (spec+"-"+gsp)+"+";
+  					  }
+					  if(count==0){
+					      sname="“"+jQuery(this).attr("sname")+"“";	  
+						  }else{
+						  sname="“"+jQuery(this).attr("sname")+"”,"+sname;	  
+							  }
+					  count++;
+					});
+	            });
+				jQuery("#show_spec_li").show().find("strong").html(sname);
+				if(guige.length>0){
+					guige=guige.substr(0,guige.length-1)
+				}
+			  }
+			  </script>
+  <ul class="product_choose"> 
+   
+   #foreach($group in $specGroupMap.entrySet())
+   	#if($group.value.size() > 0)
+	   <li class="pro_choose_li"> 
+		   <span class="choose_left"> ${group.key}：</span> 
+		   <span class="choose_right">
+		   		#set($index=$foreach.count)
+		   		#foreach($spec in $group.value)
+		   			#if($foreach.count==1)
+	             	<a href="javascript:void(0);" class="this specGroupClass_$index" data-value="$spec" > <b>$spec</b><i></i></a>
+	             	#else
+	             	<a href="javascript:void(0);" class="specGroupClass_$index" data-value="$spec" > <b>$spec</b><i></i></a>
+	             	#end
+	             <!-- onclick="/*goods_spec_set(this);*/" -->
+				#end
+	       </span>
+	   </li>
+	#end 	
+   #end
+   <input id="shopspec_id" type="hidden" value=""/>
+   
+   <li class="pro_choose_li"> 
+	   <span class="choose_left"> 购买数量：</span> 
+	   <span class="choose_right_three"> 
+		   <a href="javascript:void(0);" onclick="goods_count_sub();" class="choose_num_up"></a> 
+		   <input name="goods_count" id="goods_count" value="1" type="text" class="choose_num" /> 
+		   <a href="javascript:void(0);" onclick="goods_count_add();" class="choose_num_down"></a>
+	   </span> 
+	   <span class="pro_choose_store"> <span class="stockparts">（库存：<b id="goods_inventory" data-value="$!{product.inventory}">$!{product.inventory}</b> 件）<b id="notice" style="display: none; float: right;">
+	   <img src="./detail_files/warning.png" width="25px" height="25px" /></b></span> </span>
+   </li>
+   
+   <li class="pro_choose_li red" id="show_spec_li" style="display:none">已选择： <strong></strong></li> 
+  </ul>
+
+                 <span class="add_car"> 
+                 #if($user)
+                 <a href="javascript:void(0);" onclick="add_cart();" class="add_car_btn" id="add_car_g">加入购物车</a> 
+                 <a href="javascript:void(0);" onclick="buy_goods();" class="add_atonce_buy" id="buy_g">立即购买</a>
+                 #else
+                 <a href="javascript:void(0);" dialog_uri='/shopMemberCenter.java?cmd=toLogin2&rUrl=${tu.urlenCode("/goShop.java?cmd=productDetail&id=$!{id}")}' dialog_title="会员登录" dialog_width="430" dialog_height="100" dialog_id="user_login" class="add_car_btn" id="add_car_g">加入购物车</a> 
+                 <a href="javascript:void(0);" dialog_uri='/shopMemberCenter.java?cmd=toLogin2&rUrl=${tu.urlenCode("/goShop.java?cmd=productDetail&id=$!{id}")}' dialog_title="会员登录" dialog_width="430" dialog_height="100" dialog_id="user_login" class="add_atonce_buy" id="buy_g">立即购买</a> 
+                 #end
+                 </span>                 
+                
+                         </div>
+      <!--默认规格--> 
+      <script>
+          jQuery(".pro_choose_li[mark='spec']").each(function(){
+			var th = jQuery(this).find("a").first();
+			goods_spec_set(th); 
+		   });
+		  jQuery(function(){ 
+		     jQuery(".value_top").click(function(){
+			     jQuery(".pro_shop_date").slideUp();
+				 jQuery(".value_top").hide();
+				 jQuery(".value_down").show();
+			  });
+			 jQuery(".value_down").click(function(){
+			     jQuery(".pro_shop_date").slideDown();
+				 jQuery(".value_top").show();
+				 jQuery(".value_down").hide();
+			  });
+		  })
+          </script>
+
+       <!-- 规格操作 by wb -->       
+       <script>
+	   	//该商品对应的所有规格数据
+	   	var productSpecs = eval('$specRecordJson');
+	   	function flushSpecInfo(){
+	   		//不存在规格
+	   		if(productSpecs.length == 0){
+	   			$("#sendPoints").html($!product.sendPoints);
+	   			$("#store_price").html($!product.amt);
+	   			$("#weidian_price").html($!product.store_price);
+	   			$("#tiyandian_price").html($!product.tydAmt);
+	   			$("#goods_inventory").attr("data-value", "$!product.inventory");
+	   			$("#goods_inventory").val($!product.inventory);
+	   			return;
+	   		}
+	   		var specNameArray = new Array();
+	   		#foreach($group in $specGroupMap.entrySet())
+	   			#set($index=$foreach.count)
+	   			#if($group.value.size() > 0)	   					
+	   				specNameArray.push($(".this.specGroupClass_$index").attr("data-value"));
+	   			#end
+	   		#end
+	   		//循环判断选择的规格是否存在与规格表中
+	   		var result = false;
+	   		var matchIndex = -1;
+	   		for(i=0; i<productSpecs.length; ++i){
+	   			var matchCount = 0;
+	   			for(var j=0; j<specNameArray.length; ++j){
+	   				if(productSpecs[i].name.indexOf(specNameArray[j]) != -1){
+	   					++matchCount;
+	   				}else{
+	   					break;
+	   				}
+	   			}
+	   			if(matchCount == specNameArray.length){
+	   				matchIndex = i;
+	   				break;
+	   			}
+	   		}
+	   		//依据存在与否，处理
+	   		if(matchIndex != -1){
+	   			var tempSpec = productSpecs[matchIndex];
+	   			$("#store_price").html("￥"+tempSpec.amt);
+	   			$("#weidian_price").html("￥"+tempSpec.store_price);
+	   			$("#tiyandian_price").html("￥"+tempSpec.tydAmt);
+	   			$("#goods_inventory").html(tempSpec.inventory);
+	   			$("#goods_inventory").attr("data-value", tempSpec.inventory);
+	   			$("#shopspec_id").val(tempSpec.id);
+	   		}else{
+	   			$("#store_price").html("无货");
+	   			$("#weidian_price").html("无货");
+	   			$("#tiyandian_price").html("无货");
+	   			$("#goods_inventory").html(0);
+	   			$("#goods_inventory").attr("data-value", 0);
+	   		}
+	   	}
+	   	function flushNotice(){
+	   		var specName = "";
+	   		var selectSpecs = $(".pro_choose_li .choose_right a.this");
+	   		for(var i=0; i<selectSpecs.length; ++i){
+	   			specName += "“"+$(selectSpecs[i]).attr("data-value")+"”,";
+	   		}
+	   		specName = specName.substring(0, specName.length-1);
+	   		jQuery("#show_spec_li").show().find("strong").html(specName);
+	   	}
+	   	/*
+	   	 * 功能：规格选择更改后的响应操作
+	   	 */
+	   	$(function(){
+	   		#foreach($group in $specGroupMap.entrySet())
+	   		#set($index=$foreach.count)
+	   			$(".specGroupClass_$index").click(function(){
+	   				$(".specGroupClass_$index").removeClass("this");
+	   				$(this).addClass("this");
+	   				flushSpecInfo();
+	   				flushNotice();
+	   				if($("#goods_inventory").attr("data-value") == "0"){
+	   					alert("亲，所选规格没货了，请选择其他规格^_^！");			
+	   				}
+	   			});
+	   		#end
+	   		flushSpecInfo();
+	   	});
+       </script>
+       
+       
+            <!--自营 -->
+      <div class="show_merchant">
+        <div class="show_merchant_center">
+          <div class="show_merchant_center_top">平台自营商品</div>
+          <div class="show_merchant_center_main">
+            <ul>
+              <li><span><img src="/static/home/shopmanage/images/show_merchant_center_main_fw.png"/></span>服务支持</li>
+              <li><span><img src="/static/home/shopmanage/images/show_merchant_center_main_k.png"/></span>款到发货</li>
+              <li><span><img src="/static/home/shopmanage/images/show_merchant_center_main_zp.png"/></span>安全保真</li>
+              <li style="width:168px;"><span><img src="/static/home/shopmanage/images/show_merchant_center_main_h.png"/></span>15天质量问题换货</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+       </div>
+  </div>
+  <div class="prodect_bottom">
+    <div class="prodect_b_left">
+      <div class="prodect_bleft_class">
+        <h3><strong>相关分类</strong></h3>
+        <ul>
+        	#foreach($obj in $product.productType.parent.chilren)
+        		<li><a href="$html.autoLink($obj)" target="_blank">$obj.name</a></li>
+        	#end
+                  </ul>
+      </div>
+      <div class="prodfect_bleft_brand">
+        <h3><strong>同类其他品牌</strong></h3>
+        <ul>
+        		#foreach($obj in $product.productType.getAllBrands())
+        			<li><a href="$!html.autoLink($!obj)" target="_blank">$obj.name</a></li>
+        		#end
+                  </ul>
+      </div>
+      <script>
+      jQuery(document).ready(function(){
+	     jQuery("#rank").find("li").mouseover(function(){
+			jQuery(this).parent().find("li").removeClass("this");
+			jQuery(this).addClass("this");
+			var id = jQuery(this).attr("id");
+	        jQuery(".pro_sort_bottom").hide();
+		    jQuery("#div_"+id).show();								  									  
+	      });							  
+		});
+      </script>
+      <div class="prodect_bleft_sort">
+        <h3><strong>商品排行</strong></h3>
+        <div class="pro_sort_box">
+          <ul id="rank">
+            <li id="sale" style="cursor:pointer;">热销商品排行</li>
+            <li id="fav" class="this" style="cursor:pointer;">热门收藏排行</li>
+          </ul>
+        </div>
+        <div class="pro_sort_bottom" id="div_sale" style="display:none">                                         
+        #set($num=1)
+        #foreach($obj in $salePros)
+        	<dl class="sort_bottom_dl">
+            <dt><span class="img_cspan">
+              <p><a href="$html.autoLink($obj)" target="_blank"><img src='$obj.imgPaths.split("_")[0]' width="50" height="50"></a></p>
+              </span><i class="sort_num_orange">$num</i></dt>
+            <dd>
+              <h5><a href="$html.autoLink($obj)" target="_blank">$obj.name </a></h5>
+              <i>¥$obj.amt</i> <b>出售：$obj.saleNum</b></dd>
+          </dl>
+          #set($num=$num+1)
+        #end
+           </div>
+        <div class="pro_sort_bottom" id="div_fav">    
+        #set($num=1)                                     
+        #foreach($obj in $collectPros)
+        	<dl class="sort_bottom_dl">
+            <dt><span class="img_cspan">
+              <p><a href="$html.autoLink($obj)" target="_blank"><img src='$obj.imgPaths.split("_")[0]' width="50" height="50"></a></p>
+              </span><i class="sort_num_orange">$num</i></dt>
+            <dd>
+              <h5><a href="$html.autoLink($obj)" target="_blank">$obj.name </a></h5>
+              <i>¥$!obj.amt</i> <b>收藏：$!obj.collectNum</b></dd>
+          </dl>
+          #set($num=$num+1)
+        #end
+           </div>
+      </div>
+    </div>
+    <div class="prodect_b_right"> 
+      <!--组合套装--> 
+            <!--组合配件--> 
+            <div class="pro_introduces">
+        <div class="pro_tab_outbox">
+          <div class="pro_tab_top" id="pro_tab">
+          <span class="pro_addcar">
+              <a href="javascript:void(0);" dialog_uri="/" dialog_title="会员登录" dialog_width="430" dialog_height="100" dialog_id="user_login" class="add_car_btn" id="add_car_g">加入购物车</a>
+          </span>
+            <ul>
+              <li class="this" style="cursor: pointer;" target_id="goods_detail"><a href="javascript:void(0);">商品详情</a></li>
+              <li target_id="goods_eva" style="cursor: pointer;"><a href="javascript:void(0);">商品评价<b style="color: #005AA0; padding-left:5px;">($!count)</b></a></li>
+              <li target_id="goods_pack" style="cursor: pointer;"><a href="javascript:void(0);">包装清单</a></li>
+              <li target_id="goods_order" style="cursor: pointer;"><a href="javascript:void(0);">成交记录</a></li>
+              <li target_id="goods_service" style="cursor: pointer;"><a href="javascript:void(0);">售后保障</a></li>
+                          </ul>
+          </div>
+        </div>
+        <div class="img_center_load" style="display:none;text-align:center; padding-top:5px;"> <img height="28" width="28" src="./detail_files/loader.gif"> </div>
+        <div> 
+          <!--商品详情-->
+          <div id="goods_detail">
+            <div class="pro_introbox">
+              <div class="pro_intro_tabone">
+                <ul>
+                #foreach($obj in ${product.getAttrMap().entrySet()})
+                	<li>$obj.getKey():$obj.getValue()</li>
+                #end
+                </ul>
+              </div>
+            </div>
+            $product.goods_details
+          </div>
+          <!--商品评价-->
+          #if($!count==0)
+                              <div id="goods_eva" class="details_list_dl">
+            <div class="pro_grade">
+              <h3><strong>商品评价</strong></h3>
+              <div class="novalue"> 还没有评价内容 </div>
+            </div>
+          </div>
+          #else
+          <div id="goods_eva" class="details_list_dl">
+          <div class="pro_grade">
+              <h3><strong>商品评价</strong></h3>
+              <span class="grade_percent"><em>好评率：</em><i>$!hpbfb%</i></span>
+              <ul class="grade_ul">
+                <li><span>好评：<i>($!hpbfb%)</i></span><b class="progress"><em style="width:0.0%"></em></b></li>
+                <li><span>中评：<i>($!zpbfb%)</i></span><b class="progress"><em style="width:0.0%"></em></b></li>
+                <li><span>差评：<i>($!cpbfb%)</i></span><b class="progress"><em style="width:0.0%"></em></b></li>
+              </ul>
+            </div>
+            <div class="pro_appraise">
+              <div class="pro_tab_top"  tab_id="goods_evas">
+                <ul>
+                  <li goods_eva="0" class="this" style="cursor: pointer">全部评价<i>（$!count）</i></li>
+                  <li goods_eva="3" style="cursor: pointer">好评<i>（$!hpcount）</i></li>
+                  <li goods_eva="2" style="cursor: pointer">中评<i>（$!zpcount）</i></li>
+                  <li goods_eva="1" style="cursor: pointer">差评<i>（$!cpcount）</i></li>
+                  <!-- <li goods_eva="100" style="cursor: pointer">有晒单<i>（0）</i></li> -->
+                </ul>
+              </div>
+              <div class="pro_appraise_box" id="goods_evas_list">
+                #parse("/shop/goods_evaluation.html")
+              </div>
+            </div>
+            </div>
+          	#end
+          
+          <!--包装清单-->
+          <div style="float:left;width:100%; line-height:26px;" id="goods_pack">
+            <div class="pro_grade">
+              <h3><strong>包装清单</strong></h3>
+              <div style="padding-left:10px;">$!{product.pack_details}
+              </div>
+            </div>
+          </div>
+          <!--成交记录-->
+          <div class="details_list_dl" id="goods_order">
+          	<div class="pro_grade">
+              <h3><strong>成交记录</strong></h3>
+              #parse("/shop/goods_record.html")
+            </div>
+          </div>
+          <!--售后保障-->
+          <div class="pro_service" id="goods_service">
+            <div class="pro_grade">
+              <h3><strong>售后保障</strong></h3>
+              <div class="pro_service_left"><img src="/static/home/shopmanage/images/pro/pro_service_left.png"></div>
+              <div class="pro_service_right">$!{product.goods_service}</div>
+            </div>
+          </div>
+          <!--产品咨询-->
+          <div id="goods_cousult" class="pro_introbox">
+            <div class="consultation" id="goods_consult_list">
+              <div class="consultation_top_nav">
+                <ul>
+                  <li consult_type="0" consult_value="allAdvice"  style="cursor: pointer;" #if($menuId=='allAdvice') class="this" #end>全部咨询<i>（#if($!qbzxCount) $!qbzxCount #else 0 #end ）</i></li>
+                  <li consult_type="1" consult_value="goodsAdvice"  style="cursor: pointer;" #if($menuId=='goodsAdvice') class="this" #end>产品咨询<i>（#if($!cpzxCount) $!cpzxCount #else 0 #end ）</i></li>
+                  <li consult_type="2" consult_value="kcjps"  style="cursor: pointer;" #if($menuId=='kcjps') class="this" #end>库存及配送<i>（#if($!kcjpsCount) $!kcjpsCount #else 0 #end ）</i></li>
+                  <li consult_type="3" consult_value="zfjfp"  style="cursor: pointer;" #if($menuId=='zfjfp') class="this" #end>支付及发票<i>（#if($!zfjfpCount) $!zfjfpCount #else 0 #end ）</i></li>
+                  <li consult_type="4" consult_value="shzx"  style="cursor: pointer;" #if($menuId=='shzx') class="this" #end>售后咨询<i>（#if($!shzxCount) $!shzxCount #else 0 #end ）</i></li>
+                  <li consult_type="5" consult_value="cxhd"  style="cursor: pointer;" #if($menuId=='cxhd') class="this" #end>促销活动<i>（#if($!cxhdCount) $!cxhdCount #else 0 #end ）</i></li>
+                </ul>
+              </div>
+              <div class="consultation_top">
+                <div class="pro_prompt">
+                  <div class="pro_prompt_word">因厂家更改商品包装、场地、附配件等不做提前通知，且每位咨询者购买、提问时间等不同。为此，客服给到的回复仅对提问者3天内有效，其他网友仅供参考！给您带来的不变还请谅解，谢谢 </div>
+                      <div class="consultation_top_t"><span>如有购买问题，请向卖家咨询！</span>  
+                      #if($user)
+                      <i><a class="inte_login_btn" href="javascript:void(0)" dialog_uri="/shopMemberCenter.java?cmd=tozixun&proId=$!{product.id}" dialog_title="产品咨询" dialog_width="430" dialog_height="100" dialog_id="goods_cousult_win"> 我要咨询</a></i>
+                      #else
+                      <i><a href="javascript:void(0);" dialog_uri='/shopMemberCenter.java?cmd=toLogin2&rUrl=${tu.urlenCode("/goShop.java?cmd=productDetail&id=$!{id}")}' dialog_title="会员登录" dialog_width="430" dialog_height="100" dialog_id="user_login" class="inte_login_btn">我要咨询</a></i>
+                      #end
+                      
+                        </div>
+                   </div>
+                                <div class="novalue"> 还没有咨询内容 </div>
+                 </div>
+                 
+                 <div class="consultation_top_center">
+                 	
+                 	#foreach($!obj in $goodsAdviceList)
+                   <div class="consultation_top_center_one">
+                    <div class="consultation_top_center_one_ask">
+                      <div class="consultation_top_center_one_ask_user">$!obj.user.name</div>
+                      <div class="consultation_top_center_one_ask_word">$!obj.content</div>
+                      <div class="consultation_top_center_one_ask_time">$!obj.createDate</div>
+                    </div>
+                    
+                      <!-- <div class="consultation_top_center_one_bottom">
+                      <div class="consultation_top_center_one_bottom_yes"><a href="javascript:void(0);" onclick="satisfy('8',this)">满意 (2)</a></div>
+                      <div class="consultation_top_center_one_bottom_no"><a href="javascript:void(0);" onclick="unsatisfy('8',this)">不满意 (0)</a></div>
+                    </div> -->
+                    
+                  </div>
+                    #end
+                      
+<!--                      <div class="details_discus_page"> <span target_id="goods_consult_list"><a href='javascript:void(0);' onclick='return ajaxPage("/goods_consult.htm?1=1",1,this)'>首页</a> <a href='javascript:void(0);' onclick='return ajaxPage("/goods_consult.htm?1=1",0,this)'>上一页</a> 第　<a class='this' href='javascript:void(0);' onclick='return ajaxPage("/goods_consult.htm?1=1",1,this)'>1</a> 页　<a href='javascript:void(0);' onclick='return ajaxPage("/goods_consult.htm?1=1",2,this)'>下一页</a> <a href='javascript:void(0);' onclick='return ajaxPage("/goods_consult.htm?1=1",1,this)'>末页</a> </span> </div>
+ -->                </div>
+                
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  ﻿<script>
+jQuery(document).ready(function(){
+		var tempLengths = 0; //临时变量,当前移动的长度
+		var viewNums = 5; //设置每次显示图片的个数量
+		var moveNums = 4; //每次移动的数量
+		var moveTimes = 500; //移动速度,毫秒
+		var scrollDivs = jQuery(".bottom_rbox_position"); //进行移动动画的容器
+		var scrollItemss = jQuery(".bottom_rbox_position ul"); //移动容器里的集合
+		var moveLengths = scrollItemss.eq(0).width() * moveNums; //计算每次移动的长度
+		var countLengths = (scrollItemss.length - viewNums) * scrollItemss.eq(0).width(); //计算总长度,总个数*单个长度
+		var all_lengths=scrollItemss.eq(0).width()*scrollItemss.length;
+		jQuery(".bottom_rbox_position").css("width",all_lengths);
+		//下一张
+		jQuery("#left").bind("click",function(){
+			if(tempLengths < countLengths){
+				if((countLengths - tempLengths) > moveLengths){
+					scrollDivs.animate({left:"-=" + moveLengths + "px"}, moveTimes);
+					tempLengths += moveLengths;
+				}else{
+					scrollDivs.animate({left:"-=" + (countLengths - tempLengths) + "px"}, moveTimes);
+					tempLengths += (countLengths - tempLengths);
+				}
+			}
+		});
+		//上一张
+		jQuery("#right").bind("click",function(){
+			if(tempLengths > 0){
+				if(tempLengths > moveLengths){
+					scrollDivs.animate({left: "+=" + moveLengths + "px"}, moveTimes);
+					tempLengths -= moveLengths;
+				}else{
+					scrollDivs.animate({left: "+=" + tempLengths + "px"}, moveTimes);
+					tempLengths = 0;
+				}
+			}
+		});
+	});  
+</script>
+
+<div class="main_bottom">
+  <div class="main_bottom_left">
+    <h3><span>最近浏览</span></h3>
+                #foreach($obj in $yhistory.result)
+                	<dl>
+      <dt><a href="$!html.autoLink($!obj)" target="_blank"><span class="img_cspan"><img src='$obj.imgPaths.split("_")[0]' width="50" height="50"></span></a></dt>
+      <dd>
+        <h4><a href="$!html.autoLink($!obj)" target="_blank">$obj.name</a></h4>
+        <b>$obj.amt</b></dd>
+    </dl>
+                #end
+     <span class="main_bleft_a"></span></div>
+  <div class="main_bottom_right">
+    <h3>根据浏览猜你喜欢</h3>
+    <div class="main_bottom_rbox"> <span class="rbox_left"><a href="javascript:void(0);" id="right"></a> </span>
+      <div class="bottom_rbox">
+
+        <div class="bottom_rbox_position" style="width: 3540px;">
+        #foreach($obj in $ylikes.result)                             
+                                  <ul class="rbox_ul">
+            <li class="rbox_ul_img"><a href="$!html.autoLink($!obj)" target="_blank"><span class="img_cspan">
+              <p><img src='$obj.imgPaths.split("_")[0]' width="150" height="150"></p>
+              </span></a></li>
+            <li class="rbox_ul_name"><a href="$!html.autoLink($!obj)" target="_blank">$obj.name</a></li>
+                        <li>
+              <div class="five_star" style="margin-left:40px"><b title="0.0%" style="width:0.0%;"></b></div>
+            </li>
+            <li class="rbox_ul_evaluate">(已有0人评价)</li>
+            <li class="rbox_ul_price">¥$obj.amt</li>
+          </ul>
+         #end                               
+                                        
+           </div>
+      </div>
+      <span class="rbox_right"><a href="javascript:void(0);" id="left"></a></span> </div>
+  </div>
+</div>
+ 
+  ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+ 	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+#parse("/common/footer.html")
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: block;">
+  <div class="back_index"><a href="/goShop.java" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href='$html.autoLink($product)' bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+ </div>
+
+</body></html>

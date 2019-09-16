@@ -1,0 +1,147 @@
+<!DOCTYPE>
+<html>
+<head>
+<title>微店会员中心</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta
+	content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
+	name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<link href="/static/home/bcd/css/user.css" rel="stylesheet" type="text/css" />
+<script>
+	/**
+	 * 删除左右两端的空格
+	 */
+	String.prototype.trim = function() {
+		return this.replace(/(^\s*)|(\s*$)/g, '');
+	}
+
+	function validateForm() {
+		var result = true;
+
+		//检查联系电话
+		reg = /^1\d{10}$/;
+		var mobileTel = $("#mobile").val();
+		if (!reg.test(mobile)) {
+			result = false;
+			$("#mobile").css("border", "solid 1px red");
+		} else {
+			$("#mobile").css("border", "");
+		}
+
+		//检查用户昵称输入
+		/* var name = $("#name").val().trim();
+		if (name.length == 0 || name.length > 30) {
+			result = false;
+			$("#name").css("border", "solid 1px red");
+		} else {
+			$("#name").css("border", "");
+			$("#name").val(name);
+		} */
+
+		var trueName = $("#trueName").val().trim();
+		if (trueName.length == 0 || trueName.length > 20) {
+			result = false;
+			$("#trueName").css("border", "solid 1px red");
+		} else {
+			$("#trueName").css("border", "");
+			$("#trueName").val(trueName);
+		}
+
+		/* var myShopName = $("#myShopName").val().trim();
+		if (myShopName.length == 0 || myShopName.length > 30) {
+			result = false;
+			$("#myShopName").css("border", "solid 1px red");
+		} else {
+			$("#myShopName").css("border", "");
+			$("#myShopName").val(myShopName);
+		} */
+
+		/* var openAccountAddress = $("#openAccountAddress").val().trim();
+		if (openAccountAddress.length == 0 || openAccountAddress.length > 200) {
+			result = false;
+			$("#openAccountAddress").css("border", "solid 1px red");
+		} else {
+			$("#openAccountAddress").css("border", "");
+			$("#openAccountAddress").val(openAccountAddress);
+		} */
+
+		//检查会员简介输入
+		/* var intro = $("#intro").val().trim();
+		if (intro.length == 0 || intro.length > 200) {
+			result = false;
+			$("#intro").css("border", "solid 1px red");
+		} else {
+			$("#intro").css("border", "");
+			$("#intro").val(intro);
+		} */
+
+		return result;
+	}
+	function submitForm() {
+		if (validateForm()) {
+			$("#theForm").submit();
+		} else {
+			alert("您有输入格式不对的内容，请修改后在提交！");
+		}
+	}
+</script>
+</head>
+
+<body style="min-width: 100%;">
+	<form action="wxShopMemberCenter.java" id="theForm" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="cmd" value="update" /> <input type="hidden"
+			name="id" value="$!{dis.id}" /> <input type="hidden"
+			name="memberType" value="2" />
+		<!-- <div class="buypage_top"><a href="#"><img src="/static/home/bcd/images/buypage_t.jpg" width="91" height="59" alt="" /></a>微店个人中心</div> -->
+		<div>
+			<div class="hy_1">完善会员资料</div>
+			<ul class="hy_2">
+				
+				<li>真实姓名<span class="f-r"><input type="text"
+						id="trueName" name="trueName" placeholder="真实姓名（必填）"
+						value="$!{dis.getMember().trueName}"></li>
+				<li>联系电话<span class="f-r"><input type="text" id="mobile"
+						name="mobileTel" placeholder="联系电话（必填）" value="$!{dis.getMember().mobileTel}"></span></li>
+				<li>身份证号<span class="f-r"><input type="text" id="idCard"
+						name="idCard" placeholder="身份证号" value="$!{dis.getMember().idCard}"></span></li>				
+				<li>联系地址<span class="f-r"><input type="text"
+						id="openAccountAddress" name="openAccountAddress"
+						placeholder="联系地址" value="$!{dis.openAccountAddress}"></span></li>
+				<!--  <li>支付宝账号<span class="f-r"><input type="text"
+						id="alipayOpenId" name="alipayOpenId" placeholder="支付宝账号"
+						value="$!{dis.alipayOpenId}"> *</span></li> -->				
+				<!-- <li>开户行<span class="f-r"><input type="text"
+						id="bankType" name="bankType" placeholder="开户行"
+						value="$!{dis.alipayOpenId}"></span></li> -->
+				<li>开户姓名<span class="f-r"><input type="text"
+						id="trueName" name="openAccountName" placeholder="开户姓名"
+						value="$!{dis.trueName}"></span></li>
+				<li>银行卡号<span class="f-r"><input type="text"
+						id="bankNum" name="bankCardNum" placeholder="银行卡号"
+						value="$!{dis.bankCardNum}"></span></li>
+				
+				<!-- <li>密码<span class="f-r"><input type="text" id="password"
+						name="password" placeholder="密码" value="$!{dis.alipayOpenId}">
+						*</span></li> -->
+				<li>用户名<span class="f-r">$!{dis.getMember().getName()}<!-- <input type="text" id="mobile" style=""
+						name="mobile" placeholder="用户名" value="$!{dis.getMember().getName()}"> --></span></li>
+				<li>店铺名称<span class="f-r">$!{dis.myShopName}<!-- <input type="text"
+						id="myShopName" name="myShopName" placeholder="店铺名称"
+						value="$!{dis.myShopName}"> --></span></li>
+			</ul>
+
+			<div class="ui-btn-wrap">
+				<input type="submit" class="ui-btn-lg ui-btn-primary btn-no" value="确认修改" />
+			</div>
+		</div>
+	</form>
+	<div class="hei40" ></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+</body>
+</html>

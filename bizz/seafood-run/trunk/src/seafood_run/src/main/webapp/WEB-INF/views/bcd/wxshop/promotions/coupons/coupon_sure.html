@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>可用优惠券</title>
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script>
+		$(function(){
+			$(".timeFormate").each(function(){
+				var timeStr = $(this).html();
+				var tempTimeStr = timeStr.substring(0, 10);				
+				$(this).html(tempTimeStr);
+			});
+		})
+	</script>
+	
+	<style>
+CSS Document 
+html, body, div, span, iframe, h1, h2, h3, h4, h5, h6, p, pre, a, em, img, small, strong, b, i, dl, dt, dd, ol, ul, li, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, footer, header, menu, nav, section { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit;}
+aside, footer, header, menu, nav, section { display: block;}
+body { 
+	-webkit-text-size-adjust: none; 
+	/*font-family: '微软雅黑', sans-serif;*/
+	min-height: 416px;
+	color: #444;
+	font-size: 13px;
+}
+/*a {
+	color: #444;
+}*/
+::-webkit-input-placeholder {
+	color: #444;
+}
+::-moz-placeholder {
+	color: #444;
+}
+/* firefox 19+ */
+::-ms-input-placeholder {
+	color: #444;
+}
+/* ie */
+input:-moz-placeholder { color: #444;}
+ol, ul { list-style: none;}
+table { border-collapse: collapse; border-spacing: 0;}
+a { display: inline-block; text-decoration: none; cursor: default;}
+a:hover{cursor: pointer;}
+.body{
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+}
+	.nav{
+		height: 4%;
+		background: #FF7900;
+		text-align: center;
+	}
+		.nav span{
+			font-size: 24px;
+			color: #ffffff;
+			line-height: 44px;
+		}
+	.content{
+		margin-top: 20px;
+		height: 89%;
+	}
+		.coupon{
+			margin-left: 1%;
+			margin-bottom: 20px;
+			width: 98%;
+			height: 138px;
+			background: #cccccc;
+		}
+			.coupon_content{
+				float: left;
+				margin-top: 3px;
+				margin-bottom: 3px;
+				margin-left: 3px;
+				width: 98%;
+				height: 129px;
+				border: 1px solid #ffffff;
+				
+			}
+				.left{
+					float: left;
+					width: 42%;
+					height: 129px;
+					border-right: 1px solid #ffffff;
+				}
+				.up{
+					margin-top:1.5em;
+					float: left;
+					width: 100%;
+					text-align: center;
+					margin-bottom: 1em;					
+				}
+				.money{
+					font-size: 12px;
+					color: #FFFFFF;
+				}
+				.shu{
+					/* font-size: 96px; */
+					font-size: 2.5em;
+					color: #ffffff;
+				}
+				.down{
+					width: 100%;
+					text-align: center;
+				}
+				.font{
+					color: #ffffff;
+					font-size: 12px;
+				}
+				.english{
+					font-size: 10px;
+					color: #ffffff;
+				}
+				.right{
+					float: left;
+					width: 57%;
+					height: 135px;
+					text-align: center;
+					padding-top: 5px;
+				}
+				.first{
+					/* font-size: 30px; */
+					font-size: 18px;
+					color: #ffffff;
+				}
+				.second{
+					/* font-size: 16px; */
+					font-size: 12px;
+					color: #ffffff;
+					overflow: hidden;
+				    text-overflow: ellipsis;
+				    display: -webkit-box;
+				    -webkit-line-clamp: 2;
+				    -webkit-box-orient: vertical;
+				}
+				.thind{
+					/* font-size: 28px; */
+					font-size: 12px;
+					color: #ffffff;
+					line-height: 20px;
+				}
+				.four{
+					margin-top: 1px;
+					/* font-size: 16px; */
+					font-size: 1em;
+					color: #ffffff;
+				}
+				input{
+					margin-top: 5px;
+					width: 40%;
+					height: 30px;
+					background-color: #eeeeee;
+					color: #323232;
+					font-size: 12px;
+					border-radius: 3px;
+					border: none;
+				}
+				.coupon_ed{
+					margin-left: 1%;
+					margin-bottom: 20px;
+					width: 98%;
+					height: 138px;
+					background: #AB1310;
+				}	
+				.input{
+					margin-top: 5px;
+					width: 40%;
+					height: 30px;
+					background-color: #EBB411;
+					color: #ffffff;
+					font-size: 12px;
+					border-radius: 3px;
+					border: none;
+				}
+</style>
+</head>
+
+<body>
+	<div class="body">
+		<div class="nav">
+			<span>优惠券</span>
+		</div>
+		
+		#if($pl.size()==0)
+			<div class="xia">您暂时还没有数据哦!!!</div>		
+		#else
+			<div class="content">
+			#foreach($obj in $pl)
+				#if($obj.status==0 && $!obj.coupon.currentStatus==1)
+					<div class="coupon_ed">
+				#else
+					<div class="coupon">	
+				#end
+				
+				<div class="coupon_content">
+					<div class="left">
+						<div class="up">
+							<span class="money">￥</span>
+							<span class="shu">$!obj.coupon.value</span>
+						</div>
+						<div class="down">
+							#if($!obj.coupon.useType==1)
+							<p class="font">尊贵特权&nbsp;会员专享</p>
+							<p class="english">ZUNGUITEQUAN HUIYUANZHUANXIANG</p>
+							#elseif($!obj.coupon.useType==0)
+							<p class="font" >所有用户可用</p>
+							<p class="english" >All available to the user</p>
+							#elseif($!obj.coupon.useType==2)
+							<p class="font" >新用户专享</p>
+							<p class="english" >Exclusive for new users</p>
+							#elseif($!obj.coupon.useType==3)
+							<p class="font" >老用户专享</p>
+							<p class="english" >Exclusive for old users</p>
+							#end
+						</div>
+					</div>
+					<div class="right">
+						#if($!obj.coupon.type==1)
+							<p class="first">品牌优惠券</p>
+							<p class="second"><span>（</span>#foreach($obj2 in $obj.coupon.brandlist)<span>$!obj2.name </span>#end<span>）</span></p>
+						#elseif($!obj.coupon.type==2)
+							<p class="first">单品优惠券</p>
+							<p class="second"><span>（</span>#foreach($obj2 in $obj.coupon.productlist)<span>$!obj2.name </span>#end<span>）</span></p>
+						#else
+							<p class="first">全场优惠券</p>
+							<p class="second">（全场可用）</p>
+						#end
+						
+						<p class="thind">购满<span>$!obj.coupon.usecondition</span>元使用</span>
+						
+						<p class="four">到期时间：<span id = "time_$!obj.id" class="timeFormate" value="$!obj.coupon.outTime">$!obj.coupon.outTime</span></p>
+						#if($!obj.coupon.currentStatus==2)
+							<input type="button" value="已过期">
+						#elseif($obj.status==0 && $!obj.coupon.currentStatus==1)		
+							<input class="input" type="button" onclick="choose($!obj.id);" value="可使用">
+						#elseif($obj.status==0 && $!obj.coupon.currentStatus==0)		
+						<input type="button" value="已失效">
+						#else
+							<input type="button" value="已使用">
+						#end
+					</div>
+				</div>
+			</div>
+			#end
+		</div>
+		#end
+	</div>
+	
+	<form class="search-form" action="/wxShopBase.java" method="post" id="searchForm" enctype="multipart/form-data">
+	    	<input type="hidden" name="cmd" value="toPage">
+	    	<input type="hidden" name="topage" value="/bcd/wxshop/product/searchlist.html">
+	    	<input type="hidden" name="cid" id = "cid" value="">
+	    	<input type="hidden" name="flag" id = "flag" value="flag">
+        </form>
+	
+<script>
+	function choose(id){
+		$("#cid").val(id);
+		$("#searchForm").submit();
+	}
+</script>
+</body>
+</html>

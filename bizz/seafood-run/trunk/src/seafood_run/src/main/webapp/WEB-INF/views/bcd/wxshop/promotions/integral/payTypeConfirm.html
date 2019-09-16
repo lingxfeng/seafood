@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" pageEncoding="UTF-8"/>
+<title>积分充值方式选择</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<link href="/static/home/bcd/css/taobao.css" type="text/css" rel="stylesheet">
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div class="wx_wrap">
+	<div class="peoList">
+		#if($member.follower.headimgurl)
+    	<img src="$!{member.follower.headimgurl}" class="peoImg">
+    	#else
+    	<img src="/static/home/bcd/images/avatar3.jpg" class="peoImg">
+    	#end
+    	#if($member.nickname)
+        <div class="peoName"><span>$!member.nickname</span>#if($!member.mySpokesman)<span>($!member.mySpokesman.id)</span>#else #end</div>
+        #else
+        <div class="peoName">暂无</div>
+        #end
+    </div>
+    
+	<dl class="homeDl oh">
+    	<dd style="width:90%; margin-left:5%; text-align:left;">充值积分数量：<span>$!record.integral</span></dd>
+    </dl>
+        <dl class="homeDl oh">    	
+    	<dd style="width:90%; margin-left:5%; text-align:left;">需支付：<span>$!record.gross_price</span></dd>
+    </dl>  
+       
+		<div style = "height:20px;"></div>
+		<div class="border_b">
+			
+			<div style="font-size: 1.2em; font-weight:bold; text-align:center;">
+				<input id="confirm" type="button" class="reg_finish_btn" style="background-color:#f40; width:80%; height:40px; border-radius:5px; border:0; color:white;" value="微信支付"> 
+		    </div>			        
+		</div>
+		<div style = "height:20px;"></div>				
+</div>
+<div class="hei50"></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+<script type="text/javascript">
+var i=0;
+jQuery("#confirm").click(function(){
+	if(i==0){
+		i++;
+		jQuery.ajax({
+			method:"post",
+			url:"/wxShopTrade.java?cmd=toPayRecharge&recordId=$!{record.id}",
+			success:function(data,text){
+				var payparam = eval("("+data+")");
+				WeixinJSBridge.invoke('getBrandWCPayRequest',payparam,
+					    function(res){
+					 if(res.err_msg=='get_brand_wcpay_request:ok'){
+				    	   jQuery.ajax({
+								method:"post",
+								url:"/wxShopTrade.java?cmd=chargeSuccessAjax&recordId=$!{record.id}",
+								dataType:"json",
+								data: payparam,
+								success:function(data,text){
+									window.location.href="/wxShopBase.java?cmd=init";	
+								}
+							})
+				       }else{
+				    	   i=0;
+				    	   alert('支付失败');
+				       }
+					})
+				}
+			})
+		}
+})
+</script>
+</body>
+</html>

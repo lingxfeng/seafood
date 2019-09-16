@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0047)/buyer/account.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>用户头像修改-海鲜之家商城 -海鲜之家商城V1.0</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta name="generator" content="" />
+<meta name="author" content="" />
+<meta name="copyright" content="" />
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet" />
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet" />
+<link href="/static/home/shopmanage/css/user.css" type="text/css" rel="stylesheet" />
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/swfobject.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script>
+function saveForm(){
+    jQuery("#theForm").submit();
+}
+</script>
+<script language="JavaScript" type="text/javascript">
+			<!--
+			function getParamsFromUrl() {
+			    var url, pos, parastr, para;
+			    url = window.location.href;
+			    pos = url.indexOf("?")
+			    if (pos > -1) {
+			    	parastr = url.substring(pos + 1);
+			    } else {
+			    	parastr = "";
+			    }
+			    return parastr;
+			}
+			
+			function reload() {
+				window.location.reload();
+			}
+			
+			function getUploadUrl() {
+				return "/buyer/upload_avatar.htm";
+			}
+			
+			function uploadSuccessHandler(callbackMsg) {				
+				//alert("上传成功，回调方法请写在这里");
+				window.location.reload();
+			}
+			
+			function uploadFailHandler(callbackMsg) {				
+				//alert("上传失败，回调方法请写在这里");
+				showDialog("msg_info","","上传失败：" + callbackMsg,2,"error",3,function(){});
+			}
+			
+			//大头像：宽
+			function getBigAvatarWidth() {				
+				return 132;
+			}
+			
+			//大头像：高
+			function getBigAvatarHeight() {				
+				return 132;
+			}
+			
+			//中头像：宽
+			function getMiddleAvatarWidth() {				
+				return 60;
+			}
+			
+			//中头像：高
+			function getMiddleAvatarHeight() {				
+				return 60;
+			}
+			
+			//小头像：宽
+			function getLittleAvatarWidth() {				
+				return 32;
+			}
+			
+			//小头像：高
+			function getLittleAvatarHeight() {				
+				return 32;
+			}
+			
+			//裁剪框：宽
+			function getCutRectWidth() {				
+				return 132;
+			}
+			
+			//裁剪框：高
+			function getCutRectHeight() {				
+				return 132;
+			}
+			//截取框是否可缩放
+			function getCutRectScalable() {				
+				return "true";
+			}
+			function getBgImage() {
+				return "/resources/style/common/images/avatar/bg_image.png"
+			}
+			
+			function getCopyRightName_1() {				
+				return "海鲜之家商城 B2B2C商城系统V2015版";
+			}
+			
+			function getCopyRightName_2() {				
+				return "授权咨询电话:400-635-9799";
+			}
+			
+			function getCopyRightUrl_1() {				
+				return "http://www.iskyshop.com";
+			}
+			
+			function getCopyRightUrl_2() {				
+				return "http://www.iskyshop.com";
+			}
+			
+			function getAvatarBgColor() {
+				return 0xffffff;
+			}
+			function getAvatarBgImage() {				
+　　				return "/resources/style/common/images/avatar/bg_image.png";
+　　			}
+			var _curImage = "/resources/style/common/images/avatar/bg_image.png";
+			function setSourceImage(s) {
+				_curImage = s;
+				jQuert('#iskyshop_avatar').setSourceImage();
+			}
+			function getSourceImage() {
+				return _curImage;
+			}
+			// -->
+		</script>
+<script type="text/javascript">
+            // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
+            var swfVersionStr = "10.2.0";
+            // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
+            var xiSwfUrlStr = "/resources/flash/playerProductInstall.swf";
+            var flashvars = {};
+            //跨域访问策略文件
+            flashvars.policy_file_url="/resources/other/crossdomain.xml";
+            //初始化图片
+            flashvars.init_image_url="/resources/style/common/images/avatar/init_image.jpg";
+            //大头像名称
+            flashvars.big_avatar_name="iskyshop_big_avatar";
+            //中头像名称
+            flashvars.middle_avatar_name="iskyshop_middle_avatar";
+            //小头像名称
+            flashvars.little_avatar_name="iskyshop_little_avatar";
+            flashvars.url_params = getParamsFromUrl();
+            var params = {};
+            params.quality = "high";
+            params.bgcolor = "#ffffff";
+            params.allowscriptaccess = "sameDomain";
+            params.allowfullscreen = "true";
+            var attributes = {};
+            attributes.id = "c_avatar_iskyshop";
+            attributes.name = "c_avatar_iskyshop";
+            attributes.align = "middle";
+            swfobject.embedSWF(
+                "/resources/flash/iskyshop_avatar.swf", "flashContent", 
+                "600", "400", 
+                swfVersionStr, xiSwfUrlStr, 
+                flashvars, params, attributes);
+            // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
+            swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+        </script>
+</head>
+<body>
+#parse("/common/top.html")
+#parse("/common/left.html")
+<div class="main">
+  <div class="usercenter">
+     <script src="/static/home/shopmanage/css/jquery.cookie.js"></script>
+<script>		  
+jQuery(document).ready(function(){
+  jQuery(".user_menu>span>b").click(function(){
+     var child_show=jQuery(this).parent().attr("child_show");
+	 if(child_show=="true"){
+		 jQuery(this).parent().find("ul").hide();
+	     jQuery(this).parent().find("i").removeClass("active");
+		 jQuery(this).parent().attr("child_show","false");
+	 }else{
+	    jQuery(this).parent().find("ul").show();
+		jQuery(this).parent().find("i").addClass("active");
+		jQuery(this).parent().attr("child_show","true");
+	 }
+	 var nav_status="";
+	 jQuery(".user_menu>span>b").each(function(){
+		nav_status=nav_status+jQuery(this).parent().attr("id")+","+jQuery(this).parent().attr("child_show")+";";
+	 }); 
+	 jQuery.cookie("buyer_nav",nav_status);
+  });
+  jQuery(".user_menu ul li a").removeClass("this");						
+  jQuery(".user_menu ul li a[op='account']").addClass("this");	
+  //
+  if(jQuery.cookie("buyer_nav")!=null){
+      var nav_status=jQuery.cookie("buyer_nav");
+	  jQuery.each(nav_status.split(";"), function(index,item){
+	     var list=item.split(",");
+		 jQuery("#"+list[0]).attr("child_show",list[1]);
+		 if(list[1]=="true"){
+	       jQuery("#"+list[0]+" ul").show();
+		 }else{
+		   jQuery("#"+list[0]).find("i").removeClass("active");	 
+		   jQuery("#"+list[0]+" ul").hide(); 	 
+		 }
+	  });
+   }
+   //
+});
+</script>
+	#parse("/common/userCenterLeft.html")
+    <div class="usercenter_right">
+      <div class="myorder">
+        <h4><strong>账户信息</strong></h4>
+      </div>
+      <div class="user_list">
+        <div class="user_list_title">
+          #parse("/common/accountInfo.html")
+      </div>
+      <div class="add_usercenter">      
+        <div class="add_user_photo">
+        <span>
+        	<img src="/upload/account/27_big.jpg" width="132" height="132" />
+        </span>
+        	<input id="" name="" type=/>
+        </div>
+        <div class="add_user_photo_change">
+<!--       <div id="flashContent" style="width:600px; height:450px;">
+                  
+                </div> -->
+        </div>  
+        </div> 
+    </div>
+  </div>
+  <script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+
+  <div class="footer">
+    <ul>
+                  <li class="hui2"></li>
+      <li class="hui2"></li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/buyer/account.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+
+</div>
+</div>
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0041)http://b2b2c.iskyshop.com/goods_class.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>所有商品分类 - Powered by 海鲜之家商城</title>
+<meta name="keywords" content="www.iskyshop.com">
+<meta name="description" content="www.iskyshop.com">
+<meta name="generator" content="www.iskyshop.com">
+<meta name="author" content="www.iskyshop.com">
+<meta name="copyright" content="Copyright 2012-2015 ISkyShop Inc. All rights reserved">
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/goods.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet">
+<script src=/static/home/shopmanage/js/jquery-1.6.2.js></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script><script>
+</script>
+</head>
+<body>
+#parse("/common/top.html")
+#parse("/common/left.html")
+<div class="main_class_all">
+  <div class="class_all">
+    <ul class="cls_tab_ul">
+      <li class="this"><a href="/goShop.java?cmd=allPType"><b>全部商品分类</b></a></li>
+      <li style="display:none"><a href="/goShop.java?cmd=allPType"><b>全部商品</b></a></li>
+    </ul>
+    <div class="cls_all_top">
+      <h3>商品全部分类</h3>
+      <div class="cls_all_top_box">
+      #foreach($obj in $topPTypes)
+      	<a href="/goShop.java?cmd=queryPro&pid=$obj.id" target="_blank">$obj.name</a>
+      #end
+      </div>
+    </div>
+    <div class="class_all_bottom">
+      <div class="class_all_bhid">
+      #foreach($obj in $topPTypes)
+      	<div class="class_all_one">
+          <h4> <span><a href="/goShop.java?cmd=queryPro&pid=$obj.id" target="_blank">$obj.name</a></span></h4>
+          #foreach($obj2 in $obj.chilren)
+           <dl>
+            <dt><a href="/goShop.java?cmd=queryPro&pid=$obj2.id" target="_blank">$obj2.name</a></dt>
+            <dd>
+            #foreach($obj3 in $obj2.chilren)
+            	<a href="/goShop.java?cmd=queryPro&pid=$obj3.id" target="_blank">$obj3.name</a>
+            #end
+            </dd>
+          </dl>
+         #end
+                  </div>
+      #end
+              </div>
+    </div>
+  </div>
+ ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+
+#parse("/common/footer.html")
+<!--返回最顶部-->
+<div id="back_box" style="position:fixed;width:40px; height:118px; float:left; right:0; display:none; bottom:150px; _position:absolute;/*兼容IE6的代码*/
+_bottom:auto;/*兼容IE6的代码*/
+_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));">
+  <div class="back_index"><a href="http://b2b2c.iskyshop.com/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="http://b2b2c.iskyshop.com/goods_class.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+ 
+</div>
+
+
+
+</body></html>

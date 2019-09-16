@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"
+		type="text/css">
+		<link rel="stylesheet" href="/static/common/base.css">
+		<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+		<script type="text/javascript">
+		function gotoPage(n) {
+		    window.location.href = "/restitution.java?cmd=list&currentPage=" + n;
+		}
+		
+		</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">goodExtended</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/restitution.java?cmd=list"><b>返现记录列表</b></a></li>
+			</ul>
+		</div>
+		
+		<form action="/restitution.java" method="post" enctype="multipart/form-data">
+			<input name="cmd" value="calculate" type="hidden"/>
+			<div class="search" style="margin-left: 20px;">
+				<span class="size100">
+					代言人名称<input name="name" placeholder="" type="text" id="name" value="$!name">
+				</span>
+				<span class="size100">
+					开始时间<input name="starttime" placeholder="开始时间" type="date" id="name" >
+				</span>
+				<span class="size100">
+					结束时间<input name="endtime" placeholder="结束时间" type="date" id="name" >
+				</span>
+				<span class="size100">
+					订单编号<input name="code" placeholder="订单编号" type="text" id="name" value="$!code">
+				</span>
+				<span>
+					<input name="" type="submit" value="搜索统计" style="cursor: pointer;" class="search_btn">
+				</span>
+			</div>
+			<div style="float:right;margin-right:150px;font-size:14px;color:gray;">
+				<div><span>统计金额:</span><span id = name>$!calculateCount</span>元</div>
+			</div>
+		</form>
+		
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>使用搜索栏可以更快速地进行定位哦！</li>
+			</ul>
+		</div>
+
+		<form name="ListForm" id="ListForm" action="/restitution.java?cmd=list"
+			method="post">
+			<div class="fshoptb2">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+														<th width="15" align="center"><span class="form_btna">订单编号</span></th>
+														<th width="10%" align="center"><span class="form_btna">返现金额</span></th>
+														<th width="15%" align="center"><span class="form_btna">返现时间</span></th>
+														<th width="20%" align="center"><span class="form_btna">返还代言人</span></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"><input name="ids" id="ids"
+								type="checkbox" value="1"></td>
+							<td align="center">$!obj.order.code</td>
+							<td align="center">$!obj.restitution</td>
+							<td align="center">$!obj.time</td>
+							<td align="center">$!obj.spokesman.member.nickname</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+				<div class="operate_bar">
+					$!{paginationForBlueIdea}
+					<div class="oper_sp">
+						<span class="oper_check"><input type="checkbox" name="all"
+							id="all" value="" onclick="selectAll(this)">全部</span> <span
+							class="oper_del"></span>
+					</div>
+				</div>
+		</form>
+	</div>
+</body>
+</html>

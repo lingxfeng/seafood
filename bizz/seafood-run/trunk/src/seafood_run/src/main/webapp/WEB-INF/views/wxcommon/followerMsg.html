@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>投诉举报平台</title>
+<!-- Bootstrap -->
+<link href="/static/home/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="/static/home/css/myboot.css" rel="stylesheet">
+<script src="/static/home/js/jquery-1.11.1.min.js"></script>
+<script src="/static/home/js/bootstrap.min.js"></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<div class="navheight"></div>
+	<div class="container">
+		<div class="row">
+			#if($!followerMessage.isFollowerMsg)
+			<div class="col-xs-3">
+				<h4>粉丝发送消息:</h4>
+			</div>
+			#if($!followerMessage.msgType=="text")
+			<div class="col-xs-9">$!followerMessage.content</div>
+			#end #if($!followerMessage.msgType=="image")
+			<div class="col-xs-9">
+				<img src="$!followerMessage.mediaUrl">
+			</div>
+			#end #if($!followerMessage.msgType=="voice")
+			<div class="col-xs-9">
+				<audio controls id="test_music" preload=metadata>
+					<source src='$!{followerMessage.mediaUrl}' type='video/3gpp;'>
+					"对不起浏览器不支持"
+				</audio>
+				<h3>对不起，不支持该格式的播放，请<a href="$!{followerMessage.mediaUrl}">下载</a>后转码播放</h3>
+				
+			</div>
+			#end #if($!followerMessage.msgType=="video")
+			<div class="col-xs-9">
+				<video id="media" width="720" height="400" controls>
+					<source src="$!followerMessage.mediaUrl">
+				</video>
+			</div>
+			#end #if($!followerMessage.msgType=="location")
+			<div class="col-xs-9">经度：$!followerMessage.location_X
+				,维度：$!followerMessage.location_Y ，位置信息：$!followerMessage.label</div>
+			#end #else
+			<div class="col-xs-3">
+				<h4>客服回复的消息:</h4>
+			</div>
+			#if($!followerMessage.msgType=="text")
+			<div class="col-xs-9">$!followerMessage.content</div>
+			#end #if($!followerMessage.msgType=="image")
+			<div class="col-xs-9">
+				<img src="$!followerMessage.template.mediaPath">
+			</div>
+			#end #if($!followerMessage.msgType=="voice")
+			<div class="col-xs-9">
+				<embed height="320" allownetworking="internal" width="460"
+					allowscriptaccess="never" loop="-1" invokeurls="false"
+					src="$!followerMessage.template.mediaPath" type="audio/mpeg"
+					wmode="transparent">
+			</div>
+			#end #if($!followerMessage.msgType=="music")
+			<div class="col-xs-9">
+				<embed height="320" allownetworking="internal" width="460"
+					allowscriptaccess="never" loop="-1" invokeurls="false"
+					src="$!followerMessage.template.mediaPath" type="audio/mpeg"
+					wmode="transparent">
+			</div>
+			#end #if($!followerMessage.msgType=="video")
+			<div class="col-xs-9">
+				<video id="media" width="720" height="400" controls>
+					<source src="$!{followerMessage.template.mediaPath}">
+				</video>
+			</div>
+			#end #if($!followerMessage.msgType=="news")
+			<div class="col-xs-9">
+				#set($num=1) #foreach($obj in $!newsItems) #if($num==1)
+				<div class="panel panel-default">
+					<a href="$!{obj.url}">
+						<div class="panel-body"
+							style="width: 500px; height: 100px; overflow: hidden;">
+							<img alt="140x140" src="${obj.imagePath}" class="img-rounded" />
+						</div>
+					</a>
+				</div>
+
+				#else
+				<div class="panel panel-default">
+					<a href="$!{obj.url}">
+						<div class="panel-body">
+							<div class="col-md-8">
+								<h4 class="">$!{obj.title}</h4>
+								$!{obj.content}
+							</div>
+							<div class="col-md-2"
+								style="width: 100px; height: 100px; overflow: hidden;">
+								<img src="${obj.imagePath}" class="img-rounded" alt='' />
+							</div>
+						</div>
+					</a>
+				</div>
+
+
+				#end #set($num=$num+1) #end
+			</div>
+			#end #end
+		</div>
+	</div>
+	<div class="navheight"></div>
+</body>
+</html>

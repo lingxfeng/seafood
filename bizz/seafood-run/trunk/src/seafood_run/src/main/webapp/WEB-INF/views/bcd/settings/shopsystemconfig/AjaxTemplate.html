@@ -1,0 +1,5 @@
+#if($pl)
+	#foreach($region in $pl)
+		<option value="$region.getId()">$region.getTitle()</option>
+	#end
+#end

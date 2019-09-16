@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>购物车</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<!--购物车js-->
+<script type="text/javascript" src="/static/home/bcd/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/static/home/bcd/js/common.js"></script>
+<!--加减js-->
+<script type="text/javascript" src="/static/home/bcd/js/jquery.spinner.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+	<div class="cart clear">
+   		<div class="shadow">
+            <div class="w-100 line50 oh">
+                    <div class="w-87 f-l">
+                      <h3 class="f-l marl2">购买到的产品</h3>
+                    </div>
+            </div>         
+           
+            <div class="c_list cb">
+                <ul>
+                	#set($memberType=$su.getMemberType($member))
+                	#set($allAmt=0)
+                	#set($num=1)
+                	#foreach($obj in $sList)
+                	<li class="oh cartlist" id="cartPro_$!{obj.id}">
+                        <div class="w-15 buyImgDiv f-l"><img src="$!{obj.shopProduct.imgPaths.split('_')[0]}" width="52" height="44"></div>
+                        <div class="w-55 f-l">
+                            <p class="buyP">$obj.shopProduct.name</p>
+                            <p class="numandprice">
+                            	<input type="text" class="spinnerExample pnum" id="cId$!num" value="$!{obj.buyNum}">
+                            	<input type="hidden" class="pid" value="$!{obj.id}">
+                            	<input type="hidden" id="pName$num" value="$!obj.shopProduct.name">
+                            </p>
+                        </div>
+                        <div class="w-20 buyDel f-l">
+                        #if($!flag.equals("huiyuan"))
+                        	#if($!obj.shopSpec)
+                            <p><span class="lse">￥$!{obj.shopSpec.getAmt()}</span></p>
+                            <span class="lse">规格：$!obj.shopSpec.name</span>
+                            <input type="hidden" id="ggName$num" value="$!obj.shopSpec.name">
+                            <input type="hidden" id="ssKc$num" value="$obj.shopSpec.inventory">
+                            #else
+                            <p><span class="lse">￥$!{obj.shopProduct.getAmt()}</span></p>
+                            <input type="hidden" id="ssKc$num" value="$obj.shopProduct.inventory">
+                            #end
+                        #elseif($!flag.equals("tiyandian"))
+                        	#if($!obj.shopSpec)
+                            <p><span class="lse">￥$!{obj.shopSpec.getTydAmt()}</span></p>
+                            <span class="lse">规格：$!obj.shopSpec.name</span>
+                            <input type="hidden" id="ggName$num" value="$!obj.shopSpec.name">
+                            <input type="hidden" id="ssKc$num" value="$obj.shopSpec.inventory">
+                            #else
+                            <p><span class="lse">￥$!{obj.shopProduct.getTydAmt()}</span></p>
+                            <input type="hidden" id="ssKc$num" value="$obj.shopProduct.inventory">
+                            #end
+                         #elseif($!flag.equals("weidian"))
+                         	#if($!obj.shopSpec)
+                            <p><span class="lse">￥$!{obj.shopSpec.getStore_price()}</span></p>
+                            <span class="lse">规格：$!obj.shopSpec.name</span>
+                            <input type="hidden" id="ggName$num" value="$!obj.shopSpec.name">
+                            <input type="hidden" id="ssKc$num" value="$obj.shopSpec.inventory">
+                            #else
+                            <p><span class="lse">￥$!{obj.shopProduct.getStore_price()}</span></p>
+                            <input type="hidden" id="ssKc$num" value="$obj.shopProduct.inventory">
+                            #end
+                         #end
+                            <p><a href='javascript:delProFormCart($!{obj.id},$!{obj.shopProduct.id})' class="del">&times;</a></p>
+                        </div>
+                        <div class="w-10 f-l buycheckDiv">
+                        	<input type="checkbox" class="checkbox" name="check_item" id="check_item$num" value="$!{obj.id}">
+                        	#if($!flag.equals("huiyuan"))
+	                        	#if($!obj.shopSpec)
+	                        	<input type="hidden" id="pri$!num" class="pri" value="$!{obj.shopSpec.getAmt()}">
+	                        	#else
+	                        	<input type="hidden" id="pri$!num" class="pri" value="$!{obj.shopProduct.getAmt()}">
+	                        	#end
+	                        #elseif($!flag.equals("tiyandian"))
+                        		#if($!obj.shopSpec)
+	                        	<input type="hidden" id="pri$!num" class="pri" value="$!{obj.shopSpec.getTydAmt()}">
+	                        	#else
+	                        	<input type="hidden" id="pri$!num" class="pri" value="$!{obj.shopProduct.getTydAmt()}">
+	                        	#end
+	                        #elseif($!flag.equals("weidian"))
+	                        	#if($!obj.shopSpec)
+	                        	<input type="hidden" id="pri$!num" class="pri" value="$!{obj.shopSpec.getStore_price()}">
+	                        	#else
+	                        	<input type="hidden" id="pri$!num" class="pri" value="$!{obj.shopProduct.getStore_price()}">
+	                        	#end
+	                        #end
+                        </div>
+                    </li>
+                    #set($allAmt=$allAmt+$obj.shopProduct.amt*$obj.buyNum)
+                    #set($num=$num+1)
+                	#end
+                </ul>
+            </div>           
+           
+        </div>  
+    </div>
+</div>
+<div class="cart_bg">
+    <div class="w-100 oh">
+        <div class="w-3 f-l"></div>
+        <div class="w-25 f-l line50"><input type="checkbox" class="checkbox chkall" id="box_all"> 全选</div>
+        <div class="w-49 f-l line50">
+            <p> <span class="pl15">金额合计：</span>￥<span class="ff6" id="allAmt">0</span></p>
+        </div>
+        <div class="w-20 f-l line50">
+        	<button class="submit" id = "submit">去结算</button>
+        </div>
+        <div class="w-3 f-l"></div>    
+    </div>
+
+    <form action="/wxShopTrade.java" id="payOrderForm">
+    	<input type="hidden" name="cmd" value="beforeCreateOrder2">
+    	<input type="hidden" id="cIds" name="cIds" value="">
+    </form>
+</div>
+<div class="hei50"></div>
+<!--  底部浮动导航  s  -->
+<div class="hei40"></div>
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+<!--  加减js  -->
+<script type="text/javascript">
+$(function(){
+	upp();
+	
+	$('input[name="check_item"]').each(function(){
+		if($(this).is(':checked')){
+			$(this).addClass("checked");
+		}
+	});
+
+	$('.spinnerExample').each(function(){
+		var v = $(this).val();
+		$(this).spinner({value:v});
+	});
+
+	$('.spinnerExample').bind('update', function(){
+		
+		uppAlt();
+		var pnum = $(this).val();
+		var pid = $(this).parent().next().val();
+		
+		var carturl="shoppingCart.java?cmd=editCart";
+		$.ajax({
+			method:"post",
+			url:carturl,
+			data:{
+				carproid: pid,
+				proNum : pnum
+			},
+			dataType : "json",
+			success:function(data,text){
+				if(data.success){
+					//window.location.reload();
+				}else{
+					alert(data.errors.msg);
+				}
+				
+			}
+		});
+	});
+	
+	$('[name="check_item"]').bind('click',function(){
+		//upp();
+		judChb();
+		uppAlt();
+	});
+	
+	function uppAlt(){
+		var allAmt = 0;
+		$("input[name='check_item']").each(function (){
+			var index=$("input[name='check_item']").index(this);
+			var i=index+1;
+			if($("#check_item"+i).attr("class")=="checkbox checked"){
+				allAmt+=($("#pri"+i).val())*($("#cId"+i).val())
+			}
+		})
+		$('#allAmt').text(allAmt.toFixed(2));
+	}
+	
+	
+	function upp(){
+		var allAmt = 0;
+		$('.cartlist').each(function(){
+			
+			var $p = $(this).find('.numandprice');
+			
+			var pnum = $p.find('.pnum').val();
+			var $div = $(this).find('.buycheckDiv');
+			var chk = $div.find('.checkbox').is(':checked');
+			var pri = $div.find('.pri').val();
+			if(chk){				
+				allAmt += pnum * pri;
+			}
+		});
+		$('#allAmt').text(allAmt);
+	}
+	
+	$('.submit').click(function(){
+		var cartids = [];
+		var chks = $('[name="check_item"]:checked');
+		if(chks.length == 0){
+			alert('请选择要购买的商品');
+			return;
+		}
+		
+		var b=true;
+		$("input[name='check_item']").each(function (){
+			var index=$("input[name='check_item']").index(this);
+			var i=index+1;
+			if($("#check_item"+i).attr("class")=="checkbox checked"){
+				if(parseInt($("#cId"+i).val())>parseInt($("#ssKc"+i).val())){
+					if($("#ggName"+i).val()!=null){
+						alert("(规格为："+$("#ggName"+i).val()+" 产品为："+$("#pName"+i).val()+") 库存不足");
+					}else{
+						alert("("+$("#pName"+i).val()+") 库存不足");
+						b=false;
+					}
+				}
+			}
+		})
+		if(!b){
+			return ;
+		}
+		
+		var f=true;
+		var cartids="";
+		$.each(chks, function(){
+			if($("#cId"+$(this).val()).val()==0){
+				alert("购物车数量不能为0");
+				f=false;
+			}
+			//$('#payOrderForm').append('<input type="hidden" name="cartids" value="' + $(this).val() + '">');
+			cartids+=$(this).val()+",";
+		});
+		if(!f){
+			return ;
+		}
+		$("#cIds").val(cartids.substring(0,cartids.length-1));
+		$('#payOrderForm').submit();
+	});
+});
+//删除商品
+function delProFormCart(carproid,pid){
+	var carturl="shoppingCart.java?cmd=remove&carproid="+carproid;
+	jQuery.ajax({
+		method:"get",
+		url:carturl,
+		success:function(data,text){
+			jQuery("#cartPro_"+carproid).remove();
+			aa();
+		}
+	});
+}
+
+function aa(){
+	var allAmt = 0;
+	$("input[name='check_item']").each(function (){
+		var index=$("input[name='check_item']").index(this);
+		var i=index+1;
+		if($("#check_item"+i).attr("class")=="checkbox checked"){
+			allAmt+=($("#pri"+i).val())*($("#cId"+i).val())
+		}
+	})
+	$('#allAmt').text(allAmt);
+}
+
+$(document).ready(function () { 
+	judChb();
+}); 
+
+function judChb(){
+	var f=true;
+	var i=1;
+	$("input[name='check_item']").each(function (){
+		if($("#check_item"+i).attr("class")!="checkbox checked"){
+			f=false;
+			return false;
+		}
+		i++;
+	})
+	if(!f){
+		$("#box_all").removeClass("checked");
+	}else{
+		$("#box_all").addClass("checked");
+	}
+}
+
+</script>
+</body>
+</html>

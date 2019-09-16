@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" pageEncoding="UTF-8"/>
+<title>订单</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<link href="/static/home/bcd/css/taobao.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="/static/home/bcd/css/stage2/style.css" type="text/css" />
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<div class="wx_wrap">
+		#if(!$!addr && !$!addrd)
+		<div class="order-address mui-flex align-center" id="address_774681802" >
+			<div class="cell fixed align-center">
+				<div class="icon"></div>
+			</div>
+			<div class="cell content" >
+				<div class="info"  style="">
+				</div>
+				<div class="detail tiao"  id="addr" style="clear:left">
+					<a href="#">
+						<span >收货地址：</span>
+						<span >新增收货地址！！</span>
+					</a>
+				</div>			
+			</div>
+			<div class="cell fixed align-center" >
+				<div class="nav" ></div>
+			</div>
+		</div>
+		#elseif($!addr)
+		<div class="order-address mui-flex align-center" id="address_774681802" >
+			<div class="cell fixed align-center">
+				<div class="icon"></div>
+			</div>
+			<div class="cell content" >
+			<div class="info"  style="">
+				<span  style="float:left; margin-left: -5px;">收货人：</span>				
+				<span  style="float:left;">$!addr.trueName</span>
+				<span class="tel">$!addr.telephone</span>
+			</div>
+			<div class="detail tiao"  id="addr" style="clear:left">
+				<a href="#">
+					<span >收货地址：</span>
+					<span >$!addr.area.loadFullTitle("-")&nbsp;$!addr.area_info</span>
+				</a>
+			</div>			
+		</div>
+			<div class="cell fixed align-center" >
+				<div class="nav" ></div>
+			</div>
+		</div>
+		#else
+		<div class="order-address mui-flex align-center" id="address_774681802" >
+			<div class="cell fixed align-center">
+				<div class="icon"></div>
+			</div>
+			<div class="cell content" >
+			<div class="info"  style="">
+				<span  style="float:left; margin-left: -5px;">收货人：</span>				
+				<span  style="float:left;">$!addrd.trueName</span>
+				<span class="tel">$!addrd.telephone</span>
+			</div>
+			<div class="detail tiao"  id="addr" style="clear:left">
+				<a href="#">
+					<span >收货地址：</span>
+					<span >$!addrd.area.loadFullTitle("-")&nbsp;$!addrd.area_info</span>
+				</a>
+			</div>			
+		</div>
+		<div class="cell fixed align-center" >
+				<div class="nav" ></div>
+			</div>
+		</div>
+		#end		
+	<div id="order_b_165131794386" class="order-order" >
+		<header class="order-orderInfo mui-flex align-center" id="orderInfo_b_165131794386" >
+			<div class="cell fixed" >
+			</div>
+			<div class="cell content" >
+				<div class="info" >海鲜之家商城</div>
+			</div>
+			<div class="cell fixed align-center" ></div>
+		</header>
+		
+		<!-- 商品列表 -->
+		<div id="item_522025716389:3109488013553:0" class="order-item" >
+		#if($!pro.name)
+        <div class="order-itemInfo mui-flex" id="itemInfo_522025716389:3109488013553:0" >
+				
+				<div class="cell fixed item-pic" >
+					<div class="img-cell" >
+						<div class="img" style="background-image:url($pro.imgPaths.split('_')[0]);" ></div>
+					</div>
+				</div>
+				<div class="content cell" >
+					<div class="title" >$!pro.name</div>					
+					<div class="sku-info" >
+						<span >
+							<span >数量</span>
+							<span >:</span>
+							#if($!type.equals("1"))
+							<span >$!numstr</span>*3
+							#else
+							<span >$!numstr</span>
+							#end
+						</span>
+						<br />
+						<span >
+							<span >规格</span>
+							<span >:</span>
+							<span　>$!spec.name</span>
+						</span>
+					</div>
+				</div>
+				<div class="ext cell fixed item-pay" >
+					<div class="price" >
+						<span class="dollar"　>¥</span>
+						<span　class="main-price" >
+		                 	#if($!spec.amt)
+		                    	$!spec.amt
+		                    #else
+		                    	$pro.amt
+		                    #end
+						</span>						
+					</div>
+					<div class="weight"　></div>
+				</div>
+			</div>			
+        #end
+		</div>
+		
+		<!-- 配送方式 -->
+		<div>
+			<div class="order-deliveryMethod nativeDeliveryMethod select" id="deliveryMethod_b_165131794386" >
+				<label class="buy-single-row mui-flex align-center" >
+					<div class="title cell fixed" >配送方式</div>				
+					<div class="content cell">
+						<div class="select-face"> 
+							<p ><b>￥</b><span class="f-r" id="yunfei">$!freight</span></p>(满100全国包邮)
+						</div>
+					</div>
+				</label>
+				<div class="seperator-wrap">
+					<hr class="seperator">
+				</div>
+			</div>
+		</div>	
+		
+		<!-- 买家留言 -->
+		<div class="buy-single-row label-input order-memo input" id="memo_b_165131794386" >
+			<label class="mui-flex align-center" >
+				<div class="cell fixed title input-label mui-flex align-center" >
+					<div class="cell fixed" >买家留言：</div>
+				</div>
+				<div class="cell" >
+					<input placeholder="选填，可填写您和卖家达成一致的要求" value="" pattern=""  id="msg" name="msg">
+				</div>
+			</label>
+			<div class="seperator-wrap" >
+				<hr class="seperator" >
+			</div>
+		</div>
+		
+		<!-- 合计 -->
+		<div class="order-orderPay buy-single-row" id="orderPay_b_165131794386" >
+			<div class="line" >
+				<span >共</span>
+				<span　><span id="totalnum"></span></span>
+				<span >件，</span>
+				<span　></span>
+				<span >合计：</span>
+				<div class="price" >
+					<span class="dollar"　>¥</span>
+					<span　class="main-price" id = "totalprice"><span id="totalprice"></span>,</span>
+				</div>
+				<span >应付：</span>
+				<div class="price" >
+					<span class="dollar"　>¥</span>
+					<span　class="main-price" id = "total"><span id="final"></span></span>
+				</div>
+			</div>
+		</div>		
+	</div>
+	
+	<!-- 确认订单 -->
+	<div class="oh fu">
+    	<ul>
+            <li class="padt5">您选择的购买方式是：#if($!type.equals("1"))<span id="type" name="type" value="1">买一送三</span>#else<span id="type" name="type" value="2">商城代言</span>#end<a class="sbmt" >
+            #if($!identity.equals("0"))
+            <button style="width: 100px; height: 40px; text-align: center; font-size: 16px;" onclick = "showAddBox();">确认订单</button>
+            #else
+            <button style="width: 100px; height: 40px; text-align: center; font-size: 16px;" onclick = "confirmaddr();">确认订单</button>
+            #end
+            </a></li>
+        </ul>
+	</div>
+		
+</div>
+<!-- 展示推荐人信息 -->
+<section  id ="details" class="id_add_box add_box clearfix box_hide" >
+	<div class="add_box_main clearfix" style="width:95%;height:100%;margin-top:10px;">
+        <div class="add_box_main_msg" style="width:95%;">购买协议</div>
+        <hr/>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span>3天前，家住新都的刘女士2岁女儿在家里玩耍爸爸的弹珠枪时，不慎拨动了扳机，大量弹珠打进了刘女士的后脑，医生在X射线下紧急为她做了近3个小时的手术，取出35颗铁质弹珠（成都商报昨天曾报道）.</span>
+
+			成都商报的这篇报道也引起了新都警方的注意，昨日上午，新都警方根据新闻中提供的相关信息，挡获了刘女士的丈夫张东强（化名），并缴获了这把弹珠枪。据张东强交代，这把枪是他网购装修用的射钉枪改装而成，用于自己打鸟娱乐。警方表示，将把这把枪送到专业鉴定机构去检验，如果被鉴定为“枪械”，张东强将被依法追究法律责任。
+
+			看商报 刑警发现涉枪线索“这次警方能这么迅速地掌握这桩涉枪伤人案的案情，并及时把嫌疑人和枪找到，消除社会安全隐患，真的要感谢商报的新闻报道，”昨天下午，成都市公安局新都区分局刑警大队技术室副主任何维再三表示了对成都商报的感谢。
+
+			据何维介绍，昨天上午刚上班，刑警大队一位民警在浏览成都商报时，立即就被这篇“2岁娃娃玩枪误伤母亲”的新闻引起注意。“有很大可能是一件涉枪案件！”刑警们在短暂讨论后得出了一致结论。按照新闻中提到线索，刑警立即出发前往医院了解情况。在刘女士的病房，刑警正好遇到陪在妻子病床边的张东强，他被带回刑警大队接受调查。
+
+			随后，办案民警在张东强家里找到了这把枪、剩余的4发空爆弹和数十粒铁砂丸。整个枪身长达1.4米，发射部分是用一把装修用的弹簧射钉枪改装而成，两根口径5毫米的钢管焊接在射钉枪上充当枪筒。“这种自制土枪的发射命中率和火力都不小，非常危险。” 何维说。
+
+			害人害己 小伙或面临法律制裁
+
+			办案民警透露，这把枪子弹上了膛、装了铁砂丸后不能退出来，张东强平时就把枪竖着靠在门后。事发时他不在场，听到枪声后才冲进妻子和女儿所在的房间里，发现枪已经倒在地上，而女儿坐在离枪很近的地上，很可能是女儿好奇去摸枪，并不慎碰到了扳机，引发了枪响。
+
+			“通过走访，我们发现嫌疑人和妻子感情不错，暂时没有发现他有主观犯罪意图。”何维表示，目前案件还在进一步侦查当中，这把自制枪将被送到专业鉴定机构进行检测，一旦被认定是具有一定杀伤力的“枪械”，张东强将面临因非法持有枪支而被刑事拘留，并遭到起诉。成都商报记者 王欢 摄影报道
+		</div>
+        <div class="add_box_main_btn"  style ="height: 40px; width: 45%;float:left; margin-left: 10px; background-color: #ffc501;display: block; margin-top: 10px;line-height: 40px; text-align: center; font-size: 1.3em; font-weight: 600;"onclick="agree();" id ="btn1" >我同意</div>
+        <div class="add_box_main_btn"  style ="height: 40px; width: 45%;float:left; margin-left: 10px; background-color: #ffc501; display: block;margin-top: 10px;line-height: 40px; text-align: center; font-size: 1.3em; font-weight: 600;" onclick="showAddBox();" id ="btn2">不同意</div>
+    </div>
+</section>
+<form id="thisForm" name="thisForm" action="wxSpokesmanProduct.java" enctype="multipart/form-data" method="post">
+<input type="hidden" id="cmd" name="cmd" value="createOrder" >
+<input type="hidden" id="proId" name="pid" value="$!pro.id" >
+<input type="hidden" id="payProNum" name="num" value="" >
+<input type="hidden" id="ggId" name="specid" value="$!spec.id" >
+<input type="hidden" id="url" name="url" value="" >
+#if($!addr)
+<input type = "hidden" id = "addrid" name="addrid" value="$!addr.id">
+#else
+<input type = "hidden" id = "addrid" name="addrid" value="$!addrd.id">
+#end
+<input type = "hidden" id="msg_self" name="msg_self" value="">
+<input type = "hidden" id = "type" name="type" value="$!type">
+<input type = "hidden" id = "agreeProtocal" name="agreeProtocal" value="">
+</form>
+<input type = "hidden" id = "add" value="$!addr.id">
+<input type = "hidden" id = "count" value="0">
+
+<div class="hei40" ></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+<script type="text/javascript">
+function showAddBox(){
+    $(window).scrollTop(0);
+	$("#details").removeClass('box_hide');
+	
+}
+function hideAddBox(){
+    $("#details").addClass('box_hide');
+}
+function agree(){
+	hideAddBox();
+	$("#agreeProtocal").val(1);
+	confirmaddr();
+	
+}
+$(function(){
+
+	if("$!spec.amt"){
+		var danjia = "$!spec.amt";
+	}else{
+		var danjia = "$!pro.amt";
+	}
+	alert(danjia)
+	$("#totalprice").html(danjia * "$!numstr");
+	if($!type.equals("1")){
+		var finalnum = parseInt("$!numstr") * 3;
+	}else{
+		var finalnum = parseInt("$!numstr");
+	}
+		
+	$("#payProNum").val(finalnum);
+	$("#totalnum").html(finalnum);
+	var zongji = $("#totalprice").html();
+	if(parseFloat(zongji)<100){
+		$("#yunfei").html("$!freight")
+	}else{
+		$("#yunfei").html(0)
+	}
+	$("#total").html(danjia * "$!numstr" + parseFloat($("#yunfei").html()));
+	$("#final").html($("#total").text());
+
+	var url=null;
+	var url1 = window.location.href;
+	var url2 = $("#add").val();
+	if(url2!=""){
+		url = "$!url";
+	}else{
+		url = url1.substring(url1.lastIndexOf('wxShop'), url1.length);
+		}
+	     
+	$("#url").val(url);
+})
+
+function confirmaddr(){
+	alert($("#type").val())
+	var str = $("#msg").val();
+	$("#msg_self").val(str);
+	if($("#addrid").val()==""){
+		alert("请选择收货地址!");
+	}else{
+		var message = "";
+		if("$!addr"){
+			message = "您的收货地址是："+ "$!addr.trueName" +"$!addr.area.loadFullTitle("-")" +"$!addr.area_info";
+		}
+		else{
+			message = "您的收货地址是："+ "$!addrd.trueName" +"$!addrd.area.loadFullTitle("-")" +"$!addrd.area_info";
+		}
+		if(confirm(message)){
+			$("#confirm").attr("disabled", "disabled");
+			$("#confirm").css("background-color", "grey");
+			$("#thisForm").submit();			
+		}
+	}	
+};
+$("#addr").click(function(){
+	var url = encodeURIComponent($("#url").val());
+	window.location.href="wxShopMemberCenter.java?cmd=toAddressList&url="+url;
+})
+</script>
+</body>
+</html>

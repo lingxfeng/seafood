@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>微店中心</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<link href="/static/home/bcd/css/font-awesome.css" type="text/css" rel="stylesheet">
+
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+
+<body>
+
+<div class="wx_wrap">
+	<div class="peoList">
+    	<img src="$!{obj.member.follower.headimgurl}" class="peoImg">    	
+        <div class="ansName">
+        	<p style="font-size: 20px;">$!{levelName}</p>
+        	<p>补贴比例:<span>$!{levelRating}</span>%</p>
+            <p>加入时间:<span>$!{obj.joinTime.toString().substring(0, 11)}</span></p>
+        </div>
+    </div>
+	<div class="oh c_list distDiv mar0">
+	<a href = "wxSpokesmanCenter.java?cmd=restitution">
+    	<div class="f-l w-49">
+        	<p>累计返现</p>
+        	<p>$!obj.totalRestitution</p>
+        </div>
+        </a>
+        <a href = "wxSpokesmanCenter.java?cmd=subsidy">
+    	<div class="f-l w-49">
+        	<p>累计补贴</p>
+        	 <p>$!obj.totalSubsidy</p>        	
+        </div>
+        </a>
+    </div>
+ 
+	<!--  9宫格  s  -->
+    <div class="mar0">
+    <a href = "wxSpokesmanCenter.java?cmd=subsidyOrder">
+        <div class="oneDiv f-l bor-r bor-b bor-t">
+            <p><i class="fa fa-user"></i></p>
+            <p>委托代卖订单</p>
+            <p><b>$!{orderStatus2}</b>条订单</p>
+        </div>
+    </a>
+
+   	<a href = "wxSpokesmanCenter.java?cmd=restitutionOrder2">
+        <div class="oneDiv f-l bor-r bor-b bor-t">
+            <p><i class="fa fa-user"></i></p>
+            <p>买一送二订单</p>
+            <p><b>$!{orderStatus1}</b>条订单</p>
+        </div>
+     </a>
+   
+      <a href = "wxSpokesmanCenter.java?cmd=restitutionOrder">
+        <div class="oneDiv f-l bor-r bor-b bor-t">
+            <p><i class="fa fa-user"></i></p>
+            <p>补贴订单</p>
+            <p><b>$!{orderSubsidy}</b>条订单</p>
+        </div>
+     </a>
+     <a href = "wxSpokesmanCenter.java?cmd=mySpokesTeam">
+        <div class="oneDiv f-l bor-r bor-b bor-t">
+            <p><i class="fa fa-user"></i></p>
+            <p>我的团队</p>
+            <p><b>$!{teamSpokesman}</b>个伙伴</p>
+        </div>
+     </a>
+    </div>
+	<!--  9宫格  e  -->
+</div>
+<div class="hei40"></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+</body>
+</html>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+     http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<!--定义Disco的主控Servlet -->
+	<!-- <servlet> <servlet-name>disco</servlet-name> <servlet-class>cn.disco.web.ActionServlet</servlet-class> 
+		<load-on-startup>1</load-on-startup> </servlet> <servlet-mapping> <servlet-name>disco</servlet-name> 
+		<url-pattern>*.java</url-pattern>所有.java的扩展名都由disco来处理 </servlet-mapping> -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	<filter>
+		<filter-name>jsessionid</filter-name>
+		<filter-class>com.eastinno.otransos.shiro.security.core.UrlOffJsesson</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>jsessionid</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!--1. Disco框架入口,需要放在其他Filter下面 -->
+	<filter>
+		<filter-name>discoFilter</filter-name>
+		<filter-class>com.eastinno.otransos.web.DiscoFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>discoFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<welcome-file-list>
+		<welcome-file>index.shtml</welcome-file>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+<!-- 	<servlet>
+     <servlet-name>UploadVideo</servlet-name>
+     <servlet-class>com.eastinno.otransos.seafood.promotions.action.UploadVideo</servlet-class>
+   </servlet>
+ 
+   <servlet-mapping>
+     <servlet-name>UploadVideo</servlet-name>
+     <url-pattern>/servlet/uploadVideo</url-pattern>
+   </servlet-mapping> -->
+</web-app>

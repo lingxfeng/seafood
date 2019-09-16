@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<title>个人信息修改 - 海鲜之家商城 -</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="generator" content=""/>
+<meta name="author" content=""/>
+<meta name="copyright" content=""/>
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/user.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.zh.cn.js" charset="utf-8"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script src="/static/home/bcd/js/dis.js"></script>
+<script src="/static/home/shopmanage/js/jquery.cookie.js"></script>
+<script>
+	jQuery(document).ready(function(){
+		jQuery.validator.addMethod("isMobile", function(value, element) {    
+			  var length = value.length;
+			  return this.optional(element) || (length == 11 && /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/.test(value));    
+			});
+		 jQuery("#theForm").validate({
+				rules:{
+					sums:{
+					  required:true,
+					  number:true,
+					  min:100
+					},
+					bankCardNum:{
+					  number:true,
+					  rangelength:[19,19]  
+					}
+				},
+			  messages:{
+				sums:{
+				  required:"提取金额不能为空",
+				  number:"请输入数字",
+				  min:"最小提款金额为100"
+				},
+				bankCardNum:{
+				  number:"请输入数字",
+				  rangelength:"请正确输入银行卡号"
+				}
+			  },
+	        errorPlacement: function(error, element) {
+	            //element.parent().siblings().html("");
+	        	error.appendTo(element.parent().parent());
+	        } 
+			});
+		});
+	    
+</script>
+</head>
+<body>
+
+#parse("/common/top.html")
+#parse("/common/left.html")
+<div class="main">
+  <div class="usercenter">
+	#parse("/common/userCenterLeft.html")
+    <div class="usercenter_right">
+      <div class="myorder">
+        <h4><strong>申请提现&nbsp;&nbsp;账户余额：$fu.getYj($!user.remainderAmt)</strong></h4>
+      </div>
+      
+      #if($user.remainderAmt>=100)
+      <div class="user_list">
+       <form action="/pcShopMemberCenter.java" name="theForm" id="theForm" method="post" enctype="multipart/form-data">
+       <input type="hidden" name="cmd" value="applyWithdrawingCash"/>
+        <div class="add_usercenter">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="user_base_table">
+            <tbody>
+          </tbody></table>         
+             
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" class="user_base_table">
+            <tbody>
+            <tr>
+              <td width="170" align="right"><strong class="redstr"></strong>金额：</td>
+              <td><div><input id="sums" name="sums" type="text" value="" class="base_txt" onblur="validateCom(this.value);" placeholder="请输入提取金额 " type="number"/></div></td>
+            </tr>
+            <tr>
+              <td width="170" align="right"><strong class="redstr"></strong>备注信息：</td>
+              <td><div><input id="comment" name="comment" type="text" value="" class="base_txt" placeholder="请输入备注信息 "/></div></td>
+            </tr>
+            <tr>
+              <td width="170" align="right"><strong class="redstr"></strong>账户名称：</td>
+              <td><div><input id="openAccountName" name="openAccountName" type="text" value="" class="base_txt" placeholder="请输入备注信息 "/></div></td>
+            </tr>
+            <tr>
+              <td width="170" align="right"><strong class="redstr"></strong>银行卡号：</td>
+              <td><div><input id="bankCardNum" name="bankCardNum" type="text" value="" class="base_txt" placeholder="请输入备注信息 "/></div></td>
+            </tr>
+            <tr>
+              <td width="170" align="right"><strong class="redstr"></strong>开户地址：</td>
+              <td><div><input id="openAccountAddress" name="openAccountAddress" type="text" value="" class="base_txt" placeholder="请输入备注信息 "/></div></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td><input id="applySave" name="" type="submit" value="提交" class="save" /></td>
+            </tr> 
+          </tbody></table>
+        </div> 
+        </form>
+      </div>
+      #else
+      <div class="user_list" style=" margin-top: 20px; text-align: center;">
+      	你的余额为  $fu.getYj($!user.remainderAmt),不满100,不能进行提现
+      </div>
+      #end
+      
+    </div>
+  </div>
+  ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+
+#if($!state==0)
+<script type="">
+	alert("保存成功");
+</script>
+#end
+
+<script>
+	function validateCom(val){
+		if(parseFloat(val)>$!user.remainderAmt){
+			alert("申请的金额大于账户余额，不能提取");
+			$('#applySave').css({
+			    'background':'darkgray'    // 清除背景
+			});
+			$("#applySave").attr("disabled", true);
+		}else{
+			$('#applySave').css({
+			    'background':'#F00'    // 清除背景
+			});
+			$("#applySave").removeAttr("disabled");
+		}
+	}
+</script>
+  <div class="footer">
+    <ul>
+                  <li class="hui2"></li>
+      <li class="hui2"></li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/buyer/account.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+
+</div>
+
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>

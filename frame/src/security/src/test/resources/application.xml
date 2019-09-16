@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+	<import resource="classpath:/com/eastinno/otransos/application/application.xml" />
+	<!-- 打开spring注解 -->
+	<context:annotation-config />
+	<!-- 设定Spring去那些包中找注解 -->
+	<context:component-scan base-package="com.eastinno.otransos.**,com.kmengfang" />
+
+	<!--权限系统 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login.java" />
+		<property name="successUrl" value="/manage.java" />
+		<property name="unauthorizedUrl" value="/login.java?cmd=unauth" />
+		<property name="filterChainDefinitions">
+			<value>
+				/ = anon
+				/login.java* = authc
+				/static/** = anon
+				/**/*html = anon
+				/html/** = anon
+				/page/** = anon
+				/news.java* = anon
+				/common.java* = anon
+				/member* = anon
+				/enlistInfo.java* = anon
+				/extApp.java* = anon
+				/mfajax* = anon
+				/mfPermissionCheck.java* = anon
+				/sfCompetitionArea.java*=anon
+				/imgPaging.java* = anon
+				/imgDowmLoad.java* = anon
+				/** = user,frameperms
+			</value>
+		</property>
+		<!-- 声明自定义的过滤器 -->
+		<property name="filters">
+			<map>
+				<entry key="frameperms" value-ref="urlPathFilter" />
+				<entry key="authc" value-ref="authcFilter" />
+			</map>
+		</property>
+	</bean>
+</beans>

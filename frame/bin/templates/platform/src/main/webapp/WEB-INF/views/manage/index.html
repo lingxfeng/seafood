@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>	
+<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="plugins/extjs/ext-3.2/resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="plugins/extjs/ext-3.2/ux/css/ux-all.css" />
+<link rel="stylesheet" type="text/css" href="plugins/extjs/ext-3.2/resources/css/xtheme-gray.css" />
+<link rel="stylesheet" type="text/css" href="css/admin.css" />
+<link rel="stylesheet" type="text/css" href="css/icon.css" />
+<link rel="stylesheet" type="text/css" href="css/globals.css" />
+<link rel="stylesheet" type="text/css" href="plugins/ria/resources/css/ria-core.css" />
+<link rel="stylesheet" type="text/css" href="css/ext-patch.css" />
+#if(!${user})
+<script type="text/javascript">
+	window.location.href = "login.html"
+</script>
+#end
+<style type="text/css">
+.x-tab-strip-inner span.x-tab-strip-text {
+	font-size: 12px;
+}
+
+a {
+	text-decoration: none;
+	color: #000033
+}
+
+.link {
+	font-weight: bold;
+	padding: 6px 0 0 -2px;
+	line-height: 25px;
+}
+
+.myMsg {
+	background: #FEEDFE;
+	margin: 4px 0;
+	color: #FF00FF
+}
+
+.yourMsg {
+	background: #E1E1E1;
+	margin: 4px 0;
+	color: blue
+}
+
+.user {
+	background: url("img/icons/user.png") no-repeat 1px 2px;
+}
+
+.key {
+	background: url("img/icons/lock.png") no-repeat 1px 2px;
+}
+
+.im {
+	background: url("img/im.jpg") no-repeat 1px 2px;
+}
+
+.key,.user {
+	background-color: #FFFFFF;
+	padding-left: 20px;
+	font-weight: bold;
+	color: #000033;
+}
+
+.intro {
+	background-image: url(/img/core/intro.png) !important;
+}
+
+.lian {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+.lian:hover {
+	text-decoration: none;
+	color: #0000FF;
+}
+
+#loading-mask {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 20000;
+	background-color: white;
+}
+
+#loading {
+	position: absolute;
+	left: 45%;
+	top: 40%;
+	padding: 2px;
+	z-index: 20001;
+	height: auto;
+}
+
+#loading img {
+	margin-bottom: 5px;
+}
+
+#loading .loading-indicator {
+	background: white;
+	color: #555;
+	font: bold 13px tahoma, arial, helvetica;
+	padding: 10px;
+	margin: 0;
+	text-align: center;
+	height: auto;
+}
+</style>
+<title>Disco快速开发平台</title>
+</head>
+<body>
+	<div id="loading-mask"></div>
+	<div id="loading">
+		<div class="loading-indicator">
+			<img src="plugins/ria/resources/img/core/extanim32.gif" style="margin-right: 8px;" align="absmiddle" />
+			<div id="loading-msg">Loading...</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		document.getElementById('loading-msg').innerHTML = "";
+	</script>
+	<script type="text/javascript" src="plugins/ria/Global-min.js"></script>
+	<script type="text/javascript" src="plugins/extjs/ext-3.2/adapter/ext/ext-base.js"></script>
+	<script type="text/javascript" src="plugins/extjs/ext-3.2/ext-all.js"></script>
+	<script type="text/javascript" src="plugins/ria/fuse-dev-min.js"></script>
+	<script type="text/javascript" src="plugins/extjs/ext-3.2/lang/ext-lang-zh_CN.js"></script>
+	<script type="text/javascript">
+		Global.User = {
+			trueName : "$!{user.trueName}",
+			name : "$!{user.name}",
+			id : "$!{user.id}"
+		};
+		Ext.apply(Disco_RIA, {
+			title : "Disco快带开发平台",
+			// script:'demo-script',
+			permissionCheck : true,
+			devMode : false,
+			sysSkinPath : 'css/skin/',
+			permissionCheckAction : "permissionCheck.java",
+			PersonalityUrl : "manage.java",
+			formatUrl : function(baseUrl, cmd) {
+				return baseUrl + "?cmd=" + cmd;
+			}
+		});
+		if ('$!{personality.homePage}')
+			Disco_RIA.setCfg('homePage', '$!{personality.homePage}');
+	</script>
+	<script type="text/javascript">
+		
+	</script>
+	<script type="text/javascript" src="plugins/ria/commonService-min.js"></script>
+	<script type="text/javascript" src="plugins/ria/main-min.js"></script>
+	<script>
+		Disco.Ext.LoginWin = LoginWindow;
+	</script>
+	<div id="header" class="x-hidden">
+		<div class="wide100 center">
+			<div class="top_head center">
+				<div class="adminlogo">
+					<a href="#"><img src="img/item/admin_logo.jpg" /></a>
+				</div>
+				<div class="adminmenu">
+					<a href="news.java?cmd=newDefault" target="_blank"><img src="img/item/top_menu_1.jpg" /></a><a href="grzx/indexMain.jsp"
+						target="_blank"><img src="img/item/top_menu_2.jpg" /></a><a href="#" onclick="changePassword()"><img
+						src="img/item/top_menu_3.jpg" /></a><a href="#" onclick="logout()"><img src="img/item/top_menu_4.jpg" /></a>
+				</div>
+			</div>
+			<div class="adminnews center">
+				<span><img src="img/item/49_32.jpg" /></span> <span>你好！</span><span><a href="#">$!{user.trueName} </a></span> <span>欢迎您的登录。您的系统权限是
+
+					#if($!{user.types}==1) <a href="#"> 撰稿人</a> #end #if($!{user.types}==2) <a href="#"> 部门管理员</a> #end #if($!{user.types}==4) <a href="#">
+						部门审核人</a> #end #if($!{user.types}==5) <a href="#"> 分行管理员</a>#else guest#end
+
+
+				</span>
+				<!-- <span>当前待审核文章</span><span>{5}篇.<a href="#">查看全部</a></span> -->
+
+
+				<span>&nbsp;&nbsp;您上次的登录时间是$!CommUtil.formatDate("yyyy-MM-dd H:m:s",$!{user.lastLoginTime})</span>
+
+			</div>
+		</div>
+	</div>
+	<div id="bottom" class="foot">V2012 Disco For JAVA EE快速开发平台 Design by <a href="mailto:ksmwly@gmail.com">lengyu</a></div>
+	<div id="msgPanel" style="position: absolute; left: 0; top: 0;" />
+</body>
+</html>

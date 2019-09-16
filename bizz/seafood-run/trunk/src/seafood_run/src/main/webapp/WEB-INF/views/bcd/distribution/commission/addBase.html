@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"
+		type="text/css">
+		<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css"
+			type="text/css" rel="stylesheet">
+			<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+			<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+			<script type="text/javascript">
+				//修改上级
+				function addCustom(method) {
+
+					if($.trim($("#totalcomission").val())==''){
+						alert("销售总佣金不能为空!");
+						return;
+					}
+					if($.trim($("#leve1").val())==''){
+						alert("一级销售佣金不能为空!");
+						return;
+					}
+					if($.trim($("#leve2").val())==''){
+						alert("二级微店佣金不能为空!");
+						return;
+					}
+					/* if($.trim($("#leve3").val())==''){
+						alert("二级上级佣金不能为空!");
+						return;
+					} */
+					jQuery("#theForm").submit();
+				}
+	function jugge1(){
+		if($("#totalcomission").val()==""){
+			alert("请先输入佣金总额！");
+			$("#leve1").val("");
+		}
+		$("#leve2").val(($("#totalcomission").val()-$("#leve1").val()).toFixed(2));
+	}
+	function jugge2(){
+		if($("#totalcomission").val()==""){
+			alert("请先输入佣金总额！");
+			$("#leve2").val("");
+		}
+		$("#leve1").val(($("#totalcomission").val()-$("#leve2").val()).toFixed(2));
+	}
+	function jugge3(){
+		$("#leve1").val("");
+		$("#leve2").val("");
+	}
+			</script>
+</head>
+<body>
+	<form action="/commissionConfig.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+		#if($!entry)
+		<input name="cmd" id="cmd" type="hidden" value="update">
+		#else
+		<input name="cmd" id="cmd" type="hidden" value="save">
+		#end
+		<input name="id" id="id" type="hidden" value="$!{entry.id}">
+		<input name="isdefault" id="isdefault" type="hidden" value="1">
+		<input name="type" id="type" type="hidden" value="1">
+			<div class="cont">
+				<h1 class="seth">goodExtended</h1>
+				<div class="nav_list">
+					<ul>
+						<li><a href="/commissionConfig.java?cmd=list" ><b>自定义佣金商品</b></a></li>
+						<li><a href="/commissionConfig.java?cmd=commissionProduct" ><b>新增自定义商品</b></a></li>
+						<li><a href="/commissionConfig.java?cmd=defaultConfig" class="this"><b>基本设置</b></a></li>
+					</ul>
+				</div>
+				<div class="edit">
+					<div class="editul setcont" id="base">
+					<div class="operation">
+						<h3>使用说明</h3>
+						<ul>
+							<li>系统默认自动按使用 微店佣金设置 - 基本设置 中定义的各级微店佣金比例来计算每笔订单的微店佣金，如需对某商品设置不同的佣金，可添加自定义佣金商品单独该商品的设置微店佣金。</li>
+						</ul>
+					</div>
+						<ul class="set1">
+							<li class="setcont_bg"><strong class="sred">*</strong>微店总佣金:</li>
+							<li>
+								<span class="webname">
+									<input name="totalcomission" id="totalcomission"  type="text" value="$!{entry.totalcomission}" onblur="jugge3()"/>
+								</span>
+							</li>
+						</ul>
+						<ul class="set1">
+							<li class="setcont_bg"><strong class="sred">*</strong>上级微店佣金:</li>
+							<li>
+								<span class="webname">
+									<input name="leve1" id="leve1"  type="text" value="$!{entry.leve1}" onblur="jugge1()"/>
+								</span>
+								<span id="s1">元</span>
+							</li>
+						</ul>
+						<ul class="set1">
+							<li class="setcont_bg"><strong class="sred">*</strong>二级微店佣金:</li>
+							<li>
+								<span class="webname">
+									<input name="leve2" id="leve2"  type="text" value="$!{entry.leve2}" onblur="jugge2()"/>
+								</span>
+								<span id="s2">元</span>
+							</li>
+						</ul>
+						<!-- <ul class="set1">
+							<li class="setcont_bg"><strong class="sred">*</strong>二级上级佣金:</li>
+							<li>
+								<span class="webname">
+									<input name="leve3" id="leve3"  type="text" value="$!{entry.leve3}"/>
+								</span>
+								<span id="s3">%</span>
+							</li>
+						</ul> -->
+					<!-- 		<ul class="set1">
+							<li class="setcont_bg">累积微店佣金比例:</li>
+							<li>
+								<span id="s4"></span>
+							</li>
+						</ul> -->
+						
+					</div>
+				</div>
+				<div class="submit">
+					<span class="pad120"><input name="" type="button" value="提交"
+						onclick="addCustom();"><input name="" type="button" value="返回"
+						onclick="history.back();"></span>
+				</div>
+			</div>
+	</form>
+
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+	<context:property-placeholder location="classpath:db.properties,classpath:application.properties" />
+	<!-- 打开spring注解 -->
+	<context:annotation-config />
+	<!-- 设定Spring去那些包中找注解 -->
+	<context:component-scan base-package="com.eastinno.otransos" />
+
+	<!-- spring data jpa dao base-package:扫描的包 repository-impl-postfix:仓库自定义实现类型的后缀 自动扫描并添加到接口的实现 factory-class 仓库接口的实现工厂 -->
+	<jpa:repositories base-package="com.eastinno.otransos.**.dao,com.**.dao" repository-impl-postfix="Impl"
+		factory-class="com.eastinno.otransos.ext.platform.dao.impl.CustomJpaGenericDAOFactoryBean" entity-manager-factory-ref="entityManagerFactory"
+		transaction-manager-ref="transactionManager">
+	</jpa:repositories>
+
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${database.driverClassName}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+		<property name="validationQuery" value="SELECT 'x'" />
+	</bean>
+
+	<bean name="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceXmlLocation" value="classpath:persistence.xml" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="database" value="${database.database}" />
+				<property name="showSql" value="false" />
+				<property name="generateDdl" value="false" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="i18nInteceptor" class="com.eastinno.otransos.core.i18n.I18nInteceptor" />
+
+	<bean id="abstractI18nDao" abstract="true" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="interceptorNames">
+			<list>
+				<value>i18nInteceptor</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

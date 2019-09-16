@@ -1,0 +1,164 @@
+﻿<!-- extApp.java?appClass=DepartmentManagePanel&script=/sys/DepartmentManagePanel.js -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="plugins/extjs/ext-3.2/resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="plugins/extjs/ext-3.2/ux/css/ux-all.css" />
+<link rel="stylesheet" type="text/css" href="plugins/extjs/ext-3.2/resources/css/xtheme-gray.css" />
+<link rel="stylesheet" type="text/css" href="css/admin.css" />
+<link rel="stylesheet" type="text/css" href="css/icon.css" />
+<link rel="stylesheet" type="text/css" href="css/globals.css" />
+<link rel="stylesheet" type="text/css" href="plugins/ria/resources/css/ria-core.css" />
+<style type="text/css">
+* { /* 	font: 12px "宋体" */
+	font: 12px "微软雅黑", "宋体"
+}
+
+.x-tab-strip-inner span.x-tab-strip-text {
+	font-size: 12px;
+}
+
+a {
+	text-decoration: none;
+	color: #000033
+}
+
+.link {
+	font-weight: bold;
+	padding: 6px 0 0 -2px;
+	line-height: 25px;
+}
+
+.myMsg {
+	background: #FEEDFE;
+	margin: 4px 0;
+	color: #FF00FF
+}
+
+.yourMsg {
+	background: #E1E1E1;
+	margin: 4px 0;
+	color: blue
+}
+
+.user {
+	background: url("img/icons/user.png") no-repeat 1px 2px;
+}
+
+.key {
+	background: url("img/icons/lock.png") no-repeat 1px 2px;
+}
+
+.im {
+	background: url("img/im.jpg") no-repeat 1px 2px;
+}
+
+.key,.user {
+	background-color: #FFFFFF;
+	padding-left: 20px;
+	font-weight: bold;
+	color: #000033;
+}
+
+.intro {
+	background-image: url(/img/core/intro.png) !important;
+}
+
+.lian {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+.lian:hover {
+	text-decoration: none;
+	color: #0000FF;
+}
+
+#loading-mask {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 20000;
+	background-color: white;
+}
+
+#loading {
+	position: absolute;
+	left: 45%;
+	top: 40%;
+	padding: 2px;
+	z-index: 20001;
+	height: auto;
+}
+
+#loading img {
+	margin-bottom: 5px;
+}
+
+#loading .loading-indicator {
+	background: white;
+	color: #555;
+	font: bold 13px tahoma, arial, helvetica;
+	padding: 10px;
+	margin: 0;
+	text-align: center;
+	height: auto;
+}
+</style>
+
+<title>企业应用快速开发平台(EasyFuse RIA)</title>
+</head>
+<body style="font-size: 12px">
+	<div id="loading-mask" style=""></div>
+	<div id="loading">
+		<div style="text-align: center; padding-top: 25%">
+			<img src="plugins/ria/resources/img/core/extanim32.gif" width="32" height="32" style="margin-right: 8px;" align="absmiddle" />Loading......
+		</div>
+	</div>
+	#if(!$script) #set($script = ($appClass+".js")) #end
+
+	<script type="text/javascript" src="plugins/ria/Global-min.js"></script>
+	<script type="text/javascript" src="plugins/extjs/ext-3.2/adapter/ext/ext-base.js"></script>
+	<script type="text/javascript" src="plugins/extjs/ext-3.2/ext-all-debug.js"></script>
+	<script type="text/javascript" src="plugins/ria/fuse-dev.js"></script>
+	<script type="text/javascript" src="plugins/extjs/ext-3.2/lang/ext-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="plugins/ria/commonService-min.js"></script>
+	<script type="text/javascript" src="extApp.java?cmd=loadScript&script=$!{script}"></script>
+	#foreach($info in $otherScriptList)
+	<script type="text/javascript" src="$!info"></script>
+	#end
+	<script type="text/javascript">
+Ext.BLANK_IMAGE_URL = "plugins/extjs/ext-3.2/resources/images/default/s.gif";
+Ext.QuickTips.init();
+Ext.onReady(function(){
+	//var app;
+	#if($appClass)
+	app=new ${appClass}(); 
+	#else 
+	app=new ${script}();	
+	#end
+	Ext.get('loading').remove();
+	Ext.get('loading-mask').fadeOut( {
+			remove : true
+		});		
+		
+	if(window.parent && window.parent.IFrames){
+	window.parent.IFrames["${appClass}"]=app;	
+	}
+	if(app.list && (typeof app.list=="function"))app=app.list();
+	if(app.onWindowResize){
+		app.show();
+	}
+	else{
+		new Ext.Viewport({layout:"fit",items:app});
+	}
+});
+
+</script>
+
+</body>
+</html>

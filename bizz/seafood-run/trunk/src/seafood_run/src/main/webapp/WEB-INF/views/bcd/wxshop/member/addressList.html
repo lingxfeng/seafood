@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>地址管理</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<link href="/static/home/bcd/css/user.css" rel="stylesheet" type="text/css" />
+<link href="/static/home/bcd/css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link href="/static/home/bcd/css/font-awesome.css" type="text/css" rel="stylesheet">
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+</head>
+
+<body style="background-color: #efefef;">
+	#if("" != $!url)
+	<div class="hy_1">收货地址列表</div>
+	#else
+	<div class="hy_1"></div>
+	#end
+	<div>
+	#if("" != $!url)
+		#foreach($address in $addressList)
+		<a href="javascript:window.location.href='$!url&addrid=$!address.id&url='+encodeURIComponent('$!url');">
+		<div class="oh bg-fff adrDiv" style="width:70%;z-index:9;background-color:white;-moz-opacity:0.05;opacity: 0.2;font-size: 45px;color: transparent;-webkit-text-stroke: 1px gray; position:absolute;text-align:center;">
+		点击确认
+		</div>
+		</a>
+		<div class="oh bg-fff adrDiv" style="padding-right:50px;">
+			<!-- <span type="hidden" id="addid_$!address.id" value="$!address.id"></span> -->
+			<div class="f-l w-10 adrCheck"><i class="fa fa-check-circle"></i></div>
+			<a href="javascript:window.location.href='$!url&addrid=$!address.id&url='+encodeURIComponent('$!url');">
+			<div class="f-l w-80 adrCon">
+				<p>$!address.area.loadFullTitle("-")-$!address.area_info</p>
+				<p></p>
+				<p><span>$!address.trueName</span><span class="padl15">$!address.telephone</span></p>
+			</div>
+			</a>
+			<div class="f-l w-10 adrEdit"><a  class="sbmt"><button style="width: 50px; height: 40px; text-align: center;" id="confirm" onclick="javascript:window.location.href='wxShopMemberCenter.java?cmd=toAddressEdit&id=$address.getId()&url='+encodeURIComponent('$!url');">修改</button></a></div>
+		</div>
+		<br/>
+		#end
+		<ul class="hy_2">
+			<li style="height:40px;line-height:40px">新增收货地址<span class="f-r"><a class="sbmt"><button style="width: 50px; height: 40px; text-align: center;" id="confirm" onclick = "javascript:window.location.href='wxShopMemberCenter.java?cmd=toAddressSave&url='+encodeURIComponent('$!url');">新增</button></a></span></li>
+			
+		</ul>
+	#else
+	#foreach($address in $addressList)
+	   
+		<div class="oh bg-fff adrDiv">		
+			<div class="f-l w-10 adrCheck"><i class="fa fa-check-circle"></i></div>
+			<div class="f-l w-80 adrCon">
+				<p>$!address.area.loadFullTitle("-")-$!address.area_info</p>
+				<p></p>
+			<p><span>$!address.trueName</span><span >$!address.telephone</span></p>
+			</div>
+			<div class="f-l w-10 adrEdit"><a href="wxShopMemberCenter.java?cmd=toAddressEdit&id=$address.getId()"><i class="fa fa-pencil"></i></a></div>
+		</div>
+		<br/>
+		#end
+		<ul class="hy_2">
+			<li>新增收货地址<span class="f-r"><a href="wxShopMemberCenter.java?cmd=toAddressSave"><i class="fa fa-plus-square"></i></a></span></li>
+		</ul>
+	#end
+		
+	</div>
+	<div class="hei40"></div>
+	<!--  底部浮动导航  s  -->
+	#parse("/bcd/wxshop/common/foot.html")
+	<!--  底部浮动导航  e  -->
+	
+	<script>
+	#foreach($address in $addressList)
+	$("#tiaozhuan_"+).click(function(){
+		var url1="$!url";
+		var addrid = $("#addid_"+$address.id).val();
+		var url = url1+"&addrid="+addrid;
+		window.location.href=url;
+		
+	})
+	#end
+</script>
+</body>
+</html>

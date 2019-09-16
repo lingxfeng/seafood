@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>微店 提现管理编辑页面</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/cashSetting.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/commonutil.js"></script>
+<script>
+jQuery(document).ready(function(){
+	//表单验证
+	jQuery("#baseForm").validate({		
+	ignore: "",						  
+	    rules: {
+	    	cashDayLimit:{
+			    required:true,
+			    number:true,
+				range:[0,1000000000]
+			},
+			cashAmountLimit:{
+				required:true,
+			    number:true,
+				range:[0,1000000000]
+			},
+			cashNumLimit:{
+				required:true,
+			    number:true,
+				range:[0,1000000000]
+			},
+			checkAmountLimit:{
+				required:true,
+			    number:true,
+				range:[0,1000000000]
+			}
+		},
+	    messages: {
+	    	cashDayLimit:{
+	    		required:"可提现时间限制不能为空",
+			    number:"可提现时间限制只能是数字格式",
+				range:"可提现时间限制必须是大于等于0的整数"
+	    	},
+	    	cashAmountLimit:{
+				required:"可提现金额限制不能为空",
+			    number:"可提现金额限制只能是数字格式",
+				range:"可提现金额限制必须是大于等于0的整数"		   
+			},
+			cashNumLimit:{
+				required:"提现次数限制不能为空",
+			    number:"提现次数限制只能是数字格式",
+				range:"提现次数限制必须是大于等于0的整数"	
+			},
+			checkAmountLimit:{
+				required:"审核金额限制不能为空",
+			    number:"审核金额限制只能是数字格式",
+				range:"审核金额限制必须是大于等于0的整数"	
+			}
+	    }
+	});
+	
+});
+
+/** 
+ * 页面加载时提示信息
+ */
+var msg="$!{msg}";
+if(msg!=""){
+   alert(msg);
+}
+
+//品牌保存
+function saveCashSetting(method) {
+	jQuery("#baseForm").submit();
+}
+</script>
+</head>
+
+<body>
+	<div class="cont">
+    	<h1 class="seth">提现管理</h1>
+    	<div class="nav_list"> 
+		    <ul>
+		        <li><a href="/distributeCash.java?cmd=list"><b>提现申请</b></a></li> 
+				<li><a href="/distributeCash.java?cmd=edit" class="this"><b>基本设置</b></a></li>
+			</ul>
+    	</div>
+    	<form name="baseForm" id="baseForm" action="/distributeCash.java" method="post" enctype="multipart/form-data" novalidate="novalidate">
+	    <input name="cmd" type="hidden" value="update">
+	    <input name="id" id="id" type="hidden" value="1"/>
+	    <input name="msg"  id="msg" type="hidden" value="$!{msg}">
+	    
+<!-- 	    <div>
+		    <div class="form-group">
+				<label class="control-label">可提现时间限制</label>
+				<div class="col-sm-4">
+					<div class="input-group">
+						<span class="input-group-addon">交易完成</span>
+						<input class="form-control" type="text" value="1" name="cashDay"/>
+						<span class="input-group-addon">天后，微店的佣金收入可提现</span>
+					</div>
+					<span class="label-default">使用说明：输入0，交易完成后，立即可提现。</span>
+				</div>
+			</div>
+			<div class="form-group">
+			</div>
+	    </div> -->
+	    
+	    
+    	<div class="edit">
+	      	<div class="setcont editul">
+	        	<ul class="set1">
+	          		<li class="setcont_bg">可提现时间限制</li>
+	          		<li>
+	          			<div>
+		          			<span class="webname">
+		            			<input name="cashDayLimit" type="text" id="cashDayLimit" value="$!{entry.cashDayLimit}" size="40">&nbsp天
+		            		</span>
+		            		<span id="nothis"><strong class="q"></strong><strong class="w">使用说明：输入0，交易完成后，立即可提现。</strong><strong class="c"></strong>
+		            		</span>
+	            		</div>
+	            	</li>
+	        	</ul>
+		    	<ul class="set1">
+		            <li class="setcont_bg">提现金额限制</li>
+		            <li>
+		            	<span class="webname">
+		            		<input name="cashAmountLimit" type="text" id="cashAmountLimit" value="$!{entry.cashAmountLimit}">&nbsp元
+		            	</span>
+		            	<span id="nothis"><strong class="q"></strong><strong class="w">使用说明：微店申请提现金额必须大于最低提现金额限制时，方可以申请提现。输入0，代表无提现金额限制。</strong><strong class="c"></strong>
+		            	</span>
+		            </li>
+		        </ul>
+		        <ul class="set1">
+		            <li class="setcont_bg">每月提现次数限制</li>
+		            <li>
+		            	<span class="webname">
+		            		<input name="cashNumLimit" type="text" id="cashNumLimit" value="$!{entry.cashNumLimit}">&nbsp次
+		            	</span>
+		            	<span id="nothis"><strong class="q"></strong><strong class="w">使用说明：输入0，代表无提现次数限制。</strong><strong class="c"></strong>
+		            	</span>
+		            </li>
+		        </ul>
+		        <ul class="set1">
+		            <li class="setcont_bg">提现审核金额限制</li>
+		            <li>
+		            	<span class="webname">
+		            		<input name="checkAmountLimit" type="text" id="checkAmountLimit" value="$!{entry.checkAmountLimit}">&nbsp元
+		            	</span>
+		            	<span id="nothis"><strong class="q"></strong><strong class="w">使用说明：微店提现金额小于等于提现审核金额限制时，系统自动将提现金额打到微店账户余额，无需后台审..</strong><strong class="c"></strong>
+		            	</span>
+		            </li>
+		        </ul>
+	        </div>
+    	</div>
+    	</form>  
+	    <div class="submit">
+	    	<span class="pad120"><input name="" type="button" value="提交" onclick="saveCashSetting();"></span>
+	    </div>
+    </div>
+</body>
+</html>

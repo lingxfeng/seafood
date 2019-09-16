@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="/static/common/base.css" />
+	<link rel="stylesheet" href="/static/common/plugin/assets/css/font-awesome.min.css" type="text/css"/>
+	<link href="/static/home/bcd/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+	<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+	<script src="/static/home/bcd/js/jquery.datetimepicker.js"></script>
+	<script type="text/javascript">
+	function gotoPage(n) {
+	    location.href = "/rushBuyRecord.java?cmd=timeLimitRecordList&regularId=$!qo.regularId&regularName=$!qo.regularName&regularCode=$!qo.regularCode&proName=$!qo.proName&startDate=$!qo.startDate&endDate=$!qo.endDate&currentPage=" + n;
+	}
+	
+	//后台传递需要前台弹窗提示的信息
+	#if($msg)
+		alert("$msg");
+	#end
+	
+	$(function(){
+		$(".datetime").datetimepicker({
+			format: "Y-m-d H:i:s",
+			allowBlank: true,
+			step: 10
+		});
+	});
+	</script>
+	<style>
+	td{
+		text-align: center;
+	}
+	.fshop_table2{
+		border:1px solid #C6C9CA;
+	}
+	.fshop_table2 th{
+		border:1px solid #C6C9CA;
+	}
+	.link-address{
+		color: blue;
+	}
+	.link-address:hover{
+		color: red;
+	}
+	</style>	
+</head>
+	
+<body>
+	<div class="cont">
+		<h3 class="seth">抢购活动管理</h3>
+		
+		<div class="nav_list">
+			<ul>
+				<li><a href="/rushBuyRegular.java?cmd=timeLimitList" class=""><b>管理抢购</b></a></li>
+				<li><a href="/rushBuyRegular.java?cmd=toTimeLimitSave" class=""><b>新增抢购</b></a></li>
+				<li><a href="/rushBuyRecord.java?cmd=timeLimitRecordList" class="this"><b>抢购记录</b></a></li>
+			</ul>
+		</div>
+		
+		<form name="ListForm" id="ListForm" action="/rushBuyRecord.java" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="cmd" value="timeLimitRecordList"/>
+			<div class="search" style="margin-left: 20px;">
+				<span class="size100">活动名称：<input name="regularName" placeholder="活动名称" type="text" id="regularName" value="$!regularName" /></span>
+				<span class="size100">活动code：<input name="regularCode" placeholder="活动code" type="text" id="regularCode" value="$!regularCode" /></span>
+				<span class="size100">商品名称：<input name="proName" placeholder="商品名称" type="text" id="proName" value="$!proName" /></span>
+				<span class="size120">下单时间：<input class="datetime" name="startDate" placeholder="抢购开始时间" type="text" id="startDate" value="$!startDate" />-<input class="datetime" name="endDate" placeholder="抢购结束时间" type="text" id="endDate" value="$!endDate" /> </span>				
+				<span>
+					<input name="" type="submit" value="搜索" style="cursor: pointer;" class="search_btn" />
+				</span>
+			</div>
+		</form>
+	
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li></li>
+			</ul>
+		</div>
+		
+		<form name="ListForm" id="ListForm" action="/rushBuyRecord.java?cmd=list" method="post">
+			<div class="fshoptb2">
+
+				<table width="100%" class="fshop_table2">
+					<tbody>
+						<tr>							
+							<th><span>活动名称</span></th>
+							<th><span>活动code</span></th>
+							<th><span>商品名称</span></th>
+							<th><span>商品ID</span></th>
+							<th><span>会员昵称</span></th>
+							<th><span>会员ID</span></th>							
+							<th><span>进入系统时间</span></th>
+							<th><span>进入系统IP</span></th>
+							<th><span>系统有效期</span></th>
+							<th><span>订单编号</span></th>
+							<th><span>下单时间</span></th>
+							<th><span>支付状态</span></th>
+							<th width="" align="center"><span class="form_btna">管理</span></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">									
+							<td>$!obj.regular.name</td>
+							<td>$!obj.regular.code</td>
+							<td>$!obj.regular.pro.name</td>
+							<td>$!obj.regular.pro.id</td>
+							<td>$!obj.member.nickname</td>
+							<td>$!obj.member.id</td>							
+							<td>$!obj.createDate</td>
+							<td>$!obj.ipAddress</td>
+							#if($obj.outExpire && !$obj.order)
+							<td>无效</td>
+							#else
+							<td>有效</td>
+							#end
+												
+							#if($obj.order)
+							<td><a class="link-address" href="/shopOrderInfo.java?cmd=orderDetail&orderId=$!obj.order.id">$!obj.order.code</a></td>
+							<td>$!obj.order.ceateDate</td>
+							<td>$!obj.order.getStatusCh()</td>								
+							#else
+							<td>未下单</td>
+							<td>未下单</td>
+							<td>未下单</td>
+							#end							
+							<td align="center">							
+						        <a href="/rushBuyRegular.java?cmd=toTimeLimitUpdate&id=$!obj.id"><span class=""></span>活动详情</a>
+						        #if($obj.order)						        
+						        <a href="/shopOrderInfo.java?cmd=orderDetail&orderId=$!obj.order.id"><span class=""></span> 查看订单</a>
+						        #end
+						    </td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}				
+			</div>
+		</form>
+
+	</div>
+</body>
+</html>

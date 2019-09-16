@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"
+		type="text/css">
+		<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css"
+			type="text/css" rel="stylesheet">
+			<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+			<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+			<script type="text/javascript">
+				//修改上级
+				function addCustom() {
+					if($.trim($("#value").val())==''){
+						alert("商品现金价值不能为空!");
+						return;
+					}
+					if($.trim($("#restitution").val())==''){
+						alert("月最高返还金额不能为空!");
+						return;
+					}
+					if($.trim($("#totalMonths").val())==''){
+						alert("返还月数不能为空!");
+						return;
+					}
+					/* if($.trim($("#leve3").val())==''){
+						alert("二级上级佣金不能为空!");
+						return;
+					} */
+					jQuery("#theForm").submit();
+				}
+				
+			</script>
+</head>
+<body>
+	<form action="/spokesmanProduct.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+		#if($!{entry2.id})
+		<input name="cmd" id="cmd" type="hidden" value="update">
+		#else
+		<input name="cmd" id="cmd" type="hidden" value="save">
+		#end
+		
+		#if($!{entry.id})
+		<input name="id" id="id" type="hidden" value="$!{entry.id}">
+		#else
+		<input name="id" id="id" type="hidden" value="$!{entry2.product.id}">
+		#end
+		<input name="spokesid" id="spokesid" type="hidden" value="$!{entry2.id}">
+			<div class="cont">
+				<h1 class="seth">编辑代言商品</h1>
+				<div class="nav_list">
+					<ul>
+						<li><a href="/spokesmanProduct.java?cmd=list" ><b>自定义佣金商品</b></a></li>
+						<li><a href="/spokesmanProduct.java?cmd=getProduct" class="this"><b>新增自定义商品</b></a></li>
+					</ul>
+				</div>
+				<div class="edit">
+					<div class="editul setcont" id="base">
+					<div class="operation">
+						<h3>使用说明</h3>
+						<ul>
+							
+						</ul>
+					</div>
+					#if($!{entry.name})
+						<ul class="set1">
+							<li class="setcont_bg">商品名称:</li>
+							<li>
+								$!{entry.name}
+							</li>
+						</ul>
+						<ul class="set1">
+							<li class="setcont_bg">商品图片:</li>
+							<li>
+							<img src="$!{entry.imgPaths.split('_')[0]}" style="width: 130px;height: 130px;"/>
+							</li>
+						</ul>
+						<ul class="set1">
+							<li class="setcont_bg">销售价格:</li>
+							<li>
+								$!{entry.amt}
+							</li>
+						</ul>
+					#else
+						<ul class="set1">
+							<li class="setcont_bg">商品名称:</li>
+							<li>
+								$!{entry2.product.name}
+							</li>
+						</ul>
+						<ul class="set1">
+							<li class="setcont_bg">商品图片:</li>
+							<li>
+							<img src="$!{entry2.product.imgPaths.split('_')[0]}" style="width: 130px;height: 130px;"/>
+							</li>
+						</ul>
+						<ul class="set1">
+							<li class="setcont_bg">销售价格:</li>
+							<li>
+								$!{entry2.product.amt}
+							</li>
+						</ul>
+					#end
+						<ul class="set1">
+							<li class="setcont_bg"><strong class="sred">*</strong>现金价值:</li>
+							<li>
+								<span class="webname">
+									<input name="value" id="value"  type="text" value="$!{entry2.value}"/>
+								</span>
+							</li>
+						</ul>
+						<ul class="set1">
+							<li class="setcont_bg"><strong class="sred">*</strong>每月最高返还金额:</li>
+							<li>
+								<span class="webname">
+									<input name="restitution" id="restitution"  type="text" value="$!{entry2.restitution}"/>
+								</span>
+								<span id="s1"></span>
+							</li>
+						</ul>
+						<ul class="set1">
+							<li class="setcont_bg"><strong class="sred">*</strong>返还总月数:</li>
+							<li>
+								<span class="webname">
+									<input name="totalMonths" id="totalMonths"  type="text" value="$!{entry2.totalMonths}" />
+								</span>
+								<span id="s2"></span>
+							</li>
+						</ul>
+						<!-- <ul class="set1">
+							<li class="setcont_bg"><strong class="sred">*</strong>代言价格:</li>
+							<li>
+								<span class="webname">
+									<input name="restitutionPrice" id="restitutionPrice"  type="text" value="$!{entry2.restitutionPrice}" />
+								</span>
+								<span id="s2">%</span>
+							</li>
+						</ul> -->
+					</div>
+				</div>
+				<div class="submit">
+					<span class="pad120">
+						<input name="" type="button" value="提交" onclick="addCustom();">
+						<input name="" type="button" value="返回" onclick="history.back();">
+					</span>
+				</div>
+			</div>
+	</form>
+
+
+</body>
+</html>

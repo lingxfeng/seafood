@@ -1,0 +1,12 @@
+/**使用Disco平台开发前端界面的CSS封装都统一放在此文件中如分页样式等**/
+/*******************分页start*********************/
+.pagingForMobile{height:60px;width:23%;margin:0 auto;}
+.pagingForMobile a{float:left;margin-top:30px;margin-left:10px;text-align:right}
+
+.pagingForMobile a.lanL{width:9px;height:13px;display:block;background:url(img/fanyeL.png) no-repeat;}
+.pagingForMobile a.huiR{width:9px;height:13px;display:block;background:url(img/fanyehuiR.png) no-repeat;}
+.pagingForMobile a.lanR{width:9px;height:13px;display:block;background:url(img/fanyeR.png) no-repeat;}
+.pagingForMobile a.huiL{width:9px;height:13px;display:block;background:url(img/fanyehuiL.png) no-repeat;}
+.pagingForMobile a.ylan{width:12px;height:12px;display:block;background:url(img/landian.png) no-repeat}
+.pagingForMobile a.hlan{width:12px;height:12px;display:block;background:url(img/huidian.png) no-repeat}
+/*******************分页end*********************/

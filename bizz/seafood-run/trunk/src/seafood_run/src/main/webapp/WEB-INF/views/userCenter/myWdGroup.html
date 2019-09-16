@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0045)/buyer/order.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<title>实物交易订单 - 海鲜之家商城  - 海鲜之家商城V1.0</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="generator" content=""/>
+<meta name="author" content=""/>
+<meta name="copyright" content=""/>
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/user.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.zh.cn.js" charset="utf-8"></script>
+<script src="/static/home/shopmanage/js/jquery.SuperSlide.2.1.1.js"></script>
+<script>
+jQuery(document).ready(function(){	
+  jQuery('#beginTime').datepicker({
+	  dateFormat:"yy-mm-dd",
+	  changeMonth: true,
+	  changeYear: true
+  });
+  jQuery('#endTime').datepicker({
+	  dateFormat:"yy-mm-dd",
+	  changeMonth: true,
+	  changeYear: true
+  });
+  jQuery(".gift_icon_c").mouseenter(function(){
+		jQuery(this).siblings("div").show();									
+											});
+  jQuery(".gift_icon_center").mouseleave(function(){
+		jQuery(this).children(".gift_icon_main").hide();									
+											});
+  //
+  jQuery("#order_status").val("");
+  //QueryShip
+  jQuery(".li_10>a[id^=li_ship_]").click(function(){
+     jQuery("div[id^=li_ship_box]").hide();
+					var order_id =jQuery(this).attr("order_id");
+					var display =jQuery("#li_ship_box_"+order_id).css("display");
+							if(display=="none"){
+							jQuery("#li_ship_box_loading_"+order_id).show();
+							}
+							jQuery.post("/buyer/query_ship.htm",{
+									"id":order_id
+									},
+									function(data){
+											if(data){
+											   jQuery(".li_ship_box_loading").hide();
+											   jQuery("#li_ship_box_"+order_id).show().find("ul").html(data);
+											  }	
+										},"text"); 
+  });
+  jQuery("div[id^=li_ship_box_]").mouseleave(function(){
+	  jQuery(this).hide();
+  });
+//
+jQuery("a[id^=delete_order_]").click(function(){									
+		var order_id=jQuery(this).attr("order_id");	
+		showDialog("share_sns","系统提示","删除后不可恢复，是否继续？",1,"question","",function(){
+	       window.location.href="/buyer/order_delete.htm?id="+order_id+"&currentPage=0";
+		});	
+	});
+//
+jQuery(".user_guess_box_like").slide({mainCell:'.guess_like_box_like',autoPlay:true,effect:'left', vis:6, scroll:2, autoPage:true,interTime:3000,prevCell:"#like_goods_left",nextCell:"#like_goods_right"});
+});
+
+function gotoPage(val){
+	window.location.href="/pcShopMemberCenter.java?cmd=getMyWdGroup&amp;menuId=myWdGroup&currentPage="+val;
+}
+</script>
+</head>
+<body>
+<!--点击收藏-->
+<script type="text/javascript">
+jQuery(document).ready(function(){
+  jQuery(".top_pull").mouseover(function(){
+	jQuery(this).find("div").show();
+	jQuery(this).find("em").addClass("em_this");
+	jQuery(this).find("s").addClass("this");
+  	}).mouseleave(function(){
+    jQuery(this).find("div").hide();
+	jQuery(this).find("em").removeClass("em_this");
+	jQuery(this).find("s").removeClass("this");
+  });					
+								});
+var browserEvent = function (obj, url, title) {
+    var e = window.event || arguments.callee.caller.arguments[0];
+    var B = {
+        IE : /MSIE/.test(window.navigator.userAgent) && !window.opera
+        , FF : /Firefox/.test(window.navigator.userAgent)
+        , OP : !!window.opera
+    };
+    obj.onmousedown = null;
+    if (B.IE) {
+        obj.attachEvent("onmouseup", function () {
+            try {
+                window.external.AddFavorite(url, title);
+                window.event.returnValue = false;
+            } catch (exp) {}
+        });
+    } else {
+        if (B.FF || obj.nodeName.toLowerCase() == "a") {
+            obj.setAttribute("rel", "sidebar"), obj.title = title, obj.href = url;
+        } else if (B.OP) {
+            var a = document.createElement("a");
+            a.rel = "sidebar", a.title = title, a.href = url;
+            obj.parentNode.insertBefore(a, obj);
+            a.appendChild(obj);
+            a = null;
+        }
+    }
+};
+</script>
+
+#parse("/common/top.html")
+#parse("/common/left.html")
+
+<div class="main">
+  <div class="usercenter"> <script src="/static/home/shopmanage/js/jquery.cookie.js"></script>
+#parse("/common/userCenterLeft.html")
+    <div class="usercenter_right">
+      <div class="myorder">
+        <h4><span class="myorder_fright"></span><strong>我的微店图</strong></h4>
+        
+      </div>
+      
+      <div class="user_list">
+        <div class="user_list_title">
+        </div>
+              <form action="/buyer/favorite_goods.htm" method="post" id="ListForm">
+          <div class="show_smallimg">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="smallimg_table" >
+              <tr>
+                <th width="30%">店铺logo<input name="mulitId" type="hidden" id="mulitId" /></th>
+                <th width="30%">店铺名称</th>
+                <th width="20%" align="center">联系电话</th>
+                <th width="20%" align="center">审核通过时间</th>
+              </tr>
+            </table>
+            
+            #foreach($obj in $!distributorList)
+            <div class="shelves_goods">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" class="goodstable1">
+                <tr id="sc$!obj.id">
+                  <td style="text-align:center;width:30%;">
+                      <span class="goodsimg">
+                      <a href="/goShop.java?cmd=productDetail&id=$!obj.id" target="_blank"><img src='$!obj.imgPaths.split("_")[0]' width="80" height="80" /></a>
+                      </span>
+                  </td>
+                  <td style="text-align:center;width:30%;">$!obj.myShopName</td>
+                  <td style="text-align:center;width:20%;"><span>$!obj.mobile</span></td>
+                  <td style="text-align:center;width:20%;"><span>$!obj.joinTime</span></td>
+                </tr>
+              </table>
+            </div>
+            #end
+             </div>
+          $!paginationForBcd
+        </form>
+             </div>
+      
+    </div>
+  </div>
+  ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+
+function delCollection(id){
+	$.ajax({
+        type: "post",
+        url: "/pcShopMemberCenter.java?cmd=delCollection",
+        dataType: "json",
+        data: "id="+id,
+        success: function(data) {
+            if (data.success) {
+            	alert("删除成功");
+            	$("#sc"+id).remove();
+            } else {
+                alert("删除失败");
+            }
+
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("没找到");
+        }
+    });
+}
+</script>
+
+  <div class="footer">
+    <ul>
+                  <li class="hui2"></li>
+      <li class="hui2">海鲜之家商城V1.0</li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/buyer/order.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+ </div>
+
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>

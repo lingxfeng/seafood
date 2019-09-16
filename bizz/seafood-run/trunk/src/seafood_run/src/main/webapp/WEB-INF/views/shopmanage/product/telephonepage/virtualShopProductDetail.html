@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>技师管理</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/commonutil.js"></script>
+<script>
+function toCosmetologist(){
+	var virtualid =${entry.id};
+	if(!virtualid){
+		alert("项目选择无效");
+		return;
+	}
+	window.location.href='cosmetologist.java?cmd=chooseCosmetologist&virtualid='+virtualid;
+}
+
+</script>
+</head>
+<body>
+  <div class="cont">
+    <h3 class="seth">服务项目详情</h3>
+    <div class="edit">
+    <div class="editul setcont" id="base">
+    	<ul class="set1">
+        	<li class="setcont_bg">
+        		<strong class="sred">*</strong>服务项目图片:
+        	</li>
+        	<li>
+       		 	<span id="nothis">
+       		 		<img src='$!{entry.imgPaths.split("_")[0]}'alt="$entry.name" style="width:200px; height:200px;float:left;"></img>
+       		 	</span>
+       		 </li>
+     	</ul>
+     	
+        <ul class="set1">
+        	<li class="setcont_bg"><strong class="sred">*</strong>服务项目名称:</li>
+        	<li>
+        		<span class="webname">
+          			$!{entry.name}
+        		</span>
+        	</li>
+      	</ul>
+      	
+     	<ul class="set1">
+        	<li class="setcont_bg"><strong class="sred">*</strong>服务项目编号:</li>
+        	<li>
+        		<span class="webname">
+          			$!{entry.code}
+        		</span>
+        	</li>
+      	</ul>
+      	 <ul class="set1">
+        	<li class="setcont_bg"><strong class="sred">*</strong>服务项目价格:</li>
+        	<li>
+        		<span class="webname">
+          			￥$!{entry.amt}
+        		</span>
+        	</li>
+      	</ul>
+      	 #if($entry.isPointsBuy)
+              <ul class="set1">
+        	<li class="setcont_bg"><strong class="sred">*</strong>积分价格:</li>
+        	<li>
+        		<span class="webname">
+          			$!{entry.needPoints}
+        		</span>
+        	</li>
+      	</ul>
+        #end     	
+      	<ul class="set1">
+        	<li class="setcont_bg"><strong class="sred">*</strong>服务项目简介:</li>
+        	<li>
+        		<span class="webname">
+          			$!{entry.goods_details}
+        		</span>
+        	</li>
+      	</ul>
+      	<!-- 
+      	#foreach($obj2 in $entry.attrs)
+      	<ul class="set1">
+        	<li class="setcont_bg"><strong class="sred">*</strong>$obj2.name</li>
+        	<li>
+        		#foreach($obj2 in $obj.value.split(","))
+        		<span class="webname">
+          			$!obj3
+        		</span>
+        		#end
+        	</li>
+      	</ul>
+      	#end
+      	 -->
+    </div>
+    <div class="nextbtn">
+    	<input name="goods_second" type="button" id="goods_second" style="cursor:pointer;" onclick="toCosmetologist();" value="预约">
+    	<input name="goods_second" type="button" id="goods_second" style="cursor:pointer;" onclick="toShopCar();" value="加入购物车">
+    </div>
+  </div>
+</div>
+</body>
+</html>

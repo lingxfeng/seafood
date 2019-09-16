@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+<title>自提地址</title>
+<link href="/static/home/bcd/css/user.css" rel="stylesheet" type="text/css" />
+<link href="/static/home/bcd/css/font-awesome.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script>
+	/**
+	* 删除左右两端的空格
+	*/
+	String.prototype.trim=function()
+	{
+	     return this.replace(/(^\s*)|(\s*$)/g, '');
+	}
+	
+	$(function(){
+		
+		ajaxLoadData("33785");
+		//地区三级联动
+		//$(".zt_input").change(function(){
+		//	var me = this;
+		//	var regionLevel = $(this).attr("regionLevel");
+		//	var parentId = $(this).val();
+		//	if(regionLevel == "province"){
+				//更新城市一级
+		//		sendRegionAjax(parentId, "city");
+				//地区一级置空
+		//		$("#areaX").hide();
+		//		$("#areaX").empty();
+		//		$("#areaX").append('<option selected value="">请选择位置</option>');
+		//	}else if(regionLevel == "city"){
+				//更新地区一级
+		//		sendRegionAjax(parentId, "areaX");
+		//	}else{
+		//		$("#area").val($("#areaX").val());
+		//	}
+		//	ajaxLoadData(parentId);
+		//});		
+	});	
+	function sendRegionAjax(parentId, regionLevel){
+		$.ajax({
+			url: 'shopSystemConfig.java?cmd=getDetailRegionByArea',
+			type: 'post',
+			data: {
+				parentId: parentId,
+				regionLevel: regionLevel
+			},
+			dataType: 'html',
+			success: function(data, textStatus, jqXHR){
+				$("#"+regionLevel).empty();
+				if(data.length > 6){
+					$("#"+regionLevel).show();
+					$("#"+regionLevel).append('<option selected value="">请选择位置</option>');
+					$("#"+regionLevel).append(data);
+				}else{
+					$("#"+regionLevel).hide();
+					$("#"+regionLevel).append('<option selected value="">无</option>');
+					$("#area").val(parentId);
+				}								
+			}
+		});
+	}
+	
+	function validateForm(){
+		var result = true;
+		//检查用户名输入
+		var trueName = $("#trueName").val().trim();
+		if(trueName.length == 0 || trueName.length > 20){
+			result = false;
+			$("#trueName").css("border", "solid 1px red");
+		}else{
+			$("#trueName").css("border", "");
+		}
+		//检查联系电话
+		reg = /^1\d{10}$/;
+		var mobileTel = $("#telephone").val();
+		if(!reg.test(mobileTel)){
+			result = false;
+			$("#telephone").css("border", "solid 1px red");
+		}else{
+			$("#telephone").css("border", "");
+		}	
+		return result;
+	}
+	function submitForm(){
+		if(validateForm()){
+			var distri = $("input[type='radio']:checked").val();
+			if(distri == null){
+				alert("请选择实体店地址！")
+			}else{
+				$("#shopDistributorId").val(distri)
+				$("#thisForm").submit();
+			}
+		}else{
+			alert("您有输入格式不对的内容，请修改后在提交！");	
+		}
+	}
+	function resetForm(){
+		$("#theForm").reset();
+	}	
+	function ajaxLoadData(id){
+		jQuery.ajax({
+  			method:"post",
+  			url:"shopSinceSome.java?cmd=getShopSinceSomeByArea&id="+id,
+  			success:function(data){
+  				jQuery("#slist").empty();
+  				jQuery("#slist").append(data);
+  			}
+  		})
+	}
+</script>
+<style>
+.zt_int{
+	margin-top:10px;
+}
+.zt_select{
+	background-color:#fff;
+	border-bottom:1px solid #ccc;
+}
+.zt_span{
+	border-right:1px solid #ccc;
+}
+.zt_input{
+	border:0;
+	width:28%;
+	height:50px;
+	text-indent:10px;
+}
+.zt_radio{
+	background-color:#fff;
+	padding:0 10px 20px 10px;
+}
+.zt_radio ul li{
+	border-bottom:1px solid #ccc;
+	margin-bottom:10px;
+	padding:15px 0;
+}
+.zt_radio ul li input{
+	float:left;
+	margin:30px 10px;
+}
+.add{
+	text-align:left;
+}
+.add_title{
+	font-size:16px;
+	font-weight:bold;
+	color:#000;
+}
+.add_word{
+	font-size:12px;
+	
+}
+.sin_people{
+	margin-top:20px;
+	background: #fff;
+	padding:15px 10px;
+}
+.sin_name{
+	border-bottom:1px solid #ccc;
+	padding: 12px 0 12px 25px;
+}
+</style>
+</head>
+
+<body style="background-color: #efefef;">
+
+	<div class="hy_1">自提地址信息编辑</div>
+	<form id="thisForm" name="thisForm" action="/shopSinceSome.java" method="post" enctype="multipart/form-data">
+	#if($sss)
+		<input name="cmd" value="update" type="hidden"></input>
+	#else
+		<input name="cmd" value="save" type="hidden"></input>
+	#end
+	<input type="hidden" id="url" name="url" value="$!url"/>
+		<input type="hidden" id="id" name="id" value="$sss.id"/>
+	<input type="hidden" name="shopDistributorId" id="shopDistributorId" value="2252"/>
+	    <div class="zt_int">
+	        <div class="zt_select">
+	        	<span class="zt_span">
+	                 <select name="province" regionLevel="province" class="zt_input">
+	                    <option value="33706" selected>浙江省</option>	
+	                 </select>
+	            </span>
+	            <span class="zt_span">
+					<select name="city" id="city" regionLevel="city" class="zt_input">
+						<option value="33783" selected>舟山市</option>					
+					</select>
+				</span>
+				<span class="zt_span">
+					<select name="areaX" id="areaX" regionLevel="area" class="zt_input">
+						<option value="33785" selected>普陀区</option>					
+					</select>
+	            </span>
+	               <!--  <span class="zt_span">
+	                    <select name="province" regionLevel="province" class="zt_input">
+	                    <option value="">浙江省</option>	
+	                        <option value="">请选择地区</option>					
+								#foreach($province in $provinceList)
+									#if($entry.area.getParent().getParent())
+										#if($entry.area.getParent().getParent().getId().compareTo($province.getId()) == 0)
+										<option selected value="$!province.getId()">$!province.getTitle()</option>
+										#else
+										<option value="$!province.getId()">$!province.getTitle()</option>
+										#end
+									#else
+										#if($entry.area.getParent().getId().compareTo($province.getId()) == 0)
+										<option selected value="$!province.getId()">$!province.getTitle()</option>
+										#else
+										<option value="$!province.getId()">$!province.getTitle()</option>
+										#end
+									#end
+								#end			
+	                    </select>
+	                </span>
+	                <span class="zt_span">
+	                #if($entry.area)
+					<select name="city" id="city" regionLevel="city" class="zt_input">
+						<option value="">请选择地区</option>
+						 #if($entry.area && $entry.area.getParent().getParent())
+							#foreach($city in $entry.area.getParent().getParent().getChildren())
+								#if($city.getId().compareTo($entry.area.getParent().getId()) == 0)
+								<option selected value="$!city.getId()">$!city.getTitle()</option>
+								#else
+								<option value="$!city.getId()">$!city.getTitle()</option>
+								#end
+							#end
+						#elseif($entry.area)
+							#foreach($province in $provinceList)
+								#if($entry.area.getParent().getId().compareTo($province.getId()) == 0)
+								<option selected value="$!province.getId()">$!province.getTitle()</option>
+								#else
+								<option value="$!province.getId()">$!province.getTitle()</option>
+								#end
+							#end
+						#end
+					</select>
+					#else
+					<select name="city" id="city" regionLevel="city" class="zt_input"  style="display: none;">
+						<option value="">请选择地区</option>					
+					</select>
+					#end
+					</span>
+					
+					<span class="zt_span">
+					#if($entry.area)
+					<select name="areaX" id="areaX" regionLevel="area" class="zt_input">
+						<option value="">请选择地区</option>
+						#foreach($area in $entry.area.getParent().getChildren())
+							#if($entry.area.getId().compareTo($area.getId()) == 0)
+							<option selected value="$!area.getId()">$!area.getTitle()</option>
+							#else
+							<option value="$!area.getId()">$!area.getTitle()</option>
+							#end
+						#end
+					</select>
+					#else
+					<select name="areaX" id="areaX" regionLevel="area" class="zt_input" style="display: none;">
+						<option value="">请选择地区</option>					
+					</select>
+					#end
+	                </span> -->
+	        </div>
+	        
+	        <div class="bg-fff sin_people">
+	            <div class="sin_name">
+	            	<span>收货人姓名</span><span></span>
+	            	<input type="text" id="trueName" name="trueName" value="$!sss.trueName"  style="border:0; margin-left:10px;"/>
+	            </div>
+	            <div class="sin_name">
+	            	<span>收货人手机</span>
+	            	<input type="text" id="telephone" name="telephone" value="$!sss.telephone"  style="border:0;  margin-left:10px;"/>
+	            </div>
+	        </div>
+	        <div class="zt_radio" id="slist">
+	            
+	        </div>
+		</div>
+		<div class="ui-btn-wrap" style="position: fixed;bottom: 0;left: 0;width: 100%;">
+			<input class="ui-btn-lg ui-btn-primary btn-no" onclick="submitForm()" style="border:1px solid red;"  type="button" value="保存"/>
+		</div>
+	</form>
+	<div class="hei40"></div>
+	
+</body>
+</html>

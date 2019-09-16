@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>服务项目管理</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"type="text/css">
+<link rel="stylesheet" href="/static/common/base.css">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+function gotoPage(n) {
+	location.href = "/shopProduct.java?cmd=list&status=$!{status}&currentPage=" + n;
+	}
+</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">服务项目管理</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/shopProduct.java?cmd=list&status=1"
+					#if($!status== "1" || !$!status)class="this" #end><b>所有服务项目</b></a></li>
+				<li><a href="/shopProduct.java?cmd=list&status=0"
+					#if($!status== "0")class="this" #end><b>仓库中的服务项目</b></a></li>
+				<li><a href="/shopProduct.java?cmd=list&status=2"
+					#if($!status== "2")class="this" #end><b>违规下架的服务项目</b></a></li>
+			</ul>
+		</div>
+		<form name="ListForm" id="ListForm" action="/shopProduct.java" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="cmd" value="list" />
+			<input type="hidden" name="status" value="$status" />
+			<div class="search">
+				<span>服务名称</span> 
+				<span class="size100"> 
+					<input name="name" type="text" id="name" value="$!name">
+				</span> 
+				<span>服务分类</span> 
+				<!-- <span>
+					<select name="brandId" id="brandId">
+						<option value="">所有服务</option>
+						#foreach($obj in $pl.result)
+						<option value="$obj.productType">$obj.productType.name</option>
+						 #end
+					</select>
+				</span>
+				 --> 
+				<span> 
+					<input name="" type="submit" value="搜索" style="cursor: pointer;" class="search_btn">
+				</span>
+			</div>
+			<div class="operation">
+				<h3>友情提示</h3>
+				<ul>
+					<li>所有商品，在商城前台所有访客均可查看，管理员和商家都可以设置商品上架状态</li>
+					<li>未审核商品，商家无论新发布商品还是编辑商品，都需要通过管理员审核通过后才能上架</li>
+					<li>违规商品，管理员根据商城访客举报结合实际情况设定违规，违规商品前台不可显示，只能管理员能取消违规</li>
+				</ul>
+			</div>
+
+			<div>
+				<a href="/shopProduct.java?cmd=telPage"><input type="button"
+					value="点击查看手机显示"></input></a>
+			</div>
+			<form name="ListForm" id="ListForm"
+				action="/shopProduct.java?cmd=listVirtual" method="post">
+				<div class="fshoptb2">
+
+					<table width="100%" border="0" cellspacing="0" cellpadding="0"
+						class="fshop_table2">
+						<tbody>
+							<tr>
+								<th width="3%"><span class="form_btna">&nbsp;</span></th>
+								<th width="10%" align="center"><span class="form_btna">服务项目名称</span></th>
+								<th width="15%" align="center"><span class="form_btna">服务项目分类</span></th>
+								<th width="10%" align="center"><span class="form_btna">状态</span></th>
+								<th width="10%" align="center"><span class="form_btna">运费方案</span></th>
+								<th align="center"><b class="form_btna">操作</b></th>
+							</tr>
+							#foreach($obj in $pl.result)
+							<tr id="$obj.id" level="$obj.id" levelnum="1">
+								<td class="check_position"><input name="ids" id="ids"
+									type="checkbox" value="1"></td>
+								<td align="center"><a target="_blank"
+									href="/goShop.java?cmd=productDetail&id=$obj.id"><img
+										width="30px" src='$!{obj.imgPaths.split("_")[0]}' />$obj.name</a></td>
+								<td align="center">$obj.productType.name</td>
+								<td align="center">#if($obj.status=="0") 仓库中 #end
+									#if($obj.status=="1") 出售中 #end #if($obj.status=="2") 违规下架 #end
+								</td>
+								<td align="center">$!obj.regionClass.name</td>
+								<td align="center" class="hui oprate_con">
+								<a target="_blank" href="/goShop.java?cmd=productDetail&id=$obj.id" class="blue">查看</a>
+									<a href="/shopProduct.java?cmd=toEdit&id=$!{obj.id}" class="blue">编辑</a>
+									 #if(!$status || $!status=="1") 
+									 <a href="/shopProduct.java?cmd=public&status=1&tostatus=0&id=$!{obj.id}"
+									class="blue">下架</a> 
+									#end
+									#if($!status=="0") 
+									<a href="/shopProduct.java?cmd=public&status=0&tostatus=1&id=$!{obj.id}" class="blue">上架</a> 
+									#end 
+									#if($!status=="2")
+									<a href="/shopProduct.java?cmd=public&status=2&tostatus=0&id=$!{obj.id}" class="blue">上架</a>
+									#end
+									<a href="javascript:void(0);" onclick="if(confirm('删除分类会同时删除该分类的所有下级，是否继续?'))window.location.href='/shopProduct.java?cmd=remove&id=$!{obj.id}'"class="blue">删除</a>
+								</td>
+							</tr>
+							#end
+						</tbody>
+					</table>
+				</div>
+				<div class="operate_bar">
+					$!{paginationForBlueIdea}
+					<div class="oper_sp">
+						<span class="oper_check"><input type="checkbox" name="all"
+							id="all" value="" onclick="selectAll(this)">全部</span> <span
+							class="oper_del"></span>
+					</div>
+				</div>
+			</form>
+	</div>
+</body>
+</html>

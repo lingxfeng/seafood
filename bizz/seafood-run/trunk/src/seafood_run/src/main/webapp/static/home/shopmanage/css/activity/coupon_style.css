@@ -1,0 +1,57 @@
+.coupon-item .c-msg{overflow:visible;}
+
+.coupon-items02 .coupon-item .range-item .txt {
+    width: auto;
+}
+.coupon-items02 .coupon-item .c-msg{
+    float:left;width:540px;
+}
+.root61 .coupon-items02 .coupon-item .c-msg{
+    width:750px;
+}
+.coupon-item .range-item .range-tip .prompt-01 {
+    width: 220px;
+    top: -20px;
+    left: -220px;
+    z-index: 2
+}
+
+.coupon-item .range-item .range-tip .prompt-01 .p-arrow-left {
+    top: 22px
+}
+
+.coupon-item .range-item .range-tip .addr-tit {
+    padding-bottom: 5px;
+    font-weight: 700;
+    border-bottom: 1px dotted #ccc
+}
+
+.coupon-item .range-item .range-tip .addr-cont ul {
+    display: inline-block;
+    display: block;
+    width: 200px
+}
+
+.coupon-item .range-item .range-tip .addr-cont ul:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+
+* html .coupon-item .range-item .range-tip .addr-cont ul {
+    height: 1%
+}
+
+*+html .coupon-item .range-item .range-tip .addr-cont ul {
+    min-height: 1%
+}
+
+.coupon-item .range-item .range-tip .addr-cont a {
+    color: #666
+}
+
+.coupon-item .range-item .range-tip .addr-cont a:hover {
+    color: #e4393c
+}

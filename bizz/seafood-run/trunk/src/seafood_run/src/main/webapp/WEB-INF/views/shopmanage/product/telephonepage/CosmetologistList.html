@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+		<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">技师列表展示</h3>
+		<div class="operation" style="background-image:url('/static/home/meiyan/img/1.jpg');width:100%;height:100px;">
+			<ul>
+				<li><strong>我们的员工将竭诚为您服务</strong></li>
+				<li><strong>客户至上，服务第一</strong></li>
+			</ul>
+		</div>
+		<div>
+		#foreach($obj in $pl.result)
+		<div style="background:yellow;margin-top:50px;margin-left:200px;align:center;width:400px;overflow:hidden;">
+			<a class="" href="/orderMemRelation.java?cmd=time&virtualid=${virtualid}&cosmetologistid=${obj.id}" style="text-transform:none;text-decoration:none;">
+			<img src="$obj.imagePath" alt="$obj.name" style="width:200px; height:200px;float:left;"/>
+            <div style="height:200px;margin-left:220px;">    
+                <div class=""><strong>$obj.name</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>$obj.age</strong></div>
+                <div>
+                	<li>$obj.notice1</li>
+                	<li>$obj.notice2</li>
+                </div>
+                <div >$obj.content</div>
+            </div>
+            </a>
+            <hr>
+         </div>
+        #end
+		</div>
+	</div>
+</body>
+</html>

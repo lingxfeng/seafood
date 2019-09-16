@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script>
+jQuery(document).ready(function(){
+ 	
+jQuery("#theForm").validate({
+    rules:{
+	 },
+	messages:{
+	 }
+  });
+});
+//品牌保存
+function saveShopProduct(method){
+	jQuery("#cmd").val(method);
+	jQuery("#theForm").submit();
+}
+</script>
+
+</head>
+<body>
+<form action="/shopProduct.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+  <input name="id" id="id" type="hidden" value="">
+  <input name="cmd" id="cmd" type="hidden" value="${cmd}">
+  <div class="cont">
+    <h1 class="seth">shopProduct</h1>
+    
+    <div class="nav_list"> 
+	 
+    <ul>
+         <li><a href="/shopProduct.java?cmd=list"><b>管理</b></a></li> 
+	<li><a href="/shopProduct.java?cmd=list" class="this"><b>新增</b></a></li>
+	  	</ul>
+		
+    </div>
+    <div class="edit">
+    <div class="editul setcont" id="base">
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>id</li>
+        <li><span class="webname">
+          <input name="id" type="text" id="first_word" value="$!{entry.id}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>standards</li>
+        <li><span class="webname">
+          <input name="standards" type="text" id="first_word" value="$!{entry.standards}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>name</li>
+        <li><span class="webname">
+          <input name="name" type="text" id="first_word" value="$!{entry.name}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>code</li>
+        <li><span class="webname">
+          <input name="code" type="text" id="first_word" value="$!{entry.code}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>amt</li>
+        <li><span class="webname">
+          <input name="amt" type="text" id="first_word" value="$!{entry.amt}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>icon</li>
+        <li><span class="webname">
+          <input name="icon" type="text" id="first_word" value="$!{entry.icon}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>intro</li>
+        <li><span class="webname">
+          <input name="intro" type="text" id="first_word" value="$!{entry.intro}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>createDate</li>
+        <li><span class="webname">
+          <input name="createDate" type="text" id="first_word" value="$!{entry.createDate}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>productType</li>
+        <li><span class="webname">
+          <input name="productType" type="text" id="first_word" value="$!{entry.productType}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>isVirtual</li>
+        <li><span class="webname">
+          <input name="isVirtual" type="text" id="first_word" value="$!{entry.isVirtual}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>isCod</li>
+        <li><span class="webname">
+          <input name="isCod" type="text" id="first_word" value="$!{entry.isCod}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>repertoryNum</li>
+        <li><span class="webname">
+          <input name="repertoryNum" type="text" id="first_word" value="$!{entry.repertoryNum}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>isRecommend</li>
+        <li><span class="webname">
+          <input name="isRecommend" type="text" id="first_word" value="$!{entry.isRecommend}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>isHot</li>
+        <li><span class="webname">
+          <input name="isHot" type="text" id="first_word" value="$!{entry.isHot}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+          </div>
+    </div>  
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="saveShopProduct();"></span>
+  </div>
+  </div>
+
+</form>
+
+
+</body></html>

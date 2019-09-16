@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"
+		type="text/css">
+		<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+		<script type="text/javascript">
+			//批量修改状态
+			function changeAllApplyStatus(status) {
+				jQuery("#ListForm").submit();
+			}
+			
+			function deleteDis(id){
+				jQuery.ajax({
+					method:"post",
+					url:"/shopDistributor.java?cmd=deleteDis&id="+id,
+					dataType:"json",
+					success:function(data,text){
+						if(data.success){
+							$("tr[id="+id+"]").remove();
+							alert("删除成功");
+						}else{
+							alert(data.errors.msg);
+						}
+					}
+				})
+			}
+		</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">微店会员</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/shopDistributor.java?cmd=list"><b>微店会员</b></a></li>
+				<li><a href="/shopDistributor.java?cmd=list&status=0&disType=1"><b>会员申请</b></a></li>
+				<li><a class="this"><b>体验店申请</b></a></li>
+				<li><a href="/shopDistributor.java?cmd=toEditDIsSet"><b>基本设置</b></a></li>
+			</ul>
+		</div>
+		<form name="exapplyForm" id="exapplyForm" action="/shopDistributor.java" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="cmd" value="tydapply"/>
+			<div class="search" style="margin-left: 20px;">
+				<span class="size100">店铺名：<input name="myShopName" placeholder="店铺名" type="text" id="myShopName" value=""/> </span>
+				<span>
+					<input name="" type="submit" value="搜索" style="cursor: pointer;" class="search_btn"/>
+				</span>
+			</div>
+		</form>
+		<form name="ListForm" id="ListForm" action="/distributionApply.java?cmd=changeAllApplyStatus"
+			method="post">
+			<div class="fshoptb2">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+														<th width="10%" align="center"><span class="form_btna">店铺名</span></th>
+														<th width="10%" align="center"><span class="form_btna">店铺地址</span></th>
+														<th width="10%" align="center"><span class="form_btna">昵称</span></th>
+														<th width="10%" align="center"><span class="form_btna">真实姓名</span></th>
+														<th width="10%" align="center"><span class="form_btna">申请时间</span></th>
+														<th width="10%" align="center"><span class="form_btna">上级姓名</span></th>
+														<th width="10%" align="center"><span class="form_btna">手机号码</span></th>
+														<th width="10%" align="center"><span class="form_btna">二维码</span></th>
+														<th width="10%" align="center"><span class="form_btna">状态</span></th>
+														<th align="center"><b class="form_btna">操作</b></th>
+						</tr>
+						#foreach($obj in $list)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+								<td class="check_position">
+									#if( $obj.status==0 )<input name="ids" id="ids" type="checkbox" value="$obj.id" />
+									#else<input name="ids" id="ids" type="checkbox" disabled="disabled" readonly="readonly" />
+									#end
+								</td>
+								<td align="center">$!obj.myShopName</td>
+								<td align="center">$!obj.openAccountAddress</td>
+								<td align="center">$!obj.member.nickname</td>
+								<td align="center">$!obj.member.trueName</td>
+								<td align="center">$!obj.openAccountApplyDate</td>
+								<td align="center">总店</td>
+								<td align="center">$!obj.mobile</td>
+								<td align="center">#if($!obj.qRcodeImg) <img src="$!obj.qRcodeImg" style=" height: 120px;"></img> #else #end</td>
+								<td align="center">#if($obj.exStatus==0)审核中#elseif($obj.exStatus==1)审核通过#else审核未通过#end</td>
+								<td align="center" class="hui oprate_con">
+								#if($obj.exStatus==0)
+								<a href="/shopDistributor.java?cmd=changeDisbutorType&id=${obj.id}&exStatus=1" class="blue">通过</a>|
+								<a href="/shopDistributor.java?cmd=changeDisbutorType&id=${obj.id}&exStatus=2" class="blue">拒绝</a>
+								#elseif($obj.exStatus==2 && $obj.status==1)
+								<a href="/shopDistributor.java?cmd=changeDisbutorType&id=${obj.id}&exStatus=1" class="blue">通过</a>
+								#elseif($obj.exStatus==2 && $obj.status==0)
+								<a href="javascript:deleteDis($obj.id)" class="blue">删除</a>
+								#end
+								|<a href="/shopDistributor.java?cmd=toUpdate&id=${obj.id}" class="blue">变更基本信息</a>
+								</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+			</div>
+		</form>
+
+	</div>
+</body>
+
+<script type="text/javascript">
+		function gotoPage(n) {
+		    location.href = "/shopDistributor.java?cmd=tydapply&currentPage=" + n;
+		}
+		</script>
+</html>

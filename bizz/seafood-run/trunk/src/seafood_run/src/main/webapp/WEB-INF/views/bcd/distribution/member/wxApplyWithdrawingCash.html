@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>提现申请</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/><!--提示IE最新版显示-->
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css"/>
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/bcd/css/style.css" rel="stylesheet" type="text/css"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+		<script type="text/javascript">
+		function press(){
+			var sums = $("#sums").val();
+			var remainderAmt="$!wx_member.remainderAmt"
+			if(parseFloat(sums)<100){
+				alert("最低提现金额为100！！！");
+				return false;
+			}
+			if(parseFloat(sums)>parseFloat(remainderAmt)){
+				alert("您的余额不足！");
+				return false;
+			}else{
+				$("#register_btn").attr("disabled", "disabled");
+				$("#register_btn").css("background-color", "grey");
+				$("#withdrawingCash").submit();
+			}
+			return true;
+		}
+		</script>
+</head>
+<body>
+<div class="box"style="background:#f40;">
+	提现
+</div>
+<div class="ui_register gray" style="height:100%;">
+<form name="withdrawingCash" id="withdrawingCash" action="/wxShopMemberCenter.java" enctype="multipart/form-data" method="post">
+<input id="cmd" name="cmd" type="hidden" value="applyWithdrawingCash"></input>
+	<div style = "height:5%"></div>
+    <div class="border_b">
+	   	金额：<input id="sums" name="sums" type="text" class="ui_reg_input" placeholder="请输入大于100的金额" value ="" />
+	   	备注信息：<input id="comment"  name="comment" class="ui_reg_input" type="text"  value =""/>
+    </div>
+</form>
+<div style="margin-bottom:0px">
+		<input id="register_btn" type="button" class="reg_finish_btn" value="确认" onclick="press();" style="background:#f40;"/> 
+    </div>
+</div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+</body>
+</html>

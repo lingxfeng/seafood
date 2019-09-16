@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0044)/user/login.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<title>用户登录 - 海鲜之家商城  - Powered by 海鲜之家商城</title>
+<meta name="keywords" content="www.iskyshop.com"/>
+<meta name="description" content="www.iskyshop.com"/>
+<meta name="generator" content="www.iskyshop.com"/>
+<meta name="author" content="www.iskyshop.com"/>
+<meta name="copyright" content="Copyright 2012-2015 ISkyShop Inc. All rights reserved"/>
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/login.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script>
+jQuery(document).ready(function(){
+  jQuery("#theForm").validate({
+    errorPlacement: function(error, element){
+            var error_li = element.parent('li');
+            error_li.append(error);
+        },
+	rules: {
+		name: "required",
+		password: "required",
+		code:"required"
+	},
+	messages: {
+		name: "用户名不能为空",
+		password: "密码不能为空",
+		code:"验证码不能为空"
+	},
+	submitHandler: function(formTar){
+		$.ajax({
+	        type: "post",
+	        url: "/pcShopMemberCenter.java?cmd=login",
+	        dataType: "json",
+	        data: $("#theForm").serialize(),
+	        success: function(data) {
+	        	console.dir(data)
+	            if (data.success) {
+	            	//alert("登录成功");
+	            	
+	            	if(data.data){
+	            		return window.location.href=data.data;
+	            	}
+	            	#if($returnUrl)	            		
+	            		window.location.href=decodeURIComponent("$returnUrl");                
+	                #else
+	                	window.location.href="/goShop.java";
+					#end
+	            } else {
+	                alert(data.errors.msg)
+	                createCode();
+	                return;
+	            }
+
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) {
+	            alert("没找到");
+	        }
+	    });
+    }
+  });
+  //
+  jQuery(".login_box_nav a").click(function(){
+	 jQuery("#qr_login_img").hide();										
+	 jQuery("#waiting_img").show();										
+	 var target_id=jQuery(this).attr("target_id");
+	 jQuery("#normal_login").hide();
+	 jQuery("#qr_login").hide();
+	 jQuery("#"+target_id).show();
+	 jQuery(".login_box_nav>span").removeClass("this");
+	 jQuery(this).parent().addClass("this");		
+	 if(target_id=="qr_login"){
+	   jQuery.ajax({type:'POST',url:'/qr_login_img.htm',data:'',dataType:'json',
+				  success:function(data){
+					  jQuery("#qr_login_img").attr("src",data.qr_img_url);
+					  jQuery("#qr_login_img").show();
+					  jQuery("#waiting_img").hide();
+					  setInterval("qr_login('"+data.qr_session_id+"')", 5000);  
+				  }
+	   });						
+	 } 
+  });
+  //
+    
+});//end
+function qr_login(qr_session_id){
+		jQuery.ajax({type:'POST',url:'/qr_login.htm',data:{"qr_session_id":qr_session_id},dataType:'json',
+				  success:function(data){
+					  if(data.ret=="true"){
+						  clearInterval();
+						   window.location.href="/qr_login_confirm.htm?user_id="+data.user_id+"&qr_log_mark="+data.qr_log_mark;						   
+					  }
+				  }
+		});
+	}
+//生成验证码
+function createCode() {
+	document.getElementById("randomCode").src='/randomCode.java?'+Math.random();	
+}	
+</script>
+</head>
+<body>
+<!--手机客户端弹出 -->
+<div class="login_box_show_bg" style="display:none;"></div>
+<div class="login_box_show" style="display:none;"> <i><a href="javascript:void(0);" onclick="jQuery(&#39;div[class^=login_box_show]&#39;).hide();">x</a></i>
+  <dl>
+    <span><img src=""/></span>
+    <dd><a href="/user/upload/app/iskyshop.ipa" target="_blank"><img src="./用户登录 - ISkyShop  - Powered by ISkyShop_files/for_iphone.png"/></a></dd>
+    <dd><a href="/user/upload/app/iskyshop.apk" target="_blank"><img src="./用户登录 - ISkyShop  - Powered by ISkyShop_files/for_andriod.png"/></a></dd>
+  </dl>
+</div>
+<div class="login_bg">
+  <div class="login_head">
+    <h1><span>
+       <a href="/index.htm"><img src="$!{sysconfig.logoImg}"> </a>       </span><strong>用户登录</strong></h1>
+  </div>
+  <div class="login_box">     <div class="login_left_adv">
+  <img src="/static/home/shopmanage/images/login/login_img.jpg" width="490" height="400" onclick="javaScript:window.location.href='/goShop.java'" style="cursor:pointer;" title="放回首页"/>
+  </div>
+    <div class="login_box_right">
+      <div class="login_box_left" style="height:310px;">         <!--有二维码登录-->
+        <div class="login_box_nav" style="display:;"> 
+        	<span class="this" style="border-right:none;"><a href="javascript:void(0);" target_id="normal_login">普通登录</a></span>
+        	<!-- <span style="border-right:none;"><a href="javascript:void(0);" target_id="qr_login">手机登录</a></span>  -->
+	        <!-- <span style="border-right:none;"><a href="javascript:void(0);" target_id="qr_login">二维码登录</a></span> --> 
+	    </div>
+          
+			<form action="" method="post" name="theForm" id="theForm" novalidate="novalidate">
+				<div id="normal_login">
+					<div class="login_box_login" style="display:;">
+						<ul class="login_ul">
+							<li class="login_ul_li">
+								<input name="name" type="text" id="name" class="login_input_name" placeholder="邮箱/用户名/已验证手机" spellcheck="false" tabindex="1"/>
+							</li>
+							<li class="login_ul_li">
+								<input name="password" type="password" id="password" autocomplete="off" class="login_input_pwd" placeholder="登录密码" tabindex="2"/>
+							</li>
+							<li class="login_auto">
+								<input name="code" type="text" id="code" autocomplete="off" class="login_code" placeholder="验证码" tabindex="3"/>
+								<b> <img id="randomCode" name="code" border="0" src="/randomCode.java" style="cursor:pointer;height: 29px;padding-left: 8px;" alt="验证码" title="点击这里换一个" onclick="this.src=this.src+'?'+Math.random()"/> </b>
+							</li>
+						    <li><a href="/shopMemberCenter.java?cmd=toPage&toHtml=findPwd" class="forget_psd">忘记密码？</a><a href="/shopMemberCenter.java?cmd=toRegister" class="forget_psd">注册&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+						</ul>
+					</div>
+						<div class="login_btn">
+							<input name="" type="submit" value="立即登录"/>
+							<input name="login_role" type="hidden" id="login_role" value="user"/>
+						</div>
+				</div>
+			</form>
+			<!-- <form action="" method="post" name="theForm2" id="theForm2" novalidate="novalidate">
+			<div class="login_box_code" style="display:none;" id="qr_login">
+				<ul class="login_ul">
+					<li class="login_ul_li">
+						<input name="mobileTel" type="text" id="mobileTel" class="login_input_name" placeholder="请输入手机号码" style="width: 200px;"/>
+						<input type="button" value="发送验证码" onclick="mSend()"/>
+					</li>
+					<li class="login_ul_li">
+						<input name="code" type="text" id="code2" class="login_input_name" placeholder="请输入验证码"/>
+					</li>
+				</ul>
+				<div class="login_btn">
+					<input type="button" name="" value="立即登录" onclick="mLogin()"/>
+					<input name="login_role" type="hidden" id="login_role" value="user"/>
+				</div>
+			</div>
+        	</form> -->
+        <!--二维码登录 -->
+        <!-- <div class="login_box_code" style="display:none;" id="qr_login">
+          <div class="login_box_code_top"> <strong>请使用已登录的手机App扫码安全登录</strong> <b><strong><img src="./用户登录 - ISkyShop  - Powered by ISkyShop_files/help.png" height="15" onmouseover="jQuery(&#39;#scan_img_logo&#39;).show();jQuery(&#39;#scan_img_jt&#39;).show();" onmouseout="jQuery(&#39;#scan_img_logo&#39;).hide();jQuery(&#39;#scan_img_jt&#39;).hide();"></strong> <em id="scan_img_jt" style="display:none;"><img src="./用户登录 - ISkyShop  - Powered by ISkyShop_files/coke_top.png"></em> <i style="display:none;" id="scan_img_logo"><img src="./用户登录 - ISkyShop  - Powered by ISkyShop_files/coke_img.png"></i> 　　</b> </div>
+          <div class="login_box_code_center"> <img id="qr_login_img" src="" style="display:none"> <img id="waiting_img" src="./用户登录 - ISkyShop  - Powered by ISkyShop_files/loader.gif" style="width:32px; height:32px; margin-left:120px; margin-top:70px;"> </div>
+          <div class="login_box_code_center_b">没有手机App？马上<a href="javascript:void(0);" style="color:#F00" onclick="jQuery(&#39;div[class^=login_box_show]&#39;).show();">下载</a>一个吧！</div>
+        </div> -->
+                <!-- div class="login_other">
+          <h4>使用合作网站账号登录：</h4>
+          <div class="login_other_box">  <a href="/qq_login_api.htm" target="_blank">QQ</a> |
+             <a href="/sina_login_api.htm" target="_blank">新浪微博</a> </div>
+        </div> -->
+         </div>
+      <!-- <div class="login_box_bottom"><a href="/shopMemberCenter.java?cmd=toRegister" class="free_resgist">免费注册</a></div> -->
+    </div>
+  </div>
+</div>
+﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+
+function mSend(){
+	$.ajax({
+        type: "post",
+        url: "/shopMember.java?cmd=getSendCode",
+        dataType: "json",
+        data : "mobileTel="+$("#mobileTel").val(),
+        success: function(data) {
+            if (data.success) {
+            	alert("发送验证你发送到你手机")
+            } else {
+                alert(data.errors.msg)
+            }
+
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("没找到");
+        }
+    });
+}
+
+function mLogin(){
+	if (!$("#mobileTel").val().match(/^((1[3|4|5|7|8][0-9]{1})+\d{8})$/)) {
+        alert("手机号码输入不正确");
+        return;
+    }
+    if ($("#code2").val()=="") {
+        alert("验证码不能为空");
+        $("#code2").focus();
+        return;
+    }
+	$.ajax({
+        type: "post",
+        url: "/pcShopMemberCenter.java?cmd=mobileLogin",
+        dataType: "json",
+        data : "mobileTel="+$("#mobileTel").val()+"&code="+$("#code2").val(),
+        success: function(data) {
+        	if (data.success) {
+                window.location.href="/goShop.java";
+            } else {
+                alert(data.errors.msg)
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("没找到");
+        }
+    });
+}
+</script>
+
+  <div class="footer">
+    <ul>
+                  <li class="hui2">Copyright 2012-2015 海鲜之家商城 Inc. All rights reserved</li>
+      <li class="hui2">Powered by 海鲜之家商城</li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position:fixed;width:40px; height:118px; float:left; right:0; display:none; bottom:150px; _position:absolute;/*兼容IE6的代码*/
+_bottom:auto;/*兼容IE6的代码*/
+_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/user/login.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+
+
+
+</body></html>

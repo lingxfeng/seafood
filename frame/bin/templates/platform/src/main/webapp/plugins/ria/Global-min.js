@@ -1,0 +1,1 @@
+window.Global=window.Global||{};Global.Config=Global.Config||{};Global.Config={iframe:false,lang:"zh-CN",style:"default",homePage:"menu",portalMode:5,maxTabs:10,isRemoteMenu:false,enableAnimate:true,singleTabMode:false};

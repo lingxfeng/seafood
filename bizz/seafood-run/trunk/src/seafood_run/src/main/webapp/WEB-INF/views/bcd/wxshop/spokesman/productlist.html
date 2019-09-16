@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>商品列表</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user_index.css" type="text/css" rel="stylesheet">
+<!--滑动-->
+<link rel="stylesheet" href="/static/home/bcd/css/idangerous.swiper.css">
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<link href="/static/home/bcd/css/font-awesome.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="wrap">
+            <!--  搜索  s  -->    
+            <div class=" sech oh">
+                <form action="/wxSpokesmanProduct.java" method="post" id="searchForm" enctype="multipart/form-data">
+			    	<input type="hidden" name="cmd" value="productList">
+			    	<input type="text" class="sechInp" placeholder="商品名称：请输入商品关键字" id="searchtext" name="productname" value="$!{productname}">
+			        <button id="searchbutton"><i class="fa fa-search"></i></button>
+		        </form>
+            </div>
+        	
+        	<div class="content-slide" id="productList">
+        	#foreach($obj in $pl)
+	        	<div class="oh orderBox" onclick="toProDet($obj.id)">
+	                    <div class="w-15 buyImgDiv f-l"><img src='$obj.product.imgPaths.split("_")[0]' width="100" height="80"></div>
+	                    <div class="w-75 f-l" >
+	                        <p class="buyP">$!{obj.product.name}</p>
+	                         <p class="buyP">￥$!{obj.product.amt}</p>
+	                        <div class="w-20 buyDel f-l" style = "width:200px">
+	                            <p class="">月最高返还金额:<span>￥$!{obj.restitution}</span></p>
+	                            <p class="">返还月数:<span>$!{obj.totalMonths}</span></p>
+	                        </div>
+	                    </div>
+	            </div>
+        	#end
+            </div>
+	<div class="preloader" id="preloader" style="text-align:center; clear:both;">
+		<img id="loadingPic" src="/static/home/bcd/images/loading.gif" style="align:center; margin-top:20px; "/>
+	</div>
+</div>
+<div class="hei40"></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+
+<script>
+
+jQuery("#searchbutton").click(function(){
+	var productname = jQuery("#productname").val();
+	if(productname){
+		jQuery("#searchForm").submit();
+	}
+});
+
+function toProDet(id){
+	window.location.href="wxSpokesmanProduct.java?cmd=productDetail&id="+id;
+}
+</script>
+</body>
+</html>

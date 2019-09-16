@@ -1,0 +1,60 @@
+@charset "UTF-8";
+*{-webkit-tap-highlight-color:rgba(0, 0, 0, 0);outline:0; zoom:1;}
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;vertical-align:baseline}
+img{border:0 none;vertical-align:top}
+i,em{font-style:normal}
+ol,ul{list-style:none}
+input,select,button,h1,h2,h3,h4,h5,h6{/* font-size:100%;  */ font-family:inherit}
+table{border-collapse:collapse;border-spacing:0}
+a,a:visited{text-decoration:none;color:#333}
+body{margin:0 auto;min-width:320px;/* max-width:640px; */height:100%;background:#f3f3f3;/*  font-size:14px;  */font-family:Helvetica,STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Arial;line-height:1.5;color:#666;-webkit-text-size-adjust:100% !important;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.hide,.h{display:none !important}
+.show{display:block !important}
+
+.cb{clear:both;}
+
+.teps,.indP{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.text-sha{text-shadow: 1px 1px 0 #FFFFFF;}
+
+
+
+/*轮播*/
+.slider-focus{position:relative;/* max-width:640px; */overflow:hidden;/*max-height:320px;*/margin:0 auto;}
+.slider-focus .hd{ position:absolute;width:100%;height:28px;left:0;bottom:2%;z-index:1;line-height:28px;text-align:center;}
+.slider-focus  .hd li{ display:inline-block;vertical-align:middle;width:13px;height:13px;margin:0 3px;-webkit-border-radius:50%;-moz-border-radius:50%;-o-border-radius:50%;border-radius:50%;/* font-size:0; */line-height:0;text-indent:-9999em;cursor:pointer;}
+.slider-focus  .hd li.on{ background:#ffea00;  }
+.slider-focus  .bd{ position:relative; z-index:0; }
+.slider-focus  .bd li{ position:relative; text-align:center;  }
+.slider-focus  .bd li img{ background:url(../images/loading.gif) center center no-repeat;vertical-align:top;width:100%;/* 图片宽度100%，达到自适应效果 */}
+.slider-focus  .bd li a{ -webkit-tap-highlight-color:rgba(0,0,0,0);  }  /* 去掉链接触摸高亮 */
+.slider-focus  .bd li .tit{ display:block; width:100%;  position:absolute; bottom:0; text-indent:10px; height:28px; line-height:28px; color:#fff;  text-align:left;  }
+
+.oh:after{display:block;visibility:hidden;height:0px;content:".";clear:both;}
+
+.fa{/* font-size:40px; */ margin-left:5px;}
+
+.listPro{padding:10px 0 10px 0;background:#fff}
+.listPro li{float:left;width:22%;text-align:center;line-height:30px;border:1px solid #d8d8d8; margin:4px}
+
+.indexH2{height:45px;line-height:45px;padding-left:10px;padding-left:10px;color:#333;background:#fff;border-bottom:1px solid #ddd;border-top:1px solid #ddd;}
+
+/* .indBox{position:relative;width:45%;margin:15px 0 15px 3%;bottom:0;left:0;float:left;} */
+
+.indP{text-align:right;position:absolute;bottom:0;left:0;z-index:1;background:rgba(0,0,0,0.5);color:#fff;width:90%;height:25px;line-height:25px;top:163px;padding:0 5%;
+	display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+.wx_nav a:before{background-image:url(../images/icon_nav_v2.png);background-repeat:no-repeat;background-size:207px 46px;-webkit-background-size:207px 46px}
+.wx_nav,.navMenu,.infoMenu{overflow:hidden;height:49px;position:fixed;z-index:900;width:100%;bottom:0;left:0}
+.wx_nav a{width:200px;height:45px;padding-top:4px;color:#999;/* font-size:12px; */background-color:#eee;text-align:center;position:relative}
+.wx_nav a:before{width:23px;height:23px;content:'\20';display:block;margin:0 auto 2px auto}
+.wx_nav a:active{background-color:#DFDFDF}
+.wx_nav a:active,.wx_nav a.on{color:#e4393c}
+.wx_nav a:active:before,.wx_nav a.on:before{background-position-y:-23px}
+.wx_nav a.dot{position:relative}
+.wx_nav a.dot:after{content:'';display:inline-block;width:7px;height:7px;background:#e4393c;border-radius:4px;position:absolute;top:5px;left:50%;margin-left:10px}
+.wx_nav .nav_index:before{background-position:0px -20px}
+.wx_nav .nav_search:before{background-position:-46px -20px}
+.wx_nav .nav_shopcart:before{background-position:-138px -20px}
+.wx_nav .nav_me:before{background-position:-69px -20px}
+.wx_nav{display:box;display:-ms-box;display:-webkit-box;display:flex;display:-ms-flexbox;display:-webkit-flex;border-top:1px solid #ddd}
+.wx_nav a{display:block;flex:1;-ms-flex:1;-webkit-flex:1;box-flex:1;-ms-box-flex:1;-webkit-box-flex:1}

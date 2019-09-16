@@ -1,0 +1,87 @@
+/**RIA开发EXTJS界面所有的ICON图标都放在这个文件中**/
+.x-form-file-wrap {
+	position: relative;
+	height: 22px;
+}
+
+.x-form-file-wrap .x-form-file {
+	position: absolute;
+	right: 0;
+	-moz-opacity: 0;
+	filter: alpha(opacity :   0);
+	opacity: 0;
+	z-index: 2;
+	height: 22px;
+}
+
+.x-form-file-wrap .x-form-file-btn {
+	position: absolute;
+	right: 0;
+	z-index: 1;
+}
+
+.x-form-file-wrap .x-form-file-text {
+	position: absolute;
+	left: 0;
+	z-index: 3;
+	color: #777;
+}
+
+.add {
+	background: url(../img/ria/add.png) no-repeat 0 2px !important;
+}
+
+.edit {
+	background: url(../img/ria/edit.png) no-repeat 0 2px !important;
+}
+
+.view {
+	background: url(../img/ria/view.png) no-repeat 0 2px !important;
+}
+
+.down {
+	background: url(../img/ria/down.gif) no-repeat 0 2px !important;
+}
+
+.pic {
+	background: url(../img/ria/picture.png) no-repeat 0 2px !important;
+}
+
+.f5 {
+	background: url(../img/ria/f5.png) no-repeat 0 2px !important;
+}
+
+.refresh {
+	background: url(../img/ria/f5.png) no-repeat 0 2px !important;
+}
+
+.delete {
+	background: url(../img/ria/delete.png) no-repeat 0 2px !important;
+}
+
+.search {
+	background: url(../img/ria/search.png) no-repeat 0 2px !important;
+}
+
+.upload-icon {
+	background: url(../img/ria/upload.png) no-repeat 3px 3px !important;
+}
+
+.titFor {
+	font-weight: 800;
+	font-size: 15px;
+	margin-left: 5px
+}
+
+/*Tree Icon*/
+.x-tree-node-collapsed .disco-tree-node-icon {
+	background-image: url("../img/ria/tag_gray.gif") !important;
+}
+
+.x-tree-node-expanded .disco-tree-node-icon {
+	background-image: url("../img/ria/tag_gray.gif") !important;
+}
+
+.x-tree-node-leaf .disco-tree-node-icon {
+	background-image: url("../img/ria/node-icon.gif") !important;
+}

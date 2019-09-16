@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>微店申请</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="/static/home/bcd/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/static/home/bcd/js/jquery.spinner.js"></script>
+<script type="text/javascript" src="/static/home/bcd/js/tab.js"></script>
+<script type="text/javascript" src="/static/home/bcd/js/dis.js"></script>
+</head>
+
+<body>
+<form id="curForm" action="/distributionCore.java" method="post" enctype="multipart/form-data">
+<input type="hidden" name="cmd" value="applyEntityShop">
+<input type="hidden" id="area_id" name="area_id" value=""/>
+<input type="hidden" id="sid" name="sid" value="$shopDistributor.id"/>
+<!--  top  s  -->
+
+
+<div class="page">
+<div class="wrap bg-fff">
+</div>
+<div class="main">
+		#if($shopDistributor.exStatus==0)
+				<h2>您的申请正在审核</h2>
+		#elseif($shopDistributor.exStatus==1)
+				<h2>您的申请审核未通过</h2>
+		#else
+		<div class="item item-username">
+          <select class="txt-input txt-username w-100" id="provice" onchange="choice_pro(this.value)"   style="margin-top: 10px;">
+          	#foreach($obj in $rList)
+          	<option value="$obj.sn">$obj.title</option>
+          	#end
+          </select>
+          <select class="txt-input txt-username w-100" id="city" onchange="choice_city(this.value)"  style="margin-top: 10px;">
+          </select>
+          <select class="txt-input txt-username w-100" id="area" style="margin-top: 10px;">
+          </select>
+          <input id="openAccountAddress" class="txt-input txt-username w-100" type="text" placeholder="店铺地址"  name="openAccountAddress" onblur="check();" style="margin-top: 10px;">
+        </div>
+		<div class="clear-b"></div>
+        <div class="ui-btn-wrap"> <button class="ui-btn-lg ui-btn-primary btn-no" type="submit">申请成为实体店</button> </div>
+		#end
+    </div>
+</div>
+<!--  top  e  -->
+</form>
+<div class="hei40" ></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+</body>
+
+<script type="text/javascript">
+
+</script>
+</html>

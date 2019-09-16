@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="/static/common/base.css" />
+	<link rel="stylesheet" href="/static/common/plugin/assets/css/font-awesome.min.css" type="text/css"/>
+		<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+		<script type="text/javascript">
+		function gotoPage(n) {
+		    location.href = "/commissionWithdraw.java.java?cmd=payedList&currentPage=" + n;
+		}
+		$(function(){
+			#foreach($obj in $pl.result)
+				var tm = "$!obj.createTime";
+				var newDate = new Date();
+				newDate.setTime(parseInt(tm))
+				var tt=newDate.toLocaleString().replace("/", "-").replace("/", "-");
+				$("#time_$!obj.id").html(tt);
+			#end
+		})
+		</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">已支付页面</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/commissionWithdraw.java?cmd=payedList" class="this"><b>支付记录</b></a></li>
+				<li><a href="/commissionWithdraw.java?cmd=applyList"><b>申请列表</b></a></li>
+			</ul>
+		</div>
+			<div class="fshoptb2">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+														<th width="7%" align="center"><span class="form_btna">申请会员名称</span></th>
+														<th width="7%" align="center"><span class="form_btna">店名称</span></th>
+														<th width="7%" align="center"><span class="form_btna">申请金额</span></th>
+														<th width="3%" align="center"><span class="form_btna">佣金余额</span></th>
+														<th width="10%" align="center"><span class="form_btna">开户名称</span></th>
+														<th width="10%" align="center"><span class="form_btna">银行卡号</span></th>
+														<th width="10%" align="center"><span class="form_btna">联系方式</span></th>
+														<th width="10%" align="center"><span class="form_btna">申请时间</span></th>
+														<th width="10%" align="center"><span class="form_btna">支付时间</span></th>
+														<th width="10%" align="center"><span class="form_btna">开户信息</span></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"><input name="ids" id="ids"
+								type="checkbox" value="1"></td>
+														<td align="center">$!obj.user.nickname</td>
+														<td align="center">$!obj.distributor.myShopName</td>
+														<td align="center">$fu.getYj($!obj.commission)</td>
+														<td align="center">$fu.getYj($!obj.remaincommission)</td>
+														<td align="center" >$!obj.distributor.openAccountName</td>
+														<td align="center" >$!obj.distributor.bankCardNum</td>
+														<td align="center" >$!obj.distributor.mobile</td>
+														<td align="center" id = "time_$!obj.id"></td>
+														<td align="center">$!obj.payedTime</td>
+														<td align="center" >$!obj.distributor.openAccountType</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+			</div>
+	</div>
+</body>
+</html>

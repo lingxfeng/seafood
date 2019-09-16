@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title>评论回复</title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+	     <link rel="stylesheet" href="/static/common/base.css">
+<script type="text/javascript">
+function gotoPage(n) {
+    location.href = "/shopDiscuss.java?cmd=list&currentPage=" + n;
+}
+		<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">评论管理</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="#" class="this"><b>用户评论</b></a></li>
+			</ul>
+		</div>
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>所有用户评论内容展示</li>
+			</ul>
+		</div>
+		<form name="ListForm" id="ListForm" action="/shopProduct.java?cmd=list"
+			method="post">
+			<div class="fshoptb2">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+							<th width="10%" align="center"><span class="form_btna">商品名称</span></th>
+							<th width="15%" align="center"><span class="form_btna">星级</span></th>
+							<th width="10%" align="center"><span class="form_btna">评论内容</span></th>
+							<th width="10%" align="center"><span class="form_btna">状态</span></th>
+							<th width="10%" align="center"><span class="form_btna">评论用户</span></th>
+							<th width="10%" align="center"><span class="form_btna">是否回复</span></th>
+							<th width="10%" align="center"><span class="form_btna">评论时间</span></th>
+							<th align="center"><b class="form_btna">操作</b></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"><input name="ids" id="ids" type="checkbox" value="1">
+							</td>
+							<td align="center"><img width="30" src='$!{obj.pro.imgPaths.split("_")[0]}'/>$obj.pro.name</td>
+							<td align="center">$!obj.startdis</td>
+							<td align="center">$!obj.content</td>
+							<td align="center">
+							#if($obj.isShow)
+								展示
+							#else
+								隐藏
+							#end
+							</td>
+							<td align="center">$!obj.user.follower.nickname</td>
+							<td align="center">
+							#if($obj.replysList.size()=="0")
+								未回复
+							#else
+								已回复
+							#end
+							</td>
+							<td align="center">$!obj.createDate</td>
+							<td align="center" class="hui oprate_con">
+								|<a target="_self" href="/shopReply.java?cmd=toSave&discussId=$obj.id" class="blue" >回复</a>
+								|<a target="_self" href="/shopReply.java?cmd=list&discussId=$obj.id" class="blue">查看回复</a>
+								#if(!$obj.isShow)
+								|<a target="_self" href="/shopDiscuss.java?cmd=changeDiscussShow&id=$obj.id&isShow=1" class="blue">展示</a>
+								#else
+								|<a target="_self" href="/shopDiscuss.java?cmd=changeDiscussShow&id=$obj.id&isShow=0" class="blue">隐藏</a>
+								#end
+								
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+				<div class="oper_sp">
+					<span class="oper_check"><input type="checkbox" name="all"
+						id="all" value="" onclick="selectAll(this)">全部</span> <span
+						class="oper_del"></span>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</body>
+</html>

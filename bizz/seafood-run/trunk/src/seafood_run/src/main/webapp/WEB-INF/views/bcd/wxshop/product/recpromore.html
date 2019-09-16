@@ -1,0 +1,9 @@
+#foreach($obj in $recproList)
+<li class="oh" onClick="shopProduct.java?cmd=toProDet&pId=$obj.id'">
+	<div class="w-15 buyImgDiv f-l"><img src='$obj.imgPaths.split("_")[0]' class="unadapter" width="52" height="44"></div>
+	<div class="w-85 f-l">
+		<p class="buyP">$obj.name</p>
+		<p><span class="lse">￥$obj.amt</span></p>
+	</div>
+</li>
+#end

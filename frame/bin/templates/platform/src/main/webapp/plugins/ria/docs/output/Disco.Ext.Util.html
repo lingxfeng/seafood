@@ -1,0 +1,887 @@
+<div xmlns:ext="http://www.extjs.com" class="body-wrap"><h1>Class <a href="source/core-util-3.2.html#cls-Disco.Ext.Util">Disco.Ext.Util</a></h1><table cellspacing="0"><tr><td class="label">Package:</td><td class="hd-info">Disco</td></tr><tr><td class="label">Defined In:</td><td class="hd-info">core-util-3.2.js</td></tr><tr><td class="label">Class:</td><td class="hd-info"><a href="source/core-util-3.2.html#cls-Disco.Ext.Util">Ext.Util</a></td></tr><tr><td class="label">Extends:</td><td class="hd-info">Object</td></tr></table><div class="description"></div><div class="hr"></div><a id="Disco.Ext.Util-props"></a><h2>Public Properties</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Property</th><th class="msource-header">Defined By</th></tr><tr class="property-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-failureTag"></a><b><a href="source/core-util-3.2.html#prop-Disco.Ext.Util-failureTag">failureTag</a></b> : String<div class="mdesc">在GridPanel中用来renderer叉选（X）</div></td><td class="msource">Ext.Util</td></tr><tr class="property-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-readOnlyGridCellColor"></a><b><a href="source/core-util-3.2.html#prop-Disco.Ext.Util-readOnlyGridCellColor">readOnlyGridCellColor</a></b> : String<div class="mdesc">在EditorGridPanel中用来渲染只读列的背景色</div></td><td class="msource">Ext.Util</td></tr><tr class="property-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-successTag"></a><b><a href="source/core-util-3.2.html#prop-Disco.Ext.Util-successTag">successTag</a></b> : String<div class="mdesc">在GridPanel中用来renderer勾选（√）</div></td><td class="msource">Ext.Util</td></tr><tr class="property-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-theStatus"></a><b><a href="source/core-util-3.2.html#prop-Disco.Ext.Util-theStatus">theStatus</a></b> : Array<div class="mdesc">常用作双状态下拉框的内容</div></td><td class="msource">Ext.Util</td></tr></tbody></table><a id="Disco.Ext.Util-methods"></a><h2>Public Methods</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Method</th><th class="msource-header">Defined By</th></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-addEditorGridRow"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-addEditorGridRow">addEditorGridRow</a></b>(&nbsp;<code>Ext.grid.GridPanel&nbsp;grid</code>,&nbsp;<code>Array&nbsp;storeMapping</code>,&nbsp;<code>Object&nbsp;obj</code>,&nbsp;<code>Integer&nbsp;appendTo</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">往EditorGridPanel中指定行添加一行数据。&#13;
+&#13;
+//示例：在当前选中行下一行加载一条空数据&#13;
+var emptyObj={id:"",name:"",key:"",status:""},&#13;
+var appendTo=th...</div><div class="long">往EditorGridPanel中指定行添加一行数据。
+<pre>
+<code><i>//示例：在当前选中行下一行加载一条空数据
+</i>
+<b>var</b> emptyObj={id:<em>""</em>,name:<em>""</em>,key:<em>""</em>,status:<em>""</em>},
+<b>var</b> appendTo=this.grid.store.indexOf(this.grid.getSelectionModel().getSelected())+=1;
+Disco.Ext.Util.addEditorGridRow(this.grid,this.storeMapping,emptyObj,appendTo);</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>grid</code> : Ext.grid.GridPanel<div class="sub-desc">需要添加数据的grid</div></li><li><code>storeMapping</code> : Array<div class="sub-desc">需要添加数据的grid对应的storemapping</div></li><li><code>obj</code> : Object<div class="sub-desc">需要添加的数据对象或者数据对象数组</div></li><li><code>appendTo</code> : Integer<div class="sub-desc">在哪一行插入，如果没有指定，就放在当前选中行的下一行，如果没有选中任何cell，则放在最后一行，如果指定了，不在当前grid的范围里，则加入到第一行或者最后一行</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-addObject"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-addObject">addObject</a></b>(&nbsp;<code>String&nbsp;crudClass</code>,&nbsp;<code>Function&nbsp;callback</code>,&nbsp;<code>String&nbsp;script</code>,&nbsp;<code>String&nbsp;otherScript</code>,&nbsp;<code>Function&nbsp;winReadyAction</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在任何代码段中，调用一个CrudPanel或者CrudListPanel对应模块的添加页面。&#13;
+在smartCombo下面的添加按钮，或者任何需要在一个模块中及时添加另一个模块的对象时使用的方法。&#13;
+&#13;
+//示例，在添加员工的面板中选...</div><div class="long">在任何代码段中，调用一个CrudPanel或者CrudListPanel对应模块的添加页面。<br/>
+在smartCombo下面的添加按钮，或者任何需要在一个模块中及时添加另一个模块的对象时使用的方法。<br/>
+<pre>
+<code><i>//示例，在添加员工的面板中选择部门的时候，可以点击部门后面的【添加】按钮，及时添加部门。
+</i>
+Disco_RIA.script=<em>"/"</em>;
+Disco.Ext.Util.columnPanelBuild(
+	{columnWidth:.5,items:Disco.Ext.Util.buildRemoteCombox(
+		<em>"department"</em>,
+		<em>"部门"</em>,
+		<em>"department.java?cmd=loadDeptTree"</em>,
+		[<em>"id"</em>,<em>"title"</em>],
+		<em>"title"</em>,
+		<em>"id"</em>,
+		false)},
+	{columnWidth:.5,items:{xtype:<em>"panel"</em>,items:{xtype:<em>"button"</em>,text:<em>"添加部门"</em>,scope:this,handler:this.addDepartment}}}
+);
+this.addDepartment=<b>function</b>(){
+	Disco.Ext.Util.addObject(
+		<em>"DepartmentManagePanel"</em>,
+		<b>function</b>(){
+			this.fp.findSomeThing(<em>"department"</em>).reload();
+		},
+		<em>"script/DepartmentManagePanel.js"</em>
+	);
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>crudClass</code> : String<div class="sub-desc">需要调用添加方法的CrudPanel对应的ClassName</div></li><li><code>callback</code> : Function<div class="sub-desc">在添加指定对象成功后调用的回调方法</div></li><li><code>script</code> : String<div class="sub-desc">需要调用添加方法的CrudPanel对应的js文件路径,该文件路径的全路径是Disco_RIA.script+script</div></li><li><code>otherScript</code> : String<div class="sub-desc">需要调用添加方法的CrudPanel对应的js文件需要关联引入的其他js。这些js文件也可以延迟加载。如果有多个js文件需要引入，在js文件路径之间用','隔开</div></li><li><code>winReadyAction</code> : Function<div class="sub-desc">在添加窗口加载完成后，需要做的一些额外的功能 
+<ul>
+传入的参数:
+<li>{Window} win 打开的添加窗口</li>
+<li>{CrudPanel} service 需要调用添加方法的CrudPanel的实例</li>
+</ul></div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-ajaxRequest"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-ajaxRequest">ajaxRequest</a></b>(&nbsp;<code>String&nbsp;url</code>,&nbsp;<code>Object&nbsp;params</code>,&nbsp;<code>Object&nbsp;scope</code>,&nbsp;<code>Function&nbsp;success</code>,&nbsp;<code>Function&nbsp;failure</code>,&nbsp;<code>Function&nbsp;successOp</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">完成一个异步请求的包装方法。</div><div class="long">完成一个异步请求的包装方法。<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>url</code> : String<div class="sub-desc">发送请求的地址</div></li><li><code>params</code> : Object<div class="sub-desc">发送请求提交的参数信息</div></li><li><code>scope</code> : Object<div class="sub-desc">请求响应回调方法的执行作用域</div></li><li><code>success</code> : Function<div class="sub-desc">在请求成功后执行的回调方法
+<ul>传入参数
+<li>{Object} response 返回的XMLHttpRequest对象</li>
+<li>{Object} options 异步请求发送的参数</li>
+</ul></div></li><li><code>failure</code> : Function<div class="sub-desc">当调用失败后的回调方法
+<ul>传入参数
+<li>{Object} response 返回的XMLHttpRequest对象</li>
+</ul></div></li><li><code>successOp</code> : Function<div class="sub-desc">当调用成功后的回调方法，该方法区别于success回调函数。该方法只会传入解析后的responseText产生的对象
+<ul>传入参数
+<li>{Object} data 解析后的responseText产生的对象</li>
+<li>{Object} options 异步请求发送的参数</li>
+</ul></div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-appendGridRows"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-appendGridRows">appendGridRows</a></b>(&nbsp;<code>Ext.grid.GridPanel&nbsp;grid</code>,&nbsp;<code>Array&nbsp;storeMapping</code>,&nbsp;<code>Object/Array&nbsp;rs</code>,&nbsp;<code>Function&nbsp;dataHandler</code>,&nbsp;<code>Boolean&nbsp;keepLastEmptyRow</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">往GridPanel或者EditorGridPanel中添加一行或者多行数据。&#13;
+&#13;
+//示例：在EditorGrid加载完成后自动往里面加载一条空数据&#13;
+var emptyObj={id:"",name:"",key:"",stat...</div><div class="long">往GridPanel或者EditorGridPanel中添加一行或者多行数据。
+<pre>
+<code><i>//示例：在EditorGrid加载完成后自动往里面加载一条空数据
+</i>
+<b>var</b> emptyObj={id:<em>""</em>,name:<em>""</em>,key:<em>""</em>,status:<em>""</em>},
+this.editGrid.on(<em>"render"</em>,<b>function</b>(c){
+Disco.Ext.Util.appendGridRows(c,this.editStoreMapping,emptyObj,Ext.emptyFn,false);
+},this);</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>grid</code> : Ext.grid.GridPanel<div class="sub-desc">需要添加数据的grid</div></li><li><code>storeMapping</code> : Array<div class="sub-desc">需要添加数据的grid对应的storemapping</div></li><li><code>rs</code> : Object/Array<div class="sub-desc">需要添加的数据对象或者数据对象数组</div></li><li><code>dataHandler</code> : Function<div class="sub-desc">在添加完成数据后，需要对这些数据做的一些处理
+<ul>
+<li>传入参数 {Object} obj 需要添加的数据</li>
+</ul></div></li><li><code>keepLastEmptyRow</code> : Boolean<div class="sub-desc"><p>
+是否保持最后一行不变。如果true，那么数据都插入在倒数第二行，如果为false，则插入在最后。为true的情况下使用editorGrid的时候特别有用。
+因为在editorGrid下，经常需要保持最后一行是一个空行，能随时添加数据。
+</p></div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-applySkin"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-applySkin">applySkin</a></b>(&nbsp;<code>String&nbsp;value</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">切换系统皮肤</div><div class="long">切换系统皮肤<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>value</code> : String<div class="sub-desc"></div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-asLoadScript"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-asLoadScript">asLoadScript</a></b>(&nbsp;<code>String&nbsp;script</code>,&nbsp;<code>Boolean&nbsp;async</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">最简单的加载并执行script</div><div class="long">最简单的加载并执行script<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>script</code> : String<div class="sub-desc">要加载并执行的script路径</div></li><li><code>async</code> : Boolean<div class="sub-desc">在加载js的时候，是否采用同步加载。true使用同步加载，false使用异步加载。</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-autoCloseMsg"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-autoCloseMsg">autoCloseMsg</a></b>()
+    :
+                                        void<div class="mdesc"><div class="short">自动关闭当前的提示框。&#13;
+常用情况：遇到某个状态，需要提示一下，然后可以在下一代码延迟执行该方法，就自动关闭提示。&#13;
+&#13;
+//if(somestatus binggo){&#13;
+Ext.Msg.alert("提示信息","某种状态已经发生...</div><div class="long">自动关闭当前的提示框。
+常用情况：遇到某个状态，需要提示一下，然后可以在下一代码延迟执行该方法，就自动关闭提示。
+<pre>
+<code><i>//<b>if</b>(somestatus binggo){
+</i>
+Ext.Msg.alert(<em>"提示信息"</em>,<em>"某种状态已经发生"</em>);
+Disco.Ext.Util.autoCloseMsg.defer(2000);
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-autoFocusFirstRow"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-autoFocusFirstRow">autoFocusFirstRow</a></b>(&nbsp;<code>Ext.grid.GridPanel&nbsp;grid</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在grid加载后自动选中第一行。&#13;
+该方法只需要在需要实现该功能的grid的render事件中执行一次即可。</div><div class="long">在grid加载后自动选中第一行。<br/>
+该方法只需要在需要实现该功能的grid的render事件中执行一次即可。<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>grid</code> : Ext.grid.GridPanel<div class="sub-desc">需要实现自动选中第一行这个功能的gird。</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-booleanRender"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-booleanRender">booleanRender</a></b>(&nbsp;<code>Object&nbsp;v</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在GridPanel中用来renderer 布尔值（是|否）。&#13;
+&#13;
+{&#13;
+    id: 'col1',&#13;
+    header: 'Column1',&#13;
+    dataIndex: 'col1',&#13;
+    width: 220...</div><div class="long">在GridPanel中用来renderer 布尔值（是|否）。
+<pre>
+<code>{
+    id: <em>'col1'</em>,
+    header: <em>'Column1'</em>,
+    dataIndex: <em>'col1'</em>,
+    width: 220,
+    renderer:Disco.Ext.Util.booleanRender
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>v</code> : Object<div class="sub-desc">要renderer的值</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-buildColumnForm"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-buildColumnForm">buildColumnForm</a></b>(&nbsp;<code>Boolean|Integer&nbsp;auto</code>,&nbsp;<code>Array&nbsp;arg</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">高级的布局工具。&#13;
+可以用该工具方法方便的实现平均分布的表单布局。&#13;
+&#13;
+//示例1：在一行里面平均分布4个textfield&#13;
+{&#13;
+	xtype:"form",&#13;
+	frame:true,&#13;
+	items:[{&#13;
+		xtype:...</div><div class="long">高级的布局工具。<br/>
+可以用该工具方法方便的实现平均分布的表单布局。<br/>
+<pre>
+<code><i>//示例1：在一行里面平均分布4个textfield
+</i>
+{
+	xtype:<em>"form"</em>,
+	frame:true,
+	items:[{
+		xtype:<em>"fieldset"</em>,
+		autoHeight:true,
+		title:<em>'demo'</em>,
+		items:
+			Disco.Ext.Util.buildColumnForm(
+				true,<em>"textfield"</em>,
+				{name:<em>'textfield1'</em>,fieldLabel:<em>'textfield1'</em>},
+				{name:<em>'textfield2'</em>,fieldLabel:<em>'textfield2'</em>},
+				{name:<em>'textfield3'</em>,fieldLabel:<em>'textfield3'</em>},
+				{name:<em>'textfield4'</em>,fieldLabel:<em>'textfield4'</em>}
+			)
+	}]
+}
+<i>//示例2:在formPanel中的一个fieldSet中横向平均布局六个textfield，保证每一行平均布局三个textfield，并设置textfield的labelWidth为120。
+</i>
+{
+	xtype:<em>"form"</em>,
+	frame:true,
+	items:[{
+		xtype:<em>"fieldset"</em>,
+		autoHeight:true,
+		title:<em>'demo'</em>,
+		fieldWidth:120,
+		items:
+			Disco.Ext.Util.buildColumnForm(
+				3,<em>"textfield"</em>,
+				{name:<em>'textfield1'</em>,fieldLabel:<em>'textfield1'</em>},
+				{name:<em>'textfield2'</em>,fieldLabel:<em>'textfield2'</em>},
+				{name:<em>'textfield3'</em>,fieldLabel:<em>'textfield3'</em>},
+				{name:<em>'textfield4'</em>,fieldLabel:<em>'textfield4'</em>},
+				{name:<em>'textfield5'</em>,fieldLabel:<em>'textfield5'</em>},
+				{name:<em>'textfield6'</em>,fieldLabel:<em>'textfield6'</em>}
+			)
+	}]
+}
+<i>//示例3:在一行里面平均分布4个textfield，默认labelWidth为120,并设置第3个textfield的labelWidth为200。
+</i>
+{
+	xtype:<em>"form"</em>,
+	frame:true,
+	items:[{
+		xtype:<em>"fieldset"</em>,
+		autoHeight:true,
+		title:<em>'demo'</em>,
+		labelWidth:120,
+		items:
+			Disco.Ext.Util.buildColumnForm(
+				true,<em>"textfield"</em>,
+				{name:<em>'textfield1'</em>,fieldLabel:<em>'textfield1'</em>},
+				{name:<em>'textfield2'</em>,fieldLabel:<em>'textfield2'</em>},
+				{name:<em>'textfield3'</em>,fieldLabel:<em>'textfield3'</em>,panelCfg:{labelWidth:200}},
+				{name:<em>'textfield4'</em>,fieldLabel:<em>'textfield4'</em>}
+			)
+	}]
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>auto</code> : Boolean|Integer<div class="sub-desc">如果该参数为Boolean，则true表示自动平均将组件布局到一行。<br/>
+如果该参数为Integer，如果1<auto<50，表示一行平均分布的组件个数。如果auto超过50，表示将所有组件布局到一列，并且固定每个组件的width为auto。</div></li><li><code>arg</code> : Array<div class="sub-desc">需要进行布局的组件。<br/>
+如果该参数的第一个值是一个String，则表示布局组件的默认xtype。<br/>
+所有的布局组件可以设置一个panelCfg对象，该对象里面可以设置容器控制样式，比如labelWidth等。</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-buildCombox"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-buildCombox">buildCombox</a></b>(&nbsp;<code>String|Object&nbsp;name</code>,&nbsp;<code>String&nbsp;fieldLabel</code>,&nbsp;<code>Array&nbsp;data</code>,&nbsp;<code>Mixed&nbsp;defaultValue</code>,&nbsp;<code>Boolean&nbsp;allowBlank</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">根据一组静态的数据来创建一个下拉列表的简单方法。&#13;
+&#13;
+//例子，创建一个包括三个状态的下拉选择框&#13;
+var statusData=[['状态1',1],['状态2',2],['状态3',3]];&#13;
+//...&#13;
+items:[Eas...</div><div class="long">根据一组静态的数据来创建一个下拉列表的简单方法。
+<pre>
+<code><i>//例子，创建一个包括三个状态的下拉选择框
+</i>
+<b>var</b> statusData=[[<em>'状态1'</em>,1],[<em>'状态2'</em>,2],[<em>'状态3'</em>,3]];
+<i>//...
+</i>
+items:[Disco.Ext.Util.buildCombox(<em>'mycombo'</em>,<em>'自定义状态'</em>,statusData,1,true)]</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>name</code> : String|Object<div class="sub-desc">创建的下来列表组件名称
+如果第一个参数为Object {} 如 ：
+buildCombox({
+name : "comboName",
+hiddenName : "comboName",
+fieldLabel : "comboLabel",
+value:"defaultValue",
+allowBlank:true,
+data:comboData
+})
+也可以设置对应的属性。</div></li><li><code>fieldLabel</code> : String<div class="sub-desc">组件表单名称</div></li><li><code>data</code> : Array<div class="sub-desc">下拉列表的数据，是一个二维数组，其中的每一个数组格式为[String,Object]，其中String是对应的下拉列表显示名称，Object是选中的值。</div></li><li><code>defaultValue</code> : Mixed<div class="sub-desc">默认的选中值</div></li><li><code>allowBlank</code> : Boolean<div class="sub-desc">是否允许为空</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-buildRemoteCombox"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-buildRemoteCombox">buildRemoteCombox</a></b>(&nbsp;<code>String|Object&nbsp;n</code>,&nbsp;<code>String&nbsp;fl</code>,&nbsp;<code>String&nbsp;url</code>,&nbsp;<code>MixedCollection&nbsp;fs</code>,&nbsp;<code>String&nbsp;df</code>,&nbsp;<code>String&nbsp;vf</code>,&nbsp;<code>Boolean&nbsp;ab</code>,&nbsp;<code>String&nbsp;lsv</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">根据一个url远程请求后台数据来创建一个动态的下拉列表的简单方法。&#13;
+&#13;
+//例子，创建一个部门的下拉选择框&#13;
+items:[Disco.Ext.Util.buildRemoteCombox(&#13;
+		"department",&#13;
+	...</div><div class="long">根据一个url远程请求后台数据来创建一个动态的下拉列表的简单方法。
+<pre>
+<code><i>//例子，创建一个部门的下拉选择框
+</i>
+items:[Disco.Ext.Util.buildRemoteCombox(
+		<em>"department"</em>,
+		<em>"部门"</em>,
+		<em>"department.java?cmd=loadDeptList"</em>,
+		[<em>"id"</em>,<em>"title"</em>],
+		<em>"title"</em>,
+		<em>"id"</em>,
+		false)]</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>n</code> : String|Object<div class="sub-desc">创建的下拉列表组件名称
+如果第一个参数为Object {} 如 ：
+buildCombox({
+fields : "comboName",
+url|dataUrl : "comboName"
+})
+也可以设置对应的属性。</div></li><li><code>fl</code> : String<div class="sub-desc">组件表单名称</div></li><li><code>url</code> : String<div class="sub-desc">下拉列表异步请求数据的路径</div></li><li><code>fs</code> : MixedCollection<div class="sub-desc">A MixedCollection containing the defined Fields for the Records stored in this Store. Read-only.</div></li><li><code>df</code> : String<div class="sub-desc">在下拉列表中绑定的需要显示的字段项。</div></li><li><code>vf</code> : String<div class="sub-desc">在下拉列表中绑定的作为选择值的字段项。</div></li><li><code>ab</code> : Boolean<div class="sub-desc">是否允许为空</div></li><li><code>lsv</code> : String<div class="sub-desc">本地缓存的缓存名称。如果设置了该值。一旦该下拉列表加载过一次后，其值就会在前端缓存下来，第二次就不需要重新去请求数据。</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-columnBuild"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-columnBuild">columnBuild</a></b>()
+    :
+                                        void<div class="mdesc"><div class="short">Disco.Ext.Util.twoColumnPanelBuild方法的简写</div><div class="long">Disco.Ext.Util.twoColumnPanelBuild方法的简写<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-columnPanelBuild"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-columnPanelBuild">columnPanelBuild</a></b>(&nbsp;<code>Array&nbsp;arguments</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">将一组组件横向布局在一行中,&#13;
+&#13;
+//示例:&#13;
+//在formPanel中的fieldSet中的一行中横向布局三个textfield，让他们的布局比例为1:1:2，并设置textfield的labelWidth为120。&#13;
+{&#13;
+	...</div><div class="long">将一组组件横向布局在一行中,
+<pre>
+<code><i>//示例:
+</i>
+<i>//在formPanel中的fieldSet中的一行中横向布局三个textfield，让他们的布局比例为1:1:2，并设置textfield的labelWidth为120。
+</i>
+{
+	xtype:<em>"form"</em>,
+	frame:true,
+	items:[{
+		xtype:<em>"fieldset"</em>,
+		autoHeight:true,
+		title:<em>'demo'</em>,
+		items:
+			Disco.Ext.Util.columnPanelBuild(
+				{FC:{labelWidth:120}},
+				{columnWidth:.25,items:{xtype:<em>'textfield'</em>,name:<em>'textfield1'</em>,fieldLabel:<em>'textfield1'</em>}},
+				{columnWidth:.25,items:{xtype:<em>'textfield'</em>,name:<em>'textfield2'</em>,fieldLabel:<em>'textfield2'</em>}},
+				{columnWidth:.5,items:{xtype:<em>'textfield'</em>,name:<em>'textfield3'</em>,fieldLabel:<em>'textfield3'</em>}},
+			),
+	}]
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>arguments</code> : Array<div class="sub-desc">要在一行中排列的组件数组。组件必须放在一个{columnWidth:yourdefinedcolumnwidth,items:yourdefinedcomponent}的Panel构造对象中。
+该对象的columnWidth规定了该组件在该行中所占用的总体比例。
+如果需要统一设定所有排列组件的容器属性（比如textfield的labelWidth，或者anchor属性等），需要在一个参数中传入一个
+{FC:{your component prop setting}}的对象。参考上面的例子。</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-comboxRender"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-comboxRender">comboxRender</a></b>(&nbsp;<code>Object&nbsp;v</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在GridPanel中用来renderer 下拉列表对应的对象。Combox对应的对象一般格式：{text:'text',value:'value'}或者{title:'text',value:'value'}&#13;
+&#13;
+{&#13;
+    i...</div><div class="long">在GridPanel中用来renderer 下拉列表对应的对象。Combox对应的对象一般格式：{text:'text',value:'value'}或者{title:'text',value:'value'}
+<pre>
+<code>{
+    id: <em>'col1'</em>,
+    header: <em>'Column1'</em>,
+    dataIndex: <em>'col1'</em>,
+    width: 220,
+    editor:<b>new</b> MyCombox(),
+    renderer:Disco.Ext.Util.comboxRender
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>v</code> : Object<div class="sub-desc">renderer的对象</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-dateRender"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-dateRender">dateRender</a></b>(&nbsp;<code>String&nbsp;format</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在GridPanel中用来renderer 日期。&#13;
+&#13;
+{&#13;
+    id: 'col1',&#13;
+    header: 'Column1',&#13;
+    dataIndex: 'col1',&#13;
+    width: 220,&#13;
+   ...</div><div class="long">在GridPanel中用来renderer 日期。
+<pre>
+<code>{
+    id: <em>'col1'</em>,
+    header: <em>'Column1'</em>,
+    dataIndex: <em>'col1'</em>,
+    width: 220,
+    renderer:Disco.Ext.Util.dateRender(<em>'Y-m-d G:i:s'</em>)
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>format</code> : String<div class="sub-desc">renderer的日期格式</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-editObject"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-editObject">editObject</a></b>(&nbsp;<code>String&nbsp;crudClass</code>,&nbsp;<code>Function&nbsp;callback</code>,&nbsp;<code>String&nbsp;script</code>,&nbsp;<code>String&nbsp;otherScript</code>,&nbsp;<code>Object&nbsp;id</code>,&nbsp;<code>Function&nbsp;winReadyAction</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在任何代码段中，调用一个CrudPanel或者CrudListPanel对应模块的修改页面来修改一个对象。&#13;
+&#13;
+//示例，在添加员工的面板中选择部门的时候，可以点击部门后面的【修改】按钮，及时修改选中的部门。&#13;
+Disco_RIA...</div><div class="long">在任何代码段中，调用一个CrudPanel或者CrudListPanel对应模块的修改页面来修改一个对象。
+<pre>
+<code><i>//示例，在添加员工的面板中选择部门的时候，可以点击部门后面的【修改】按钮，及时修改选中的部门。
+</i>
+Disco_RIA.script=<em>"/"</em>;
+Disco.Ext.Util.columnPanelBuild(
+	{columnWidth:.5,items:Disco.Ext.Util.buildRemoteCombox(
+		<em>"department"</em>,
+		<em>"部门"</em>,
+		<em>"department.java?cmd=loadDeptTree"</em>,
+		[<em>"id"</em>,<em>"title"</em>],
+		<em>"title"</em>,
+		<em>"id"</em>,
+		false)},
+	{columnWidth:.5,items:{xtype:<em>"panel"</em>,items:{xtype:<em>"button"</em>,text:<em>"修改部门"</em>,scope:this,handler:this.updateDepartment}}}
+);
+this.updateDepartment=<b>function</b>(){
+	<b>var</b> deptId=this.fp.findSomeThing(<em>"department"</em>).getValue();
+	<b>if</b>(!deptId)
+		Ext.Msg.alert(<em>'提示信息'</em>,<em>'请先选择修改的部门'</em>);
+		<b>return</b>;
+	Disco.Ext.Util.updateObject(
+		<em>"DepartmentManagePanel"</em>,
+		<b>function</b>(){
+			this.fp.findSomeThing(<em>"department"</em>).reload();
+		},
+		<em>"script/DepartmentManagePanel.js"</em>,
+		<em>""</em>,
+		deptId
+	);
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>crudClass</code> : String<div class="sub-desc">需要调用修改方法的CrudPanel对应的ClassName</div></li><li><code>callback</code> : Function<div class="sub-desc">在修改指定对象成功后调用的回调方法</div></li><li><code>script</code> : String<div class="sub-desc">需要调用修改方法的CrudPanel对应的js文件路径,该文件路径的全路径是Disco_RIA.script+script</div></li><li><code>otherScript</code> : String<div class="sub-desc">需要调用修改方法的CrudPanel对应的js文件需要关联引入的其他js。这些js文件也可以延迟加载。如果有多个js文件需要引入，在js文件路径之间用','隔开</div></li><li><code>id</code> : Object<div class="sub-desc">需要传入编辑的对象的id</div></li><li><code>winReadyAction</code> : Function<div class="sub-desc">在修改窗口加载完成后，需要做的一些额外的功能 
+<ul>
+传入的参数:
+<li>{Window} win 打开的修改窗口</li>
+<li>{CrudPanel} service 需要调用修改方法的CrudPanel的实例</li>
+</ul></div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-executePanelButtons"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-executePanelButtons">executePanelButtons</a></b>(&nbsp;<code>Ext.Panel&nbsp;p</code>,&nbsp;<code>String&nbsp;btn</code>,&nbsp;<code>Object&nbsp;scope</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">执行Panel上的某一个按钮的handler方法。&#13;
+该按钮是需要通过panel的buttons属性添加的按钮</div><div class="long">执行Panel上的某一个按钮的handler方法。<br/>
+该按钮是需要通过panel的buttons属性添加的按钮<br/><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>p</code> : Ext.Panel<div class="sub-desc">需要调用的panel</div></li><li><code>btn</code> : String<div class="sub-desc">需要调用的button的id</div></li><li><code>scope</code> : Object<div class="sub-desc">按钮方法执行的作用域</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-executeUrl"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-executeUrl">executeUrl</a></b>(&nbsp;<code>String&nbsp;url</code>,&nbsp;<code>Object&nbsp;params</code>,&nbsp;<code>Function&nbsp;fn</code>&nbsp;)
+    :
+                                        Function<div class="mdesc"><div class="short">简单的使用ajax调用执行一个请求的方法，常用在CURD面板中某一些简单的操作请求。&#13;
+比如，审核，批量审核，查看等按钮的的handler上。&#13;
+&#13;
+//示例：比如有个按钮，点击打印当前选中的项&#13;
+{&#13;
+xtype:'button',...</div><div class="long">简单的使用ajax调用执行一个请求的方法，常用在CURD面板中某一些简单的操作请求。
+比如，审核，批量审核，查看等按钮的的handler上。
+<pre>
+<code><i>//示例：比如有个按钮，点击打印当前选中的项
+</i>
+{
+xtype:<em>'button'</em>,
+text:<em>'打印当前选中项'</em>,
+scope:this,
+handler:Disco.Ext.Util.executeUrl(this.baseUrl,{cmd:<em>'printSelect'</em>,id:this.getCurrentSelectId()},this.print)
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>url</code> : String<div class="sub-desc">调用的远端url</div></li><li><code>params</code> : Object<div class="sub-desc">POST请求传入的参数</div></li><li><code>fn</code> : Function<div class="sub-desc"></div></li></ul><strong>Returns:</strong><ul><li><code>Function</code><div class="sub-desc">构造好的请求方法</div></li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-getEditGridData"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-getEditGridData">getEditGridData</a></b>(&nbsp;<code>Ext.grid.EditorGridPanel&nbsp;editGrid</code>,&nbsp;<code>String&nbsp;prefix</code>,&nbsp;<code>String&nbsp;key</code>,&nbsp;<code>Function&nbsp;filter</code>&nbsp;)
+    :
+                                        Object<div class="mdesc"><div class="short">得到EditorGridPanel中的数据，并拼成一个对象。常用于主从表单中从表单数据的获得和提交。&#13;
+&#13;
+//示例：现有表格数据为:&#13;
+//[&#13;
+//{id:1,name:'c1',key:'k1',status:'1'},&#13;
+//...</div><div class="long">得到EditorGridPanel中的数据，并拼成一个对象。常用于主从表单中从表单数据的获得和提交。
+<pre>
+<code><i>//示例：现有表格数据为:
+</i>
+<i>//[
+</i>
+<i>//{id:1,name:<em>'c1'</em>,key:<em>'k1'</em>,status:<em>'1'</em>},
+</i>
+<i>//{id:2,name:<em>'c2'</em>,key:<em>'k2'</em>,status:<em>'0'</em>},
+</i>
+<i>//{id:3,name:<em>'c3'</em>,key:<em>'k3'</em>,status:<em>'1'</em>},
+</i>
+<i>//{id:4,name:<em>'c4'</em>,key:<em>''</em>,status:<em>'1'</em>},
+</i>
+<i>//]
+</i>
+<i>//使用方法：
+</i>
+<b>var</b> o=Disco.Ext.Util.getEditGridData(this.editGrid,<em>'item_'</em>,<em>'key'</em>,<b>function</b>(r){
+<b>return</b> r.get(<em>"status"</em>)===<em>'1'</em>;
+})
+console.debug(o);
+<i>//返回值：
+</i>
+<i>//o:{item_id:[1,3],item_name:[<em>'c1'</em>,<em>'c3'</em>],item_key:[<em>'k1'</em>,<em>'k3'</em>],item_status:[<em>'1'</em>,<em>'1'</em>]}</i></code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>editGrid</code> : Ext.grid.EditorGridPanel<div class="sub-desc">要得到数据的可编辑表格</div></li><li><code>prefix</code> : String<div class="sub-desc">得到的数据前缀</div></li><li><code>key</code> : String<div class="sub-desc">确定每一行数据能获得数据的必要字段名称</div></li><li><code>filter</code> : Function<div class="sub-desc">确定每一行数据能获得数据的过滤方法
+<ul>
+<li>传入的值: {Ext.data.Record} r 传入的每一行数据的Record。</li>
+<li>返回的值: {Boolean} ret 如果为true，则加入表格获得的数据项中，如果为false，则过滤掉。</li>
+</ul></div></li></ul><strong>Returns:</strong><ul><li><code>Object</code><div class="sub-desc">obj 获得到的表单数据</div></li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-getExportForm"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-getExportForm">getExportForm</a></b>()
+    :
+                                        Ext.form.FormPanel<div class="mdesc"><div class="short">得到一个全局的导出或者下载form。 &#13;
+该form是一个隐藏的div+IFrame。因为在页面上直接向后台请求下载资源是不能做到的。&#13;
+示例中提供了一个常用的资源下载方法。&lt;br /&gt;&#13;
+&#13;
+//示例：一个通用的往后台发送下载资源请...</div><div class="long">得到一个全局的导出或者下载form。 <br/>
+该form是一个隐藏的div+IFrame。因为在页面上直接向后台请求下载资源是不能做到的。<br/>
+示例中提供了一个常用的资源下载方法。<br />
+<pre>
+<code><i>//示例：一个通用的往后台发送下载资源请求的方法。可以用在页面上导出excel，导出zip等资源。
+</i>
+<i>//config定义：
+</i>
+<i>// btn:点击的导出excel按钮
+</i>
+<i>// disableBtn:是否在导出excel的时候disable导出按钮
+</i>
+<i>// url：导出excel的url
+</i>
+<i>// params：传入的参数
+</i>
+<i>// scope:scope callback 执行的作用域
+</i>
+<i>// callback:完成导出后需要执行的动作
+</i>
+<i>//
+</i>
+Disco.Ext.Util.exportExcel=<b>function</b>(config){
+	<b>if</b>(config.btn && config.disableBtn){
+		config.btn.disable();
+	}
+	<b>var</b> exportForm=Disco.Ext.Util.getExportForm();
+	exportForm.form.submit({
+		url:config.url,
+  		params:config.params,
+  		scope:config.scope||this,
+		success:<b>function</b>(r,a){
+			<b>if</b>(config.btn && config.disableBtn){
+				config.btn.enable();
+			}
+			<b>if</b>(config.callback) config.callback.call(config.scope||this,r,a);
+			<b>if</b>(a.result && a.result.data && a.result.data.msg){
+				Ext.Msg.alert(<em>"提示信息"</em>,a.result.data.msg);
+			}
+  		}
+	});
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li><code>Ext.form.FormPanel</code><div class="sub-desc">exportForm 得到的全局下载表单</div></li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-getFCKEditorContent"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-getFCKEditorContent">getFCKEditorContent</a></b>(&nbsp;<code>String&nbsp;name</code>&nbsp;)
+    :
+                                        String<div class="mdesc"><div class="short">得到指定FckEditor的内容。</div><div class="long">得到指定FckEditor的内容。<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>name</code> : String<div class="sub-desc">指定要得到内容的FckEditor的名称</div></li></ul><strong>Returns:</strong><ul><li><code>String</code><div class="sub-desc">v 得到的FckEditor内容。</div></li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-getFckById"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-getFckById">getFckById</a></b>(&nbsp;<code>String&nbsp;id</code>&nbsp;)
+    :
+                                        FCKeditor<div class="mdesc"><div class="short">根据id得到FckEditor实例</div><div class="long">根据id得到FckEditor实例<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>id</code> : String<div class="sub-desc">要得到的FckEditor的id</div></li></ul><strong>Returns:</strong><ul><li><code>FCKeditor</code><div class="sub-desc">得到的FckEditor实例。如果没有加载fckAPI，返回null。</div></li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-getGridDataAsString"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-getGridDataAsString">getGridDataAsString</a></b>(&nbsp;<code>Ext.grid.GridPanel&nbsp;grid</code>,&nbsp;<code>String&nbsp;key</code>&nbsp;)
+    :
+                                        String<div class="mdesc"><div class="short">把表格数据中的某一列数据拼成字符串连接&#13;
+&#13;
+//示例：现有表格数据为:&#13;
+//[&#13;
+//{id:1,name:'c1',key:'k1',status:'1'},&#13;
+//{id:2,name:'c2',key:'k2',status...</div><div class="long">把表格数据中的某一列数据拼成字符串连接
+<pre>
+<code><i>//示例：现有表格数据为:
+</i>
+<i>//[
+</i>
+<i>//{id:1,name:<em>'c1'</em>,key:<em>'k1'</em>,status:<em>'1'</em>},
+</i>
+<i>//{id:2,name:<em>'c2'</em>,key:<em>'k2'</em>,status:<em>'0'</em>},
+</i>
+<i>//{id:3,name:<em>'c3'</em>,key:<em>'k3'</em>,status:<em>'1'</em>},
+</i>
+<i>//{id:4,name:<em>'c4'</em>,key:<em>''</em>,status:<em>'1'</em>},
+</i>
+<i>//]
+</i>
+<i>//使用方法：
+</i>
+<b>var</b> str=Disco.Ext.Util.getGridDataAsString(this.gridPanel,<em>'key'</em>);
+<i>//str=<em>'k1,k2,k3,'</em>
+</i>
+<b>var</b> str=Disco.Ext.Util.getGridDataAsString(this.gridPanel,<em>'id'</em>);
+<i>//str=<em>'1,2,3,4'</em></i></code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>grid</code> : Ext.grid.GridPanel<div class="sub-desc">需要得到数据的GridPanel或者EditorGridPanel</div></li><li><code>key</code> : String<div class="sub-desc">需要得到的列名称</div></li></ul><strong>Returns:</strong><ul><li><code>String</code><div class="sub-desc">ret 得到的字符串连接</div></li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-getSelectWin"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-getSelectWin">getSelectWin</a></b>(&nbsp;<code>String&nbsp;winName</code>,&nbsp;<code>String&nbsp;title</code>,&nbsp;<code>Integer&nbsp;width</code>,&nbsp;<code>Integer&nbsp;height</code>,&nbsp;<code>Class&nbsp;Ext.grid.Grid</code>,&nbsp;<code>Object&nbsp;config</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">得到列表选择窗口的实例的方法。该方法返回一个Disco.Ext.GridSelectWin实例。&#13;
+该方法使用缓存机制。&#13;
+要调用该方法必须要保证gridClz类已经加载或者定义。</div><div class="long">得到列表选择窗口的实例的方法。该方法返回一个<a href="output/Disco.Ext.GridSelectWin.html" ext:cls="Disco.Ext.GridSelectWin">Disco.Ext.GridSelectWin</a>实例。<br/>
+该方法使用缓存机制。<br/>
+要调用该方法必须要保证gridClz类已经加载或者定义。<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>winName</code> : String<div class="sub-desc">全局的选择窗口名称。该名称即是选择窗口的缓存名称。</div></li><li><code>title</code> : String<div class="sub-desc">选择窗口的名称。</div></li><li><code>width</code> : Integer<div class="sub-desc">选择窗口的宽度。</div></li><li><code>height</code> : Integer<div class="sub-desc">选择窗口的高度。</div></li><li><code>Ext.grid.Grid</code> : Class<div class="sub-desc">选择窗口中包含的列表类型。</div></li><li><code>config</code> : Object<div class="sub-desc">配置GridSelectWin的信息。参考<a href="output/Disco.Ext.GridSelectWin.html" ext:cls="Disco.Ext.GridSelectWin">Disco.Ext.GridSelectWin</a>配置</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-linkRenderer"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-linkRenderer">linkRenderer</a></b>(&nbsp;<code>Object&nbsp;v</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在GridPanel中用来renderer超链接。&#13;
+&#13;
+{&#13;
+    id: 'col1',&#13;
+    header: 'Column1',&#13;
+    dataIndex: 'col1',&#13;
+    width: 220,&#13;
+   ...</div><div class="long">在GridPanel中用来renderer超链接。
+<pre>
+<code>{
+    id: <em>'col1'</em>,
+    header: <em>'Column1'</em>,
+    dataIndex: <em>'col1'</em>,
+    width: 220,
+    renderer:Disco.Ext.Util.linkRenderer
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>v</code> : Object<div class="sub-desc">要renderer的值</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-load"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-load">load</a></b>(&nbsp;<code>String&nbsp;appName</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">动态的给HTML加载script。&#13;
+相当于动态的在onReady所在的主页面中加入&amp;lt;script&amp;gt;标签&#13;
+&#13;
+//例子:&#13;
+Ext.onReady(function() {&#13;
+	Disco.Ext.Util.load(...</div><div class="long">动态的给HTML加载script。
+相当于动态的在onReady所在的主页面中加入&lt;script&gt;标签
+<pre>
+<code><i>//例子:
+</i>
+Ext.onReady(<b>function</b>() {
+	Disco.Ext.Util.load(<em>"/abc/abc.js"</em>);
+});
+<i>//相当于在页面中加入了&lt;script type=<em>"text/javascript"</em> src=<em>'/abc/abc.js'</em>&gt;&lt;/script&gt;</i></code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>appName</code> : String<div class="sub-desc">要加载的js的名称（路径）</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-loadClass"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-loadClass">loadClass</a></b>(&nbsp;<code>Object&nbsp;cfg</code>,&nbsp;<code>Boolean&nbsp;async</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">从配置的路径里面加载对应类&#13;
+&#13;
+//示例。&#13;
+//假设自定义的用户管理模块类MyUserManagePanel定义在/webapps/scripts/MyUserManagePanel.js下（注意类名和js文件名的对应关系）&#13;
+/...</div><div class="long">从配置的路径里面加载对应类
+<pre>
+<code><i>//示例。
+</i>
+<i>//假设自定义的用户管理模块类MyUserManagePanel定义在/webapps/scripts/MyUserManagePanel.js下（注意类名和js文件名的对应关系）
+</i>
+<i>//调用方法：
+</i>
+Disco.Ext.Util.loadClass({
+	script:<em>'/scripts/MyUserManagePanel.js'</em>,
+	className:<em>'MyUserManagePanel'</em>,
+	scope:this,
+	callback:<b>function</b>(obj){
+		console.debug(obj);	
+	}
+},async);</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>cfg</code> : Object<div class="sub-desc">可选配置对象。该对象详细配置如下：
+<ul>
+<li>{String} script 加载类的js文件路径。</li>
+<li>{String} className 加载并执行的js中的类的名称，如果没有指定className，则直接使用js文件名称做为类的缓存名称</li>
+<li>{Function} callback 在加载并执行了js后，执行的回调方法
+<ul>传入参数：
+<li>{Object} obj js文件中的对象</li>
+</ul>
+</li>
+<li>{Object} scope 回调方法执行的scope</li>
+<li>{Boolean} async 在加载js的时候，是否采用同步加载。true使用同步加载，false使用异步加载。</li>
+</ul></div></li><li><code>async</code> : Boolean<div class="sub-desc">在加载js的时候，是否采用同步加载。true使用同步加载，false使用异步加载。</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-loadJS"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-loadJS">loadJS</a></b>(&nbsp;<code>String&nbsp;script</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在页面打开的时候动态加载脚本程序&#13;
+相当于直接在页面插入&amp;lt;script src='script'&amp;gt;&amp;lt;/script&amp;gt;标签段</div><div class="long">在页面打开的时候动态加载脚本程序
+相当于直接在页面插入&lt;script src='script'&gt;&lt;/script&gt;标签段<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>script</code> : String<div class="sub-desc">脚本名称</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-loadJSON2Collection"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-loadJSON2Collection">loadJSON2Collection</a></b>(&nbsp;<code>String&nbsp;varName</code>,&nbsp;<code>String&nbsp;url</code>,&nbsp;<code>Function&nbsp;callback</code>,&nbsp;<code>Boolean&nbsp;shareCache</code>,&nbsp;<code>Object&nbsp;collectionType</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">从指定的url加载数组或PageResult类型的JSON对象，并自动存放到本地缓存中</div><div class="long">从指定的url加载数组或PageResult类型的JSON对象，并自动存放到本地缓存中<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>varName</code> : String<div class="sub-desc">缓存明称</div></li><li><code>url</code> : String<div class="sub-desc">JSON数据url</div></li><li><code>callback</code> : Function<div class="sub-desc">可选参数，回调函数</div></li><li><code>shareCache</code> : Boolean<div class="sub-desc">可选参数，是否共享缓存</div></li><li><code>collectionType</code> : Object<div class="sub-desc">可选参数，缓存类型，默认为MixedCollection</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-loadJSONObject"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-loadJSONObject">loadJSONObject</a></b>(&nbsp;<code>String&nbsp;varName</code>,&nbsp;<code>String&nbsp;script</code>,&nbsp;<code>Function&nbsp;callback</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">从script文件中加载Json对象。一般用于在演示数据或者静态js文件中加载数据。&#13;
+&#13;
+//例子：如果有json文件内容如下：&#13;
+var myData=[{id:1,name:'disco',status:1}];&#13;
+var my...</div><div class="long">从script文件中加载Json对象。一般用于在演示数据或者静态js文件中加载数据。
+<pre>
+<code><i>//例子：如果有json文件内容如下：
+</i>
+<b>var</b> myData=[{id:1,name:<em>'disco'</em>,status:1}];
+<b>var</b> myData2=[{id:2,name:<em>'disco2'</em>,status:0}];
+<i>//该文件保存再/webapps/jsdata/my.js
+</i>
+<i>//执行：
+</i>
+Ext.onReady(<b>function</b>() {
+	Disco.Ext.Util.loadJSONObject(<em>''</em>,<em>'/jsdata/my.js'</em>,<b>function</b>(){console.debug(myData)});
+});
+<i>//结果：
+</i>
+<i>//myData=[{id:1,name:<em>'disco'</em>,status:1}]</i></code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>varName</code> : String<div class="sub-desc">如果指定了varName，相当于执行了var varname=js的内容。在这种情况下，请求的js文件就只能直接返回一个对象。</div></li><li><code>script</code> : String<div class="sub-desc">指定加载js的路径</div></li><li><code>callback</code> : Function<div class="sub-desc">在加载完数据后的回调方法。</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-loadScript"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-loadScript">loadScript</a></b>(&nbsp;<code>String&nbsp;className</code>,&nbsp;<code>String&nbsp;script</code>,&nbsp;<code>Function&nbsp;callback</code>,&nbsp;<code>Object&nbsp;scope</code>,&nbsp;<code>Boolean&nbsp;async</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">动态加载并执行js，并可以给该js文件的内容指定一个全局缓存名称（该名称必须等于js中指定的类名称），防止重复加载。用来延迟加载每一个应用模块独立的js文件。&#13;
+（详细的例子可以查看RIA平台自身的在OPOA模式下加载模块的方法）</div><div class="long">动态加载并执行js，并可以给该js文件的内容指定一个全局缓存名称（该名称必须等于js中指定的类名称），防止重复加载。用来延迟加载每一个应用模块独立的js文件。
+（详细的例子可以查看RIA平台自身的在OPOA模式下加载模块的方法）<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>className</code> : String<div class="sub-desc">加载并执行的js中的类的名称，作为缓存名称</div></li><li><code>script</code> : String<div class="sub-desc">加载的js的路径</div></li><li><code>callback</code> : Function<div class="sub-desc">在加载并执行了js后，执行的回调方法
+<ul>传入参数：
+<li>{Object} obj js文件中的对象</li>
+</ul></div></li><li><code>scope</code> : Object<div class="sub-desc">回调方法执行的scope</div></li><li><code>async</code> : Boolean<div class="sub-desc">在加载js的时候，是否采用同步加载。true使用同步加载，false使用异步加载。</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-moneyRender"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-moneyRender">moneyRender</a></b>(&nbsp;<code>Number&nbsp;v</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在GridPanel中用来renderer 金额。&#13;
+&#13;
+{&#13;
+    id: 'col1',&#13;
+    header: 'Column1',&#13;
+    dataIndex: 'col1',&#13;
+    width: 220,&#13;
+   ...</div><div class="long">在GridPanel中用来renderer 金额。
+<pre>
+<code>{
+    id: <em>'col1'</em>,
+    header: <em>'Column1'</em>,
+    dataIndex: <em>'col1'</em>,
+    width: 220,
+    renderer:Disco.Ext.Util.moneyRender
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>v</code> : Number<div class="sub-desc">renderer的金额</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-objectRender"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-objectRender">objectRender</a></b>(&nbsp;<code>String&nbsp;p</code>,&nbsp;<code>String&nbsp;backgroundColor</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在GridPanel中用来renderer 对象中的某个属性。&#13;
+&#13;
+//例如：col1对应的对象是:{a:{b:1}}&#13;
+{&#13;
+    id: 'col1',&#13;
+    header: 'Column1',&#13;
+    dataInd...</div><div class="long">在GridPanel中用来renderer 对象中的某个属性。
+<pre>
+<code><i>//例如：col1对应的对象是:{a:{b:1}}
+</i>
+{
+    id: <em>'col1'</em>,
+    header: <em>'Column1'</em>,
+    dataIndex: <em>'col1'</em>,
+    width: 220,
+    renderer:Disco.Ext.Util.objectRender(<em>"a.b"</em>,Disco.Ext.Util.readOnlyGridCellColor)
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>p</code> : String<div class="sub-desc">renderer的对象的属性路径，支持用'.'来导航</div></li><li><code>backgroundColor</code> : String<div class="sub-desc">renderer的column的背景色</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-operaterRender"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-operaterRender">operaterRender</a></b>(&nbsp;<code>String&nbsp;cmd</code>,&nbsp;<code>String&nbsp;title</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在EditorGridPanel中用来将某一个column renderer成可操作列</div><div class="long">在EditorGridPanel中用来将某一个column renderer成可操作列<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>cmd</code> : String<div class="sub-desc">点击该column响应后台的事件。该事件和CrudListPanel或者CurdPanel组合使用，相当于向后台发送了一个ajax请求：
+{url:curdPanel.baseUrl,params:{'cmd':cmd,id:r.get("id"}}
+将当前列对应的id属性得到，并传到后台。</div></li><li><code>title</code> : String<div class="sub-desc">该列中要显示的操作名称
+<pre>
+<code><i>//例子，如果有一个data：{id:1,name:<em>'disco'</em>},该数据在grid中显示后，要求在每一个用户信息行最后有一个“查看”column，能查看到该行用户的详细信息。
+</i>
+{
+    id: <em>'col1'</em>,
+    header: <em>'Name'</em>,
+    dataIndex: <em>'name'</em>,
+    width: 220
+},{
+	id: <em>'col1'</em>,
+    header: <em>'Operate'</em>,
+    dataIndex: <em>'id'</em>,
+    width: 220,
+    renderer:Disco.Ext.Util.operaterRender(<em>'show'</em>,<em>"查看详细"</em>)
+}</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-printGrid"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-printGrid">printGrid</a></b>(&nbsp;<code>Object&nbsp;grid</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">简单的打印表格的方法，该方法会开启一个新窗口，并把指定的girdPanel的dom拷贝到新窗口中，配上自定义的打印样式，实现简单的列表打印效果&#13;
+在新开的打印页面中引入的样式表为：/stylesheet/print.css，可以自定义...</div><div class="long">简单的打印表格的方法，该方法会开启一个新窗口，并把指定的girdPanel的dom拷贝到新窗口中，配上自定义的打印样式，实现简单的列表打印效果<br/>
+在新开的打印页面中引入的样式表为：/stylesheet/print.css，可以自定义该样式表。<br />
+该方法还可以用来打印任何东西，比如form表单等。
+<pre>
+<code><i>//例子：点击【打印】按钮，填出一个新窗口，打印当前grid中的数据：
+</i>
+{xtype:<em>'button'</em>,text:<em>'打印列表'</em>,scope:this,handler:this.printGridData},
+<i>//...
+</i>
+this.printGridData=<b>function</b>(){
+	<b>if</b>(this.grid.store.getCount())
+		Disco.Ext.Util.printGrid(this.grid);
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>grid</code> : Object<div class="sub-desc">需要打印的组件对象。任何组件对象都可以使用统一的方式完成打印。</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-readOnlyRender"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-readOnlyRender">readOnlyRender</a></b>(&nbsp;<code>Object&nbsp;innerRender</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在EditorGridPanel中用来将某一个column renderer成只读样式&#13;
+&#13;
+//例子，如果要将一个时间renderer成只读样式&#13;
+{&#13;
+    id: 'col1',&#13;
+    header: 'Column1',...</div><div class="long">在EditorGridPanel中用来将某一个column renderer成只读样式
+<pre>
+<code><i>//例子，如果要将一个时间renderer成只读样式
+</i>
+{
+    id: <em>'col1'</em>,
+    header: <em>'Column1'</em>,
+    dataIndex: <em>'col1'</em>,
+    width: 220,
+    renderer:Disco.Ext.Util.readOnlyRender(Disco.Ext.Util.dateRender(<em>'Y-m-d'</em>))
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>innerRender</code> : Object<div class="sub-desc">内嵌renderer</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-reloadGrid"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-reloadGrid">reloadGrid</a></b>(&nbsp;<code>Ext.grid.GridPanel&nbsp;grid</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">重新加载grid的数据，相当于store.removeAll-&gt;store.reload</div><div class="long">重新加载grid的数据，相当于store.removeAll->store.reload<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>grid</code> : Ext.grid.GridPanel<div class="sub-desc">要重新加载数据的GridPanel</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-removeEditorGridRow"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-removeEditorGridRow">removeEditorGridRow</a></b>(&nbsp;<code>Ext.grid.EditorGridPanel&nbsp;grid</code>,&nbsp;<code>Function&nbsp;callback</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">从EditorGridPanel中删除当前选中的cell所在的行&#13;
+//示例：删除当前选中cell所在的行，并向后台发送删除请求&#13;
+Disco.Ext.Util.removeEditorGridRow(this.editGrid,f...</div><div class="long">从EditorGridPanel中删除当前选中的cell所在的行
+//示例：删除当前选中cell所在的行，并向后台发送删除请求
+Disco.Ext.Util.removeEditorGridRow(this.editGrid,function(r){
+	Disco.Ext.Util.ajaxRequest(this.baseUrl,{cmd:'removeItem',id:r.get('id')},this,function(response){
+		var ret=Ext.decode(response.responseText);
+		if(ret)
+			Ext.Msg.alert("提示信息","删除"+r.get('name')+"成功！");
+		else
+			Disco.Ext.Util.addEditorGridRow(this,grid,this.storeMapping,r.data);
+	});
+});<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>grid</code> : Ext.grid.EditorGridPanel<div class="sub-desc">要删除数据的EditorGridPanel</div></li><li><code>callback</code> : Function<div class="sub-desc">数据（前台）删除成功后的回调方法。
+<ul>
+<li>传入的值 {Ext.data.Record} r 当前选中的行record
+</ul></div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-removeGridRows"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-removeGridRows">removeGridRows</a></b>(&nbsp;<code>Ext.grid.EditorGridPanel&nbsp;grid</code>,&nbsp;<code>Function&nbsp;callback</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">从EditorGridPanel或GridPanel中删除所有选中数据&#13;
+//示例：删除当前选中的所有数据，并向后台发送删除请求&#13;
+Disco.Ext.Util.removeGridRows(this.grid,function(r...</div><div class="long">从EditorGridPanel或GridPanel中删除所有选中数据
+//示例：删除当前选中的所有数据，并向后台发送删除请求
+Disco.Ext.Util.removeGridRows(this.grid,function(rs){
+	Disco.Ext.Util.ajaxRequest(this.baseUrl,{cmd:'removeItems',ids:Ext.pluckRecord(rs,'id').join(',')},this,function(response){
+		var ret=Ext.decode(response.responseText);
+		if(ret)
+			Ext.Msg.alert("提示信息","删除成功！");
+	});
+});<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>grid</code> : Ext.grid.EditorGridPanel<div class="sub-desc">要删除数据的EditorGridPanel</div></li><li><code>callback</code> : Function<div class="sub-desc">数据（前台）删除成功后的回调方法。
+<ul>
+<li>传入的值 {Array[Ext.data.Record]} rs 当前选中的record数组
+</ul></div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-removeObject"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-removeObject">removeObject</a></b>(&nbsp;<code>String&nbsp;crudClass</code>,&nbsp;<code>Function&nbsp;callback</code>,&nbsp;<code>String&nbsp;script</code>,&nbsp;<code>String&nbsp;otherScript</code>,&nbsp;<code>Object&nbsp;id</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在任何代码段中，调用一个CrudPanel或者CrudListPanel对应模块的删除功能来删除一个指定对象。&#13;
+&#13;
+//示例，在添加员工的面板中选择部门的时候，可以点击部门后面的【删除】按钮，及时删除选中的部门。&#13;
+Disco_Aj...</div><div class="long">在任何代码段中，调用一个CrudPanel或者CrudListPanel对应模块的删除功能来删除一个指定对象。
+<pre>
+<code><i>//示例，在添加员工的面板中选择部门的时候，可以点击部门后面的【删除】按钮，及时删除选中的部门。
+</i>
+Disco_RIA.script=<em>"/"</em>;
+Disco.Ext.Util.columnPanelBuild(
+	{columnWidth:.5,items:Disco.Ext.Util.buildRemoteCombox(
+		<em>"department"</em>,
+		<em>"部门"</em>,
+		<em>"department.java?cmd=loadDeptTree"</em>,
+		[<em>"id"</em>,<em>"title"</em>],
+		<em>"title"</em>,
+		<em>"id"</em>,
+		false)},
+	{columnWidth:.5,items:{xtype:<em>"panel"</em>,items:{xtype:<em>"button"</em>,text:<em>"删除部门"</em>,scope:this,handler:this.removeDepartment}}}
+);
+this.removeDepartment=<b>function</b>(){
+	<b>var</b> deptId=this.fp.findSomeThing(<em>"department"</em>).getValue();
+	<b>if</b>(!deptId)
+		Ext.Msg.alert(<em>'提示信息'</em>,<em>'请先选择部门'</em>);
+		<b>return</b>;
+	Disco.Ext.Util.removeObject(
+		<em>"DepartmentManagePanel"</em>,
+		<b>function</b>(){
+			this.fp.findSomeThing(<em>"department"</em>).setValue(<em>""</em>);
+		},
+		<em>"script/DepartmentManagePanel.js"</em>,
+		<em>""</em>,
+		deptId
+	);
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>crudClass</code> : String<div class="sub-desc">需要调用删除方法的CrudPanel对应的ClassName</div></li><li><code>callback</code> : Function<div class="sub-desc">在删除完成的时候调用的回调方法</div></li><li><code>script</code> : String<div class="sub-desc">需要调用删除方法的CrudPanel对应的js文件路径,该文件路径的全路径是Disco_RIA.script+script</div></li><li><code>otherScript</code> : String<div class="sub-desc">需要调用删除方法的CrudPanel对应的js文件需要关联引入的其他js。这些js文件也可以延迟加载。如果有多个js文件需要引入，在js文件路径之间用','隔开</div></li><li><code>id</code> : Object<div class="sub-desc">需要传入删除的对象id</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-setDelayEditorContent"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-setDelayEditorContent">setDelayEditorContent</a></b>(&nbsp;<code>String&nbsp;name</code>,&nbsp;<code>String&nbsp;html</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">设置FckEditor内的内容</div><div class="long">设置FckEditor内的内容<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>name</code> : String<div class="sub-desc">要设置Fck的名称</div></li><li><code>html</code> : String<div class="sub-desc">设置editor的内容</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-setFCKEditorContent"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-setFCKEditorContent">setFCKEditorContent</a></b>(&nbsp;<code>String&nbsp;name</code>,&nbsp;<code>String&nbsp;html</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">设置FckEditor内的内容。该方法保证FckEditor加载完成后再设置内容</div><div class="long">设置FckEditor内的内容。该方法保证FckEditor加载完成后再设置内容<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>name</code> : String<div class="sub-desc">要设置Fck的名称</div></li><li><code>html</code> : String<div class="sub-desc">设置editor的内容</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-setGridColumnHidden"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-setGridColumnHidden">setGridColumnHidden</a></b>(&nbsp;<code>Array|String&nbsp;fields</code>,&nbsp;<code>Boolean&nbsp;hidden</code>,&nbsp;<code>Ext.grid.GridPanel&nbsp;grid</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">动态的将GridPanel或者EditorGridPanel的指定列隐藏或者显示&#13;
+&#13;
+//示例:&#13;
+{xtype:'button',text:'显示简单列',scope:this,handler:function(){&#13;
+    v...</div><div class="long">动态的将GridPanel或者EditorGridPanel的指定列隐藏或者显示
+<pre>
+<code><i>//示例:
+</i>
+{xtype:<em>'button'</em>,text:<em>'显示简单列'</em>,scope:this,handler:<b>function</b>(){
+    <b>var</b> cm=this.grid.getColumnModel();
+ 	Disco.Ext.Util.setGridColumnHidden([<em>'name'</em>,<em>'sn'</em>,<em>'status'</em>],false,this.gridPanel);
+	Disco.Ext.Util.setGridColumnHidden([<em>'intro'</em>,<em>'borndate'</em>,<em>'othersProperty'</em>],true,this.gridPanel);
+}}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>fields</code> : Array|String<div class="sub-desc">要隐藏或者显示的column对应的dataIndex 名称或者数组</div></li><li><code>hidden</code> : Boolean<div class="sub-desc">是显示还是隐藏。true为隐藏，false为显示</div></li><li><code>grid</code> : Ext.grid.GridPanel<div class="sub-desc">操作的grid对象</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-submitForm"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-submitForm">submitForm</a></b>(&nbsp;<code>Ext.form.BasicForm&nbsp;form</code>,&nbsp;<code>String&nbsp;url</code>,&nbsp;<code>Function&nbsp;callback</code>,&nbsp;<code>Object&nbsp;scope</code>,&nbsp;<code>Function&nbsp;failure</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">使用Ajax方式提交表单的包装方法&#13;
+&#13;
+Disco.Ext.Util.submitForm(this.fp.form,url,function(form,action){&#13;
+    this.fp.form.clearDirty(...</div><div class="long">使用Ajax方式提交表单的包装方法
+<pre>
+<code>Disco.Ext.Util.submitForm(this.fp.form,url,<b>function</b>(form,action){
+    this.fp.form.clearDirty();
+    <b>if</b>(this.store && this.closeSaveWin!==false){
+        this.store.reload();
+    }
+    <b>if</b>(callback)callback();
+    this.fireEvent(<em>"saveobject"</em>,this,form,action);
+    this.onSave(form,action);
+},this);</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>form</code> : Ext.form.BasicForm<div class="sub-desc">要提交的表单对象</div></li><li><code>url</code> : String<div class="sub-desc">表单要提交的url</div></li><li><code>callback</code> : Function<div class="sub-desc">表单提交成功后的回调方法</div></li><li><code>scope</code> : Object<div class="sub-desc">callback和failure方法执行的作用域</div></li><li><code>failure</code> : Function<div class="sub-desc">表单提交失败后的回调方法</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-twoColumnPanelBuild"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-twoColumnPanelBuild">twoColumnPanelBuild</a></b>(&nbsp;<code>Object[]&nbsp;要在一行中排列的组件数组。</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">将一组组件横向平均布局在一行中,&#13;
+&#13;
+//示例:&#13;
+//在formPanel中的一个fieldSet中横向平均布局六个textfield，保证每一行平均布局三个textfield，并设置textfield的labelWidth为12...</div><div class="long">将一组组件横向平均布局在一行中,
+<pre>
+<code><i>//示例:
+</i>
+<i>//在formPanel中的一个fieldSet中横向平均布局六个textfield，保证每一行平均布局三个textfield，并设置textfield的labelWidth为120。
+</i>
+{
+	xtype:<em>"form"</em>,
+	frame:true,
+	items:[{
+		xtype:<em>"fieldset"</em>,
+		autoHeight:true,
+		title:<em>'demo'</em>,
+		items:
+			Disco.Ext.Util.columnPanelBuilde(3,
+				{FC:{labelWidth:120}},
+				{xtype:<em>'textfield'</em>,name:<em>'textfield1'</em>,fieldLabel:<em>'textfield1'</em>},
+				{xtype:<em>'textfield'</em>,name:<em>'textfield2'</em>,fieldLabel:<em>'textfield2'</em>},
+				{xtype:<em>'textfield'</em>,name:<em>'textfield3'</em>,fieldLabel:<em>'textfield3'</em>},
+				{xtype:<em>'textfield'</em>,name:<em>'textfield4'</em>,fieldLabel:<em>'textfield4'</em>},
+				{xtype:<em>'textfield'</em>,name:<em>'textfield5'</em>,fieldLabel:<em>'textfield5'</em>},
+				{xtype:<em>'textfield'</em>,name:<em>'textfield6'</em>,fieldLabel:<em>'textfield6'</em>},
+			),
+	}]
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>要在一行中排列的组件数组。</code> : Object[]<div class="sub-desc"><p>
+需要排列的组件只需要按照顺序加入就行，该方法能按照指定的格式平均排列，超过一行的，多余的组件能继续正确排列在下一行。
+如果需要指定一行中平均排列多少个组件，需要在一个参数中指定一行排列的数量。
+如果需要统一设定所有排列组件的容器属性（比如textfield的labelWidth，或者anchor属性等），需要在第二个参数中传入一个
+{FC:{your component prop setting}}的对象。参考上面的例子。
+</p></div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-typesRender"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-typesRender">typesRender</a></b>(&nbsp;<code>Object[][]&nbsp;types</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在GridPanel中用来根据一个二维的字典renderer某一个column的值&#13;
+&#13;
+//例子，如果有一个字典对照表&#13;
+var dict=[["状态1",1],["状态2",2],["状态3",3]]&#13;
+{&#13;
+    id: 'c...</div><div class="long">在GridPanel中用来根据一个二维的字典renderer某一个column的值
+<pre>
+<code><i>//例子，如果有一个字典对照表
+</i>
+<b>var</b> dict=[[<em>"状态1"</em>,1],[<em>"状态2"</em>,2],[<em>"状态3"</em>,3]]
+{
+    id: <em>'col1'</em>,
+    header: <em>'Column1'</em>,
+    dataIndex: <em>'col1'</em>,
+    width: 220,
+    renderer:Disco.Ext.Util.typesRender(dict)
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>types</code> : Object[][]<div class="sub-desc">对应的二维字典</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.Util-viewObject"></a><b><a href="source/core-util-3.2.html#method-Disco.Ext.Util-viewObject">viewObject</a></b>(&nbsp;<code>String&nbsp;crudClass</code>,&nbsp;<code>Function&nbsp;callback</code>,&nbsp;<code>String&nbsp;script</code>,&nbsp;<code>String&nbsp;otherScript</code>,&nbsp;<code>Object&nbsp;id</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在任何代码段中，调用一个CrudPanel或者CrudListPanel对应模块的查看页面来查看一个对象的详情。&#13;
+&#13;
+//示例，在添加员工的面板中选择部门的时候，可以点击部门后面的【查看】按钮，及时查看选中的部门的详细信息。&#13;
+La...</div><div class="long">在任何代码段中，调用一个CrudPanel或者CrudListPanel对应模块的查看页面来查看一个对象的详情。
+<pre>
+<code><i>//示例，在添加员工的面板中选择部门的时候，可以点击部门后面的【查看】按钮，及时查看选中的部门的详细信息。
+</i>
+Disco_RIA.script=<em>"/"</em>;
+Disco.Ext.Util.columnPanelBuild(
+	{columnWidth:.5,items:Disco.Ext.Util.buildRemoteCombox(
+		<em>"department"</em>,
+		<em>"部门"</em>,
+		<em>"department.java?cmd=loadDeptTree"</em>,
+		[<em>"id"</em>,<em>"title"</em>],
+		<em>"title"</em>,
+		<em>"id"</em>,
+		false)},
+	{columnWidth:.5,items:{xtype:<em>"panel"</em>,items:{xtype:<em>"button"</em>,text:<em>"查看部门"</em>,scope:this,handler:this.viewDepartment}}}
+);
+this.viewDepartment=<b>function</b>(){
+	<b>var</b> deptId=this.fp.findSomeThing(<em>"department"</em>).getValue();
+	<b>if</b>(!deptId)
+		Ext.Msg.alert(<em>'提示信息'</em>,<em>'请先选择部门'</em>);
+		<b>return</b>;
+	Disco.Ext.Util.viewObject(
+		<em>"DepartmentManagePanel"</em>,
+		Ext.emptyFn,
+		<em>"script/DepartmentManagePanel.js"</em>,
+		<em>""</em>,
+		deptId
+	);
+}</code>
+</pre><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>crudClass</code> : String<div class="sub-desc">需要调用查看方法的CrudPanel对应的ClassName</div></li><li><code>callback</code> : Function<div class="sub-desc">在查看页面点击确定的时候调用的回调方法</div></li><li><code>script</code> : String<div class="sub-desc">需要调用查看方法的CrudPanel对应的js文件路径,该文件路径的全路径是Disco_RIA.script+script</div></li><li><code>otherScript</code> : String<div class="sub-desc">需要调用查看方法的CrudPanel对应的js文件需要关联引入的其他js。这些js文件也可以延迟加载。如果有多个js文件需要引入，在js文件路径之间用','隔开</div></li><li><code>id</code> : Object<div class="sub-desc">需要传入查看的对象的id</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.Util</td></tr></tbody></table><a id="Disco.Ext.Util-events"></a><h2>Public Events</h2><div class="no-members">This class has no public events.</div></div>

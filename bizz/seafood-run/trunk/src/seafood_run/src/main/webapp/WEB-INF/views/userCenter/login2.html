@@ -1,0 +1,139 @@
+<style>
+.box_table {
+	border-collapse: collapse;
+	font-size: 12px;
+	background-color: #FFF;
+}
+
+.box_table td {
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.box_table .input_green {
+	border: 1px solid #7abd54;
+}
+
+.box_table .input_yzm {
+	width: 80px;
+}
+
+.yzm {
+	float: left;
+	margin-right: 5px;
+}
+
+.nosee {
+	float: left;
+	line-height: 24px;
+}
+
+.pizhu {
+	display: block;
+	margin-top: 3px;
+	color: #CCC;
+	font-style: normal;
+}
+
+.box_table strong {
+	color: #F00;
+	font-size: 14px;
+	margin-left: 5px;
+}
+
+.settedtab_b {
+	padding-left: 10px;
+	color: #F90
+}
+</style>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css"
+	rel="stylesheet" />
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script>
+function toSubmit(){
+	var username=jQuery("#username").val();
+    var password=jQuery("#password").val();
+	  var code=jQuery("#code").val();
+	  jQuery.ajax({dataType:"json",type:'POST',url:'/shopMemberCenter.java?cmd=login2',data:{"username":username,"password":password,"code":code},
+		  success:function(data){
+			  if(data.success=="1"){
+	             window.location.href="$!{rUrl}";
+	          }else{
+	             jQuery("#errorMsg").html(data.msg)
+	          }
+		}
+	  });
+}
+jQuery(document).ready(function(){
+  jQuery("#theForm").validate({
+	  errorPlacement: function(error, element) {
+				element.parent().find("b").html("");
+					error.appendTo(element.parent().find("b"));
+	 },						 
+       rules: {
+			username: "required",
+			password: "required",
+			code:"required"},
+		messages: {
+			username: "用户名不能为空",
+			password: "密码不能为空",
+			code:"验证码不能为空"					},
+	   invalidHandler: function(form, validator) {  //不通过回调
+            return false;
+       } 
+  });
+  jQuery("table input").focus(function(){
+	jQuery("table input").removeClass("input_green");								  
+	jQuery(this).addClass("input_green");							  
+	});
+});
+
+	function register(){
+		window.location.href="/shopMemberCenter.java?cmd=toRegister";
+	}
+</script>
+<form action="/shopMemberCenter.java?cmd=login2" method="post"
+	id="theForm">
+	<input type="hidden" name="rUrl" value="$!{rUrl}" /> <b id="errorMsg"
+		class="settedtab_b">$!{errorMsg}</b>
+	<table style="float: left;" width="100%" border="0" cellspacing="0"
+		cellpadding="0" class="box_table">
+		<tr>
+			<td width="100" align="right" valign="middle"><span
+				class="login_nameu">用户名：</span></td>
+			<td align="left"><input name="username" type="text"
+				id="username" size="30" autocomplete="off" /> <b
+				class="settedtab_b"></b></td>
+		</tr>
+		<tr>
+			<td align="right" valign="top"><span class="login_nameu">密
+					码：</span></td>
+			<td align="left"><input name="password" type="password"
+				id="password" size="30" autocomplete="off" /> <b
+				class="settedtab_b"></b></td>
+		</tr>
+		<tr align="right" valign="top">
+			<td>验证码：</td>
+			<td align="left"><input class="input_yzm" name="code"
+				type="text" id="code" style="text-transform: uppercase;" size="30"
+				autocomplete="off" /> <b class="settedtab_b"></b></td>
+		</tr>
+		<tr align="left" valign="top">
+			<td>&nbsp;</td>
+			<td><span class="yzm"> <img id="code_img"
+					style="cursor: pointer;" src="/randomCode.java" width="59"
+					height="27" alt="验证码" title="点击这里换一个"
+					onclick="this.src=this.src+'?'+Math.random()" />
+			</span></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+			<span class="inputbtn">
+				<input type="button" style="cursor: pointer;" value="登录" onclick="toSubmit();" />
+				<input type="button" style="cursor: pointer;" value="注册" onclick="register();" />
+			</span>
+			</td>
+		</tr>
+	</table>
+</form>

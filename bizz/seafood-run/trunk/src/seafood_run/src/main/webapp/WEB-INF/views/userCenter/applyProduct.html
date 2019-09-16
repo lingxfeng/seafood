@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<title>个人信息修改 - 海鲜之家商城 -</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="generator" content=""/>
+<meta name="author" content=""/>
+<meta name="copyright" content=""/>
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/user.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.zh.cn.js" charset="utf-8"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script>
+	jQuery(document).ready(function(){
+		 //
+			jQuery.validator.addMethod("verify",function(value,element){
+			    var re =  /^[a-zA-Z]([a-zA-Z0-9_])+$/;
+			       if(re.test(jQuery("#name").val())){			
+					return true;
+				  } 
+				  else {
+				    return false;
+					  }		  
+			});
+			jQuery.validator.addMethod("isCard", function(value, element) {    
+				// 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X  
+				   var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;  
+				   if(reg.test(jQuery("#idCard").val()))  
+				   {    
+				       return  true;  
+				   }else
+					   return false;
+				});
+			jQuery.validator.addMethod("", function(value, element) {    
+				  var length = value.length;
+				  return this.optional(element) || (length == 11 && /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/.test(value));    
+				});
+		 jQuery("#theForm").validate({				 
+			errorPlacement:function(error, element) {
+		       error.appendTo(element.parent().parent());  
+		      },
+				rules:{
+					proPic:{
+					  required:true 
+					},
+					eqPic:{
+					  required:true
+					},
+				},
+			  messages:{
+				  proPic:{
+				  required:"商品图片不能为空"
+				  
+				},
+				eqPic:{
+				  required:"企业资质图片不能为空"
+				}
+			  }
+			});
+		});
+	    
+</script>
+</head>
+<body>
+
+#parse("/common/top.html")
+#parse("/common/left.html")
+<div class="main">
+  <div class="usercenter">
+     <script src="/static/home/shopmanage/js/jquery.cookie.js"></script>
+<script>		  
+jQuery(document).ready(function(){
+  
+});
+
+function pro_city(value) {
+    $("#city").empty();
+    $.ajax({
+        type: "post",
+        //url: "/popular.java?cmd=getCity",
+        url: "/systemRegion.java?cmd=getSystemRegionByParentSn",
+        data: "parentSn=" + value,
+        dataType: "json",
+        success: function(data) {
+        	//console.dir(data)
+            for (var i = 0; i < data.length; i++) {
+                $("#city").append("<option value='" + data[i].id + "'>" + data[i].title + "</option>");
+            }
+        }
+    });
+}
+
+function setpicImg(v){
+	var objUrl = getObjectURL(v.files[0]) ;
+	if (objUrl) {
+		var imgele=$("#tb1")
+		imgele.attr("src", objUrl);
+		$("#imgpicid").append(imgele);
+		$("#tp1").css("width", "130px");
+		$("#tp1").css("height", "151px");
+	}
+}
+
+function getObjectURL(file) {
+	var url = null ; 
+	if (window.createObjectURL!=undefined) { // basic
+		url = window.createObjectURL(file) ;
+	} else if (window.URL!=undefined) { // mozilla(firefox)
+		url = window.URL.createObjectURL(file) ;
+	} else if (window.webkitURL!=undefined) { // webkit or chrome
+		url = window.webkitURL.createObjectURL(file) ;
+	}
+	return url ;
+}
+</script>
+	#parse("/common/userCenterLeft.html")
+    <div class="usercenter_right">
+      <div class="myorder">
+        <h4><strong>账户信息</strong></h4>
+      </div>
+      <div class="user_list">
+       <form action="/pcShopMemberCenter.java" id="theForm" name="theForm" method="post" enctype="multipart/form-data">
+       <input type="hidden" name="cmd" value="saveApplyPro"/>
+        <div class="add_usercenter">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="user_base_table">
+            <tbody>
+          </tbody></table>         
+             
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" class="user_base_table">
+            <tbody>
+            <tr>
+              <td width="170" align="right"><strong class="redstr"></strong>商品图片：</td>
+              <td><div><input type="file" id="proPic" name="proPic" /></div></td>
+            </tr>
+            <tr>
+              <td width="170" align="right"><strong class="redstr"></strong>企业资质：</td>
+              <td><div><input type="file" id="eqPic" name="eqPic" /></div></td>
+            </tr>
+            <tr>
+              <td width="170" align="right"><strong class="redstr"></strong>联系方式：</td>
+              <td><div><input id="mobile" name="mobile" type="text" value="" class="base_txt" /></div></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td><input name="" type="submit" value="提交" class="save" /></td>
+            </tr> 
+          </tbody></table>
+        </div> 
+        </form>
+      </div>
+    </div>
+  </div>
+  ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+
+#if($!state==0)
+<script type="">
+	alert("保存成功");
+</script>
+#end
+
+
+  <div class="footer">
+    <ul>
+                  <li class="hui2"></li>
+      <li class="hui2"></li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/buyer/account.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+
+</div>
+
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>

@@ -1,0 +1,709 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0045)/buyer/order.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>实物交易订单</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="generator" content=""/>
+<meta name="author" content=""/>
+<meta name="copyright" content=""/>
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/user.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.zh.cn.js" charset="utf-8"></script>
+<script src="/static/home/shopmanage/js/jquery.SuperSlide.2.1.1.js"></script>
+<style>
+.emphyBack{
+    padding: 6px;
+    background: #f5f5f5;
+    color: #000;
+}
+
+.fl {
+float: left;
+}
+.comt-box {
+background: #fcfffa;
+border: 1px solid #d0e4c2;
+padding: 10px 0 0;
+margin: 0 -1px -1px;
+text-align: left;
+position: relative;
+zoom: 1;
+}
+.comt-box .commstar {
+width: 70px;
+height: 14px;
+background: url(//misc.360buyimg.com/user/myjd-2015/css/i/commstar02.png) 0 -14px repeat-x;
+position: relative;
+margin-top: 7px;
+display: inline-block;
+overflow: hidden;
+zoom: 1;
+}
+.comt-box .box-t {
+position: absolute;
+right: 180px;
+top: -11px;
+width: 21px;
+height: 12px;
+background: url(//misc.360buyimg.com/user/myjd-2015/css/i/cicon.png) 0 0 no-repeat;
+}
+.form .item {
+display: inline-block;
+display: block;
+margin-bottom: 20px;
+line-height: 30px;
+}
+.form .item span.label {
+float: left;
+height: 18px;
+line-height: 18px;
+padding: 6px 0;
+width: 100px;
+text-align: right;
+}
+.comt-box .item .label em {
+padding-right: 3px;
+padding-top: 5px;
+vertical-align: middle;
+font-size: 16px;
+}
+.form .item:after {
+content: ".";
+display: block;
+height: 0;
+clear: both;
+visibility: hidden;
+}
+.comt-box .summary-cont .sumy-tags {
+padding: 0 10px;
+background: #f5f5f5;
+border-bottom: 1px solid #ccc;
+overflow: hidden;
+}
+.comt-box .summary-cont .sumy-area .area {
+border: none;
+width: 698px;
+height: 100px;
+padding: 5px;
+resize: none;
+overflow: auto;
+}
+.comt-box .area01 {
+color: #ccc;
+}
+.comt-box .summary-cont .sumy-area .area-count {
+margin-right: 5px;
+text-align: right;
+}
+.comt-box .summary-cont {
+width: 738px;
+}
+.comt-box .summary-cont {
+border: 1px solid #ccc;
+width: 708px;
+}
+.upload-img-box {
+width: 880px;
+}
+.upload-img-box {
+display: inline-block;
+display: block;
+width: 725px;
+}
+.comt-box .summary-cont .sumy-tags .tag-txt {
+display: inline-block;
+height: 18px;
+line-height: 18px;
+padding: 2px 8px 3px;
+margin: 0 10px 0 0;
+vertical-align: middle;
+font-size: 12px;
+border: 1px solid #ccc;
+background: #fff;
+color: #999;
+max-width: 90px;
+text-overflow: ellipsis;
+white-space: nowrap;
+overflow: hidden;
+}
+.comt-box .summary-cont .sumy-tags .tag-item {
+display: inline-block;
+min-height: 25px;
+padding: 0 0 10px;
+margin: 10px 0 -1px 0;
+font-size: 0;
+word-break: break-all;
+word-wrap: break-word;
+}
+.upload-img-box .img-lists {
+float: left;
+position: relative;
+max-width: 720px;
+}
+.upload-img-box .img-lists .img-list-ul {
+display: inline-block;
+display: block;
+}
+ol, ul {
+list-style: none;
+}
+.upload-img-box .img-lists .img-list-ul .add-img-btn {
+float: left;
+height: 58px;
+line-height: 58px;
+width: 58px;
+margin-right: 10px;
+text-align: center;
+border: 1px solid #ccc;
+background-color: #fff;
+}
+.btn-5, .btn-6, .btn-7, .btn-8 {
+background-color: #f5fbef;
+background-image: -moz-linear-gradient(top,#f5fbef,#eaf6e2);
+background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#f5fbef),color-stop(1,#eaf6e2));
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5fbef', endColorstr='#eaf6e2', GradientType='0');
+-ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5fbef', endColorstr='#eaf6e2');
+background-image: linear-gradient(to bottom,#f5fbef 0,#eaf6e2 100%);
+-webkit-border-radius: 2px;
+-moz-border-radius: 2px;
+border-radius: 2px;
+display: inline-block;
+height: 18px;
+line-height: 18px;
+border: 1px solid #bfd6af;
+padding: 2px 14px 3px;
+color: #323333;
+}
+.mr10 {
+margin-right: 10px;
+}
+.comt-plists .comt-plist {
+border-bottom: 1px solid #eee;
+}
+.pro-info li.fore1 {
+width: 590px;
+}
+.pro-info li.fore1 {
+width: 450px;
+text-align: left;
+}
+.pro-info {
+padding: 10px;
+background: #fff;
+}
+.pro-info ul {
+display: inline-block;
+display: block;
+}
+.pro-info .p-item {
+width: 520px;
+}
+.pro-info .p-item .p-img {
+float: left;
+position: relative;
+left: -70px;
+width: 60px;
+height: 60px;
+border: 1px solid #efefef;
+}
+.pro-info .p-item .p-msg {
+float: left;
+width: 99.9%;
+margin-left: -62px;
+overflow: hidden;
+}
+.pro-info .p-item .p-name {
+height: 36px;
+line-height: 18px;
+overflow: hidden;
+}
+.comt-plists .comt-head {
+height: 30px;
+line-height: 30px;
+background: #f5f5f5;
+color: #999;
+border-bottom: 1px solid #eee;
+}
+.comt-plists .comt-head ul {
+display: inline-block;
+display: block;
+}
+ol, ul {
+list-style: none;
+}
+.comt-plists .comt-head li.col1 {
+width: 600px;
+}
+.comt-plists .comt-head li.col2 {
+width: 430px;
+}
+.pro-info .p-item {
+width: 520px;
+}
+.pro-info .p-item {
+display: inline-block;
+display: block;
+padding-left: 70px;
+width: 380px;
+}
+
+
+.operate_bar {
+    height: 30px;
+    background: #f2f4f6;
+    overflow: hidden;
+    padding-bottom: 10px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding-right: 30px;
+    clear: both;
+}
+.pg {
+    line-height: 26px;
+    overflow: hidden;
+    text-align: center;
+}
+.pg a, .pg strong, .pg label {
+    display: inline-block;
+    overflow: hidden;
+    margin-left: 4px;
+    padding: 0 8px;
+    height: 26px;
+    border: 1px solid;
+    border-color: #c2d5e3;
+    background-color: #FFF;
+    background-repeat: no-repeat;
+    color: #333;
+    text-decoration: none;
+}
+.pg label {
+    cursor: text;
+}
+.pg a.nxt {
+    padding-right: 25px;
+}
+.pg a.nxt {
+    padding: 0 10px;
+} 	q
+</style>
+<script>
+jQuery(document).ready(function(){	
+  jQuery('#beginTime').datepicker({
+	  dateFormat:"yy-mm-dd",
+	  changeMonth: true,
+	  changeYear: true
+  });
+  jQuery('#endTime').datepicker({
+	  dateFormat:"yy-mm-dd",
+	  changeMonth: true,
+	  changeYear: true
+  });
+  jQuery(".gift_icon_c").mouseenter(function(){
+		jQuery(this).siblings("div").show();									
+											});
+  jQuery(".gift_icon_center").mouseleave(function(){
+		jQuery(this).children(".gift_icon_main").hide();									
+											});
+  //
+  jQuery("#order_status").val("");
+  //QueryShip
+  jQuery(".li_10>a[id^=li_ship_]").click(function(){
+     jQuery("div[id^=li_ship_box]").hide();
+					var order_id =jQuery(this).attr("order_id");
+					var display =jQuery("#li_ship_box_"+order_id).css("display");
+							if(display=="none"){
+							jQuery("#li_ship_box_loading_"+order_id).show();
+							}
+							jQuery.post("/buyer/query_ship.htm",{
+									"id":order_id
+									},
+									function(data){
+											if(data){
+											   jQuery(".li_ship_box_loading").hide();
+											   jQuery("#li_ship_box_"+order_id).show().find("ul").html(data);
+											  }	
+										},"text"); 
+  });
+  jQuery("div[id^=li_ship_box_]").mouseleave(function(){
+	  jQuery(this).hide();
+  });
+//
+jQuery("a[id^=delete_order_]").click(function(){									
+		var order_id=jQuery(this).attr("order_id");	
+		showDialog("share_sns","系统提示","删除后不可恢复，是否继续？",1,"question","",function(){
+	       window.location.href="/buyer/order_delete.htm?id="+order_id+"&currentPage=0";
+		});	
+	});
+//
+jQuery(".user_guess_box_like").slide({mainCell:'.guess_like_box_like',autoPlay:true,effect:'left', vis:6, scroll:2, autoPage:true,interTime:3000,prevCell:"#like_goods_left",nextCell:"#like_goods_right"});
+});
+
+</script>
+</head>
+<body>
+<!--点击收藏-->
+<script type="text/javascript">
+jQuery(document).ready(function(){
+  jQuery(".top_pull").mouseover(function(){
+	jQuery(this).find("div").show();
+	jQuery(this).find("em").addClass("em_this");
+	jQuery(this).find("s").addClass("this");
+  	}).mouseleave(function(){
+    jQuery(this).find("div").hide();
+	jQuery(this).find("em").removeClass("em_this");
+	jQuery(this).find("s").removeClass("this");
+  });					
+								});
+var browserEvent = function (obj, url, title) {
+    var e = window.event || arguments.callee.caller.arguments[0];
+    var B = {
+        IE : /MSIE/.test(window.navigator.userAgent) && !window.opera
+        , FF : /Firefox/.test(window.navigator.userAgent)
+        , OP : !!window.opera
+    };
+    obj.onmousedown = null;
+    if (B.IE) {
+        obj.attachEvent("onmouseup", function () {
+            try {
+                window.external.AddFavorite(url, title);
+                window.event.returnValue = false;
+            } catch (exp) {}
+        });
+    } else {
+        if (B.FF || obj.nodeName.toLowerCase() == "a") {
+            obj.setAttribute("rel", "sidebar"), obj.title = title, obj.href = url;
+        } else if (B.OP) {
+            var a = document.createElement("a");
+            a.rel = "sidebar", a.title = title, a.href = url;
+            obj.parentNode.insertBefore(a, obj);
+            a.appendChild(obj);
+            a = null;
+        }
+    }
+};
+</script>
+
+#parse("/common/top.html")
+#parse("/common/left.html")
+
+<div class="main">
+  <div class="usercenter"> <script src="/static/home/shopmanage/js/jquery.cookie.js"></script>
+#parse("/common/userCenterLeft.html")
+    <div class="usercenter_right">
+      <div class="myorder">
+        <h4><span class="myorder_fright"></span><strong>商品评价</strong></h4>
+        <div class="myorder_index">
+          <ul class="myorder_index_ul">
+            <li>
+            	#if($type.equals("1"))
+            	<a href="/pcShopMemberCenter.java?cmd=toEvaluation&menuId=toEvaluation&type=1" class="emphyBack" style="color: #000;">未评价</a>
+                <a href="/pcShopMemberCenter.java?cmd=toEvaluation&menuId=toEvaluation&type=2">已评价</a>
+                #else
+                <a href="/pcShopMemberCenter.java?cmd=toEvaluation&menuId=toEvaluation&type=1">未评价</a>
+                <a href="/pcShopMemberCenter.java?cmd=toEvaluation&menuId=toEvaluation&type=2" class="emphyBack" style="color: #000;">已评价</a></li>
+                #end
+            </li>
+          </ul>
+        </div>
+      </div>
+          <div class="user_list">
+        <div class="user_list_title">
+        </div>
+
+          <div class="show_smallimg">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="smallimg_table" >
+              <tr>
+                <th width="50%">商品信息</th>
+                <th width="50%" align="center">评论内容</th>
+              </tr>
+            </table>
+            #foreach($obj in $!plList)
+            <div class="shelves_goods">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" class="goodstable1">
+                <tr id="sc$!obj.id">
+					<td style="width:50%">
+					    <span class="goodsimg" style="float: left;margin-left: 10px;">
+					    <a href="/goShop.java?cmd=productDetail&id=$obj.pro.id" target="_blank"><img src='$!obj.pro.imgPaths.split("_")[0]' width="80" height="80" /></a>
+					    </span>
+					    <div style="margin-top: 25px;margin-left: 120px;cursor: pointer"><a href="/goShop.java?cmd=productDetail&id=$obj.pro.id" target="_blank">$!obj.pro.name</a></div>
+					    <div style="margin-top: 25px;margin-left: 120px;">$!obj.pro.intro</div>
+					</td>
+					<td style="text-align:center;width:50%;">
+						#if($obj.shopDiscuss)
+						<div class="op-btns">
+                        	$obj.shopDiscuss.content<br>
+                        	评论时间：$obj.shopDiscuss.createDate
+                        </div>
+						#else
+						<div class="op-btns">
+                        	<a href="#none" class="btn-9" voucherstatus="0" alt="1041195076" catefirst="737" catesecond="752" catethird="754" style="background-color:#d0e4c2; border:1px solid #d0e4c2; padding:5px; border-radius: 3px;" onclick="toggleDis(this);">点击评价</a>
+                        <!-- <div class="ftx-03 jdbeans-1041195076 hide" style="display: block;">评价审核通过后，您将有机会获得京豆（最多不超过<span class="ftx-01">40</span>个）</div> -->
+                        </div>
+                        #end
+					</td>
+                </tr>
+              </table>
+            </div>
+            <form action="/pcShopMemberCenter.java" enctype="multipart/form-data" style="display:none; clear:both;" name="thisForm" id="thisForm">
+            	<input type="hidden" name="cmd" value="saveDiscuss"></input>
+            	<input type="hidden" name="proId" value="$!obj.pro.id"></input>
+            	<input type="hidden" name="oDid" value="$!obj.id"></input>
+            	
+	            <div class="comt-box prompt02 hide">
+	                <div class="box-t"></div>
+	                <div class="comt-tip hide"></div>
+	                <div class="form">
+	                    <div class="item scoreEl" style="margin-bottom:10px;">
+	                        <span class="label">
+	                            <em>*</em>评分：
+	                        </span>
+	                        <div class="fl">
+                            	<input type="radio" name="startdis" value="5" checked="checked"/>很好&nbsp;
+                            	<input type="radio" name="startdis" value="4" />好&nbsp;
+                            	<input type="radio" name="startdis" value="3" />一般&nbsp;
+                            	<input type="radio" name="startdis" value="2" />略差&nbsp;
+                            	<input type="radio" name="startdis" value="1" />差                
+	                        </div>
+	                    </div>
+	                    <div class="item xindeEl">
+	                        <span class="label">
+	                            <em>*</em>心得：
+	                        </span>
+	                        <textarea style="width:80%; height:100px;" name="content"></textarea>                        
+	                    </div> 
+	                    <div class="item" style="margin-bottom: 10px;">
+	                         <span class="label">
+	                             &nbsp;
+	                         </span>
+	                         <div class="fl">
+	                             <a href="#none" class="btn-5 mr10 setcomment" onclick="subEva()">发表评价</a>                              
+	                         </div>
+	                       </div>                   
+					</div>
+	             </div>
+             </form>
+            #end
+            
+           <!-- <div class="comt-plists">
+                        <div class="comt-head">
+                            <ul>
+                                <li class="col1">商品信息</li>
+
+                                <li class="col2">评价状态</li>
+
+                            </ul>
+                        </div>
+
+                                                
+                        <div class="comt-plist">
+                            <div class="pro-info" oid="11274072418" pid="1041195076">
+                                <ul>
+                                    <li class="fore1">
+                                        <div class="p-item">
+                                            <div class="p-img">
+                                                <img width="50" height="50" src="//img10.360buyimg.com/N5/jfs/t1633/51/495653913/151910/490d3583/558cc489N1aa813d9.jpg" title="昂臣EK-5002不粘 电炒锅 电煮锅 电火锅 电热锅韩式多功能锅" data-lazy-img="done" class="">
+                                            </div>
+                                            <div class="p-msg">
+                                                <div class="p-name">
+                                                    <a target="_blank" href="http://item.jd.com/1041195076.html">昂臣EK-5002不粘 电炒锅 电煮锅 电火锅 电热锅韩式多功能锅</a>
+                                                </div>
+                                                <div class="p-tiem ftx-03">
+                                                    购买时间：2015-11-25
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+
+                                    <li class="fore2 forem">
+                                        <div class="op-wrap">
+                                            <div class="op-cont">
+                                                <div class="op-btns">
+                                                    <a href="#none" class="btn-9" voucherstatus="0" alt="1041195076" catefirst="737" catesecond="752" catethird="754">点击评价</a>
+                                                    <div class="ftx-03 jdbeans-1041195076 hide" style="display: block;">评价审核通过后，您将有机会获得京豆（最多不超过<span class="ftx-01">40</span>个）</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="comt-box prompt02 hide" oid="11274072418" pid="1041195076" style="display: block;">
+                                <div class="box-t"></div>
+                                <div class="comt-tip hide"></div>
+                                <div class="form" tagflag="" isconspros="" pid="">
+                                    <div class="item scoreEl">
+                                        <span class="label">
+                                            <em>*</em>评分：
+                                        </span>
+                                        <div class="fl">
+                                            <span class="commstar">
+                                                <a href="javascript:;" class="star1" _val="1"></a>
+                                                <a href="javascript:;" class="star2" _val="2"></a>
+                                                <a href="javascript:;" class="star3" _val="3"></a>
+                                                <a href="javascript:;" class="star4" _val="4"></a>
+                                                <a href="javascript:;" class="star5" _val="5"></a>
+                                            </span>
+                                            <input type="hidden" name="commentStar">
+                                        </div>
+                                    </div>
+                                    <div class="item xindeEl">
+                                        <span class="label">
+                                            <em>*</em>心得：
+                                        </span>
+                                        <div class="fl">
+                                            <div class="summary-cont">
+                                                <div class="sumy-tags hide" style="display: block;"><div class="tags-list"><div class="tag-item"><a class="tag-txt old-tag tag-txt-selected" href="javascript:void(0);" vid="9982">加热快</a><a class="tag-txt old-tag " href="javascript:void(0);" vid="9978">煮面很方便</a><a class="tag-txt old-tag " href="javascript:void(0);" vid="9983">蒸东西</a><a class="tag-txt old-tag " href="javascript:void(0);" vid="9979">很方便</a><a class="tag-txt old-tag " href="javascript:void(0);" vid="9980">出气快</a><a class="tag-txt old-tag " href="javascript:void(0);" vid="9987">一般</a><a class="tag-txt old-tag " href="javascript:void(0);" vid="9985">使用方便</a><a class="tag-txt old-tag " href="javascript:void(0);" vid="9988">还可以吧</a><a class="tag-txt old-tag " href="javascript:void(0);" vid="9981">蒸汽快</a></div></div>
+                                                </div>
+                                                <div class="sumy-area">
+                                                    <textarea name="" class="area area01" cols="30" rows="10"></textarea>
+                                                    <div class="area-count">1-500字</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="item imgEl imgupEl" id="imgContainer_11274072418_1041195076" style="position: relative;">
+                                        <span class="label">
+                                            晒单：
+                                        </span>
+                                        <div class="fl">
+                                            <div class="upload-img-box">
+                                                <a href="#none" class="add-img-btn hide"><b></b></a>
+                                                <div class="img-lists">
+                                                    <input type="hidden" name="imgs1" value="">
+                                                    <input type="hidden" name="imgs2" value="">
+                                                    <input type="hidden" name="imgs3" value="">
+                                                    <input type="hidden" name="imgs4" value="">
+                                                    <input type="hidden" name="imgs5" value="">
+                                                    <input type="hidden" name="imgs6" value="">
+                                                    <input type="hidden" name="imgs7" value="">
+                                                    <input type="hidden" name="imgs8" value="">
+                                                    <input type="hidden" name="imgs9" value="">
+                                                    <input type="hidden" name="imgs10" value="">
+
+                                                    <ul class="img-list-ul">
+                                                        <li class="upload-btn">
+                                                            <div>
+                                                                <a id="pickbutton_11274072418_1041195076" href="#none" class="add-img-btn" style="position: relative; z-index: 0;"><b></b></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="img-utips">
+                                                    <span class="num">0/10</span>晒单有奖
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    <div id="p1a62j821v1bs61e9v15k5hekpo30_html5_container" class="plupload html5" style="position: absolute; background-color: transparent; width: 60px; height: 60px; overflow: hidden; z-index: -1; opacity: 0; top: 0px; left: 100px; background-position: initial initial; background-repeat: initial initial;"><input id="p1a62j821v1bs61e9v15k5hekpo30_html5" style="font-size: 999px; position: absolute; width: 100%; height: 100%;" type="file" accept="image/jpeg,image/gif,image/png,image/bmp" multiple="multiple"></div></div>
+                                    <div class="item">
+                                        <span class="label">
+                                            &nbsp;
+                                        </span>
+                                        <div class="fl">
+                                            <a href="#none" class="btn-5 mr10 setcomment">发表评价</a>
+                                            <input type="checkbox" class="jdcheckbox" id="anonymousFlag">
+                                            <label for="anonymousFlag">匿名评价</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                </div> -->
+            
+             </div>		
+          $!paginationForBcd
+             </div>
+             </div>
+        #parse("/userCenter/common/guessYL.html")
+		<form action="pcShopMemberCenter.java" method="post" id="ListForm" name="ListForm">
+			<input type="hidden" name="cmd" value="toEvaluation"></input>
+           	<input type="hidden" id="type" name="type" value="$!type"></input>
+           	<input type="hidden" id="currentPage" name="currentPage" value=""></input>
+		</form>
+    </div>
+  </div>
+  <script>
+  	function toggleDis(handler){
+  		$(handler).parents('div.shelves_goods').next('form').toggle();
+  	}
+  </script>
+  ﻿<script>
+function gotoPage(val){
+	$("#status").val($!{status});
+    $("#currentPage").val(val);
+    $("#ListForm").submit();
+}
+jQuery(document).ready(function(){
+		//滚动条滚动事件
+jQuery(window).scroll(function(){
+var top = jQuery(document).scrollTop();
+if(top==0){
+	  jQuery("#back_box").hide();
+	  jQuery(".back_box_x").hide();
+	}else{
+	  jQuery("#back_box").show();	
+      jQuery(".back_box_x").show();
+	}
+});	
+//
+jQuery("#toTop").click(function(){
+      jQuery('body,html').animate({scrollTop:0},1000);
+      return false;
+   });
+});
+
+function delCollection(id){
+	$.ajax({
+        type: "post",
+        url: "/pcShopMemberCenter.java?cmd=delCollection",
+        dataType: "json",
+        data: "id="+id,
+        success: function(data) {
+            if (data.success) {
+            	alert("删除成功");
+            	$("#sc"+id).remove();
+            } else {
+                alert("删除失败");
+            }
+
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("没找到");
+        }
+    });
+}
+
+function subEva(){
+	$("#thisForm").submit();
+}
+</script>
+
+  <div class="footer">
+    <ul>
+                  <li class="hui2"></li>
+      <li class="hui2">海鲜之家商城V1.0</li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/buyer/order.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+ </div>
+
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>

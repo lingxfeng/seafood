@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>品牌管理</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="/static/home/bcd/css/stage2/style.css" type="text/css" />
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/commonutil.js"></script>
+<script>
+var brandAll=[],mybrands=[],brandsP=[],ProductAll=[],myproducts=[];
+jQuery(document).ready(function(){
+//设置默认状态以及判断初始显示状态
+	#if(!${entry} || ${entry.currentStatus})
+		setIsNo('isShow',true);
+	#else
+		setIsNo('isShow',false);
+	#end
+	var bi=0;
+	#foreach($obj in $brands)
+	brandAll[bi]={};
+	brandAll[bi].id="$obj.id";
+	brandAll[bi].name="$obj.name";
+	brandAll[bi].brandTypeId="$obj.brandType.id";
+	bi++;
+	#end
+	var brandType = "";
+	bi=0;
+	#foreach($obj in $entry.brands)
+	mybrands[bi]="$obj.id";
+	bi++;
+	brandType="$!{obj.brandType.id}";
+	#end
+	bi=0;
+	var pi=0;
+	#foreach($obj in $products)
+	ProductAll[pi]={};
+	ProductAll[pi].id="$obj.id";
+	ProductAll[pi].name="$obj.name";
+	ProductAll[pi].productTypeId="$obj.productType.id";
+	
+	pi++;
+	#end
+	var productType = "";
+	pi=0;
+	#foreach($obj in $entry.productlist)
+	myproducts[pi]="$obj.id";
+	pi++;
+	productType="$!{obj.productType.id}";
+	#end
+	jQuery("#brandType").val(brandType);
+	jQuery("#productType").val(productType);
+	changeBrandType(brandType);
+	changeProtype(productType);
+})
+
+function saveCoupon(){
+	if(!$("#value").val()){
+		alert("请填写优惠券金额！")
+		return
+	}
+	if(!$("#beginTime").val()){
+		alert("请选择开始时间！")
+		return
+	}
+	if(!$("#outTime").val()){
+		alert("请选择结束时间！")
+		return
+	}
+	if($("#type").val()==-1){
+		alert("请选择使用类型!")
+		return
+	}
+	if(!$("#usecondition").val()){
+		alert("请填写使用限制金额!")
+		return
+	}
+	if($("#useType").val()==-1){
+		alert("请选择使用人身份!")
+		return
+	}
+	var brands = jQuery("input[type='checkbox'][name='brandtemp']:checked");
+	var bandstr=""
+	for(var i =0;i<brands.length;i++){
+		bandstr+=brands[i].value+"_";
+	}
+	var products = jQuery("input[type='checkbox'][name='producttemp']:checked");
+	var productstr=""
+	for(var i =0;i<products.length;i++){
+		productstr+=products[i].value+"_";
+	}
+	jQuery("#brandli").val(bandstr);
+	jQuery("#productli").val(productstr);
+    jQuery("#theForm").submit();
+}
+
+function changeBrandType(brandType){
+	jQuery("#brands").empty();
+	if(brandType){
+	var htmlstr="";
+	for(var i =0;i<brandAll.length;i++){
+		if(brandAll[i].brandTypeId==brandType && brandsP.indexOf(brandAll[i].id)==-1){
+			htmlstr+='<label class="type_brand"><input type="checkbox" name="brandtemp" value="'+brandAll[i].id+'"';
+			if(mybrands.indexOf(brandAll[i].id)!=-1){
+				htmlstr+= ' checked="checked"'
+			}
+			htmlstr+='>&nbsp;<b style="width:200px;">'+brandAll[i].name+'</b></label>&nbsp;&nbsp;'
+		}
+	}
+		jQuery("#brands").html(htmlstr)
+	}
+}
+function changeProtype(protype){
+	jQuery("#product").empty();
+	if(protype){
+		var htmlstr="";
+		for(var i =0;i<ProductAll.length;i++){
+			if(ProductAll[i].productTypeId==protype){
+				htmlstr+='<label class="type_brand"><input type="checkbox" name="producttemp" value="'+ProductAll[i].id+'"';
+				 if(myproducts.indexOf(ProductAll[i].id)!=-1){
+					htmlstr+= ' checked="checked"'
+				}
+				htmlstr+='>&nbsp;<b>'+ProductAll[i].name+'</b></label>&nbsp;&nbsp;'
+			}
+		}
+			jQuery("#product").html(htmlstr)
+		}
+}
+//判断使用优惠券限制
+function judgeType(type){
+	if(type == 1){
+		$("#getcoupon").removeClass('box_hide');
+		if(!$("#getProduct").hasClass('box_hide')){
+			$("#getProduct").addClass('box_hide');
+		}
+	}else if (type == 2){
+		$("#getProduct").removeClass('box_hide');
+		if(!$("#getcoupon").hasClass('box_hide')){
+			$("#getcoupon").addClass('box_hide');
+		}
+	}else{
+		if(!$("#getcoupon").hasClass('box_hide')){
+			$("#getcoupon").addClass('box_hide');
+		}
+		if(!$("#getProduct").hasClass('box_hide')){
+			$("#getProduct").addClass('box_hide');
+		}
+	}
+};
+</script>
+
+</head>
+<body>
+<form action="/coupon.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+  <input name="id" id="id" type="hidden" value="$!{entry.id}" />
+  #if($entry)
+    <input name="cmd" type="hidden" value="update">
+  #else
+    <input name="cmd" type="hidden" value="save">
+  #end
+  <input name="brandli" type="hidden" id="brandli" value="">
+  <input name="productli" type="hidden" id="productli" value="">
+<div class="cont">
+    <h1 class="seth">优惠券设置</h1>
+    <div class="nav_list"> 
+    <ul>
+		<li><a href="/coupon.java?cmd=validList"><b>有效优惠券</b></a></li>
+		<li><a href="/coupon.java?cmd=invalidList"><b>无效优惠券</b></a></li>
+		<li><a href="/coupon.java?cmd=outTimeList" ><b>过期优惠券</b></a></li>
+		<li><a href="/coupon.java?cmd=toEdit" class="this"><b>
+			#if($!entry)
+				编辑优惠券
+			#else
+				新增优惠券
+			#end
+			</b></a>
+		</li>
+		<li><a href="/singleDispatchCouponRecord.java?cmd=list"><b>单独发放记录</b></a></li>
+		<li><a href="/singleDispatchCouponRecord.java?cmd=pList"><b>批量发放记录</b></a></li>
+	</ul>
+</div>
+    <div class="edit">
+    <div class="editul setcont" id="base">
+	<ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>优惠券 金额</li>
+        <li><span class="webname">
+          	<input name="value" type="text" id="value" value="$!{entry.value}"/>
+        	</span>
+        </li>
+	</ul>
+	<ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>优惠券有效开始时间</li>
+        <li><span class="webname">
+          	<input name="beginTime" type="date" id="beginTime" value="$!{entry.beginTime}"/>
+        	</span>
+        </li>
+	</ul>
+		<ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>优惠券有效失效时间</li>
+        <li><span class="webname">
+          	<input name="outTime" type="date" id="outTime" value="$!{entry.outTime}"/>
+        	</span>
+        </li>
+	</ul>
+<!-- 	<ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>优惠券获取条件</li>
+        <li><span class="webname">
+          	<select name="getType" type="text" id="getType" onchange="judgeType(this.value);">
+	          	<option selected="selected" value =""> 请选择</option>
+	          	<option value = "0">注册就送</option>
+	          	<option value = "1">后台发放</option>
+	          	<option value = "2">购买某品牌送 </option>
+        		<option value = "3">购买某单品送 </option>
+        	</select>
+        	</span>
+        </li>
+	</ul> -->
+    <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>优惠券使用</li>
+        <li><span class="webname">
+          	<select name="type" type="text" id="type" onchange="judgeType(this.value);">
+	          	<option selected="selected" value ="-1"> 请选择</option>
+	          	<option value = "0">全场使用</option>
+	          	<option value = "1">选定品牌使用</option>
+	          	<option value = "2">选定商品使用</option>
+        	</select>
+        	</span>
+        </li>
+	</ul>
+	<div id = "getcoupon" class = "box_hide">
+        <ul class="set1">
+          <li class="setcont_bg">品牌分类</li>
+          <li><span>
+            <select name="brandType" id="brandType" onchange="changeBrandType(this.value);">
+              <option value="">请选择品牌分类...</option>
+              #foreach($obj in $brandTypes)
+              	<option value="$obj.id">$obj.name</option>
+              #end
+            </select>
+            </span><span id="nothis"><strong class="q"></strong><strong class="w">如果选择上级分类，那么新增的分类则为被选择上级分类的子分类</strong><strong class="c"></strong></span></li>
+        </ul>
+        <ul class="set1" id="goodsTypeBrand" style="">
+          <li class="setcont_bg">品牌</li>
+          <li> 
+          	<span style="width:1200px;" id="brands"></span>
+          	<span class="use_code">
+          		<strong> </strong>
+          	</span>
+          		<strong></strong>
+          </li>
+        </ul>
+    </div>
+    <div id = "getProduct" class = "box_hide">
+    <ul class="set1">
+          <li class="setcont_bg">上级分类</li>
+          <li><span>
+            <select name="parentId" id="parentId"  onchange="changeProtype(this.value);">
+              <option value="">请选择上级商品分类...</option>
+              #foreach($obj in $proTypes)
+              	<option value="$!obj.id">$obj.name</option>
+              	#if($obj.chilren)
+              		#foreach($obj2 in $obj.chilren)
+              			<option value="$obj2.id">&nbsp;&nbsp;&nbsp;&nbsp;$!{obj2.name}</option>
+              		#end
+              	#end
+              #end
+            </select>
+            </span><span id="nothis"><strong class="q"></strong><strong class="w">如果选择上级分类，那么新增的分类则为被选择上级分类的子分类</strong><strong class="c"></strong></span></li>
+    </ul>
+     <ul class="set1" id="goodsTypeBrand2" style="">
+          <li class="setcont_bg">商品</li>
+          <li> <span style="width:740px;" id="product">
+          </span><span class="use_code"><strong> </strong></span><strong></strong></li>
+      </ul>
+      </div>
+    <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>优惠券使用条件（满足金额）</li>
+        <li><span class="webname">
+          <input name="usecondition" type="text" id="usecondition" value ="$!entry.usecondition">
+        </span></li>
+      </ul>
+    
+    
+	
+    <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>优惠券使用人条件</li>
+        <li><span class="webname">
+          	<select name="useType" type="text" id="useType">
+	          	<option selected="selected" value ="-1"> 请选择</option>
+	          	<option value = "0">无限制</option>
+	          	<option value = "1">只会员可用</option>
+	          	<option value = "2">新用户可用</option>
+	          	<option value = "3">老用户可用</option>
+        	</select>
+        	</span>
+        </li>
+	</ul>
+   <!-- 	<ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>背景图片</li>
+        <li><span class="webname">
+          <input name="backImgPath" type="file" id="backImgPath">
+        </span><span id="nothis"><img id="backImgPath" src="$!{entry.backImgPath}"></img><strong class="w">最佳尺寸142*66，支持格式gif,jpg,jpeg,png</strong><strong class="c"></strong></span></li>
+      </ul> -->
+    </div>
+    </div>  
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="saveCoupon();"></span>
+  </div>
+  </div>
+
+</form>
+
+
+</body></html>

@@ -1,0 +1,150 @@
+<script>
+jQuery.validator.addMethod("mobile_telephone",
+		function(value, element) {
+		    if (jQuery("#telephone").val() == "" && jQuery("#mobile").val() == "") {
+		        return false;
+
+		    } else return true;
+		});
+		jQuery(document).ready(function() {
+		    //
+		    jQuery.validator.addMethod("isMobile", function(value, element) {    
+			  var length = value.length;
+			  return this.optional(element) || (length == 11 && /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/.test(value));    
+			});
+		    jQuery("#theForm").validate({
+		        ignore: "",
+		        rules: {
+		            trueName: {
+		                required: true
+		            },
+		            area_id: {
+		                required: true
+		            },
+		            area_info: {
+		                required: true
+		            },
+		            zip: {
+		                required: true,
+		                isZipCode: true
+		            },
+		            telephone: {
+		            	isMobile: true
+		            }
+		        },
+		        messages: {
+		            trueName: {
+		                required: "收货人不能为空"
+		            },
+		            area_id: {
+		                required: "请选择详细区域"
+		            },
+		            area_info: {
+		                required: "详细地址不能为空"
+		            },
+		            zip: {
+		                required: "邮政编码不能为空",
+		                isZipCode: "请正确填写邮政编码"
+		            },
+		            telephone: {
+		                isTel: "请正确填写联系电话"
+		            }
+		        },
+		        errorPlacement: function(error, element) {
+		            element.parent().siblings().html("");
+		            error.appendTo(element.parent().siblings());
+		        }
+		    });
+		    //
+		    /* jQuery("select").change(function() {
+		        var level = jQuery(this).attr("level");
+		        var id = jQuery(this).val();
+		        if (id != "") {
+		            jQuery.post("/systemRegion.java?cmd=getSystemRegion", {
+		                "id": id
+		            },
+		            function(data) {
+		            	if(data && data!="null"){
+		            		jQuery("#area" + level).empty();
+			                jQuery("#area" + level).append("<option value=''>请选择</option>");
+			                jQuery.each(data,
+			                function(index, item) {
+			                    jQuery("#area" + level).append("<option value='" + item.id + "'>" + item.title + "</option>");
+			                    jQuery("#area" + level).show();
+			                });
+		            	}
+		            },
+		            "json");
+		        } else {
+		            for (var i = level; i <= 3; i++) {
+		                jQuery("#area" + i).empty();
+		                jQuery("#area" + i).hide();
+		            }
+		        }
+		    });
+		    //
+		    jQuery("#area3").change(function() {
+		        var id = jQuery(this).val();
+		        jQuery("#area_id").val(id);
+		    });
+		    jQuery("#area2").change(function() {
+		        var id = jQuery(this).val();
+		        jQuery("#area_id").val(id);
+		    }); */
+		});
+</script>
+<script type="text/javascript" src="/static/home/bcd/js/dis.js"></script>
+<form action="/pcShopMemberCenter.java" method="post" id="theForm" enctype="multipart/form-data">
+<input type="hidden" id="area_id" name="area_id" value=""/>
+	<input type="hidden" name="cmd" value="saveAddress"/>
+	<table style="float:left;" width="100%" border="0" cellspacing="0"
+		cellpadding="0" class="white_table">
+		<tr>
+			<td width="100" align="right" valign="top"><span>收货人姓名</span>：</td>
+			<td align="left"><span> <input name="trueName"
+					type="text" id="trueName" value="" size="35" />
+			</span><span style="float:left; color:#F00;"></span></td>
+		</tr>
+		<tr>
+			<td align="right" valign="top"><span>所在区域：</span></td>
+			<td align="left"><span id="area_area_info"> </span> <span>
+					<span style="float:left;">
+					<select id="provice" onchange="choice_pro(this.value)"  style="width:70px;">
+		          	#foreach($obj in $proviceList)
+		          	<option value="$obj.sn">$obj.title</option>
+		          	#end
+		          </select>
+		          <select id="city" onchange="choice_city(this.value)" style="width:70px;">
+		          </select>
+		          <select id="area" style="width:70px" onchange="choice_area(this.value)">
+		          </select>
+				</span> <span style="float:left; color:#F00;"></span>
+			</span></td>
+		</tr>
+		<tr>
+			<td align="right" valign="top"><span>详细地址</span>：</td>
+			<td align="left"><span style="float:left;"> <input
+					name="area_info" type="text" id="area_info" value="" size="35" />
+			</span> <span style="float:left; color:#F00;"></span></td>
+		</tr>
+		<tr>
+			<td align="right" valign="top"><span>邮政编码</span>：</td>
+			<td align="left"><span> <input name="zip" type="text"
+					id="zip" value="" size="35" />
+			</span><span style="float:left; color:#F00;"></span></td>
+		</tr>
+		<tr>
+			<td align="right" valign="top"><span>联系电话</span>：</td>
+			<td align="left" id="other_reason2"><span> <input
+					name="telephone" type="text" id="telephone" value="" size="35" />
+			</span><span style="float:left; color:#F00;"></span></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><span class="inputbtn"> <input
+					name="" id="save" type="submit" value="提交" style="cursor:pointer;"
+					class="white_btn" /> <input name="currentPage" type="hidden"
+					id="currentPage" value="1" />
+			</span></td>
+		</tr>
+	</table>
+</form>

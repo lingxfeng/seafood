@@ -1,0 +1,24 @@
+<div xmlns:ext="http://www.extjs.com" class="body-wrap"><h1>Class <a href="source/core-3.2.html#cls-Ext.form.SearchField">Ext.form.SearchField</a></h1><table cellspacing="0"><tr><td class="label">Package:</td><td class="hd-info">Ext.form</td></tr><tr><td class="label">Defined In:</td><td class="hd-info">core-3.2.js</td></tr><tr><td class="label">Class:</td><td class="hd-info"><a href="source/core-3.2.html#cls-Ext.form.SearchField">SearchField</a></td></tr><tr><td class="label">Extends:</td><td class="hd-info">Object</td></tr></table><div class="description">三态的通用查询控件
+<pre>
+<code>Ext.onReady(<b>function</b>() {
+<b>var</b> field = <b>new</b> Ext.form.SearchField();
+<b>new</b> Ext.Viewport({
+layout : <em>'border'</em>,
+items : [{
+xtype : &quot;panel&quot;,
+region : &quot;center&quot;,
+items : [field]
+}]
+});
+field.on(&quot;search&quot;, <b>function</b>(c, v, e) {
+alert(&quot;<b>do</b> my search:&quot; + v)
+}, this);
+field.on(&quot;clear&quot;, <b>function</b>(c, v, e) {
+alert(&quot;<b>do</b> my clear:&quot; + v)
+}, this);
+});</code>
+</pre></div><div class="hr"></div><a id="Ext.form.SearchField-props"></a><h2>Public Properties</h2><div class="no-members">This class has no public properties.</div><a id="Ext.form.SearchField-methods"></a><h2>Public Methods</h2><div class="no-members">This class has no public methods.</div><a id="Ext.form.SearchField-events"></a><h2>Public Events</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Event</th><th class="msource-header">Defined By</th></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Ext.form.SearchField-clear"></a><b><a href="source/core-3.2.html#event-Ext.form.SearchField-clear">clear</a></b> :
+                                      (&nbsp;<code>Ext.form.SearchField&nbsp;三态查询控件自己</code>,&nbsp;<code>String&nbsp;value</code>,&nbsp;<code>Ext.EventObject&nbsp;e</code>&nbsp;)
+    <div class="mdesc"><div class="short">当点击查询图标时触发，在该事件中自定义查询的方法。</div><div class="long">当点击查询图标时触发，在该事件中自定义查询的方法。<div class="mdetail-params"><strong style="font-weight: normal;">Listeners will be called with the following arguments:</strong><ul><li><code>三态查询控件自己</code> : Ext.form.SearchField<div class="sub-desc"></div></li><li><code>value</code> : String<div class="sub-desc">在查询控件中输入的查询条件</div></li><li><code>e</code> : Ext.EventObject<div class="sub-desc">事件对象</div></li></ul></div></div></div></td><td class="msource">SearchField</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Ext.form.SearchField-clear"></a><b><a href="source/core-3.2.html#event-Ext.form.SearchField-clear">clear</a></b> :
+                                      (&nbsp;<code>Ext.form.SearchField&nbsp;三态查询控件自己</code>,&nbsp;<code>String&nbsp;value</code>,&nbsp;<code>Ext.EventObject&nbsp;e</code>&nbsp;)
+    <div class="mdesc"><div class="short">当点击清空查询条件图标时触发，在该事件中自定义清除查询的方法。</div><div class="long">当点击清空查询条件图标时触发，在该事件中自定义清除查询的方法。<div class="mdetail-params"><strong style="font-weight: normal;">Listeners will be called with the following arguments:</strong><ul><li><code>三态查询控件自己</code> : Ext.form.SearchField<div class="sub-desc"></div></li><li><code>value</code> : String<div class="sub-desc">在查询控件中清除的查询条件</div></li><li><code>e</code> : Ext.EventObject<div class="sub-desc">事件对象</div></li></ul></div></div></div></td><td class="msource">SearchField</td></tr></tbody></table></div>

@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+		<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+		<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"type="text/css">
+		<link rel="stylesheet" href="/static/common/base.css">
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">服务项目列表展示</h3>
+		<div class="nav_list">
+			<ul>
+			<li><a href="/shopProduct.java?cmd=telPage&pdid="class="this"><b>全部</b></a></li>
+			#foreach($obj1 in $pl1.result)
+				<li><a href="/shopProduct.java?cmd=telPage&pdid=${obj1.id}"><b>$obj1.name</b></a></li>
+			#end
+			</ul>
+		</div>
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>所有商品，在商城前台所有访客均可查看，管理员和商家都可以设置商品上架状态</li>
+				<li>未审核商品，商家无论新发布商品还是编辑商品，都需要通过管理员审核通过后才能上架</li>
+				<li>违规商品，管理员根据商城访客举报结合实际情况设定违规，违规商品前台不可显示，只能管理员能取消违规</li>
+			</ul>
+		</div>
+		#foreach($obj in $pl.result)
+		<div style="background:yellow;margin-top:50px;margin-left:200px;align:center;width:400px;overflow:hidden;">
+			<a class="" href="/shopProduct.java?cmd=toDetail&id=${obj.id}" style="text-transform:none;text-decoration:none;">
+			<img src='$!{obj.imgPaths.split("_")[0]}'alt="$obj.name" style="width:200px; height:200px;float:left;/>
+            <div style="height:200px;margin-left:220px;">    
+                <div class=""><strong>$obj.name</strong></div>
+                <div>
+                	<li>$obj.goods_details</li>
+                	<li>￥$obj.amt</li>
+                </div>
+                #if($obj.isPointsBuy)
+                <div>
+                	<li>$obj.needPoints</li>
+                </div>
+                #end
+            </div>
+            </a>
+            <hr>
+        #end
+	</div>
+</body>
+</html>

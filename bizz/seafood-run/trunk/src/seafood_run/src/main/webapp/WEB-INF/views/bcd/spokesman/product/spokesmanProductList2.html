@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"
+		type="text/css">
+		<link rel="stylesheet" href="/static/common/base.css">
+		<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+		<script type="text/javascript">
+		function gotoPage(n) {
+		    location.href = "/spokesmanProduct.java?cmd=getProduct&currentPage=" + n;
+		}
+		</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">goodExtended</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/spokesmanProduct.java?cmd=list" ><b>自定义佣金商品</b></a></li>
+				<li><a href="/spokesmanProduct.java?cmd=getProduct" class="this"><b>新增自定义商品</b></a></li>
+			</ul>
+		</div>
+		
+		<form action="/spokesmanProduct.java" method="post" enctype="multipart/form-data">
+			<input name="cmd" value="getProduct" type="hidden"/>
+			<div class="search" style="margin-left: 20px;">
+				<span class="size100">
+					商品标题<input name="name" placeholder="商品标题" type="text" id="name" value="$!name">
+				</span>
+				<span>
+					<input name="" type="submit" value="搜索" style="cursor: pointer;" class="search_btn">
+				</span>
+			</div>
+		</form>
+		
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>使用搜索栏可以更快速地定位商品哦！</li>
+			</ul>
+		</div>
+		
+		<form name="ListForm" id="ListForm" action="/spokesmanProduct.java?cmd=list"
+			method="post">
+			<div class="fshoptb2">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+														<th width="40%" align="center"><span class="form_btna">商品标题</span></th>
+														<th width="20%" align="center"><span class="form_btna">货号</span></th>
+														<th width="10%" align="center"><span class="form_btna">价格</span></th>
+														<th align="center"><b class="form_btna">操作</b></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"><input name="ids" id="ids"
+								type="checkbox" value="1"></td>
+							<td align="center">$!obj.name</td>
+							<td align="center">$!obj.code</td>
+							<td align="center">$!obj.amt</td>
+							<td align="center" class="hui oprate_con">
+							<a href="/spokesmanProduct.java?cmd=toEdit&id=$obj.id" class="blue">设置成为代言商品</a>
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+				<div class="oper_sp">
+					<span class="oper_check"><input type="checkbox" name="all"
+						id="all" value="" onclick="selectAll(this)">全部</span> <span
+						class="oper_del"></span>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script>
+jQuery(document).ready(function(){
+ 	jQuery("#copyrights").val("$!{entry.copyrights}")
+jQuery("#theForm").validate({
+    rules:{
+	 },
+	messages:{
+	 }
+  });
+});
+//品牌保存
+function saveShopSystemConfig(method){
+	jQuery("#theForm").submit();
+}
+</script>
+
+</head>
+<body>
+<form action="/shopSystemConfig.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+  <input name="id" id="id" type="hidden" value="$!{entry.id}">
+  <input name="cmd" id="cmd" type="hidden" value="update">
+  <div class="cont">
+    <h1 class="seth">系统配置</h1>
+    
+    <div class="nav_list"> 
+	 
+    <ul>
+	<li><a href="#" class="this"><b>编辑</b></a></li>
+	  	</ul>
+		
+    </div>
+    <div class="edit">
+    <div class="editul setcont" id="base">
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>站点名称</li>
+        <li><span class="webname">
+          <input name="siteName" type="text" id="siteName" value="$!{entry.siteName}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>站点名称</li>
+        <li><span class="webname">
+          <input name="domain" type="text" id="domain" value="$!{entry.domain}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg">logo图片</li>
+        <li><span class="webname">
+          <input name="logoImg" type="file" id="logoImg">
+        </span><span>
+        	#if($entry && $entry.logoImg)
+        	<img src="$entry.logoImg"/>
+        	#end
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg">顶部导航图片</li>
+        <li><span class="webname">
+          <input name="topImg" type="file" id="topImg">
+        </span><span>
+        	#if($entry && $entry.topImg)
+        	<img width="300" src="$entry.topImg"/>
+        	#end
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg">版权信息</li>
+        <li><span class="webname">
+          <textarea name="copyrights" id="copyrights" cols="40" rows="6"></textarea>
+        </span></li>
+      </ul>
+          </div>
+    </div>  
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="saveShopSystemConfig();"></span>
+  </div>
+  </div>
+
+</form>
+
+
+</body></html>

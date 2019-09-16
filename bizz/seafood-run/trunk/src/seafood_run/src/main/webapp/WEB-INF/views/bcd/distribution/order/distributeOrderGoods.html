@@ -1,0 +1,88 @@
+<style>
+.box_table {
+	border-collapse: collapse;
+	font-size: 12px;
+	background-color: #FFF;
+}
+
+.box_table td {
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.box_table .input_green {
+	border: 1px solid #7abd54;
+}
+
+.box_table .input_yzm {
+	width: 80px;
+}
+
+.yzm {
+	float: left;
+	margin-right: 5px;
+}
+
+.nosee {
+	float: left;
+	line-height: 24px;
+}
+
+.pizhu {
+	display: block;
+	margin-top: 3px;
+	color: #CCC;
+	font-style: normal;
+}
+
+.box_table strong {
+	color: #F00;
+	font-size: 14px;
+	margin-left: 5px;
+}
+
+.settedtab_b {
+	padding-left: 10px;
+	color: #F90
+}
+</style>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css"
+	rel="stylesheet" />
+<div>
+   	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="fshop_table2 ddk_table" height="100%">					
+		<thead>
+			<tr id="$obj.id" level="$obj.id" levelnum="1">
+				<th align="center" colspan="9" class="title">商品信息</th>
+			</tr>
+			<tr id="$obj.id" level="$obj.id" levelnum="1">
+				<td align="center" class="col12-2 title">商品名称</td>
+				<td align="center" class="col12-1 title">单价</td>
+				<td align="center" class="col12-1 title">店铺微店佣金</td>
+				<td align="center" class="col12-1 title">上级微店佣金</td>
+				<td align="center" class="col12-1 title">二级微店佣金</td>
+				<td align="center" class="col12-1 title">商品状态</td>
+			</tr>
+		</thead>
+		<tbody>
+		#foreach($gd in $goodsList)
+			<tr id="$obj.id" level="$obj.id" levelnum="1">
+				<td align="center">$gd.goodsName</td>
+				<td align="center">$gd.goodsPrice</td>
+				<td align="center">$gd.goodsPrice</td>
+				<td align="center">$gd.goodsPrice</td>
+				<td align="center">$gd.goodsPrice</td>
+				<td align="center">$gd.status</td>
+			</tr>
+		#end
+		</tbody>
+	</table>
+</div>
+<div>
+	<span class="inputbtn">
+		<input type="button" style="cursor: pointer;" value="关闭" onclick="javascript:jQuery(&quot;#user_login&quot;).remove();"/> 
+	</span>
+</div>
+</div>		
+		
+	<!-- </table> -->

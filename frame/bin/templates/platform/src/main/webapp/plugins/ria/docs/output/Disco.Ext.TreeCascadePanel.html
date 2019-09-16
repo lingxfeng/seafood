@@ -1,0 +1,50 @@
+<div xmlns:ext="http://www.extjs.com" class="body-wrap"><h1>Class <a href="source/core-3.2.html#cls-Disco.Ext.TreeCascadePanel">Disco.Ext.TreeCascadePanel</a></h1><table cellspacing="0"><tr><td class="label">Package:</td><td class="hd-info">Disco</td></tr><tr><td class="label">Defined In:</td><td class="hd-info">core-3.2.js</td></tr><tr><td class="label">Class:</td><td class="hd-info"><a href="source/core-3.2.html#cls-Disco.Ext.TreeCascadePanel">Ext.TreeCascadePanel</a></td></tr><tr><td class="label">Extends:</td><td class="hd-info">Ext.Panel</td></tr></table><div class="description">左右关联的一种组件包装。该组件在CRUDPanel的基础上，在主列表页面中，左边加入了一个树面板。<br/>
+在点击左边树中节点后，会把选中的树节点传入到右边列表中，并完成相应动作。<br/>
+该组件常用在呈树状结构的业务组件上，比如部门、产品分类、角色等。<br/>
+该组件也不仅限制于部门这种对象，也可用在任何树面板+任何面板，且点击树节点有联动效果的组件组件上。
+<pre>
+<code>DepartmentPanel = Ext.extendX(Disco.Ext.TreeCascadePanel,
+<b>function</b>(superclass) {
+<b>return</b> {
+queryParam : <em>'parentId'</em>,
+treeCfg : {
+title : &quot;部门树&quot;,
+rootText : <em>'所有部门'</em>,
+rootIconCls : <em>'treeroot-icon'</em>,
+loader : Global.departmentLoader
+},
+onTreeClick : <b>function</b>(node) {
+<b>var</b> id = (node.id != <em>'root'</em> ? node.id : &quot;&quot;);
+this.list.parent = {
+id : id,
+title : node.text
+};
+this.list.store.baseParams.parent = id;
+superclass.onTreeClick.apply(this, arguments);
+},
+getPanel : <b>function</b>() {
+<b>if</b> (!this.panel) {
+this.panel = <b>new</b> DepartmentListPanel();
+this.panel.tree = this.tree;
+this.list = this.panel.grid;
+}
+<b>return</b> this.panel;
+}
+}
+});</code>
+</pre></div><div class="hr"></div><a id="Disco.Ext.TreeCascadePanel-configs"></a><h2>Config Options</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Config Options</th><th class="msource-header">Defined By</th></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.TreeCascadePanel-border"></a><b><a href="source/core-3.2.html#cfg-Disco.Ext.TreeCascadePanel-border">border</a></b> : Boolean<div class="mdesc">定义主页面边框。默认为false</div></td><td class="msource">Ext.TreeCascadePanel</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.TreeCascadePanel-defaultstreeCfg"></a><b><a href="source/core-3.2.html#cfg-Disco.Ext.TreeCascadePanel-defaultstreeCfg">defaultstreeCfg</a></b> : Object<div class="mdesc">默认的树配置参数</div></td><td class="msource">Ext.TreeCascadePanel</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.TreeCascadePanel-layout"></a><b><a href="source/core-3.2.html#cfg-Disco.Ext.TreeCascadePanel-layout">layout</a></b> : String<div class="mdesc">定义主页面布局。默认为hbox</div></td><td class="msource">Ext.TreeCascadePanel</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.TreeCascadePanel-layoutConfig"></a><b><a href="source/core-3.2.html#cfg-Disco.Ext.TreeCascadePanel-layoutConfig">layoutConfig</a></b> : Object<div class="mdesc">定义布局属性。默认为align:'stretch'</div></td><td class="msource">Ext.TreeCascadePanel</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.TreeCascadePanel-queryParam"></a><b><a href="source/core-3.2.html#cfg-Disco.Ext.TreeCascadePanel-queryParam">queryParam</a></b> : String<div class="mdesc">定义当点击树节点后，传入到list中作为查询条件的参数的传入名称。默认为'type'<br/>
+例如，如果点击某一个treeNode，该节点id为123，相当于在列表store.baseParams中加入了{type:123}的查询参数。</div></td><td class="msource">Ext.TreeCascadePanel</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.TreeCascadePanel-treeCfg"></a><b><a href="source/core-3.2.html#cfg-Disco.Ext.TreeCascadePanel-treeCfg">treeCfg</a></b> : Object<div class="mdesc">定义列表左边树的结构</div></td><td class="msource">Ext.TreeCascadePanel</td></tr></tbody></table><a id="Disco.Ext.TreeCascadePanel-props"></a><h2>Public Properties</h2><div class="no-members">This class has no public properties.</div><a id="Disco.Ext.TreeCascadePanel-methods"></a><h2>Public Methods</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Method</th><th class="msource-header">Defined By</th></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.TreeCascadePanel-createTree"></a><b><a href="source/core-3.2.html#method-Disco.Ext.TreeCascadePanel-createTree">createTree</a></b>()
+    :
+                                        Object<div class="mdesc"><div class="short">创建树面板对象。</div><div class="long">创建树面板对象。<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li><code>Object</code><div class="sub-desc">返回创建好的树面板对象。</div></li></ul></div></div></div></td><td class="msource">Ext.TreeCascadePanel</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.TreeCascadePanel-getGrid"></a><b><a href="source/core-3.2.html#method-Disco.Ext.TreeCascadePanel-getGrid">getGrid</a></b>()
+    :
+                                        Object<div class="mdesc"><div class="short">得到列表对象。如果主面板单纯的是一个GridPanel，则直接返回该面板，如果主面板是一个EasJF.Ext.CrudPanel，则返回其中的grid。如果主面板不是gridPanel，但是其grid属性对应了一个grid，则返回该g...</div><div class="long">得到列表对象。如果主面板单纯的是一个GridPanel，则直接返回该面板，如果主面板是一个EasJF.Ext.CrudPanel，则返回其中的grid。如果主面板不是gridPanel，但是其grid属性对应了一个grid，则返回该grid。<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li><code>Object</code><div class="sub-desc">grid 返回主面板中能访问到的grid对象。用于传入节点参数</div></li></ul></div></div></div></td><td class="msource">Ext.TreeCascadePanel</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.TreeCascadePanel-getPanel"></a><b><a href="source/core-3.2.html#method-Disco.Ext.TreeCascadePanel-getPanel">getPanel</a></b>()
+    :
+                                        Object<div class="mdesc"><div class="short">得到主面板，即左边列表面板，常用CrudPanel。</div><div class="long">得到主面板，即左边列表面板，常用CrudPanel。<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li><code>Object</code><div class="sub-desc">panel 左边面板对象</div></li></ul></div></div></div></td><td class="msource">Ext.TreeCascadePanel</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.TreeCascadePanel-getTree"></a><b><a href="source/core-3.2.html#method-Disco.Ext.TreeCascadePanel-getTree">getTree</a></b>()
+    :
+                                        Object<div class="mdesc"><div class="short">得到树面板</div><div class="long">得到树面板<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li><code>Object</code><div class="sub-desc">tree 树面板对象</div></li></ul></div></div></div></td><td class="msource">Ext.TreeCascadePanel</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.TreeCascadePanel-onTreeClick"></a><b><a href="source/core-3.2.html#method-Disco.Ext.TreeCascadePanel-onTreeClick">onTreeClick</a></b>(&nbsp;<code>Object&nbsp;node</code>,&nbsp;<code>Ext.EventObject&nbsp;eventObject</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">当点击了树节点后的响应事件 默认为调用reloadGrid方法来刷新主面板中列表的数据。&#13;
+子类可以通过重写该方法来提供自己的响应事件。</div><div class="long">当点击了树节点后的响应事件<br/> 默认为调用reloadGrid方法来刷新主面板中列表的数据。<br/>
+子类可以通过重写该方法来提供自己的响应事件。<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>node</code> : Object<div class="sub-desc">点击的节点对象</div></li><li><code>eventObject</code> : Ext.EventObject<div class="sub-desc">点击事件。</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.TreeCascadePanel</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.TreeCascadePanel-reloadGrid"></a><b><a href="source/core-3.2.html#method-Disco.Ext.TreeCascadePanel-reloadGrid">reloadGrid</a></b>(&nbsp;<code>Object&nbsp;id</code>,&nbsp;<code>Object&nbsp;node</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">当点击了树节点后，重新加载主面板中列表数据</div><div class="long">当点击了树节点后，重新加载主面板中列表数据<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>id</code> : Object<div class="sub-desc">传入节点id</div></li><li><code>node</code> : Object<div class="sub-desc">选中的节点数据。</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.TreeCascadePanel</td></tr></tbody></table><a id="Disco.Ext.TreeCascadePanel-events"></a><h2>Public Events</h2><div class="no-members">This class has no public events.</div></div>

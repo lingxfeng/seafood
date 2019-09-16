@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+    <groupId>cn.disco.demo</groupId>
+    <artifactId>disco-platform-demo</artifactId>
+    <version>2.1.3-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Disco demo application</name>
+
+	<properties>
+		<source.version>1.7</source.version>
+		<target.version>1.7</target.version>
+		<file.encoding>UTF-8</file.encoding>
+		<maven.test.skip>true</maven.test.skip><!-- 跳过单元测试 -->
+		<downloadSources>true</downloadSources><!-- 自动下载并关联源码 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<maven-jar-plugin>2.4</maven-jar-plugin>
+		<maven-source-plugin>2.2.1</maven-source-plugin>
+		<maven-clean-plugin.version>2.5</maven-clean-plugin.version>
+		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
+
+		<junit.version>4.11</junit.version>
+		<disco.version>2.1.2-SNAPSHOT</disco.version>
+		<jetty.version>9.1.5.v20140505</jetty.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>cn.disco</groupId>
+			<artifactId>disco-core</artifactId>
+			<version>${disco.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.disco</groupId>
+			<artifactId>disco-ext</artifactId>
+			<version>${disco.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.disco</groupId>
+			<artifactId>disco-security</artifactId>
+			<version>${disco.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>cn.disco</groupId>
+			<artifactId>disco-application</artifactId>
+			<version>${disco.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.disco</groupId>
+			<artifactId>disco-generator</artifactId>
+			<version>${disco.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- jetty -->
+		<dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>${jetty.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<outputDirectory>${basedir}/src/main/webapp/WEB-INF/classes</outputDirectory>
+		<pluginManagement>
+			<plugins>
+				<!-- Ignore/Execute plugin execution -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<!-- copy-dependency plugin -->
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[1.0.0,)</versionRange>
+										<goals>
+											<goal>copy-dependencies</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<!--生成源码JAR包 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven-source-plugin}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- 清除插件 -->
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>${maven-clean-plugin.version}</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${basedir}/src/main/webapp/WEB-INF/lib</directory>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<!-- 让Maven打包时，将jar拷贝一份到webapp/WEB-INF/lib下 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/src/main/webapp/WEB-INF/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- 生成JAR包 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin}</version>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+					</archive>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<!-- 编译源代码 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.plugin.version}</version>
+				<configuration>
+					<source>${source.version}</source>
+					<target>${target.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<verbose>true</verbose>
+					<showWarnings>true</showWarnings>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+			<!-- 管理资源文件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+
+
+			<!-- jetty插件 -->
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.version}</version>
+				<configuration>
+					<systemProperties>
+						<systemProperty>
+							<name>spring.profiles.active</name>
+							<value>development</value>
+						</systemProperty>
+					</systemProperties>
+					<useTestClasspath>true</useTestClasspath>
+
+					<webAppConfig>
+						<contextPath>/${project.artifactId}</contextPath>
+					</webAppConfig>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<repositories>
+		<repository>
+			<id>osc</id>
+			<name>osc</name>
+			<!-- <url>http://maven.kmengfang.com:4900/nexus/content/repositories/releases/</url> -->
+			<url>http://maven.kmengfang.com:4900/nexus/content/repositories/snapshots/</url>
+		</repository>
+	</repositories>
+</project>
+

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>补贴明细</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user_index.css" type="text/css" rel="stylesheet">
+<!--滑动-->
+<link rel="stylesheet" href="/static/home/bcd/css/idangerous.swiper.css">
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<div class="wrap">
+     
+    <div class="nav-down">
+        <!--  全部  s  -->
+        <div class="dis" id="sub1">
+    	</div>  
+        	#foreach($obj in $!subsidyRecord)
+        	<div class="content-slide">
+                <div class="orderTitle">订单编号：<span>$!obj.orderInfo.code</span><b></b></div>
+                <div class="oh orderBox">
+                   #if($!{obj.level1.id}==$!loacalid)
+                   <p><span class="lse">返现等级 ：一级级差</span></p>
+                   <p><span class="lse">返现金额 ： $!obj.restitution1</span></p>
+                   #elseif($!{obj.level2.id}==$!loacalid)
+                   <p><span class="lse">返现等级 ： 二级级差</span></p>
+                   <p><span class="lse">返现金额 ： $!obj.restitution2</span></p>
+                   #else
+                   <p><span class="lse">返现等级 ：三级级差</span></p>
+                   <p><span class="lse">返现金额 ： $!obj.restitution3</span></p>
+                   #end
+                   <p><span class="lse">购买人 ： $!obj.orderInfo.user.nickname</span></p>
+                </div>
+                <div class="oh orderDivBox">
+                    <div class="f-l">补贴计算时间&nbsp;&nbsp;<span>$!obj.time.toString().substring(0,19)</span></div>
+                </div>
+            </div>
+ 			#end
+ 			
+ 			#if(!$subsidyRecord || $subsidyRecord.size()==0 )
+ 			<div class="content-slide" style="clear: both;">
+ 				<div class="orderTitle"><span>您还没有返现记录哦！</span><b></b></div> 				
+ 			</div>
+ 			#end
+        </div>
+    </div>
+</div>
+<div class="hei40"></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+<!--  滑动  -->
+</body>
+</html>

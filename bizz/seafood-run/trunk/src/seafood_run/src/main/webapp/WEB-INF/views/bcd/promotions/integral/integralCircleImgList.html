@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="/static/common/base.css" >
+	<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+	<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+	<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+	<script>
+	#if($msg)
+		alert("$msg");
+	#end
+	
+	function removeImg(imgId){
+		var address = "/linkImgGroup.java?cmd=remove&mulitId="+imgId;
+		$.ajax({
+			url: address,
+			type: "json",			
+			success: function(){
+				window.location.reload();
+			}
+		});
+	}
+	</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">轮播图管理</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/integralBuyRegular.java?cmd=circleImgList" class="this"><b>轮播图列表</b></a></li>
+				<li><a href="/integralBuyRegular.java?cmd=toCircleImgSave" class=""><b>新增轮播图</b></a></li>
+				<li><a href="/integralBuyRegular.java?cmd=toSquenceRecommendRegular"><b>推荐排序</b></a></li>
+			</ul>
+		</div>
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>通过链接图片管理，你可以进行查看、编辑、删除首页显示轮播</li>
+			</ul>
+		</div>
+		<form name="ListForm" id="ListForm" action="/integralBuyRegular.java?cmd=setCircleImg" method="post">
+			<div class="fshoptb2">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+							<th width="3%" align="center"><span class="form_btna">排序</span></th>
+							<th width="10%" align="center"><span class="form_btna">图片标题</span></th>
+							<th width="10%" align="center"><span class="form_btna">首页图片</span></th>
+							<th width="10%" align="center"><span class="form_btna">打开方式</span></th>
+							<th width="10%" align="center"><span class="form_btna">连接地址</span></th>
+							<th align="center"><b class="form_btna">操作</b></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" >
+							<td class="check_position">
+								<input name="ids" id="ids" type="checkbox" value="1" />
+							</td>
+							<td align="center">$!obj.sequence</td>
+							<td align="center">$!obj.title</td>
+							<td align="center">
+								<img width="100px" height="30px" src="$obj.imgPath"/>
+							</td>
+							<td align="center">
+								#if($obj.imgTarget=="_blank")
+									在新窗口中打开
+								#end
+								#if($obj.imgTarget=="_self")
+									在相同的框架中打开
+								#end
+								#if($obj.imgTarget=="_parent")
+									在父框架中打开
+								#end
+								#if($obj.imgTarget=="_top")
+									在整个窗口中打开
+								#end
+							</td>
+							<td align="center">$obj.linkUrl</td>
+							<td align="center" class="hui oprate_con">
+								<a href="/integralBuyRegular.java?cmd=toCircleImgEdit&id=$obj.id" class="blue">编辑</a>
+								<a onclick="removeImg($obj.id)" class="blue"> 删除</a>
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+			</div>
+		</form>
+	</div>
+</body>
+</html>

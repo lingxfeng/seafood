@@ -1,0 +1,10 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+	<defaultCache maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="1200" timeToLiveSeconds="1200" overflowToDisk="false"
+		clearOnFlush="true">
+	</defaultCache>
+	<!-- 单独对某个entity的缓存策略设置 -->
+	<cache name="com.eastinno.otransos.core.domain.CacheConcurrencyStrategy" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="1200"
+		timeToLiveSeconds="1200" overflowToDisk="false" clearOnFlush="true">
+	</cache>
+</ehcache>

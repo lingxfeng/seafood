@@ -1,0 +1,25 @@
+#if($carList)
+<div class="new_goods">最新加入的商品</div>
+<div id="sibox">
+<ul class="goodscar_list" >
+#set($amt=0)
+#set($num=0)
+#foreach($obj in $carList)
+<li id="$!{obj.get("pro").id}" >
+	<i><a href="/goShop.java?cmd=productDetail&id=$!{obj.get("pro").id}" target="_blank"><img src='$!{obj.get("pro").split("_")[0]}' width="50" height="50" /></a></i> 
+	<span class="goodscar_listr">
+		<h4><a href='/goShop.java?cmd=productDetail&id=$!{obj.get("pro").id}' target="_blank" class="goodscar_n">$obj.get("pro").name</a></h4>
+		<b class="goodscar_botm"><em>¥$!{obj.get("pro").amt}</em><a href="javascript:void(0);" class="hover"   onclick="menu_cart_remove('$!{obj.get("pro").id}','$!{obj.get("spec").id}','$!{obj.get("num")}');" >删除</a></b>
+    </span>
+</li>
+#set($amtcur=$!{obj.get("num")} * $!{obj.get("pro").amt})
+#set($amt=$amt + $amtcur)
+#set($num=$num + $!{obj.get("num")})
+#end
+</ul>
+<div>
+<span class="goodscar_total">购物车总价：<i>¥</i><b id="cart_goods_price_top">$!{amt}元</b></span>
+<span class="car_bottom"><span class="fl">共选择<strong id="st_count">$num</strong>件商品</span><a href="/goShop.java?cmd=toShopCar" class="see_car">查看我的购物车</a></span> 
+#else
+<b class="goodscar_none">购物车还没有商品!</b>
+#end

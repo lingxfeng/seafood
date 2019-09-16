@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<easyjf-web xmlns="http://disco.dgdy.cc/schema/disco/web"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://disco.dgdy.cc/schema/disco/web http://disco.dgdy.cc/schema/easyjf/web/disco-web-2.0.xsd ">
+	<framework-setting>
+		<property name="com.eastinno.otransos.defaultActionPackages">
+			com.eastinno.otransos.core.mvc.ajax,
+			com.eastinno.otransos.application.core.mvc,
+			com.eastinno.otransos.security.mvc.ajax,
+			com.eastinno.otransos.platform.weixin.mvc,
+			com.eastinno.otransos.cms.mvc,
+			com.eastinno.otransos.weixin.tousujubao.mvc,
+			com.eastinno.otransos.weixin.tousujubao.mvc,
+			com.disco.wexin.payment.mvc,
+			com.eastinno.otransos.seafood.core.action,
+			com.eastinno.otransos.seafood.droduct.action,
+			com.eastinno.otransos.seafood.core.action,
+			com.eastinno.otransos.seafood.content.action,
+			com.eastinno.otransos.seafood.usercenter.action,
+			com.eastinno.otransos.seafood.trade.action,
+			com.eastinno.otransos.seafood.distribu.action,
+			com.eastinno.otransos.seafood.spokesman.action,
+			com.eastinno.otransos.seafood.promotions.action,
+			com.eastinno.otransos.seafood.statistics.action,
+		</property>
+	</framework-setting>
+	<beans>
+		<!--异常处理Bean，把所有的异常控制都转到error.html这个页面 -->
+		<bean name="exceptionHandler" class="com.eastinno.otransos.web.exception.DefaultExceptionHandle" scope="singleton">
+			<!-- <property name="errorPage" value="/error.html"/> -->
+		</bean>
+		<!-- 重复提交时的处理Bean -->
+		<bean name="tokenExceptionHandler" class="com.eastinno.otransos.web.exception.DefaultTokenVaildExceptionHandler" scope="singleton">
+		</bean>
+		<!--acegi异常处理器，使得acegi的相关异常可以得到正确的处理 -->
+		<!-- <bean name="acegiException" class="com.eastinno.otransos.web.security.acegi.AcegiExceptionHandler" /> -->
+		<bean name="springContainer" class="org.springframework.web.context.support.XmlWebApplicationContext">
+			<property name="configLocations">
+				<list>
+					<value>WEB-INF/classes/application.xml</value>
+				</list>
+			</property>
+		</bean>
+		<bean name="innerSpringContainer" class="com.eastinno.otransos.container.impl.SpringContainer">
+			<property name="factory" ref="springContainer" />
+		</bean>
+	</beans>
+</easyjf-web>
+

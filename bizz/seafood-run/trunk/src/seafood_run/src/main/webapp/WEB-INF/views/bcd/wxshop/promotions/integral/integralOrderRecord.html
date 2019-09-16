@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>积分订单</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user_index.css" type="text/css" rel="stylesheet">
+<!--滑动-->
+<link rel="stylesheet" href="/static/home/bcd/css/idangerous.swiper.css">
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<div class="wrap">
+    <ul class="nav" style="height:20px; margin-bottom:-10px; font-size:20px;">
+    	<li style="width:100%" class="nav_current" id="nav1" onclick="javascript:doClick(this)">积分订单</li>
+    </ul>
+    
+    <div class="nav-down">
+        <!--  全部  s  -->
+        <div class="dis" id="sub1">
+	        <div style = "height:30px;"></div>
+    	
+        	#foreach($record in $records)
+	        <a href="/wxIntegralBuy.java?cmd=toIntegralOrderDetail&orderId=$record.order.id&regularId=$record.regular.id">	
+	        	<div class="content-slide">
+	                <div class="orderTitle">订单号：<span>$!record.order.code</span>
+	                	<b>
+	                		#if($!record.order.getStatusCh().equals("未支付"))
+	                			积分未扣除
+	                		#else
+	                			积分已扣除($!record.order.getStatusCh())
+	                		#end
+	                	</b>
+	                </div>
+                
+	                #set($num=0)
+	                #set($price=0)
+	                #foreach($orderDetail in $record.order.orderdetails)
+	                <div class="oh orderBox">
+	                    <div class="w-15 buyImgDiv f-l"><img src="$!{orderDetail.pro.imgPaths.split("_")[0]}" width="52" height="44"></div>
+	                    <div class="w-65 f-l">
+	                        <p class="buyP">$!orderDetail.pro.name</p>
+	                    </div>
+	                    <div class="w-65 buyDel tex-l f-l">
+	                        <p>积分：<span class="lse">$!record.regular.integralPrice</span><span id="num_$!orderDetail.id" value="$!orderDetail.num">×$!orderDetail.num</span></p>
+	                        #set($num=$num+$!orderDetail.num)	                        
+	                    </div>
+	                </div>                
+           			#end
+           	
+	            	#set($total = $num * $record.regular.integralPrice)
+		            <div class="oh orderDivBox">
+		                <div class="f-l">共<span>$num</span>件</div>
+		                <div class="f-r">使用积分：<span>$total</span></div>
+		            </div>
+		            <div class="oh orderDivBox" style="margin-top:-15px;">
+		                <div class="f-l">下单时间：<span class="timeformate">$!record.createDate</span></div>		        	
+			        </div>
+			   	</div>
+			</a>
+	        #end
+	                
+ 			#if(!$records || $records.size() == 0)
+ 			<div class="content-slide" style="clear: both;">
+ 				<p>您还没有积分订单，赶快去积分商城转转吧！</p>
+ 				<a href="/wxIntegralBuyShop.java?cmd=toIntegralProductList">积分商城</a>
+ 			</div>
+ 			#end
+ 			
+ 		</div>
+
+    </div>
+</div>
+<div class="hei40"></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+<!--  滑动  -->
+<script>
+//时间字符串格式化
+$(function(){
+	var elements = $(".timeformate");
+	for(var i=0; i<elements.length; ++i){
+		var timeVal = $(elements).html();
+		var tempTimeVal = timeVal.substring(0, 16);
+		$(elements[i]).html(tempTimeVal);
+	}
+});
+</script>
+</body>
+</html>

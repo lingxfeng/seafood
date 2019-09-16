@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css" />
+	<link href="/static/home/bcd/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="/static/common/base.css" />
+	<link rel="stylesheet" href="/static/common/plugin/assets/css/font-awesome.min.css" type="text/css"/>
+	<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+	<script src="/static/home/bcd/js/jquery.datetimepicker.js"></script>
+	<script type="text/javascript">
+	function gotoPage(n) {
+	    location.href = "/rushBuyRegular.java?cmd=secKillList&currentPage=" + n;
+	}
+	
+	#if($msg)
+		alert("$msg");
+	#end
+	
+	$(function(){
+		$(".datetime").datetimepicker({
+			format: "Y-m-d H:i:s",
+			allowBlank: true,
+			step: 10
+		});
+	});
+	</script>
+	<style>
+	td{
+		text-align: center;
+	}
+	.fshop_table2{
+		border:1px solid #C6C9CA;
+	}
+	.fshop_table2 th{
+		border:1px solid #C6C9CA;
+	}
+	</style>	
+</head>
+	
+<body>
+	<div class="cont">
+		<h3 class="seth">秒杀活动管理</h3>
+		
+		<div class="nav_list">
+			<ul>
+				<li><a href="/rushBuyRegular.java?cmd=secKillList" class="this"><b>管理秒杀</b></a></li>
+				<li><a href="/rushBuyRegular.java?cmd=toSecKillSave" class=""><b>新增秒杀</b></a></li>
+				<li><a href="/rushBuyRecord.java?cmd=secKillRecordList" class=""><b>秒杀记录</b></a></li>
+			</ul>
+		</div>
+		
+		<form name="ListForm" id="ListForm" action="/rushBuyRegular.java" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="cmd" value="secKillList"/>
+			<div class="search" style="margin-left: 20px;">
+				<span class="size100">活动名称：<input name="name" placeholder="活动名称" type="text" id="name" value="$!name" /></span>
+				<span class="size100">商品ID：<input name="proId" placeholder="商品id" type="text" id="proId" value="$!proId" /></span>
+				<span class="size120">秒杀时间：<input class="datetime" name="startDate" placeholder="秒杀开始时间" type="text" id="startDate" value="$!startDate" />-<input class="datetime" name="endDate" placeholder="秒杀结束时间" type="text" id="endDate" value="$!endDate" /> </span>
+				<span class="size120">活动上下架时间：<input class="datetime" name="shelvingDate" placeholder="活动上架时间" type="text" id="shelvingDate" value="$!shelvingDate" />-<input class="datetime" name="unshelvingDate" placeholder="活动下架时间" type="text" id="unshelvingDate" value="$!unshelvingDate" /> </span>
+				<span>
+					<input name="" type="submit" value="搜索" style="cursor: pointer;" class="search_btn" />
+				</span>
+			</div>
+		</form>
+	
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>活动一共用这样几种状态："售罄"，"已经下架"，"活动结束"，"活动进行中"，"已经上架未开始"，"创建未上架"，"活动状态ERROR"</li>
+			</ul>
+		</div>
+		
+		<form name="ListForm" id="ListForm" action="/rushBuyRegular.java?cmd=list" method="post">
+			<div class="fshoptb2">
+
+				<table width="100%" class="fshop_table2">
+					<tbody>
+						<tr>
+							<th><span>活动ID</span></th>						
+							<th><span>活动名称</span></th>
+							<th><span>商品名称</span></th>
+							<th><span>商品ID</span></th>
+							<th><span>秒杀价格</span></th>
+							<th><span>限购数量</span></th>
+							<th><span>限制下单</span></th>
+							<th><span>秒杀总量</span></th>
+							<th><span>秒杀开始时间</span></th>
+							<th><span>秒杀结束时间</span></th>
+							<th><span>活动上架时间</span></th>
+							<th><span>活动下架时间</span></th>
+							<th><span>活动创建时间</span></th>
+							<th><span>下单有效时间</span></th>
+							<th><span>活动状态</span></th>
+							<th width="" align="center"><span class="form_btna">管理</span></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td>$!obj.id</td>									
+							<td>$!obj.name</td>
+							<td>$!obj.pro.name</td>
+							<td>$!obj.pro.id</td>
+							<td>$!obj.activityPrice</td>
+							<td>$!obj.buyNumLimit</td>
+							<td>$!obj.orderNumLimit</td>
+							<td>$!obj.buyNum</td>
+							<td>$!obj.startDate</td>
+							<td>$!obj.endDate</td>
+							<td>$!obj.shelvingDate</td>
+							<td>$!obj.unshelvingDate</td>
+							<td>$!obj.createDate</td>
+							<td>$!obj.expireTime</td>
+							<td>$!obj.getStateCN()</td>
+							<td align="center">
+						        <a href="/rushBuyRegular.java?cmd=toSecKillUpdate&id=$!obj.id"><span class=""></span>修改</a>
+						        <!-- <a href="/rushBuyRegular.java?cmd=secKillRemove&id=$!obj.id"><span class=""></span> 删除</a> -->
+						        <a href="/rushBuyRecord.java?cmd=secKillRecordList&regularId=$!obj.id"><span class=""></span> 下单记录</a>
+						        <a href="/rushBuyRegular.java?cmd=clearOutExpireOrder&type=secKill&regularId=$!obj.id"><span class=""></span> 清理失效订单</a>
+						    </td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}				
+			</div>
+		</form>
+
+	</div>
+</body>
+</html>

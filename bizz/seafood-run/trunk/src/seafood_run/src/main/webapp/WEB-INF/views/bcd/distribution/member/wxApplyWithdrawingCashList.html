@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的提现记录</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user_index.css" type="text/css" rel="stylesheet">
+<!--滑动-->
+<link rel="stylesheet" href="/static/home/bcd/css/idangerous.swiper.css">
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<div class="wrap">
+    <ul class="nav w20">
+        <li #if($!status==0) class="nav_current" #end class="nav_link" id="nav2" onclick="javascript:doClick(this,0)">已申请</li>
+        <li #if($!status==1) class="nav_current" #end class="nav_link" id="nav3" onclick="javascript:doClick(this,1)">审核通过</li>
+        <li #if($!status==2) class="nav_current" #end class="nav_link" id="nav3" onclick="javascript:doClick(this,2)">审核拒绝</li>
+    </ul>
+    
+    <div class="nav-down">
+        <!--  全部  s  -->
+        
+        <!-- <div class="dis" id="sub1">
+        <div class="oh orderBox">
+			<table style="width:100%">
+	        	<tr>
+	        		<td style="width: 20%;">123</td>
+	        		<td style="width: 20%;">123</td>
+	        		<td style="width: 20%;">123</td>
+	        		<td style="width: 20%;">123</td>
+	        	</tr>
+		    </table>
+ 		</div> -->
+        
+        
+        <div class="dis" id="sub1">
+        	#foreach($applyWithdrawCash in $applyWithdrawCashList)
+			<div class="oh orderBox">
+				<div class="w-100 f-l">
+				    <p class="buyP"><span>提取金额：$!applyWithdrawCash.sums</span>&nbsp;&nbsp;<span>申请时间：$!applyWithdrawCash.createDate</span></p>
+				</div>
+				<div class="w-100 buyDel tex-l f-l">
+				    <p>备注信息：<span class="lse">$!record.regular.integralPrice</span><span id="comment" value="comment">$!applyWithdrawCash.comment</span></p>
+				</div>
+			</div> 
+	        #end
+	                
+ 			#if($orderList.size() == 0)
+ 			<div class="content-slide" style="clear: both;">
+ 				<p>该状态下没有订单，赶快去下单吧！</p>
+ 			</div>
+ 			#end
+ 			
+ 		</div>
+        
+        <!--  已完成  e  -->
+    </div>
+</div>
+<div class="hei40"></div>
+
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+<!--  滑动  -->
+
+<script>
+function doClick(o,status){
+	window.location.href="wxShopMemberCenter.java?cmd=toApplyWithdrawingCashList&status="+status;
+}
+</script>
+</body>
+</html>

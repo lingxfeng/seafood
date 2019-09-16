@@ -1,0 +1,57 @@
+<div xmlns:ext="http://www.extjs.com" class="body-wrap"><div class="inheritance res-block"><pre class="res-block-inner"><a href="output/Ext.form.ComboBox.html" ext:member="" ext:cls="Ext.form.ComboBox">ComboBox</a>&#13;&nbsp;&nbsp;<img src="resources/elbow-end.gif">Ext.SmartCombox</pre></div><h1>Class <a href="source/core-3.2.html#cls-Disco.Ext.SmartCombox">Disco.Ext.SmartCombox</a></h1><table cellspacing="0"><tr><td class="label">Package:</td><td class="hd-info">Disco</td></tr><tr><td class="label">Defined In:</td><td class="hd-info">core-3.2.js</td></tr><tr><td class="label">Class:</td><td class="hd-info"><a href="source/core-3.2.html#cls-Disco.Ext.SmartCombox">Ext.SmartCombox</a></td></tr><tr><td class="label">Extends:</td><td class="hd-info"><a href="output/Ext.form.ComboBox.html" ext:cls="Ext.form.ComboBox" ext:member="">ComboBox</a></td></tr><tr><td class="label">xtype:</td><td class="hd-info">smartcombo</td></tr></table><div class="description">对ComboBox进行扩展,更好的支持对象的选择及其显示,并且可以在下拉列表中直接支持新建数据
+<pre>
+<code><i>//示例,ria框架提供的创建指定数据字典下拉列表的封装方法。
+</i>
+getDictionaryCombo : <b>function</b>(name, fieldLabel, sn, valueField,disableBlank, editable) {
+<b>return</b> {
+xtype : &quot;smartcombo&quot;,
+name : name,
+hiddenName : name,
+displayField : &quot;title&quot;,
+valueField : valueField ? valueField : &quot;id&quot;,
+lazyRender : true,
+triggerAction : &quot;all&quot;,
+typeAhead : true,
+editable : editable,
+allowBlank : !disableBlank,
+sn:sn,
+objectCreator:{appClass:&quot;SystemDictionaryDetailPanel&quot;,script:&quot;/systemManage/SystemDictionaryManagePanel.js&quot;},
+createWinReady:<b>function</b>(win){
+<b>if</b>(this.fieldLabel)win.setTitle(&quot;新建&quot;+this.fieldLabel);
+<b>if</b>(this.sn)win.findSomeThing(&quot;parentSn&quot;).setOriginalValue(this.sn);
+},
+store : <b>new</b> Ext.data.JsonStore({
+id : &quot;id&quot;,
+url : &quot;systemDictionary.java?cmd=getDictionaryBySn&amp;sn=&quot;
++ sn,
+root : &quot;result&quot;,
+totalProperty : &quot;rowCount&quot;,
+remoteSort : true,
+baseParams : {
+pageSize : &quot;-1&quot;
+},
+fields : [&quot;id&quot;, &quot;title&quot;, &quot;tvalue&quot;]
+}),
+fieldLabel : fieldLabel
+}
+},</code>
+</pre></div><div class="hr"></div><a id="Disco.Ext.SmartCombox-configs"></a><h2>Config Options</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Config Options</th><th class="msource-header">Defined By</th></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.SmartCombox-disableCreateObject"></a><b><a href="source/core-3.2.html#cfg-Disco.Ext.SmartCombox-disableCreateObject">disableCreateObject</a></b> : Boolean<div class="mdesc">是否禁用下拉列表下面的【新建】和【同步】按钮。</div></td><td class="msource">Ext.SmartCombox</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.SmartCombox-objectCreator"></a><b><a href="source/core-3.2.html#cfg-Disco.Ext.SmartCombox-objectCreator">objectCreator</a></b> : Object<div class="mdesc">该配置对象包括： <url>
+<li>appClass {String} : 调用的创建业务对象的管理模块类名</li>
+<li>script {String} : 调用的创建业务对象管理模块的script文件地址</li>
+</ul></div></td><td class="msource">Ext.SmartCombox</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.SmartCombox-operatorButtons"></a><b><a href="source/core-3.2.html#cfg-Disco.Ext.SmartCombox-operatorButtons">operatorButtons</a></b> : Array<div class="mdesc">显示在下拉列表底部的按钮数组。子类可以通过该属性覆盖并自定义自己的显示按钮。</div></td><td class="msource">Ext.SmartCombox</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.SmartCombox-returnObject"></a><b><a href="source/core-3.2.html#cfg-Disco.Ext.SmartCombox-returnObject">returnObject</a></b> : Boolean<div class="mdesc"></div></td><td class="msource">Ext.SmartCombox</td></tr></tbody></table><a id="Disco.Ext.SmartCombox-props"></a><h2>Public Properties</h2><div class="no-members">This class has no public properties.</div><a id="Disco.Ext.SmartCombox-methods"></a><h2>Public Methods</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Method</th><th class="msource-header">Defined By</th></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.SmartCombox-createWinReady"></a><b><a href="source/core-3.2.html#method-Disco.Ext.SmartCombox-createWinReady">createWinReady</a></b>(&nbsp;<code>Ext.Window&nbsp;win</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">当点击新建按钮，打开创建业务对象的窗口后的钩子方法</div><div class="long">当点击新建按钮，打开创建业务对象的窗口后的钩子方法<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>win</code> : Ext.Window<div class="sub-desc">创建业务对象的窗口。如果是CrudPanel，则直接调用win.getComponent(0)即是fp。</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.SmartCombox</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.SmartCombox-getValue"></a><b><a href="source/core-3.2.html#method-Disco.Ext.SmartCombox-getValue">getValue</a></b>()
+    :
+                                        Object<div class="mdesc"><div class="short">获取SmartCombox中的值</div><div class="long">获取SmartCombox中的值<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li><code>Object</code><div class="sub-desc"></div></li></ul></div></div></div></td><td class="msource">Ext.SmartCombox</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.SmartCombox-getValueObject"></a><b><a href="source/core-3.2.html#method-Disco.Ext.SmartCombox-getValueObject">getValueObject</a></b>(&nbsp;<code>String&nbsp;field</code>&nbsp;)
+    :
+                                        Object<div class="mdesc"><div class="short">获取SmartCombox符合指定条件的record值。&#13;
+实际的过程是首先得到combox的值value，然后在下拉列表绑定的store中查询field等于value的record。如果有，则返回该record。</div><div class="long">获取SmartCombox符合指定条件的record值。<br/>
+实际的过程是首先得到combox的值value，然后在下拉列表绑定的store中查询field等于value的record。如果有，则返回该record。<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>field</code> : String<div class="sub-desc">指定的valueField属性名称。</div></li></ul><strong>Returns:</strong><ul><li><code>Object</code><div class="sub-desc">符合条件的Record</div></li></ul></div></div></div></td><td class="msource">Ext.SmartCombox</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.SmartCombox-newObject"></a><b><a href="source/core-3.2.html#method-Disco.Ext.SmartCombox-newObject">newObject</a></b>()
+    :
+                                        void<div class="mdesc"><div class="short">创建新对象，实质是调用Disco.Ext.Util.addObject方法。</div><div class="long">创建新对象，实质是调用Disco.Ext.Util.addObject方法。<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.SmartCombox</td></tr><tr class="method-row expandable inherited"><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Ext.form.ComboBox-onTriggerClick"></a><b><a href="source/core-override-3.2.html#method-Ext.form.ComboBox-onTriggerClick">onTriggerClick</a></b>()
+    :
+                                        void<div class="mdesc"><div class="short">对ComboBox的onTriggerClick进行增强，支持父容器disabled值判断功能</div><div class="long">对ComboBox的onTriggerClick进行增强，支持父容器disabled值判断功能<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource"><a href="output/Ext.form.ComboBox.html#onTriggerClick" ext:member="#onTriggerClick" ext:cls="Ext.form.ComboBox">ComboBox</a></td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.SmartCombox-setValue"></a><b><a href="source/core-3.2.html#method-Disco.Ext.SmartCombox-setValue">setValue</a></b>(&nbsp;<code>String/Object/Number...&nbsp;v</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">设置SmartCombox的value</div><div class="long">设置SmartCombox的value<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>v</code> : String/Object/Number...<div class="sub-desc">要设置的值</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.SmartCombox</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.SmartCombox-synchObject"></a><b><a href="source/core-3.2.html#method-Disco.Ext.SmartCombox-synchObject">synchObject</a></b>()
+    :
+                                        void<div class="mdesc"><div class="short">同步下拉列表中的业务对象数据。</div><div class="long">同步下拉列表中的业务对象数据。<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.SmartCombox</td></tr></tbody></table><a id="Disco.Ext.SmartCombox-events"></a><h2>Public Events</h2><div class="no-members">This class has no public events.</div></div>

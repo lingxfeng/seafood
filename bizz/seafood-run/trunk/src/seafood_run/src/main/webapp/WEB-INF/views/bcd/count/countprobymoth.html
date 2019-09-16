@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>月度订单统计</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/common/base.css">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+
+<body>
+	<div class="cont">
+		<h3 class="seth">月度订单统计</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href=""><b>月度订单统计</b></a></li>
+			</ul>
+		</div>
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>数据实时统计</li>
+				<li>会员购物之后又进行退款操作并成功的用户不在统计范围之内</li>
+				<li>查询当月数据</li>
+			</ul>
+		</div>
+		<form name="listForm" id="listForm" action="/distributeLevel.java?cmd=customList" method="post">
+			<div class="fshoptb2">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="24%" align="center"><span class="form_btna">商品名称</span></th>
+							<th width="20%" align="center"><span class="form_btna">商品id</span></th>
+							<th width="24%" align="center"><span class="form_btna">销售数量</span></th>
+							<th width="24%" align="center"><span class="form_btna">销售金额</span></th>
+						</tr>
+						#foreach($!obj in $list)
+						<tr >
+							<td align="center">$!obj.pro_name</td>
+							<td align="center">$!obj.pro_id</td>
+							<td align="center">$!obj.num</td>
+							<td align="center">$!obj.totalPrice</td>
+						</tr>
+						#end
+						<tr >
+							<td align="center">总计</td>
+							<td align="center"></td>
+							<td align="center">$!finalnum</td>
+							<td align="center">$!finalprice</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script>
+	
+jQuery(document).ready(function(){ 	
+	//alert("$!{obj.needInfomation}");
+	#if($!{obj.needInfomation})
+		$("#userNeed1").attr("checked",true);
+	#else
+		$("#userNeed2").attr("checked",true);
+	#end
+	$("#deliveryTypeId").val("$!{obj.deliveryType.id}");
+	change("$!{obj.deliveryType.id}");
+	$("#logisticCompanyId").val("$!{obj.logisticCompany.id}");
+jQuery("#theForm").validate({
+    rules:{
+	 },
+	messages:{
+	 }
+  });
+});
+//品牌保存
+function saveDeliveryMethod(method){
+	jQuery("#theForm").submit();
+}
+
+function change(a){
+	//var sel = document.getElementById('deliveryTypeId');
+	//sel.options[0].value = 111;
+	//sel.options[0].text = 111;
+if(a=="1"){
+	doVisible('traderDelivery');
+	doHidden('userDelivery');
+}
+else if(a=="2"){
+	doVisible('userDelivery');
+	doHidden('traderDelivery');
+}
+}
+function doHidden(oDiv){//隐藏
+			var vDiv = document.getElementById(oDiv);
+      vDiv.style.display = (vDiv.style.display == 'block')?'none':'none';
+    }
+function doVisible(oDiv){//显示
+			var vDiv = document.getElementById(oDiv);
+      vDiv.style.display = (vDiv.style.display == 'none')?'block':'block';
+    }    
+    
+</script>
+
+</head>
+<body>
+<form action="/deliveryMethod.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+  <input name="id" id="id" type="hidden" value="$!{obj.id}">
+  #if($obj)
+  <input name="cmd" id="cmd" type="hidden" value="update">
+  #else
+  <input name="cmd" id="cmd" type="hidden" value="save">
+  #end
+  <div class="cont">
+    <h1 class="seth">配送方式</h1>
+    
+    <div class="nav_list"> 
+	 
+    <ul>
+         <li><a href="/deliveryMethod.java?cmd=list"><b>配送方式列表</b></a></li> 
+	<li><a href="/deliveryMethod.java?cmd=toAdd" class="this"><b>新增配送方式</b></a></li>
+	  	</ul>
+		
+    </div>
+    
+    <div class="edit">
+    <div class="editul setcont" id="base">
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>配送方式名称</li>
+        <li><span class="webname">
+          <input name="name" type="text" id="first_word" value="$!{obj.name}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>配送类型</li>
+        <li><span class="webname">
+          <select name="deliveryTypeId" id="deliveryTypeId" value="$!{obj.deliveryType.id}" onChange="change(this.value)"">
+          
+          #foreach($object in $deliveryTypes)
+          <option value="$object.id">$object.name</option>
+          #end
+          </select>
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+      
+      
+    <div class="editul setcont" id="traderDelivery"> 
+    	
+      <ul class="set1"  >
+        <li class="setcont_bg"><strong class="sred">*</strong>默认物流公司</li>
+        <li><span class="webname">
+          <select name="logisticCompanyId" id="logisticCompanyId" value="$!{obj.logisticCompany.id}" onChange="change(this.value)">  
+          #foreach($objLogistic in $logisticCompanys)
+          <option value="$objLogistic.id">$objLogistic.name</option>
+          #end
+          </select>
+        </span>
+        <span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span>
+        </li>
+      </ul>
+      <ul class="set1"  >
+        <li class="setcont_bg"><strong class="sred">*</strong>配送区域设置</li>
+        <li><span class="webname">          
+          <table class="table table-bordered table-condensed table-middle" id="J_AreaList" width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <thead>
+                            <tr>
+                                <th>运送到</th>
+                                <th>首重(克)</th>
+                                <th>首费(元)</th>
+                                <th>续重(克)</th>
+                                <th>续费(元)</th>
+                                <th>管理</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            #foreach($obj in $!{obj.traderDeliverys})
+                            <tr>
+                                <td align="center">$obj.regionNames</td>
+                                
+                                <td class="text-center"><input type="number" name="start_standard" class="form-control" value="$obj.firstWeight"></td>
+                                <td class="text-center"><input type="text" name="start_fee" class="form-control" value="$obj.firstFee"></td>
+                                <td class="text-center"><input type="number" name="add_standard" class="form-control" value="$obj.secondWeight"></td>
+                                <td class="text-center"><input type="text" name="add_fee" class="form-control" value="$obj.secondFee"></td>
+                                <td align="center" class="hui oprate_con">
+								<a href="javascript:void(0);"
+								onclick="if(confirm('是否删除?'))window.location.href='/deliveryMethod.java?cmd=delTraderDelivery&id=${obj.id}'"
+								class="blue">删除</a></td>
+                            </tr>
+                            #end	
+                            </tbody>
+                        </table>
+          
+          
+          
+        </span>
+        
+        </li>
+      </ul>
+    </div>
+    
+    
+    <div class="editul setcont" id="userDelivery" style="display: none">
+    	<ul class="set1"  >
+    	<li class="setcont_bg"><strong class="sred">*</strong>完善信息</li>
+    	<li><span class="pad120">
+    		<label class="radio-inline"><input type="radio" id="userNeed1" name="identity" value="1" checked="checked" />是</label>
+				<label class="radio-inline"><input type="radio" id="userNeed2" name="identity" value="0" />否</label>
+			</li>
+			</ul>
+			<ul class="set1"  >
+			<li class="setcont_bg"><strong class="sred">*</strong>自提地址设置</li>
+			<li><span class="webname">          
+          <table class="table table-bordered table-condensed table-middle" id="J_AreaList" width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <thead>
+                            <tr>
+                                <th>门店名称</th>
+                                <th>自提地址</th>
+                                <th>联系电话</th>
+                                <th>备注</th>
+                                <th>管理</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            #foreach($obj in $!{obj.userGets})
+									          
+                            <tr>
+                                <td class="text-center"><input type="text" name="start_standard" class="form-control" value="$obj.name"></td>
+                                <td class="text-center"><input type="text" name="start_fee" class="form-control" value="$obj.address"></td>
+                                <td class="text-center"><input type="text" name="add_standard" class="form-control" value="$obj.telephone"></td>
+                                <td class="text-center"><input type="text" name="add_fee" class="form-control" value="$obj.remark"></td>
+                                <td align="center" class="hui oprate_con">
+								<a href="javascript:void(0);"
+								onclick="if(confirm('是否删除?'))window.location.href='/deliveryMethod.java?cmd=delTraderDelivery&id=${obj.id}'"
+								class="blue">删除</a></td>
+                            </tr>
+                            #end	
+                            </tbody>
+                        </table>
+          
+          
+          
+        </span>
+        
+        </li>
+    	</ul>
+    	</DIV>   
+          </div>
+    </div>  
+     
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="savedeliveryMethod();"></span>
+  </div>
+  </div>
+
+</form>
+
+
+</body></html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>品牌管理</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"
+	type="text/css">
+<link rel="stylesheet" href="/static/common/base.css">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+		<script type="text/javascript">
+function gotoPage(n) {
+    location.href = "/sweepstakesRecord.java?cmd=list&currentPage=" + n;
+}
+</script>
+
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">抽奖记录</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/sweepstakesRecord.java?cmd=list" class="this"><b>抽奖记录</b></a></li>
+			</ul>
+		</div>
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>通过抽奖设置可确定抽奖的奖品及中奖概率</li>
+			</ul>
+		</div>
+		<form name="ListForm" id="ListForm" action="/sweepstakesRecord.java?cmd=list"
+			method="post">
+			<div class="fshoptb2">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+								<th width="3%"><span class="form_btna">&nbsp;</span></th>
+								<th width="8%" align="center"><span class="form_btna">抽奖人</span></th>
+								<th width="10%" align="center"><span class="form_btna">抽奖时间</span></th>
+								<th width="10%" align="center"><span class="form_btna">奖品类型</span></th>
+								<th width="10%" align="center"><span class="form_btna">奖品名称</span></th>
+								<th width="10%" align="center"><span class="form_btna">是否已发放</span></th>
+								<th width="30%" align="center"><span class="form_btna">收货地址</span></th>
+								<th align="center"><b class="form_btna">操作</b></th>
+						</tr>
+						#set($num=1)
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"><input name="ids" id="ids"
+								type="checkbox" value="1"></td>
+								<td align="center">$obj.user.nickname</td>
+								<td align="center">$obj.createTime</td>
+								#if($obj.status == 0)
+								<td align="center">未中奖</td>
+								#elseif($obj.status == 1)
+								<td align="center">商品</td>
+								#elseif($obj.status == 3)
+								<td align="center">积分</td>
+								#end
+								#if($obj.status == 0)
+								<td align="center">未中奖</td>
+								#elseif($obj.status == 1)
+								<td align="center">$!obj.productname</td>
+								#elseif($obj.status == 3)
+								<td align="center"><span>$!obj.integal</span>积分</td>
+								#end
+								
+								#if($obj.isDispatch == 0)
+								<td align="center">未发放</td>
+								#else
+								<td align="center">已发放</td>
+								#end
+								<td align="center"><span>$!obj.address.trueName</span>
+									<span >$!obj.address.area.loadFullTitle("-")&nbsp;$!obj.address.area_info</span>
+								</td>
+								#if($obj.isDispatch == 0 && $!obj.status==1)
+								<td align="center" class="hui oprate_con">
+									<a href="/sweepstakesRecord.java?cmd=toDispatch&id=$!{obj.id}" class="blue">发放奖品</a>
+								</td>
+								#end
+						</tr>
+							#set($num=$num+1)
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+				<div class="oper_sp">
+					<span class="oper_check"><input type="checkbox" name="all"
+						id="all" value="" onclick="selectAll(this)">全部</span> <span
+						class="oper_del"></span>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</body>
+</html>

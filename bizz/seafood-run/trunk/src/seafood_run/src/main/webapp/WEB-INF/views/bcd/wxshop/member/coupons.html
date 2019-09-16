@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的卡券</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<!--滑动-->
+<link rel="stylesheet" href="/static/home/bcd/css/idangerous.swiper.css">
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<div class="wrap">
+    <ul class="nav w50">
+    	<li class="nav_current" id="nav1" onclick="javascript:doClick(this)">优惠券</li>
+<!-- <li class="nav_link" id="nav2" onclick="javascript:doClick(this)">礼品券</li> -->
+    </ul>   
+    <div class="nav-down">
+        <!--  当前佣金  s  -->
+        <div class="dis" id="sub1">
+        	<div class="bg-fff vouBox">
+                <!--div class="errDiv">暂无优惠券</div-->
+                #foreach($coupon in $couponList)                
+                <div class="vouDivBg vodA">
+                	#if($coupon.status == 1)
+                	<div class="guoqi"></div>
+                	#end
+                    <p><b>40元</b>优惠券</p>
+                    #if($coupon.status == 0)
+                    <p>有效期：2010-10-10</p>
+                    #elseif($coupon.status == 2)
+                    <p>已过期</p>
+                    #end
+                </div>
+                #end
+                
+                #if($couponList.getRowCount()==0)
+                <div class="vouDivBg vodA" style="clear: both;">                	
+                    <p><b>亲</b>您还没有优惠券哦！</p>                    
+                </div>
+                #end
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="hei40"></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+<!--  滑动  -->
+<script>
+function doClick(o){
+	 o.className="nav_current";
+	 var j;
+	 var id;
+	 var e;
+	 for(var i=1;i<=2;i++){ 
+	   id ="nav"+i;	   
+	   j = document.getElementById(id);
+	   e = document.getElementById("sub"+i);
+	   if(id != o.id){
+	   	 j.className="nav_link";
+	   	 e.style.display = "none";
+	   }else{
+			e.style.display = "block";
+	   }
+	 }
+	 }
+</script>
+</body>
+</html>

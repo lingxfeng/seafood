@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"
+		type="text/css">
+		<link rel="stylesheet" href="/static/common/base.css">
+<script type="text/javascript">
+function gotoPage(n) {
+	$("#currentPage").val(n)
+	 location.href = "/remainderAmtHistory.java?cmd=list&userId=$!id&currentPage=" + n;
+}
+</script>
+		<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">余额记录</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/remainderAmtHistory.java?cmd=list" class="this"><b>查看</b></a></li>
+			</ul>
+		</div>
+		
+		<form name="ListForm" id="ListForm" action="/remainderAmtHistory.java" method="post"enctype="multipart/form-data">
+			<input name="cmd" type="hidden" value="list">
+			<input name="userId" type="hidden" value="$!id">
+			<input name="currentPage" type="hidden" value="" id ="currentPage" >
+			<div class="search" style="margin-left: 20px;">
+				<span class="size100">
+					ID<input placeholder="ID" value="" name="userCode" />
+				</span>
+				<span class="size100">
+					账户名<input placeholder="账户名" value="" name="userName" />
+				</span>
+				<span class="size100">
+					明细<input placeholder="明细" value="" name="description" />
+				</span>				
+				<span class="size155">
+					开始时间<input type="datetime-local" name="createDateStart" placeholder="开始时间" />
+				</span>
+				<span class="size155">
+					结束时间<input type="datetime-local" name="createDateEnd" placeholder="结束时间" />
+				</span>
+				<span>
+					<input name="" type="submit" value="搜索" style="cursor: pointer;" class="search_btn">
+				</span>
+			</div>
+		</form>
+		
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>会员，指在本商家下过订单的平台会员</li>
+			</ul>
+		</div>
+		
+			<div class="fshoptb2">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+							<th width="5%" align="center"><span class="form_btna">会员ID</span></th>
+							<th width="10%" align="center"><span class="form_btna">账户名</span></th>
+							<th width="15%" align="center"><span class="form_btna">明细</span></th>
+							<th width="5%" align="center"><span class="form_btna">变动金额</span></th>
+							<th width="5%" align="center"><span class="form_btna">时间</span></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"><input name="ids" id="ids"
+								type="checkbox" value="1">
+							</td>
+							<td align="center">$!obj.user.id</td>
+							<td align="center">$!obj.user.follower.nickname</td>
+							<td align="center">$!obj.description</td>
+							<td align="center">$fu.getYj($!obj.amt)</td>
+							<td align="center">$!obj.createDate</td>							
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				<!-- <div class="fenye">
+					<input type="hidden" name="currentPage" id="currentPage" value="1">
+						<input name="mulitId" type="hidden" id="mulitId"> 
+						<a href="/shopMember.java?cmd=list&currentPage=1">首页</a>
+							第 <a class="this" href="/shopMember.java?cmd=list&currentPage=2">1</a>页 
+							<a href="/shopMember.java?cmd=list&currentPage=3">末页</a>
+				</div>  -->
+				$!{paginationForBlueIdea}
+				<div class="oper_sp">
+					<span class="oper_check"><input type="checkbox" name="all"
+						id="all" value="" onclick="selectAll(this)">全部</span> <span
+						class="oper_del"></span>
+				</div>
+			</div>
+
+	</div>
+</body>
+</html>

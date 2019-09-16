@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>购物车</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="css/user.css" type="text/css" rel="stylesheet">
+<!--购物车js-->
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<!--加减js-->
+<script type="text/javascript" src="js/jquery.spinner.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+	<div class="cart clear">
+   		<div class="shadow">
+            <div class="w-100 line50 oh">
+                    <div class="w-87 f-l">
+                      <h3 class="f-l marl2">购买到的产品</h3>
+                    </div>
+                    <div class="w-10 f-l"> <input type="checkbox" class="checkbox"  name="check_all" id="check_all" > </div>
+            </div>         
+           
+            <div class="c_list cb">
+                <ul>
+                    <li class="oh">
+                        <div class="w-15 buyImgDiv f-l"><img src="images/cart_img.jpg" width="52" height="44"></div>
+                        <div class="w-55 f-l">
+                            <p class="buyP">新奇士脐橙，8斤，甜中带微甜中带微甜中带微</p>
+                            <p><input type="text" class="spinnerExample"/></p>
+                        </div>
+                        <div class="w-20 buyDel f-l">
+                            <p><span class="lse">￥19998.00</span></p>
+                            <p><a href="#" class="del">&times;</a></p>
+                        </div>
+                        <div class="w-10 f-l buycheckDiv"> <input type="checkbox" class="checkbox"  name="check_item" id="check_item"></div>
+                    </li>
+                    
+                    <li class="oh">
+                        <div class="w-15 buyImgDiv f-l"><img src="images/cart_img.jpg" width="52" height="44"></div>
+                        <div class="w-55 f-l">
+                            <p class="buyP">新奇士脐橙，8斤，甜中带微甜中带微甜中带微</p>
+                            <p><input type="text" class="spinnerExample"/></p>
+                        </div>
+                        <div class="w-20 buyDel f-l">
+                            <p><span class="lse">￥19998.00</span></p>
+                            <p><a href="#" class="del">&times;</a></p>
+                        </div>
+                        <div class="w-10 f-l buycheckDiv"> <input type="checkbox" class="checkbox"  name="check_item" id="check_item"></div>
+                    </li>
+                       
+                </ul>
+            </div>           
+           
+        </div>  
+    </div>
+</div>
+<div class="cart_bg">
+    <div class="w-100 oh">
+        <div class="w-3 f-l"></div>
+        <div class="w-25 f-l line50"><input type="checkbox" class="checkbox" id="box_all"> 全选</div>
+        <div class="w-49 f-l line50">
+            <p> <span class="pl15">金额合计：</span><span class="ff6">￥198.00</span></p>
+        </div>
+        <div class="w-20 f-l line50"><button class="submit">去结算</button></div>        
+        <div class="w-3 f-l"></div>    
+    </div>
+</div>
+<div class="hei50"></div>
+<!--  底部浮动导航  s  -->
+<div class="hei40"></div>
+<div class="wx_nav wx_menu">
+	<a href="index.html" class="nav_index on">首页</a>
+	<a href="list.html" class="nav_search">微店中心</a>
+	<a href="buy.html" class="nav_shopcart">购物车</a>
+	<a href="home.html" class="nav_me">个人中心</a>
+</div>
+<!--  底部浮动导航  e  -->
+<!--  加减js  -->
+<script type="text/javascript">
+$('.spinnerExample').spinner({});
+</script>
+</body>
+</html>

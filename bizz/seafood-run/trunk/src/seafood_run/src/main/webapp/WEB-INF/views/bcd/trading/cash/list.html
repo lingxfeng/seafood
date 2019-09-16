@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet"/>
+	<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+	<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+	<script src="/static/home/shopmanage/js/jquery.bigcolorpicker.js"></script>
+	<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+	<script src="/static/home/shopmanage/js/commonutil.js"></script>
+	<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+	<link rel="stylesheet" href="/static/common/base.css"/>
+	<style type="text/css">
+	.ddk_table {
+		width: 96%;
+	}
+	
+	.ddk_table th {
+		height: 45px;
+		line-height: 45px;
+	}
+	.ddk_table td {
+		padding: 8px;	
+		font-size: 12px;
+	}
+	
+	</style>
+	
+	<script  type="text/javascript" language="javascript">
+	jQuery(document).ready(function(){$("#status").val("");});
+	function submRefund(id,refundAmount,orderReceiver,status){
+		if(status=="2"){
+			var htmlstr='<form name="submitForm" id="submitForm" action="/tradeRefund.java?cmd=update" method="post">'+
+						'<input type="hidden" name="id" value="' + id + '" />'+
+						'<input type="hidden" name="status" value="3" />'+
+					    '<table id='+id+'_table" width="80%" border="0" cellspacing="0" cellpadding="0" class="ddk_table">'+
+							'<tbody>'+
+								'<tr>'+
+									'<td width="100">退款金额</td><td>'+refundAmount+'</td>'+
+								'</tr>'+
+								'<tr>'+
+									'<td>退款人姓名</td><td>'+orderReceiver+'</td>'+
+								'</tr>'+
+								'<tr>'+
+									'<td colspan="2">'+
+										'<span>'+
+											'<input name="" value="取消" style="cursor: pointer;margin-left:50px;padding-left:20px" class="search_btn" onclick="doCacelSub();">'+
+											'<input name="" type="submit" value="确定" style="cursor: pointer;margin-left:30px" class="search_btn">'+
+										'</span>'+
+									'</td>'+
+								'</tr>'+
+							'</tbody>'+
+						'</table>'+
+					'</form>';
+				createDialogcur("submiDialog","同意退款",400,400,300,htmlstr);
+		}else{
+			alert("只能操作处理中的退款申请。");
+		}
+	}
+	
+	function rejectRefund(id,status){
+		if(status=="2"){
+			var htmlstr='<form name="rejectForm" id="rejectForm" action="/tradeRefund.java?cmd=update" method="post">'+
+						'<input type="hidden" name="id" value="' + id + '" />'+
+						'<input type="hidden" name="status" value="4" />'+
+					    '<table id='+id+'_table" width="80%" border="0" cellspacing="0" cellpadding="0" class="fshop_table">'+
+							'<tbody>'+
+								'<tr width="100%">'+
+									'<td width="100%" align="left" style="padding-left:10px">请输入拒绝原因</td>'+
+								'</tr>'+
+								'<tr>'+
+									'<td><textarea style="width:350px;height:100px;" name="rejectDesc" cols="" rows="" id="rejectDesc"></textarea></td>'+
+								'</tr>'+
+								'<tr>'+
+									'<td colspan="2">'+
+										'<span>'+
+											'<input name="" value="取消" style="cursor: pointer;margin-left:50px;padding-left:20px" class="search_btn" onclick="doCacel();">'+
+											'<input name="" type="submit" value="确定" style="cursor: pointer;margin-left:30px" class="search_btn">'+
+										'</span>'+
+									'</td>'+
+								'</tr>'+
+							'</tbody>'+
+						'</table>'+
+					'</form>';
+		    createDialogcur("rejectDialog","同意退款",500,400,300,htmlstr);
+		}else{
+			alert("只能操作处理中的退款申请。");
+		}
+	}
+	
+	function doCacel(){
+		jQuery("#rejectDialog").remove();
+	}
+	
+	function doCacelSub(){
+		jQuery("#submiDialog").remove();
+	}
+	
+	function changecsvalue(){
+		var vals = jQuery("#selectArray").val();
+		$("#status").val(vals);
+	}
+	
+	function gotoPage(n) {
+	    location.href = "/tradeRefund.java?cmd=list&currentPage=" + n;
+	}
+	
+	</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">tradeRefund</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/tradeRefund.java?cmd=list" class="this"><b>退货单列表</b></a></li>
+				<li><a href="/tradeCommon.java?cmd=list&pageType=tradeRefundConfig"><b>退款/退货设置</b></a></li>
+			</ul>
+		</div>
+		<form name="ListForm" id="ListForm" action="/tradeRefund.java?cmd=list" method="post">
+			<div class="search" style="margin-left: 20px;">
+				<span class="size100">
+					<input name="tradeOrderId" placeholder="订单号" type="text" id="tradeOrderId" value="$!tradeOrderId">
+				</span>
+				<span class="size100">
+					<input name="orderReceiver" placeholder="收货人" type="text" id="orderReceiver" value="$!orderReceiver">
+				</span>
+				<input type="hidden" name="status" id="status" value="4" />
+				<select id="selectArray" onchange="changecsvalue();">
+         			<option value="">请选择</option>
+         			<option value="2">处理中</option>
+         			<option value="3">已处理 </option>
+         			<option value="4">已拒绝 </option>
+         			<option value="0">等待买家发货</option>
+         			<option value="1">买家已发货</option>
+         		</select>
+				<span>
+					<input name="" type="submit" value="搜索" style="cursor: pointer;" class="search_btn">
+				</span>
+			</div>
+		</form>
+		<form name="ListForm" id="ListForm" action="/tradeRefund.java?cmd=list"
+			method="post">
+			<div class="fshoptb2">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+							<th width="7%" align="center"><span class="form_btna">订单号</span></th>
+							<th width="7%" align="center"><span class="form_btna">收货人</span></th>
+							<th width="7%" align="center"><span class="form_btna">收货人电话</span></th>
+							<th width="3%" align="center"><span class="form_btna">退单类型</span></th>
+							<th width="10%" align="center"><span class="form_btna">是否收到货</span></th>
+							<th width="7%" align="center"><span class="form_btna">是否要退货</span></th>
+							<th width="7%" align="center"><span class="form_btna">退款商品</span></th>
+							<th width="7%" align="center"><span class="form_btna">退款途径</span></th>
+							<th width="7%" align="center"><span class="form_btna">退款金额</span></th>
+							<th width="7%" align="center"><span class="form_btna">申请时间</span></th>
+							<th width="7%" align="center"><span class="form_btna">退款说明</span></th>
+							<th width="3%" align="center"><span class="form_btna">状态</span></th>
+							<th align="center"><b class="form_btna">管理</b></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"><input name="ids" id="ids" type="checkbox" value="1"></td>
+							<td align="center">$!{obj.tradeOrderGoods.tradeOrder.id}</td>
+							<td align="center">$!{obj.tradeOrderGoods.tradeOrder.orderReceiver}</td>
+							<td align="center">$!{obj.tradeOrderGoods.tradeOrder.orderOrdermobile}</td>
+							<td align="center">$!{obj.refundType}</td>
+							<td align="center">$!{obj.receiveGoods}</td>
+							<td align="center">$!{obj.refundGoods}</td>
+							<td align="center">$!{obj.tradeOrderGoods.goodsName}</td>
+							<td align="center">$!{obj.refundWay}</td>
+							<td align="center">$!{obj.refundAmount}</td>
+							<td align="center">$!{obj.createTime}</td>
+							<td align="center">$!{obj.refundDesc}</td>
+							<td align="center">
+							#if($obj.status=="0")
+				             	等待买家发货
+				             #end
+							 #if($obj.status=="1")
+				             	买家已发货
+				             #end
+				             #if($obj.status=="2")
+				             	处理中 
+				             #end
+				             #if($obj.status=="3")
+				             	已处理
+				             #end
+				             #if($obj.status=="4")
+				             	已拒绝
+				             #end
+							</td>
+							<td align="center" class="hui oprate_con">
+								<a href="javascript:void(0);" onclick="submRefund('${obj.id}','$!{obj.refundAmount}','$!{obj.tradeOrderGoods.tradeOrder.orderReceiver}','${obj.status}')" class="blue">确认退款</a>
+								<a href="javascript:void(0);" onclick="rejectRefund('${obj.id}','${obj.status}');" class="blue">拒绝</a>
+								<a href="/tradeRefund.java?cmd=detail&id=${obj.id}" class="blue">详细</a>
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+			</div>
+		</form>
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>个人中心</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<link href="/static/home/bcd/css/font-awesome.css" type="text/css" rel="stylesheet">
+
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+function recharge(){
+	window.location.href="/wxShopPromotions.java?cmd=chooseType";
+}
+</script>
+<style>
+li.tiao{
+	border-bottom: 1px solid #ddd;
+}
+li.tiao:first-child{
+	border-top: 1px solid #ddd;
+}
+li.hr + li.tiao{
+	border-top: 1px solid #ddd;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wx_wrap">
+	<div class="peoList">
+		#if($member.follower.headimgurl)
+    	<img src="$!{member.follower.headimgurl}" class="peoImg">
+    	#else
+    	<img src="/static/home/bcd/images/avatar3.jpg" class="peoImg">
+    	#end
+    	#if($member.nickname)
+        <div class="peoName"><span>$!member.nickname</span><span>(ID: $!member.id)</span>#if($!member.mySpokesman)<span>($!member.mySpokesman.id)</span>#else #end</div>
+        #else
+        <div class="peoName">暂无</div>
+        #end
+    </div>
+	<!--  四个快捷  s  -->
+	<dl class="homeDl oh" style="border-top:1px solid #ddd; border-bottom:1px solid #ddd;">
+    	<dd style="margin-left:5%; text-align:left; width:80%;">
+    		余额：<span>$su.getYj($!member.remainderAmt)</span>元
+    		<!-- <button style="float:right; background-color:gray;" id="yjtx">提现申请</button> -->
+    	</dd>
+    </dl>
+    <!--  四个快捷  s  -->
+	<dl class="homeDl oh" style="border-top:1px solid #ddd; border-bottom:1px solid #ddd;">
+    	<dd style="margin-left:5%; text-align:left; width:80%;">累计积分：<span>$!member.totalIntegral</span></dd>
+    	<dd style="margin-left:5%; text-align:left; width:80%;">
+    		可用积分：<span>$!member.availableIntegral</span>
+    		<button style="float:right;" onclick="recharge();">积分充值</button>
+    	</dd>    	
+    </dl>
+	<!--  四个快捷  e  -->
+
+	<!--  精品推荐  s  -->
+	<ul class="my_list"> 
+
+		<li class="tiao"><i class="fa fa-cogs"></i><a href="wxShopMemberCenter.java?cmd=toMyInfoEdit">个人信息</a></li>
+		<li class="tiao"><i class="fa fa-cogs"></i><a href="wxShopMemberCenter.java?cmd=toAddressList">我的收货地址</a></li>
+		<li class="tiao"><i class="fa fa-cogs"></i><a href="wxShopMemberCenter.java?cmd=toCollection" >我的收藏</a></li>
+        <li class="hr"></li>
+        
+        <li class="tiao"><i class="fa fa-cogs"></i><a href="wxShopMemberCenter.java?cmd=toOrder">我的订单</a></li>
+        <li class="tiao"><i class="fa fa-cogs"></i><a href="wxIntegralBuy.java?cmd=toIntegralOrderRecord">积分订单</a></li>       
+        <li class="tiao"><i class="fa fa-cogs"></i><a href="customCoupon.java?cmd=list">我的优惠券</a></li>		
+        <li class="tiao"><i class="fa fa-cogs"></i><a href="wxIntegralBuy.java?cmd=toIntegralRechargeRecord">积分充值记录</a></li>
+        <li class="tiao"><i class="fa fa-cogs"></i><a href="wxShopMemberCenter.java?cmd=toApplyWithdrawingCash">提现申请</a></li>
+        <li class="tiao"><i class="fa fa-cogs"></i><a href="wxShopMemberCenter.java?cmd=toApplyWithdrawingCashList&status=0">提现申请记录</a></li>
+        <li class="tiao"><i class="fa fa-cogs"></i><a href="wxShopMemberCenter.java?cmd=getRemainderAmtHistory">余额变动记录</a></li>
+		<li class="hr"></li>
+		
+		#if($member.mySpokesman.status == 1)
+		<li class="tiao"><i class="fa fa-cogs"></i><a href="wxSpokesmanCenter.java?cmd=toSpokesmanInfo" >我的代言</a></li>
+		#end
+		<li class="tiao"><i class="fa fa-cogs"></i><a href="wxShopMemberCenter.java?cmd=toIntroducer" >我的推荐人</a></li>
+		<li class="tiao"><i class="fa fa-cogs"></i><a href="wxShopMemberCenter.java?cmd=myChildren" >我的推广</a></li>
+				
+		<!-- #if(!$member.oldUserStatus)
+		<li class="hr"></li>		
+		<li class="tiao"><i class="fa fa-cogs"></i><a href="wxShopMemberCenter.java?cmd=toBindingOldUser" >绑定老用户</a></li>
+		#elseif($member.oldUserStatus.equals("-1"))
+		<li class="hr"></li>
+		<li class="tiao"><i class="fa fa-cogs"></i><a href="wxShopMemberCenter.java?cmd=toOldRebind" >重新绑定用户</a></li>
+		#end -->
+		#if(!$!member.password ||"$!member.password"=="")
+		<li class="tiao"><i class="fa fa-cogs"></i><a href="wxShopMemberCenter.java?cmd=toBindingName" >设置pc端登录用户名</a></li>
+		#else
+		<li class="tiao"><i class="fa fa-cogs"></i>pc端登录用户名：$!member.name</li>
+		#end
+		<li class="tiao"><i class="fa fa-cogs"></i>ID：$!member.id</li>
+	</ul>
+
+</div>
+<div class="hei50"></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+</body>
+</html>

@@ -1,0 +1,63 @@
+// 管理
+$!{domainName}ManagePanel = Ext.extend(Disco.Ext.CrudPanel, {
+    id: "$!{domain}ManagePanel",
+    baseUrl: "$!{domain}.java",
+    gridSelModel: 'checkbox',
+    batchRemoveMode: true,
+    pageSize: 20,
+    showView: false,
+    edit: function() {
+        var win = $!{domainName}ManagePanel.superclass.edit.call(this);
+    },
+    status:[["启用","1"],["停用","0"]],
+    statusFormat:function(v){
+    	if(v ==1){
+    		return "启用";
+    	}else{
+    		return "停用";
+    	}
+    },
+    createForm: function() {
+        var formPanel = new Ext.form.FormPanel({
+            frame: true,
+            labelWidth: 80,
+            fileUpload: true,
+            labelAlign: 'right',
+            defaults: {
+                width: 320,
+                xtype: "textfield"
+            },
+            items: [{
+                xtype: "hidden",
+                name: "id"
+            }#foreach($obj in $fs),{
+                fieldLabel: "$obj.name",
+                name: "$obj.name",
+				allowBlank: false
+            }#end
+            ]
+        });
+        return formPanel;
+    },
+    createWin: function() {
+        return this.initWin(448, 400, "打开窗口");
+    },
+    storeMapping: $!{fStr},
+    initComponent: function() {
+        this.cm = new Ext.grid.ColumnModel([
+        {
+            header: "排序",
+            sortable: true,
+            width: 100,
+            dataIndex: "id"
+        }#foreach($obj in $fs),{
+            header: "$!{obj.name}",
+            sortable: true,
+            width: 100,
+            dataIndex: "$!{obj.name}"
+        }#end
+        ]);
+        $!{domainName}ManagePanel.superclass.initComponent.call(this);
+    }
+});
+

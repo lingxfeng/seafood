@@ -1,0 +1,11 @@
+#foreach($obj in $comparisons)
+<dl>
+  <dt><a href="/goShop.java?cmd=productDetail&id=$obj.id" target="_blank"><img src='$obj.imgPaths.split("_")[0]' /></a></dt>
+  <span class="contrast_center_center_close" goods_id="$obj.id"></span>  
+  <dd><a href="/goShop.java?cmd=productDetail&id=$obj.id" target="_blank">$obj.name</a></dd>
+</dl>
+#end
+<!-- #if(!$comparisons || $comparisons.size()<1)
+<div class="contrast_center_center_nothing"></div>
+#end
+ -->

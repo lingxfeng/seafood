@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" pageEncoding="UTF-8"/>
+<title>积分商品订单</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<link href="/static/home/bcd/css/taobao.css" type="text/css" rel="stylesheet">
+
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+</head>
+<style>
+.order-itemInfo{
+	background-color:white;
+	border-bottom:1px solid #eee;	
+}
+div.order-itemInfo:first-child{	
+	border-top:1px solid #eee;
+}
+</style>
+<body>
+
+<div class="wx_wrap">
+		#if(!$!addr && !$!addrd)
+		<div class="order-address mui-flex align-center" id="address_774681802" >
+			<div class="cell fixed align-center">
+				<div class="icon"></div>
+			</div>
+			<div class="cell content" >
+				<div class="info"  style="">
+				</div>
+				<div class="detail tiao"  id="addr" style="clear:left">
+					<a href="#">
+						<span >收货地址：</span>
+						<span >新增收货地址！！</span>
+					</a>
+				</div>			
+			</div>
+			<div class="cell fixed align-center" >
+				<div class="nav" ></div>
+			</div>
+		</div>
+		#elseif($!addr)
+		<div class="order-address mui-flex align-center" id="address_774681802" >
+			<div class="cell fixed align-center">
+				<div class="icon"></div>
+			</div>
+			<div class="cell content" >
+			<div class="info"  style="">
+				<span  style="float:left; margin-left: -5px;">收货人：</span>				
+				<span  style="float:left;">$!addr.trueName</span>
+				<span class="tel">$!addr.telephone</span>
+			</div>
+			<div class="detail tiao"  id="addr" style="clear:left">
+				<a href="#">
+					<span >收货地址：</span>
+					<span >$!addr.area.loadFullTitle("-")&nbsp;$!addr.area_info</span>
+				</a>
+			</div>			
+		</div>
+			<div class="cell fixed align-center" >
+				<div class="nav" ></div>
+			</div>
+		</div>
+		#else
+		<div class="order-address mui-flex align-center" id="address_774681802" >
+			<div class="cell fixed align-center">
+				<div class="icon"></div>
+			</div>
+			<div class="cell content" >
+			<div class="info"  style="">
+				<span  style="float:left; margin-left: -5px;">收货人：</span>				
+				<span  style="float:left;">$!addrd.trueName</span>
+				<span class="tel">$!addrd.telephone</span>
+			</div>
+			<div class="detail tiao"  id="addr" style="clear:left">
+				<a href="#">
+					<span >收货地址：</span>
+					<span >$!addrd.area.loadFullTitle("-")&nbsp;$!addrd.area_info</span>
+				</a>
+			</div>			
+		</div>
+		<div class="cell fixed align-center" >
+				<div class="nav" ></div>
+			</div>
+		</div>
+		#end		
+	<div id="order_b_165131794386" class="order-order" >
+		<header class="order-orderInfo mui-flex align-center" id="orderInfo_b_165131794386" >
+			<div class="cell fixed" >
+			</div>
+			<div class="cell content" >
+				<div class="info" >海鲜之家商城</div>
+			</div>
+			<div class="cell fixed align-center" ></div>
+		</header>
+		
+		<!-- 商品列表 -->
+		<div id="item_522025716389:3109488013553:0" class="order-item" style="border-top:1px solid #eee;">
+		#if($!pro.name)
+        <div class="order-itemInfo mui-flex" id="itemInfo_522025716389:3109488013553:0" >
+				
+				<div class="cell fixed item-pic" >
+					<div class="img-cell" >
+						<div class="img" style="background-image:url($pro.imgPaths.split('_')[0]);" ></div>
+					</div>
+				</div>
+				<div class="content cell" >
+					<div class="title" >$!pro.name</div>					
+					<div class="sku-info" >
+						<span >
+							<span >数量</span>
+							<span >:</span>
+							<span >$!numstr</span>
+						</span>
+						<br />						
+						<span>
+							<span>所需积分</span>
+							<span>:</span>
+							<span>$!regular.integralPrice</span>
+						</span>
+					</div>
+				</div>
+				<div class="ext cell fixed item-pay" >所需积分
+					<div class="price" >
+						<span class="dollar"></span>
+						<span　class="main-price" >$!regular.integralPrice</span>						
+					</div>
+					<div class="weight"　></div>
+				</div>
+			</div>			
+        #end		
+		</div>
+		
+		<!-- 买家留言 -->
+		<div class="buy-single-row label-input order-memo input" id="memo_b_165131794386" >
+			<label class="mui-flex align-center" >
+				<div class="cell fixed title input-label mui-flex align-center" >
+					<div class="cell fixed" >买家留言：</div>
+				</div>
+				<div class="cell" >
+					<input placeholder="选填，可填写您和卖家达成一致的要求" value="" pattern=""  id="msg" name="msg">
+				</div>
+			</label>
+			<div class="seperator-wrap" >
+				<hr class="seperator" >
+			</div>
+		</div>
+		
+		<!-- 合计 -->
+		<div class="order-orderPay buy-single-row" id="orderPay_b_165131794386" >
+			<div class="line" >
+				<span >共</span>
+				<span　><span id="totalnum"></span></span>
+				<span >件，</span>
+				<span　></span>
+				<span >合计积分：</span>
+				<div class="price" >
+					<span class="dollar"　></span>
+					<span　class="main-price" id="totalprice"><span id="totalprice"></span></span>
+				</div>
+			</div>
+		</div>		
+	</div>
+	
+	<!-- 确认订单 -->
+	<div class="oh fu">
+    	<ul>
+            <li class="padt5"><a class="sbmt" ><button style="width: 100px; height: 40px; text-align: center; font-size: 16px;" id = "confirm">确认订单</button></a></li>
+        </ul>
+	</div>
+		
+</div>
+<form id="thisForm" name="thisForm" action="wxIntegralBuy.java" enctype="multipart/form-data" method="post">
+	<input type="hidden" id="cmd" name="cmd" value="integralProductOrder" >
+	<input type="hidden" id="regularId" name="regularId" value="$!regular.id" >
+	<input type="hidden" id="proId" name="pid" value="$!pro.id" >
+	<input type="hidden" id="payProNum" name="num" value="$!numstr" >
+	<input type="hidden" id="ggId" name="specid" value="$!spec.id" >
+	<input type="hidden" id="disid" name="disid" value="$!{distributor.id}" >
+	<input type="hidden" id="url" name="url" value="" >
+	#if($!addr)
+	<input type = "hidden" id = "addrid" name="addrid" value="$!addr.id">
+	#else
+	<input type = "hidden" id = "addrid" name="addrid" value="$!addrd.id">
+	#end
+	<input type = "hidden" id="msg_self" name="msg_self" value="">
+</form>
+<input type = "hidden" id = "add" value="$!addr.id">
+<input type = "hidden" id = "count" value="0">
+
+<div class="hei40" ></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+<script type="text/javascript">
+$(function(){
+	if("$!pro.name"){
+		var danjia = "$regular.integralPrice";
+		$("#totalprice").html(danjia * "$!numstr");
+		$("#totalnum").html("$!numstr");
+		var zongji = $("#totalprice").html();
+
+		$("#yunfei").html(0);
+		$("#total").html(danjia * "$!numstr" + parseFloat($("#yunfei").html()));
+	}else{
+		if("$!msg"){
+			alert("请刷新后重试！")
+			window.location.href="/wxShopBase.java?cmd=init";
+		}else{			
+			var total = 0;
+			var price = 0;
+			var price2 = 0;
+			var carid=null;
+			
+			$("#totalnum").html(total);
+			$("#totalprice").html(price);
+			$("#total").html(price);	
+		} 
+		
+	}
+	var url=null;
+	var url1 = window.location.href;
+	var url2 = $("#add").val();
+	if(url2!=""){
+		url = "$!url";
+	}else{
+		url = url1.substring(url1.lastIndexOf('wxShop'), url1.length);
+	}
+	     
+	$("#url").val(url);
+	
+
+})
+$("#confirm").click(function(){
+	
+	var str = $("#msg").val();
+	$("#msg_self").val(str);
+	if($("#addrid").val()==""){
+		alert("请选择收货地址!");
+	}else{
+		var message = "";
+		if("$!addr"){
+			message = "您的收货地址是："+ "$!addr.trueName" +"$!addr.area.loadFullTitle("-")" +"$!addr.area_info";
+		}
+		else{
+			message = "您的收货地址是："+ "$!addrd.trueName" +"$!addrd.area.loadFullTitle("-")" +"$!addrd.area_info";
+		}
+		if(confirm(message)){
+			$("#confirm").attr("disabled", "disabled");
+			$("#confirm").css("background-color", "grey");
+			$("#thisForm").submit();			
+		}
+	}	
+});
+$("#addr").click(function(){
+	var url = encodeURIComponent($("#url").val());
+	window.location.href="wxShopMemberCenter.java?cmd=toAddressList&url="+url;
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<div class="user_list_title">
+          <ul class="user_title_ul">
+            <li id="a_userInfo" #if($menuId=="a_userInfo") class="this" #end ><i></i><a href="/shopMember.java?cmd=toUserInfo&menuId=a_userInfo">基本信息</a></li>
+            <li id="a_pwd" #if($menuId=="a_pwd") class="this" #end><i></i><a href="/shopMember.java?cmd=toPage&toHtml=updatePwd&menuId=a_pwd">修改密码</a></li>
+            <li id="a_email"  #if($menuId=="a_email") class="this" #end><i></i><a href="/shopMember.java?cmd=toPage&toHtml=updateEmail&menuId=a_email">修改电子邮箱</a></li>
+            <li id="a_mobile" #if($menuId=="a_mobile") class="this" #end><i></i><a href="/shopMember.java?cmd=toPage&toHtml=updateMobile&menuId=a_mobile">绑定手机号码</a></li>
+            
+            <!-- <li id="a_pic" #if($menuId=="a_pic") class="this" #end><i></i><a href="/shopMember.java?cmd=toPage&toHtml=updatePic&menuId=a_pic">修改头像</a></li> -->
+          
+          </ul>
+        </div>

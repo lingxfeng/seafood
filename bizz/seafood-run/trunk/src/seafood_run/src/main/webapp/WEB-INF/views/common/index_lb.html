@@ -1,0 +1,34 @@
+<!-- 首页轮播管理 -->
+<script>
+	jQuery('document').ready(function(){
+		jQuery('.top_mid_slide').slide({
+			mainCell:'.top_mid_slider_ul',
+			titCell:'.banner_top li',
+			titOnClassName:'this',
+			trigger:'mouseover',
+			autoPlay:true
+			});
+	});
+</script>
+<div class="top_mid_slide">
+	<ul class="top_mid_slider_ul">
+	#foreach($obj in $NU.getLinkImg("index_pc",20))
+		<li class="top_mid_slider_ul_li" style="display: list-item; background: url($obj.imgPath) 50% 0% no-repeat rgb(243, 243, 243);">
+			<a style="width: 1002px; height: 325px; display: block; margin-left: 20%;" href="$obj.linkUrl" target="${obj.imgTarget}"></a>
+		</li>
+	#end
+	</ul>
+	<div class="banner_top">
+		<ul>
+			#set($num=1)
+			#foreach($obj in $NU.getLinkImg("index_pc",20))
+			#if($num==1)
+				<li class="this" style="cursor: pointer;"></li>
+			#else
+				<li style="cursor: pointer;"></li>
+			#end
+			#set($num=$num+1)
+			#end
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>微店订单</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/common/base.css">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+	
+<script type="text/javascript">
+	function gotoPage(n) {
+	    location.href = "/distributeOrder.java?cmd=list&currentPage=" + n;
+	}
+	
+	//立即结算
+	function saveSettlement(){
+		$.ajax({
+		    type: "POST",
+		    url: "/distributeOrder.java?cmd=saveSettlement",
+			success: function(data) {
+	            if (data.success) {
+	                alert("结算成功");
+	            } else {
+	                alert("结算失败");
+	            }
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) {
+	            alert("结算失败");
+	        }
+		});
+	}
+</script>
+<style type="text/css">
+	.statisdiv {
+		border:1px solid #D2D0D0;
+		width:100%;
+		background:#f0f9ff;
+	}
+	.table {
+	    border-collapse: collapse !important;
+	    margin-bottom: 2px;
+	    width: 100%;
+	}
+	.table td, .table th {
+	    background-color: #fff !important;
+	}
+</style>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">微店订单</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/distributeOrder.java?cmd=list" class="this"><b>订单</b></a></li>
+			</ul>
+		</div>
+		
+	    <div class="statisdiv">
+	    	<table class="table">
+	    		<tr>
+	    			<th width="20%"><span style="form_btna">微店订单总数</span></td>
+	    			<th width="20%"><span style="form_btna">微店订单总金额</span></td>
+	    			<th width="20%"><span style="form_btna">微店数</span></td>
+	    			<th width="20%"><span style="form_btna">累积微店积分</span></td>
+	    			<th width="20%"><span style="form_btna">已提现金额</span></td>
+	    		</tr>
+	    		<tr>
+	    			<td align="center">$!statisData.orderTotal</td>
+	    			<td align="center">$!statisData.orderTotalAmount</td>
+	    			<td align="center">$!statisData.distributorTotal</td>
+	    			<td align="center">$!statisData.commissionTotal</td>
+	    			<td align="center">$!statisData.checkCashTotal</td>
+	    		</tr>
+	    	</table>
+		</div>
+
+		<div class="operation" style="margin-left:0px; width:100%;">
+			<ul>
+				<li>说明：将当前符合条件(交易已完成，交易完成时间小于可提现时间限制)的订单所产生的佣金结算为可提现金额 ，手动点击【立即结算】按钮立即结算（系统默认每天会自动结算一次）。
+					<span>
+						<input class="button" type="button" name="settlement" value='立即结算' onclick="saveSettlement()"/>
+					</span>
+				</li>
+			</ul>
+		</div>
+		
+		<form name="queryForm" id="queryForm" action="/distributeOrder.java?cmd=list" method="post">
+		    <div class="search"> 
+		        <span>订单号</span>
+		        <span class="size150">
+		        	<input name="orderId" type="text" id="orderId" value="$!orderId">
+		        </span>
+		        <span>手机</span>
+		        <span class="size150">
+		        	<input name="telephone" type="text" id="telephone" value="$!telephone">
+		        </span>
+		        <span>微店</span>
+		        <span class="size150">
+		            <input name="distributorName" type="text" id="distributorName" value="$!distributorName">
+		        </span>
+		        <span>订单状态</span>
+		        <span>
+      				<select name="orderStatus" id="orderStatus">
+      					<option value="">------</option>
+	        			<option value="8">已完成</option>
+				        <option value="-1">未完成</option>
+			        </select>
+      			</span>
+		        <span class="btn_search">
+		            <input name="" type="submit" value="搜索" style="cursor:pointer;" class="search_btn">
+		        </span> 
+		    </div>
+	    </form>
+	    
+		<form name="ListForm" id="ListForm" action="/distributeOrder.java?cmd=list" method="post">
+			<div class="fshoptb2">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+							<th width="8%" align="center"><span class="form_btna">订单编号</span></th>
+							<th width="9%" align="center"><span class="form_btna">创建时间</span></th>
+							<th width="9%" align="center"><span class="form_btna">完成时间</span></th>
+							<th width="9%" align="center"><span class="form_btna">结算时间</span></th>
+							<th width="9%" align="center"><span class="form_btna">订单金额</span></th>
+							<th width="9%" align="center"><span class="form_btna">合计佣金</span></th>
+							<th width="9%" align="center"><span class="form_btna">订单状态</span></th>
+							<th width="9%" align="center"><span class="form_btna">店名</span></th>
+							<th width="9%" align="center"><span class="form_btna">手机号</span></th>
+							<th align="center"><b class="form_btna">操作</b></th>
+						</tr>
+						#foreach($obj in $list)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"><input name="ids" id="ids" type="checkbox" value="1"></td>
+							<td align="center">$obj.code</td>
+							<td align="center">$obj.createTime</td>
+							<td align="center">$!obj.tradeDate</td>
+							<td align="center">$!obj.tradeDate</td>
+							<td align="center">$obj.gross_price</td>
+							<!-- 合计佣金需计算 暂不做-->
+							<td align="center">$obj.id</td>
+							<td align="center">
+								#if($obj.status==4)
+									已完成
+								#else
+									未完成
+								#end
+							</td>
+							<td align="center">$obj.distributor.myShopName</td>
+							<td align="center">$!obj.distributor.mobile</td>
+							<td align="center">
+								<a href="javascript:void(0);" class="blue" dialog_uri="/distributeOrder.java?
+								cmd=getOrderShops&id=$obj.id" dialog_title="查看商品" dialog_width="500" 
+								dialog_height="400" dialog_id="user_login">查看</a>
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+			</div>
+		</form>
+	</div>
+</body>
+</html>

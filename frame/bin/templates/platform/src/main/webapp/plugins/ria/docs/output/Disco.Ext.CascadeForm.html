@@ -1,0 +1,159 @@
+<div xmlns:ext="http://www.extjs.com" class="body-wrap"><h1>Class <a href="source/core-3.2.html#cls-Disco.Ext.CascadeForm">Disco.Ext.CascadeForm</a></h1><table cellspacing="0"><tr><td class="label">Package:</td><td class="hd-info">Disco</td></tr><tr><td class="label">Defined In:</td><td class="hd-info">core-3.2.js</td></tr><tr><td class="label">Class:</td><td class="hd-info"><a href="source/core-3.2.html#cls-Disco.Ext.CascadeForm">Ext.CascadeForm</a></td></tr><tr><td class="label">Extends:</td><td class="hd-info">Ext.FormPanel</td></tr></table><div class="description">主从表单，主要用于Form+EditorGridPanel[+]的情况。<br/>
+比如销售出库单就是一个典型的主从表单。包括出库单的相关信息表单和出库商品明细可编辑列表。<br/>
+<pre>
+<code><b>var</b> formPanel = <b>new</b> Disco.Ext.CascadeForm({
+<i>//支持回车键导航
+</i>
+enterNavigationKey : true,
+<i>//组件导航顺序
+</i>
+navigationSequences : [<em>'client'</em>, <em>'deliveryTime'</em>, this.editGrid.id],
+<i>//创建工具栏
+</i>
+tbar : this.createFormToolBar(),
+<i>//创建北部表单（即主表单信息）
+</i>
+buildNorthForm : <b>function</b>() {
+<b>var</b> Uitl = Disco.Ext.Util;
+<b>return</b> {
+height : 70,
+frame : true,
+border : false,
+layout : <em>'form'</em>,
+style : <em>'padding:2px;'</em>,
+bodyStyle : <em>'padding:5px;'</em>,
+defaults : {
+anchor : <em>'-20'</em>
+},
+items : [{
+xtype : &quot;hidden&quot;,
+name : &quot;id&quot;
+}, Uitl.buildColumnForm(4, {
+fieldLabel : <em>'编号'</em>,
+name : <em>'sn'</em>,
+allowBlank : false,
+readOnly : true
+}, Ext.apply({}, {
+allowBlank : false,
+choiceValue : <b>function</b>(o) {
+<b>var</b> fp = formPanel.form;
+<b>if</b> (!fp
+.findField(&quot;consigneeAddress&quot;)
+.getValue()) {
+fp
+.findField(&quot;consigneeAddress&quot;)
+.setValue(o.address
+|| &quot;&quot;);
+}
+<b>if</b> (!fp.findField(&quot;consigneePhone&quot;)
+.getValue()) {
+fp.findField(&quot;consigneePhone&quot;)
+.setValue(o.tel || &quot;&quot;);
+}
+}.createDelegate(this)
+}, ConfigConst.CRM.client), {
+xtype : &quot;datefield&quot;,
+fieldLabel : <em>'下单时间'</em>,
+name : <em>'buyTime'</em>,
+format : &quot;Y-m-d&quot;,
+allowBlank : false,
+value : <b>new</b> Date()
+}, {
+xtype : &quot;datefield&quot;,
+fieldLabel : <em>'交货时间'</em>,
+name : <em>'deliveryTime'</em>,
+format : &quot;Y-m-d&quot;,
+allowBlank : false
+}), Uitl.buildColumnForm(3, {
+panelCfg : {
+columnWidth : .25
+},
+fieldLabel : <em>'联系电话'</em>,
+name : <em>'consigneePhone'</em>,
+allowBlank : false
+}, {
+panelCfg : {
+columnWidth : .25
+},
+fieldLabel : <em>'联系地址'</em>,
+name : <em>'consigneeAddress'</em>,
+allowBlank : false
+}, {
+panelCfg : {
+columnWidth : .5
+},
+fieldLabel : <em>'备注'</em>,
+name : <em>'remark'</em>,
+allowBlank : false
+})]
+}
+},
+<i>//创建南部表单，即主表单附属信息
+</i>
+buildSouthForm : <b>function</b>() {
+<b>return</b> {
+height : 45,
+border : false,
+frame : true,
+region : &quot;south&quot;,
+style : <em>'padding:1px;'</em>,
+items : [Disco.Ext.Util.twoColumnPanelBuild(3, Ext.apply({}, {
+fieldLabel : <em>'业务员'</em>
+}, ConfigConst.CRM.seller), {
+xtype : &quot;labelfield&quot;,
+fieldLabel : <em>'制单'</em>,
+name : &quot;inputUser&quot;,
+value : {
+trueName : &quot;$!{session.DISCO_SECURITY_USER.trueName}&quot;
+},
+renderer : objectRender
+}, {
+xtype : &quot;labelfield&quot;,
+fieldLabel : <em>'审核'</em>,
+name : &quot;auditor&quot;,
+renderer : objectRender
+})]
+}
+},
+<i>//创建从表单，即可编辑表格
+</i>
+buildContentForm : <b>function</b>() {
+<b>return</b> editGrid;
+}
+});</code>
+</pre></div><div class="hr"></div><a id="Disco.Ext.CascadeForm-configs"></a><h2>Config Options</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Config Options</th><th class="msource-header">Defined By</th></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-buildContentForm"></a><b><a href="source/core-3.2.html#cfg-Disco.Ext.CascadeForm-buildContentForm">buildContentForm</a></b> : Function<div class="mdesc">创建可编辑组件的方法。</div></td><td class="msource">Ext.CascadeForm</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-formElements"></a><b><a href="source/core-3.2.html#cfg-Disco.Ext.CascadeForm-formElements">formElements</a></b> : Array<div class="mdesc">如果是在border布局下，指定需要哪些region组件。<br/>
+在这里设置了region，才会去调用对应的buildXXXForm方法。</div></td><td class="msource">Ext.CascadeForm</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-layout"></a><b><a href="source/core-3.2.html#cfg-Disco.Ext.CascadeForm-layout">layout</a></b> : String<div class="mdesc">Form表单内的布局</div></td><td class="msource">Ext.CascadeForm</td></tr></tbody></table><a id="Disco.Ext.CascadeForm-props"></a><h2>Public Properties</h2><div class="no-members">This class has no public properties.</div><a id="Disco.Ext.CascadeForm-methods"></a><h2>Public Methods</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Method</th><th class="msource-header">Defined By</th></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-addEditCmps"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CascadeForm-addEditCmps">addEditCmps</a></b>(&nbsp;<code>Component/Array[]&nbsp;Component}</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">添加可以编辑的组件 在主从表单中，可能存在一个主表单+多个可编辑列表的情况。&#13;
+如果是存在多个可编辑列表的情况，可以使用该方法把所有可编辑列表添加进去。&#13;
+只有添加为可编辑组件的组件，在主表单提交的时候，才会从这些可编辑列表中取得表单...</div><div class="long">添加可以编辑的组件<br/> 在主从表单中，可能存在一个主表单+多个可编辑列表的情况。<br/>
+如果是存在多个可编辑列表的情况，可以使用该方法把所有可编辑列表添加进去。<br/>
+只有添加为可编辑组件的组件，在主表单提交的时候，才会从这些可编辑列表中取得表单值。<br/><div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>Component}</code> : Component/Array[]<div class="sub-desc">cmp 可编辑组件实例。</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.CascadeForm</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-buildContentForm"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CascadeForm-buildContentForm">buildContentForm</a></b>()
+    :
+                                        void<div class="mdesc"><div class="short">构建中心表单面板</div><div class="long">构建中心表单面板<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.CascadeForm</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-buildEastForm"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CascadeForm-buildEastForm">buildEastForm</a></b>()
+    :
+                                        void<div class="mdesc"><div class="short">构建东部表单面板</div><div class="long">构建东部表单面板<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.CascadeForm</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-buildNorthForm"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CascadeForm-buildNorthForm">buildNorthForm</a></b>()
+    :
+                                        void<div class="mdesc"><div class="short">构建北部表单面板</div><div class="long">构建北部表单面板<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.CascadeForm</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-buildSouthForm"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CascadeForm-buildSouthForm">buildSouthForm</a></b>()
+    :
+                                        void<div class="mdesc"><div class="short">构建南部表单面板</div><div class="long">构建南部表单面板<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.CascadeForm</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-buildWestForm"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CascadeForm-buildWestForm">buildWestForm</a></b>()
+    :
+                                        void<div class="mdesc"><div class="short">构建西部表单面板</div><div class="long">构建西部表单面板<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.CascadeForm</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-createContent"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CascadeForm-createContent">createContent</a></b>()
+    :
+                                        Component<div class="mdesc"><div class="short">创建Form主体部分&#13;
+可以在该方法中创建所有主从表单中所需要的可编辑组件。</div><div class="long">创建Form主体部分
+可以在该方法中创建所有主从表单中所需要的可编辑组件。<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li><code>Component</code><div class="sub-desc">cf 创建的可编辑的组件。</div></li></ul></div></div></div></td><td class="msource">Ext.CascadeForm</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-getEditCmps"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CascadeForm-getEditCmps">getEditCmps</a></b>()
+    :
+                                        Array<div class="mdesc"><div class="short">获取面板中可以编辑的组件</div><div class="long">获取面板中可以编辑的组件<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li><code>Array</code><div class="sub-desc">cmps 得到表单中可编辑组件的数组。</div></li></ul></div></div></div></td><td class="msource">Ext.CascadeForm</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-getEditorCmpValues"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CascadeForm-getEditorCmpValues">getEditorCmpValues</a></b>()
+    :
+                                        Object<div class="mdesc"><div class="short">获取可编辑组件的值&#13;
+EditorGridPanel，EditorTreeGridPanel都已经实现了getRowsValues方法。&#13;
+如果是要实现自己的可编辑组件，要在表单提交的时候能够得到其中的值，也需要实现一个getRows...</div><div class="long">获取可编辑组件的值<br/>
+EditorGridPanel，EditorTreeGridPanel都已经实现了getRowsValues方法。<br/>
+如果是要实现自己的可编辑组件，要在表单提交的时候能够得到其中的值，也需要实现一个getRowsValues()的方法。<br/><div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li><code>Object</code><div class="sub-desc">v 得到的所有可编辑组件的值的对象。</div></li></ul></div></div></div></td><td class="msource">Ext.CascadeForm</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-getValues"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CascadeForm-getValues">getValues</a></b>()
+    :
+                                        Object<div class="mdesc"><div class="short">获取整个表单的数据，包括表单中所有可编辑组件的值。</div><div class="long">获取整个表单的数据，包括表单中所有可编辑组件的值。<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li><code>Object</code><div class="sub-desc">o 得到的主表单的值对象。</div></li></ul></div></div></div></td><td class="msource">Ext.CascadeForm</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-setValues"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CascadeForm-setValues">setValues</a></b>(&nbsp;<code>Object&nbsp;values</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">设置表单数据</div><div class="long">设置表单数据<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>values</code> : Object<div class="sub-desc"></div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.CascadeForm</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CascadeForm-submit"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CascadeForm-submit">submit</a></b>(&nbsp;<code>Object&nbsp;options</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">提交表单数据</div><div class="long">提交表单数据<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>options</code> : Object<div class="sub-desc"></div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.CascadeForm</td></tr></tbody></table><a id="Disco.Ext.CascadeForm-events"></a><h2>Public Events</h2><div class="no-members">This class has no public events.</div></div>

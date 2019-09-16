@@ -1,0 +1,47 @@
+<script>
+jQuery(document).ready(function(){
+  jQuery("#theForm").validate({					 
+       rules: {
+			content: "required"			},
+		messages: {
+			content: "内容不能为空"					},
+	   errorPlacement: function(error, element){ 
+	      if(jQuery(error[0]).html()!=""){
+		      element.parent().remove(".ask_error");
+		      element.parent().append("<i class='ask_error'></i>");
+              error.appendTo(element.parent().find(".ask_error"));
+	        }
+        },
+	   submitHandler:function(){
+	      var params = jQuery("#theForm").serialize();
+		  jQuery.ajax({type:'POST',url:'/shopMemberCenter.java?cmd=saveZixun',data:params,success:function(data){
+		      jQuery("#goods_consult_list").empty();
+			  jQuery("#goods_consult_list").append(data);
+			  jQuery("#goods_cousult_win").remove();
+		  }}
+		 );
+	   }
+  });
+});
+</script>
+<form action="/shopMemberCenter.java?cmd=saveZixun" method="post" id="theForm" name="theForm">
+  <div class="consultation_top_c_ask_center">
+    <ul>
+      <li class="ask_c_select"> <span>分类：</span>
+        <select name="otherType" id="otherType" class="ask_c_select_s">
+          <option value="1">产品咨询</option>
+          <option value="2">库存及配送</option>
+          <option value="3">支付及发票</option>
+          <option value="4">售后咨询</option>
+          <option value="5">促销活动</option>
+        </select>
+      </li>
+      <li class="ask_c_word"> <span>内容：</span>
+        <textarea name="content" cols="" rows="" id="content"></textarea>
+        </li>
+             <li class="ask_c_submit" style="margin-left:0px; text-align:center;"><a href="javascript:void(0);" onclick="jQuery('#theForm').submit();">提交</a>
+        <input name="proId" type="hidden" id="proId" value="$proId" />
+      </li>
+    </ul>
+  </div>
+</form>

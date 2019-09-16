@@ -1,0 +1,719 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css"/>
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.bigcolorpicker.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/commonutil.js"></script>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+
+<script>
+var brandAll=[],mybrands=[],brandsP=[];
+jQuery(document).ready(function(){
+	
+//设置默认状态以及判断初始显示状态
+	#if(!${entry} || ${entry.isShow})
+		setIsNo('isShow',true);
+	#else
+		setIsNo('isShow',false);
+	#end
+	#if(!${entry} || ${entry.isRecommend})
+		setIsNo('isRecommend',true)
+	#else
+		setIsNo('isRecommend',false)
+	#end
+	#if(!$entry || ${entry.isChilrenBrand})
+		setIsNo('isChilrenBrand',true);
+	#else
+		setIsNo('isChilrenBrand',false);
+	#end
+	#if(!$entry || ${entry.isChilrenAtt})
+		setIsNo('isChilrenAtt',true);
+	#else
+		setIsNo('isChilrenAtt',false);
+	#end
+	
+	
+	
+	jQuery("#parentId").val("$!{parentId}");
+	jQuery("#seoKey").val("$!{entry.seoKey}");
+	jQuery("#seoDescripts").val("$!{entry.seoDescripts}");
+	var bi=0;
+	#foreach($obj in $brands)
+	brandAll[bi]={};
+	brandAll[bi].id="$obj.id";
+	brandAll[bi].name="$obj.name";
+	brandAll[bi].brandTypeId="$obj.brandType.id";
+	bi++;
+	#end
+	var brandType = "";
+	bi=0;
+	#foreach($obj in $entry.brands)
+	mybrands[bi]="$obj.id";
+	bi++;
+	brandType="$!{obj.brandType.id}";
+	#end
+	bi=0;
+	#foreach($obj in $brandsP)
+		brandsP[bi]="$obj.id";
+	bi++;
+	#end
+	jQuery("#brandType").val(brandType);
+	changeBrandType(brandType);
+	#foreach($obj in $canshus)
+		jQuery("#canshu_colType_$!{obj.id}").val('$!{obj.colType}');
+		changecsvalue('$obj.id','','$obj.value');
+	#end
+	#foreach($obj in $attrs)
+		#if($obj.issx)
+			setIsNo('attr_issx_${obj.id}',true);
+		#else
+			setIsNo('attr_issx_${obj.id}',false);
+		#end
+		#if($obj.isGuig)
+			setIsNo('attr_isGuig_${obj.id}',true);
+		#else
+			setIsNo('attr_isGuig_${obj.id}',false);
+		#end
+	#end
+jQuery.validator.addMethod("verify",function(value,element){
+		var re =  /^([0-9a-zA-Z]|[\u4E00-\u9FA5]|[.]{1}[0-9])+$/;
+        if(re.test(jQuery("#cRatio").val())){			
+			return true;
+		  } 
+		  else {
+		    return false;
+			  }		  
+});
+  jQuery("#theForm").validate({
+    rules:{
+	  name:{
+	    required :true,
+	     remote:{
+		    url: "/productType.java?cmd=checkName",     //后台处理程序
+            type: "post",               //数据发送方式
+            dataType: "json",           //接受数据格式   
+            data: {                     //要传递的数据
+                  "name": function(){return jQuery("#name").val();},
+				  "parentId":function(){return jQuery("#parentId").val()},
+				  "id":function(){return jQuery("#id").val()}
+		     }
+			}
+	  },
+	  sequence:{number:true,maxlength:12},
+	  code:{required :true}
+	 },
+	messages:{
+	  name:{required:"分类名称不能为空",remote:"该分类已经存在"},
+	  sequence:{number:"请正确输入排序",maxlength:"请正确输入排序"},
+	  code:{required:"商品编号不可为空"}
+	}
+  });
+  
+   jQuery("input[type='file']").change(function(){
+	 jQuery(this).parent().parent().find("input[type='text']").val(jQuery(this).val());
+   });
+ //table切换
+   jQuery("#ul_div li").click(function(){
+   	jQuery(this).parent().find("li a").removeClass("this");	
+   	jQuery(this).find("a").addClass("this");
+   	var id =jQuery(this).attr("id");
+   	jQuery("div[id$=_pType]").hide();
+   	jQuery("div[id="+id+"_pType]").show();
+    });
+});////
+
+function saveForm(method){
+	jQuery("#addNum").val(addNum);
+	jQuery("#canshuNum").val(canshuNum);
+	jQuery("#guigNum").val(guigNum);
+	var sequence = jQuery("#sequence").val();
+	if(!sequence){
+		jQuery("#sequence").val(1);
+	}
+	var cRatio = jQuery("#cRatio").val();
+	if(!cRatio){
+		jQuery("#cRatio").val(0.0);
+	}
+	var brands = jQuery("input[type='checkbox'][name='brandtemp']:checked");
+	var bandstr=""
+	for(var i =0;i<brands.length;i++){
+		bandstr+=brands[i].value+"_";
+	}
+	jQuery("#brandIds").val(bandstr);
+   jQuery("#theForm").submit();
+}
+var addNum=0;
+function remove_gtp(obj,id){
+	jQuery(obj).remove();
+}
+//添加属性
+function add_gtp(){
+ addNum++;
+ var gtp="<tr id='goods_type_property_add_"+addNum+"'> <td><span class='size70'><input name='attr_add_sequence_"+addNum+"' type='text' id='attr_add_sequence_"+addNum+"' /></span></td><td><span class='size200'><input name='attr_add_name_"+addNum+"' type='text' id='attr_add_name_"+addNum+"' /></span></td><td><span class='size250'><input name='attr_add_value_"+addNum+"' type='text' id='attr_add_value_"+addNum+"' readonly=true/></span></td>"
+ +"<td class='hui oprate_con' align='center'>"
+ +"<a href='javascript:void(0);' onclick='editOptions(\"attr_add_value_"+addNum+"\",\"attrKeyValue\")' class='blue'>编辑</a>"
+ +"<a href='javascript:void(0);' onclick='remove_gtp(this.parentNode.parentNode,\"\")' class='blue'>删除</a></td></tr>";		 
+ jQuery("tr[id^=goods_type_property_]:last").after(gtp);
+}
+var canshuNum=0;
+//添加参数
+function add_canshu(){
+	canshuNum++;
+	 var gtp="<tr id='goods_type_canshu_add_"+canshuNum+"'> <td><span class='size70'><input name='canshu_add_sequence_"+canshuNum+"' type='text' id='canshu_add_sequence_"+canshuNum+"' /></span></td><td><span class='size200'><input name='canshu_add_name_"+canshuNum+"' type='text' id='canshu_add_name_"+canshuNum+"' /></span></td>"
+	 +"<td><span class='size200'>"
+	 	+"<select name='canshu_add_colType_"+canshuNum+"' id='canshu_add_colType_"+canshuNum+"' onchange='changecsvalue(\""+canshuNum+"\",\"add_\",\"\")'>"
+	 	+"<option value='1'>字符串</option>"
+	 	+"<option value='2'>数字</option>"
+	 	+"<option value='3'>日期</option>"
+	 	+"<option value='4'>下拉选项</option>"
+	 	+"</select>"
+	 +"</span></td>"
+	 +"<td><span class='size250' id='canshu_add_span_"+canshuNum+"'>无</span></td><td class='hui oprate_con' align='center'>"
+	 +"<a href='javascript:void(0);' onclick='remove_gtp(this.parentNode.parentNode,\"\")' class='blue'>删除</a></td></tr>";		 
+	 jQuery("tr[id^=goods_type_canshu_]:last").after(gtp);
+	}
+var guigNum=0;
+function add_guig(){
+	guigNum++;
+	var gtp="<tr id='goods_type_guig_add_"+guigNum+"'> <td><span class='size70'><input name='guig_add_sequence_"+guigNum+"' type='text' id='guig_add_sequence_"+guigNum+"' /></span></td><td><span class='size200'><input name='guig_add_name_"+guigNum+"' type='text' id='guig_add_name_"+guigNum+"' /></span></td><td><span class='size250'><input name='guig_add_value_"+guigNum+"' type='text' id='guig_add_value_"+guigNum+"' readonly=true/></span></td><td class='hui oprate_con' align='center'>"
+	 +"<a href='javascript:void(0);' onclick='editOptions(\"guig_add_value_"+guigNum+"\",\"guigeKeyValue\")' class='blue'>编辑</a>"
+	+"<a href='javascript:void(0);' onclick='remove_gtp(this.parentNode.parentNode,\"\")' class='blue'>删除</a></td></tr>";		 
+	 jQuery("tr[id^=goods_type_guig_]:last").after(gtp);
+}
+
+
+function changeBrandType(brandType){
+	jQuery("#brands").empty();
+	if(brandType){
+	var htmlstr="";
+	for(var i =0;i<brandAll.length;i++){
+		if(brandAll[i].brandTypeId==brandType && brandsP.indexOf(brandAll[i].id)==-1){
+			htmlstr+='<label class="type_brand"><input type="checkbox" name="brandtemp" value="'+brandAll[i].id+'"';
+			if(mybrands.indexOf(brandAll[i].id)!=-1){
+				htmlstr+= ' checked="checked"'
+			}
+			htmlstr+='>&nbsp;<b>'+brandAll[i].name+'</b></label>&nbsp;&nbsp;'
+		}
+	}
+		jQuery("#brands").html(htmlstr)
+	}
+}
+//改变参数类型
+function changecsvalue(id,add,valselect){
+	var val = jQuery("#canshu_"+add+"colType_"+id).val();
+	jQuery("#canshu_"+add+"span_"+id).empty();
+	if(val=="4"){
+		jQuery("<input name='canshu_"+add+"value_"+id+"' type='text' id='canshu_"+add+"value_"+id+"' value='"+valselect+"' readonly=true/>").appendTo(jQuery("#canshu_"+add+"span_"+id));
+		var editButton = "<a id='editButton_"+add+id+"' href='javascript:void(0);' onclick='editOptions(\"canshu_"+add+"value_"+id+"\",\"canshuKeyValue\")' class='blue'>编辑</a>";
+		jQuery("#goods_type_canshu_"+add+id+" td:last-child").prepend(editButton);
+	}else{
+		jQuery("<span>无</span>").appendTo(jQuery("#canshu_"+add+"span_"+id));
+		jQuery("#editButton_"+add+id).remove();
+	}
+	
+}
+
+var showGg = function(v){
+	$("#guig_add_value_"+v).val(v);
+	$("#user_product").hide()
+}
+
+var addGg = function(v){
+	$("#user_product").show();
+}
+function editOptions(id,dialogId){
+	var val=jQuery("#"+id).val();
+	var htmlstr='<table id="'+id+'_table" width="80%" border="0" cellspacing="0" cellpadding="0" class="fshop_table"><tbody><tr><th width="70%"><span class="form_btna"><strong>名称</strong></span></th><th width="30%"><span class="form_btna"><strong>操作</strong></span></th></tr><tr id="'+id+'_end"><td><span class="newclass"><a href="javascript:void(0);" onclick="addtoAttrKTable(\''+id+'_end\',\'\');">新增一个属性</a></span></td><td><span class="newclass"><a href="javascript:void(0);" onclick="querentianjia(\''+id+'\',\''+dialogId+'\');">确定</a></span></td></tr></tbody></table>';
+	createDialogcur(dialogId,"编辑选项",300,400,100,htmlstr);
+	if(val){
+		var vals = val.split(",");
+		for(var i=0;i<vals.length;i++){
+			addtoAttrKTable(id+"_end",vals[i])
+		}
+	}
+}
+function addtoAttrKTable(id,val){
+	var elestr = '<tr><td><span class="size200"><input style="margin: 10px;" id="edit_attr" value="'+val+'"></span></td><td class="hui oprate_con" align="center"><a style="margin: 10px;" href="javascript:void(0);" onclick="remove_gtp(this.parentNode.parentNode,1)" class="blue">删除</a></td></tr>';
+	jQuery("#"+id).before(elestr)
+}
+function querentianjia(id,dialogId){
+	var vals="";
+	var valInputeles = jQuery("#"+id+"_table tr input");
+	valInputeles.each(function(){
+		var valstr =jQuery(this).val();
+		if(valstr){
+			vals+=valstr+",";
+		}
+	})
+	if(vals){
+		vals = vals.substring(0,vals.length-1)
+	}
+	jQuery("#"+id).val(vals);
+	jQuery("#"+dialogId).remove();
+}
+</script>
+</head>
+<body>
+<div class="cont">
+  <h1 class="seth">商品分类</h1>
+  <div class="nav_list">
+    <ul id="ul_div">
+      <li id="base"><a href="javascript:void(0);" class="this"><b>基本信息</b></a></li>
+      <li id="attrs"><a href="javascript:void(0);"><b>属性</b></a></li>
+      <li id="canshus"><a href="javascript:void(0);"><b>参数</b></a></li>
+      <li id="guig"><a href="javascript:void(0);"><b>规格</b></a></li>
+          </ul>
+  </div>
+  <form name="theForm" id="theForm" action="/productType.java" method="post" enctype="multipart/form-data" novalidate="novalidate">
+  <input name="cRatio" type="hidden" id="cRatio" value="0.1" size="40"/>
+  <div id="base_pType">
+    <input name="id" type="hidden" id="id" value="$!{entry.id}">
+    <input name="addNum" type="hidden" id="addNum" value="">
+    <input name="canshuNum" type="hidden" id="canshuNum" value=""/>
+    <input name="guigNum" type="hidden" id="guigNum" value=""/>
+    <input name="brand" type="hidden" id="brandIds" value="">
+    #if($entry)
+    	<input name="cmd" type="hidden" value="update">
+    #else
+    <input name="cmd" type="hidden" value="save">
+    #end
+    <div class="edit">
+      <div class="setcont editul">
+        <ul class="set1">
+          <li class="setcont_bg"><strong class="sred">*</strong>分类名称</li>
+          <li><span class="webname">
+            <input name=name type="text" id="name" value="$!{entry.name}" size="40">
+            </span></li>
+        </ul>
+        <ul class="set1">
+          <li class="setcont_bg"><strong class="sred">*</strong>分类编号</li>
+          <li><span class="webname">
+          #if($entry)
+            <span name=code type="text" id="code" size="40">$!{entry.code} </span>
+          #else
+          	<input name=code type="text" id="code" value="" size="40" onblur="checkCode();" />
+          #end
+            </span></li>
+        </ul>
+        <ul class="set1" style="display:none;">
+          <li class="setcont_bg"><strong class="sred">*</strong>是否特殊商品</li>
+          <li><span class="webname">
+          	#if($entry)
+            <input name="isSpecialProType" id="isSpecialProType" type="hidden" value="$!{entry.isSpecialProType}" />
+            #else
+            <input name="isSpecialProType" id="isSpecialProType" type="hidden" value="0" />
+            #end
+            <img src="/static/home/shopmanage/images/on.jpg" width="61" height="23" id="isSpecialProTypeOn" onclick="setIsNoimg2('isSpecialProType');" style="cursor: pointer; display: none;" /> 
+            <img src="/static/home/shopmanage/images/off.jpg" width="61" height="23" id="isSpecialProTypeOff" onclick="setIsNoimg2('isSpecialProType');" style="cursor:pointer" /></li>
+            </span>
+            </li>
+        </ul>
+        <ul class="set1" style="display:none;">
+          <li class="setcont_bg"></strong>特殊商品密码</li>
+          <li><span class="webname">
+            <input name="password" type="text" id="password" value="$!{entry.password}" size="40"/>
+            </span></li>
+        </ul>
+        <!--鼠标未经过样式-->
+        <ul class="set1">
+          <li class="setcont_bg">上级分类</li>
+          <li><span>
+            <select name="parentId" id="parentId"  onfocus="this.defaultIndex=this.selectedIndex;" onchange="this.selectedIndex=this.defaultIndex;">
+              <option value="">请选择上级商品分类...</option>
+              #foreach($obj in $proTypes)
+              	<option value="$!obj.id">$obj.name</option>
+              	#if($obj.chilren)
+              		#foreach($obj2 in $obj.chilren)
+              			<option value="$obj2.id">&nbsp;&nbsp;&nbsp;&nbsp;$!{obj2.name}</option>
+              		#end
+              	#end
+              #end
+            </select>
+            </span><span id="nothis"><strong class="q"></strong><strong class="w">如果选择上级分类，那么新增的分类则为被选择上级分类的子分类</strong><strong class="c"></strong></span></li>
+        </ul>
+        <ul class="set1">
+          <li class="setcont_bg">显示</li>
+          <li class="webSwitch">
+            <input name="isShow" id="isShow" type="hidden" value="$!{entry.isShow}">
+            <img src="/static/home/shopmanage/images/on.jpg" width="61" height="23" id="isShowOn" onclick="setIsNoimg('isShow');" style="cursor:pointer">
+             <img src="/static/home/shopmanage/images/off.jpg" width="61" height="23" id="isShowOff" onclick="setIsNoimg('isShow');" style="cursor: pointer; display: none;">
+             </li>
+        </ul>
+        <ul class="set1">
+          <li class="setcont_bg">推荐</li>
+          <li class="webSwitch"> <span>
+            <input name="isRecommend" id="isRecommend" type="hidden" value="$!{entry.isRecommend}">
+            <img src="/static/home/shopmanage/images/on.jpg" width="61" height="23" id="isRecommendOn" onclick="setIsNoimg('isRecommend');" style="cursor:pointer"> <img src="/static/home/shopmanage/images/off.jpg" width="61" height="23" id="isRecommendOff" onclick="setIsNoimg('isRecommend');" style="cursor: pointer; display: none;"></span><span id="nothis"><strong class="q"></strong><strong class="w">推荐商品分类将会在首页楼层显示</strong><strong class="c"></strong></span></li>
+        </ul>
+        <ul class="set1">
+          <li class="setcont_bg">品牌分类</li>
+          <li><span>
+            <select name="brandType" id="brandType" onchange="changeBrandType(this.value);">
+              <option value="">请选择品牌分类...</option>
+              #foreach($obj in $brandTypes)
+              	<option value="$obj.id">$obj.name</option>
+              #end
+            </select>
+            </span><span id="nothis"><strong class="q"></strong><strong class="w">如果选择上级分类，那么新增的分类则为被选择上级分类的子分类</strong><strong class="c"></strong></span></li>
+        </ul>
+        <ul class="set1" id="goodsTypeBrand" style="">
+          <li class="setcont_bg">品牌</li>
+          <li> <span style="width:740px;" id="brands">
+          </span><span class="use_code"><strong> </strong></span><strong></strong></li>
+        </ul>
+        <ul class="set1">
+          <li class="setcont_bg">品牌是否关联到下级</li>
+          <li class="webSwitch"> <span>
+            <input name="isChilrenBrand" id="isChilrenBrand" type="hidden" value="$!{entry.isChilrenBrand}">
+            <img src="/static/home/shopmanage/images/on.jpg" width="61" height="23" id="isChilrenBrandOn" onclick="setIsNoimg('isChilrenBrand');" style="cursor:pointer"> <img src="/static/home/shopmanage/images/off.jpg" width="61" height="23" id="isChilrenBrandOff" onclick="setIsNoimg('isChilrenBrand');" style="cursor: pointer; display: none;"></span><span id="nothis"><strong class="q"></strong><strong class="w">关联到下级的品牌自动拥有父级的品牌</strong><strong class="c"></strong></span></li>
+        </ul>
+        <ul class="set1">
+          <li class="setcont_bg">父级品牌</li>
+          <li> <span style="width:740px;">
+          	#foreach($obj in $brandsP)
+          		<label class="type_brand"><input disabled="disabled" type="checkbox" checked="checked"/>&nbsp;&nbsp;<b>$obj.name</b></label>&nbsp;&nbsp;
+          	#end
+          </span><span class="use_code"><strong> </strong></span><span id="nothis"><strong class="q"></strong><strong class="w">父级拥有的品牌</strong></span> <strong></strong></li>
+        </ul>
+        <ul class="set1">
+          <li class="setcont_bg">属性参数关联到下级</li>
+          <li class="webSwitch"> <span>
+            <input name="isChilrenAtt" id="isChilrenAtt" type="hidden" value="$!{entry.isChilrenAtt}">
+            <img src="/static/home/shopmanage/images/on.jpg" width="61" height="23" id="isChilrenAttOn" onclick="setIsNoimg('isChilrenAtt');" style="cursor:pointer"> <img src="/static/home/shopmanage/images/off.jpg" width="61" height="23" id="isChilrenAttOff" onclick="setIsNoimg('isChilrenAtt');" style="cursor: pointer; display: none;"></span><span id="nothis"><strong class="q"></strong><strong class="w">关联到下级的属性参数自动拥有父级的属性参数</strong><strong class="c"></strong></span></li>
+        </ul>
+        <ul class="set1">
+          <li class="setcont_bg">底层颜色</li>
+          <li><span class="webname">
+            <input name="curColor" type="text" id="curColor" value="$!{entry.curColor}">
+            </span><span id="nothis"><strong class="q"></strong><strong class="w">显示该分类时的颜色如：#ffffff</strong><strong class="c"></strong></span></li>
+        </ul>
+        <ul class="set1">
+        <li class="setcont_bg"><strong class="sred"></strong>图标上传</li>
+        <li><span class="webname">
+          <input name="imgPath" type="file" value="">
+        </span><span id="nothis">
+        #if($!entry.imgPath)
+        <img height="50" src="$!{entry.imgPath}"></img>
+        #end
+        </span></li>
+      	</ul>
+      	<ul class="set1">
+        <li class="setcont_bg"><strong class="sred"></strong>广告上传</li>
+        <li><span class="webname">
+          <input name="advImg" type="file" value="">
+        </span><span id="nothis">
+        #if($!entry.advImg)
+        <img height="100" src="$!{entry.advImg}"></img>
+        #end
+        </span></li>
+      	</ul>
+      	<ul class="set1">
+          <li class="setcont_bg">广告链接</li>
+          <li><span class="webname">
+            <input name="advUrl" type="text" id="advUrl" value="$!{entry.advUrl}">
+            </span></li>
+        </ul>
+        <ul class="set1">
+          <li class="setcont_bg">排序</li>
+          <li><span class="webname">
+            <input name="sequence" type="text" id="sequence" value="$!{entry.sequence}">
+            </span><span id="nothis"><strong class="q"></strong><strong class="w">序号越小，分类显示越靠前</strong><strong class="c"></strong></span></li>
+        </ul>
+        <ul class="set1">
+          <li class="setcont_bg">SEO关键字</li>
+          <li><span class="webname">
+            <textarea name="seoKey" cols="40" rows="6" id="seoKey" value="$!{entry.seoKey}"></textarea>
+            </span></li>
+        </ul>
+        <ul class="set1">
+          <li class="setcont_bg">SEO描述</li>
+          <li><span class="webname">
+            <textarea name="seoDescripts" cols="40" rows="6" id="seoDescripts" value="$!{entry.seoDescripts}"></textarea>
+            </span></li>
+        </ul>
+      </div>
+      </div>
+      </div>
+      <div id="attrs_pType" style="display:none">
+      <!-- 商品属性 -->
+      <div class="specification">
+        <h2>新增属性</h2>
+         <div class="fshoptb">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="fshop_table">
+          <tbody><tr id="goods_type_property_">
+            <th width="70"><span class="form_btna"><strong>排序</strong></span></th>
+            <th width="270"><span class="form_btna"><strong>属性名称</strong></span></th>
+            <th width="270"><span class="form_btna"><strong>选项</strong></span></th>
+            <th width="100"><span class="form_btna"><strong>操作</strong></span></th>
+          </tr>
+          #foreach($obj in $attrs)
+          <tr id="goods_type_property_${obj.id}">
+            <td><span class="size70">
+              <input name="attr_sequence_${obj.id}" type="text" id="attr_sequence_${obj.id}" value="$!{obj.sequence}">
+              </span>
+            </td>
+            <td><span class="size200">
+              <input name="attr_name_${obj.id}" type="text" id="attr_name_${obj.id}" value="$!{obj.name}">
+              </span>
+            </td>
+            <td><span class="size250">
+              <input name="attr_value_${obj.id}" type="text" id="attr_value_${obj.id}" value="$!{obj.value}" readonly=true>
+              </span>
+            </td>
+            <td class="hui oprate_con" align="center"><a href="javascript:void(0);" onclick="editOptions('attr_value_${obj.id}','attrKeyValue');" class="blue">编辑</a><a href="javascript:void(0);" onclick="remove_gtp(this.parentNode.parentNode,'$!{obj.id}')" class="blue">删除</a></td>
+          </tr>
+          #end
+           <tr>
+            <td colspan="2"><span class="newclass"><a href="javascript:void(0);" onclick="add_gtp();">新增一个属性</a></span></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </tbody></table>
+        </div>
+      </div>
+      #if($attrsP && $attrsP.size()!=0)
+      <div class="specification" style="background-color: #ede9e9;">
+        <h2>父级拥有的属性</h2>
+         <div class="fshoptb">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="fshop_table">
+          <tbody><tr>
+            <th width="70"><span class="form_btna"><strong>排序</strong></span></th>
+            <th width="270"><span class="form_btna"><strong>属性名称</strong></span></th>
+            <th width="270"><span class="form_btna"><strong>属性可选值</strong></span></th>
+          </tr>
+          #foreach($obj in $attrsP)
+          <tr>
+            <td><span class="size70">
+              $!{obj.sequence}
+              </span></td>
+            <td><span class="size200">
+            $!{obj.name}
+              </span></td>
+            <td><span class="size250">
+            	$!{obj.value}
+              </span></td>
+          </tr>
+          #end
+        </tbody></table>
+        </div>
+      </div>
+      #end
+      </div>
+      <div id="canshus_pType" style="display:none">
+      <!-- 商品参数 -->
+      <div class="specification">
+        <h2>新增参数</h2>
+         <div class="fshoptb">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="fshop_table">
+          <tbody><tr id="goods_type_canshu_">
+            <th width="70"><span class="form_btna"><strong>排序</strong></span></th>
+            <th width="270"><span class="form_btna"><strong>参数名称</strong></span></th>
+            <th width="150"><span class="form_btna"><strong>参数类型</strong></span></th>
+            <th width="270"><span class="form_btna"><strong>参数选项</strong></span></th>
+            <th width="100"><span class="form_btna"><strong>操作</strong></span></th>
+          </tr>
+          #foreach($obj in $canshus)
+          <tr id="goods_type_canshu_${obj.id}">
+            <td><span class="size70">
+              <input name="canshu_sequence_${obj.id}" type="text" id="canshu_sequence_${obj.id}" value="$!{obj.sequence}">
+              </span></td>
+            <td><span class="size200">
+              <input name="canshu_name_${obj.id}" type="text" id="canshu_name_${obj.id}" value="$!{obj.name}">
+              </span></td>
+             <td><span class="size200">
+             <select name="canshu_colType_${obj.id}" id="canshu_colType_${obj.id}" onchange="changecsvalue('$!{obj.id}','','$!{obj.value}');">
+             	<option value="1">字符串</option>
+             	<option value="2">数字</option>
+             	<option value="3">日期</option>
+             	<option value="4">下拉选项</option>
+             </select>
+             </span></td>
+            <td><span class="size250" id="canshu_span_$!{obj.id}">
+              <input name="canshu_value_${obj.id}" type="text" id="attr_value_${obj.id}" value="$!{obj.value}" readonly=true>
+              </span></td>
+            <td class="hui oprate_con" align="center"><a href="javascript:void(0);" onclick="remove_gtp(this.parentNode.parentNode,'$!{obj.id}')" class="blue">删除</a></td>
+          </tr>
+          #end
+           <tr>
+            <td colspan="2"><span class="newclass"><a href="javascript:void(0);" onclick="add_canshu();">新增一个参数</a></span></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </tbody></table>
+        </div>
+      </div>
+      #if($canshusP && $canshusP.size()!=0)
+      <div class="specification" style="background-color: #ede9e9;">
+        <h2>父级拥有的参数</h2>
+         <div class="fshoptb">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="fshop_table">
+          <tbody><tr>
+            <th width="70"><span class="form_btna"><strong>排序</strong></span></th>
+            <th width="270"><span class="form_btna"><strong>参数名称</strong></span></th>
+            <th width="150"><span class="form_btna"><strong>参数类型</strong></span></th>
+            <th width="270"><span class="form_btna"><strong>参数选项</strong></span></th>
+          </tr>
+          #foreach($obj in $canshusP)
+          <tr>
+            <td><span class="size70">
+            $!{obj.sequence}
+              </span></td>
+            <td><span class="size200">
+            $!{obj.name}
+              </span></td>
+             <td><span class="size200">
+             #if($obj.colType=="1")
+             	字符串
+             #end
+             #if($obj.colType=="2")
+             	数字
+             #end
+             #if($obj.colType=="3")
+             	日期
+             #end
+             #if($obj.colType=="4")
+             	下拉选项
+             #end
+             </span></td>
+            <td><span class="size250">
+            $!{obj.value}
+              </span></td>
+          </tr>
+          #end
+        </tbody></table>
+        </div>
+      </div>
+      #end
+      </div>
+      <div id="guig_pType" style="display:none">
+      <div class="specification">
+        <h2>新增规格</h2>
+         <div class="fshoptb">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="fshop_table">
+          <tbody><tr id="goods_type_guig_">
+            <th width="15%"><span class="form_btna"><strong>排序</strong></span></th>
+            <th width="30%"><span class="form_btna"><strong>规格名称</strong></span></th>
+            <th width="40%"><span class="form_btna"><strong>规格选项</strong></span></th>
+            <th width="15%"><span class="form_btna"><strong>操作</strong></span></th>
+          </tr>
+          #foreach($obj in $guigs)
+          <tr id="goods_type_guig_${obj.id}">
+            <td><span class="size70">
+              <input name="guig_sequence_${obj.id}" type="text" id="guig_sequence_${obj.id}" value="$!{obj.sequence}">
+              </span></td>
+            <td><span class="size200">
+              <input name="guig_name_${obj.id}" type="text" id="guig_name_${obj.id}" value="$!{obj.name}">
+              </span></td>
+            <td><span class="size250">
+              <input name="guig_value_${obj.id}" type="text" id="guig_value_${obj.id}" value="$!{obj.value}" readonly=true>
+              </span></td>
+            <td class="hui oprate_con" align="center"><a href="javascript:void(0);" onclick="editOptions('guig_value_${obj.id}','guigeKeyValue');" class="blue">编辑</a><a href="javascript:void(0);" onclick="remove_gtp(this.parentNode.parentNode,'$!{obj.id}')" class="blue">删除</a></td>
+          </tr>
+          #end
+           <tr>
+            <td colspan="2"><span class="newclass"><a href="javascript:void(0);" onclick="add_guig();">新增一个参数</a></span></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </tbody></table>
+        </div>
+      </div>
+      #if($guigsP && $guigsP.size()!=0)
+      <div class="specification" style="background-color: #ede9e9;">
+        <h2>父级拥有的参数</h2>
+         <div class="fshoptb">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="fshop_table">
+          <tbody><tr>
+            <th width="15%"><span class="form_btna"><strong>排序</strong></span></th>
+            <th width="30%"><span class="form_btna"><strong>参数名称</strong></span></th>
+            <th width="40%"><span class="form_btna"><strong>参数可选值(多个属性值用“,”分割)</strong></span></th>
+          </tr>
+          #foreach($obj in $guigsP)
+          <tr>
+            <td><span class="size70">
+            $!{obj.sequence}
+              </span></td>
+            <td><span class="size200">
+            $!{obj.name}
+              </span></td>
+            <td><span class="size250">
+            $!{obj.value}
+              </span></td>
+          </tr>
+          #end
+        </tbody></table>
+        </div>
+      </div>
+      #end
+      </div>
+  </form>
+  <div class="submit"> <span class="pad120">
+    <input type="button" value="提交" onclick="saveForm()">
+    </span> </div>
+</div>
+
+<script>
+
+$(function(){
+	if($("#isSpecialProTypeOff").is(":visible")){
+		//alert(333);
+		//$("#password").hide();
+	}
+	#if($!{entry.isSpecialProType})
+		jQuery("#isSpecialProTypeOn").show();
+		jQuery("#isSpecialProTypeOff").hide();
+	#else
+		$("#password").hide();
+	#end
+	
+})
+
+function setIsNoimg2(id){
+	var obj = jQuery("#"+id);
+	var state = obj.val();
+	if(state=="1"){
+		obj.val("0");
+		//$("#password").val("");
+		$("#password").hide();
+		jQuery("#"+id+"Off").show();
+		jQuery("#"+id+"On").hide();
+	}else{
+		obj.val("1");
+		$("#password").show();
+		jQuery("#"+id+"Off").hide();
+		jQuery("#"+id+"On").show();
+	}
+}
+
+
+function checkCode(){
+	if($("#code").val()==""){
+		return ;
+	}
+	$.ajax({
+        type: "post",
+        url: "productType.java?cmd=checkCode",
+        data: "code="+$("#code").val(),
+        success: function(data) {
+            var datajson = eval(data);
+            if (data.success) {
+            } else {
+            	alert(data.errors.msg)
+            	$("#code").val("");
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("没找到");
+        }
+    });
+}
+</script>
+</body></html>

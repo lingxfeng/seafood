@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0052)/store_goods_list_1.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>$!{pType.name} - Powered by 海鲜之家商城</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="generator" content="www.iskyshop.com">
+<meta name="author" content="www.iskyshop.com">
+<meta name="copyright" content="Copyright 2012-2015 ISkyShop Inc. All rights reserved">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/integral.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.SuperSlide.2.1.1.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.iskyshop.validate.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script>
+jQuery(document).ready(function(){
+	jQuery(".inte_rank").slide({titCell:".li_list",targetCell:".li_hover",defaultIndex:1,effect:"slideDown",easing:"easeInQuint"});
+	jQuery("#rang_ul").find("li").removeClass("this");
+	jQuery("#rang_ul").find("li").eq(0).addClass("this");
+   	jQuery(".goods_img img").lazyload({effect:"fadeIn",width:160,height:160});
+	jQuery("#rang_ul").find("li a").click(function(){
+			var begin =	jQuery(this).attr("begin");
+			var end = jQuery(this).attr("end");
+			jQuery("#rang_begin").val(begin);
+			jQuery("#rang_end").val(end);
+			jQuery("#rank").val(jQuery("#rang_ul").find("li a").index(this));
+			jQuery("#ListForm").submit();
+	});
+
+});
+function toLogin(){
+	var returnUrl = encodeURIComponent("/pcRushBuyShop.java?cmd=secKillList");
+	window.location.href = "/shopMemberCenter.java?cmd=toLogin&returnUrl="+returnUrl;
+}
+</script>
+</head>
+
+<body>
+
+#parse("/common/top.html")
+#parse("/common/left.html")
+<div class="main">
+  	<div class="integral_left">
+    	<h1>秒杀公告</h1>
+                
+        <div class="inte_detail">
+        	<ul>
+            	<li>1.积分兑换不能当现金使用</li>
+            </ul>
+        </div>
+        
+        <div class="inte_arrow"></div> 
+        <h1>秒杀排行榜</h1>  
+        <div class="inte_rank">           
+           #foreach($regular in $hotSaleRegulars)
+           <h3 class="li_list  on "><b>$foreach.count</b><a href="/pcRushBuyShop.java?cmd=secKillDetail&id=$regular.id" >$!regular.pro.name</a></h3>
+           <div class="li_hover"  style="display:block;" >
+               <div class="li_hover_img"><a href="/pcRushBuyShop.java?cmd=secKillDetail&id=$regular.id"><img src="$regular.pro.imgPaths.split('_')[0]" /></a></div>
+               <div class="inte_price">
+                   <span>商品原价:¥$!regular.previewPrice</span>
+                   <span>活动价格:￥<i class="red">$!regular.activityPrice</i></span>
+                   <span>秒杀数量:<i class="red">$!regular.pro.saleNum</i>个</span>
+               </div>
+           </div>
+           #end
+         </div>
+    </div>
+    
+    <div class="integral_right">
+    	
+        <dl class="integral_select" style="background-color:#ff4400;">
+          <dt><span>价格筛选区</span></dt>
+          <dd>
+            <ul id="rang_ul" style="line-height:20px;">  
+              <li style="background-color:initial;"><input id="startPointFacet" type="number" placeholder="大于秒杀价" value="$!startPoint" style="border:none; border-radius:3px; text-align:center; font-size:14px;"/></li>
+              <li style="background-color:initial;"><input id="endPointFacet" type="number" placeholder="小于秒杀价" value="$!endPoint" style="border:none; border-radius:3px; text-align:center; font-size:14px;"/></li>                
+              <li style="background-color:initial;"><input type="submit" onclick="gotoPage(1);" value="查询" style="border:none; width:200%; border-radius:3px; background-color:white; font-size:16px;"/></li>
+            </ul>
+          </dd>
+        </dl>
+          <div class="inte_list_box">
+            <div class="inte_list">            	
+            	#foreach($regular in $pl.result)
+            	<ul>
+                	<li class="recom_img">
+                		<a href="/pcRushBuyShop.java?cmd=secKillDetail&id=$regular.id" target="_blank">
+                			<img src="$!regular.pro.imgPaths.split('_')[0]" width="200" height="200" />
+                		</a>
+                		<span>
+	                    	<a href="/pcRushBuyShop.java?cmd=secKillDetail&id=$regular.id" target="_blank">$!regular.pro.name</a>
+	                    </span>
+	                    <em></em>
+	              	</li>
+	              		<li class="recom_img">
+	              	<span>秒杀时间</span>
+                		<p style="color:orange;font-size:15px;">$regular.startDate</p>	
+	                    </span>
+	                    <em></em>
+	              	</li>
+	                <li class="inte_number" style="padding-left:0; margin-right:0;">
+						<!-- <div class="level_img"><img src="http://b2b2c.iskyshop.com/resources/style/common/images/userlevel_0.png" width="25" height="45" /></div> -->
+	                    <div class="level_num" style="width:135px; padding-left:0;">
+	                    	原价格：<b>￥$!regular.previewPrice</b>	                    	
+	                    </div>
+	                    <div class="level_num" style="width: 135px; padding-left:0;">
+	                    	秒杀价格：<b>￥$!regular.activityPrice</b>	                    	
+	                    </div>
+	                    
+	                    #if($member)		                    
+		                    #if($regular.state.equals("empty"))
+							<a href="#" style="margin-top:-15px; background-color:gray;">抢光了
+							#elseif($regular.state.equals("end") || $regular.state.equals("unshelving"))
+							<a href="#" style="margin-top:-15px; background-color:gray;">已结束
+							#elseif($regular.state.equals("create") || $regular.state.equals("shelving"))
+							<a href="#" style="margin-top:-15px; background-color:#3CF;">未开始
+							#else
+							<a href="/pcRushBuyShop.java?cmd=secKillDetail&id=$regular.id" style="margin-top:-15px;">抢购
+							#end
+		                    </a>
+	                    #else		                    
+		                    #if($regular.state.equals("empty"))
+							<a onclick="javascript;;" style="margin-top:-15px; background-color:gray;">抢光了
+							#elseif($regular.state.equals("end") || $regular.state.equals("unshelving"))
+							<a onclick="javascript;;" style="margin-top:-15px; background-color:gray;">已结束
+							#elseif($regular.state.equals("create") || $regular.state.equals("shelving"))
+							<a href="#" style="margin-top:-15px; background-color:#3CF;">未开始
+							#else
+							<a onclick="toLogin()" style="margin-top:-15px;">抢购
+							#end
+							</a>
+	                    #end
+                    </li>
+                </ul>
+                #end                
+             </div>
+          </div>
+        
+        <div class="ext_page">
+		    <span>
+	          <form action="/pcRushBuyShop.java" method="post" id="ListForm">
+	          	  <input name="cmd" type="hidden" value="secKillDetailList"/>
+		          <input name="currentPage" type="hidden" id="currentPage" value="1" />
+		          <input name="orderType" type="hidden" id="orderType" value="DESC" />
+		          <input name="startPoint" type="hidden" id="startPoint" value="" />
+		          <input name="endPoint" type="hidden" id="endPoint" value="" />          
+	         	$!paginationForBcd
+	          </form>  
+	    	</span>
+		</div>
+    </div>
+  ﻿<script>
+  function gotoPage(currPage){
+	  $("#currentPage").val(currPage);
+	  $("#startPoint").val($("#startPointFacet").val());
+	  $("#endPoint").val($("#endPointFacet").val());
+	  $("#ListForm").submit();
+  }
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+
+#parse("/common/footer.html")
+<!--返回最顶部-->
+<div id="back_box" style="position:fixed;width:40px; height:118px; float:left; right:0; display:none; bottom:150px; _position:absolute;/*兼容IE6的代码*/
+_bottom:auto;/*兼容IE6的代码*/
+_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));">
+  <div class="back_index"><a href="http://b2b2c.iskyshop.com/index.htm" target="_blank"  title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="#" bosszone="hometop" style="display: block;"  title="返回顶部" target="_self" ></a></div>
+</div>
+ </div>
+</body>
+</html>

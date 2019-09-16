@@ -1,0 +1,694 @@
+<!DOCTYPE html >
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<!--提示IE最新版显示-->
+		<link rel="stylesheet" href="/static/home/bcd/css/user.css" type="text/css" />
+		<link rel="stylesheet" href="/static/home/bcd/css/font-awesome.css" type="text/css" />
+		<link rel="stylesheet" href="/static/home/css/swiper.min.css" type="text/css" />
+		<style type="text/css">
+		.selectsta{
+			background-color:#F30;
+			color:#fff;
+		}
+		
+		#sub1 img{
+			width: 100%;
+		}
+		.buyP {
+		    margin-top: 14px;
+		    margin-left: 15px;
+		    
+		    overflow: hidden;
+		}
+		.lse{
+			margin-left: 15px;
+		}
+		.nav li{
+			width: 24.99%;
+		}
+		#waitDialog{
+			display: none;
+			position: fixed;
+			top: 0;		
+			width: 100%;
+			height: 100%;			
+			opacity: 0.8;
+			background-color: white;
+		}
+		#waitDialog .dialog{
+			position: fixed;			
+			top: 40%;
+			width: 80%;
+			height: 20%;
+			margin-left: 10%;
+			margin-right: 10%;			
+			text-align: center;			
+			background-color: black;
+			border: 1px solid black;			
+			opacity: 0.7;
+			-moz-border-radius: 15px; 
+	    	-webkit-border-radius: 15px; 
+	    	border-radius: 15px;
+		}
+		#waitDialog span{
+			display: block;
+			color: #FFF;
+			margin-top: 11%;
+			font-size: 24px;			
+		}
+		
+		</style>
+		<!--加减js-->
+		<script type="text/javascript" src="/static/home/bcd/js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="/static/home/bcd/js/jquery.spinner.js?v=151007"></script>
+		<script type="text/javascript" src="/static/home/bcd/js/tab.js"></script>
+		<script type="text/javascript" src="/static/home/js/swiper.min.js"></script>
+		<script src="/static/home/bcd/js/TouchSlide.1.1.js"></script>
+		<title>详情</title>
+
+		#parse("/wxcommon/weixinJsSdk.html")
+		#set($setWeixinJs=1)
+		#if($member && $su.getMemberType($member)!=0)
+		<script type="text/javascript">
+		wx.ready(function(){
+			wx.onMenuShareTimeline({
+			    title: "$!{pro.name}",
+			    link: '$!{su.getDistributor($member).getUrl()}&toProId=$!{pro.id}',
+			    imgUrl: '$!{su.getDomain()}/$!{pro.imgPaths.split("_")[0]}',
+			    success: function (res) {
+			  	  if(MenuShareTimelineObj.returnFun){
+			  		  MenuShareTimelineObj.returnFun();
+			  	  }
+			    },
+			    cancel: function (res) {
+			      alert('你已经取消分享');
+			    }
+			  });
+			wx.onMenuShareAppMessage({
+				title: "$!{pro.name}",
+			    desc: '$!{pro.intro}', // 分享描述
+			    link: '$!{su.getDistributor($member).getUrl()}&toProId=$!{pro.id}',
+			    imgUrl: '$!{su.getDomain()}/$!{pro.imgPaths.split("_")[0]}',
+			    success: function () { 
+			        // 用户确认分享后执行的回调函数
+			    },
+			    cancel: function () { 
+			        // 用户取消分享后执行的回调函数
+			    }
+			});
+		});
+		</script>
+		#else
+		<script type="text/javascript">
+		wx.ready(function(){
+			wx.onMenuShareTimeline({
+			    title: '$!{pro.name}',
+			    link: '$!{su.getDomain()}/wxShopBase.java?cmd=toIntit&pmemberId=$!{member.id}&toProId=$!{pro.id}&accountId=$!{account.id}',
+			    imgUrl: '$!{su.getDomain()}/$!{pro.imgPaths.split("_")[0]}',
+			    success: function (res) {
+			  	  if(MenuShareTimelineObj.returnFun){
+			  		  MenuShareTimelineObj.returnFun();
+			  	  }
+			    },
+			    cancel: function (res) {
+			      alert('你已经取消分享');
+			    }
+			  });
+			wx.onMenuShareAppMessage({
+				title: "$!{pro.name}",
+			    desc: '$!{pro.intro}', // 分享描述
+			    link: '$!{su.getDomain()}/wxShopBase.java?cmd=toIntit&pmemberId=$!{member.id}&toProId=$!{pro.id}&accountId=$!{account.id}',
+			    imgUrl: '$!{su.getDomain()}/$!{pro.imgPaths.split("_")[0]}',
+			    success: function () {
+			        // 用户确认分享后执行的回调函数
+			    },
+			    cancel: function () {
+			        // 用户取消分享后执行的回调函数
+			    }
+			});
+		});
+		</script>
+		#end
+		<!--  用户评价样式  -->
+		<style>
+			.c_list .comment_list li{
+				padding: 20px 15px;
+				background-color: #fff;
+				color: #333;
+				margin: 0;
+			}
+			.c_list .comment_list li .user_comment .user{
+				padding-bottom: 10px;
+			}
+			.c_list .comment_list li .user_comment .user .user_images{
+				width: 40px;
+				height: 40px;				
+				float: left;
+				padding-right: 10px;
+			}
+			.c_list .comment_list li .user_comment .user .user_images img{
+				width: 40px;
+				height: 40px;
+				border-radius: 100%;
+				border: 1px solid #666;
+			}
+			.c_list .comment_list li .user_comment .user .user_text{
+				display: inline-block;
+			}
+			.c_list .comment_list li .user_comment .user .user_text .user_title{
+				font-size: 14px;
+				color: #333;				
+			}
+			.c_list .comment_list li .user_comment .user .user_text .user_subtitle{
+				overflow: hidden;
+			}
+			.c_list .comment_list li .user_comment .user .user_text .user_subtitle p:first-child span{
+				float: left;
+				padding-right: 2px;
+				background-image: url("/static/common/img/commstar.png");
+				background-repeat: no-repeat;
+				background-position: 0px 0px;
+				width: 16px;
+				height: 16px;
+			}
+			.c_list .comment_list li .user_comment .user .user_text .user_subtitle p:first-child span.range{
+				background-position: 0px -16px;
+			}
+			.c_list .comment_list li .user_comment .user .user_text .user_subtitle p:last-child{
+				font-size: 12px;
+				color: #999;
+				padding-left: 10px;
+			}
+			.c_list .comment_list li .user_comment .comment{
+				padding-bottom: 10px;
+				font-size: 15px;
+			}
+
+			.c_list .comment_list li .seller_comment{
+				border-top: 1px solid #ccc;
+				padding-top: 15px;				
+				font-size: 16px;
+			}
+			.c_list .comment_list li .seller_comment .seller{
+				font-size: 14px;
+			}
+			.c_list .comment_list li .seller_comment .seller span{
+				padding-right: 4px;
+				color: red;
+			}
+			.c_list .comment_list li .seller_comment .describe{
+				font-size: 15px;
+				line-height: 24px;
+				color: red;
+			}
+			.c_list .comment_list li .seller_comment .time{
+				color: #999;
+				font-size: 12px;
+			}
+			
+			.banner-content{
+				height: 309px;
+				position: relative;
+			}
+			.banner-tab-btn{
+				position: absolute;
+				bottom: 20px;
+				z-index: 2;
+				left: 50%;
+				margin-left: -74px;
+			}
+			.banner-tab-btn a{
+				float: left;
+				padding: 3px 14px;
+				background-color: #fcfcfc;
+				border-radius: 20px;
+				margin: 0 5px;
+				font-size: 12px;
+			}
+			.banner-tab-btn a.active{
+				background-color: #f57412;
+				color: #fff;
+			}
+			.banner-tab-content{
+				position: relative;
+			}
+			.banner-tab-content > .tab-content-item{
+				overflow: hidden;
+				display: none;
+			}
+			.banner-tab-content > .tab-content-item.active{
+				display: block;
+			}
+			.swiper-pagination{
+				text-align: right;
+			}
+		</style>
+	</head>
+	
+	<body>
+	<div class="wx_wrap">
+		
+		#if($pro.videoPath)
+		<div class="banner-content">
+			<div class="banner-tab-btn">
+				<a  href="javascript:;" class="active">视频</a>
+				<a href="javascript:;" >图片</a>
+			</div>
+			<div class="banner-tab-content">
+				<div id="video" class="slider-focus active tab-content-item">
+					<div class="bd1">
+						<div class="tempWrap">
+							<video controls="controls" width="100%" height="309px" poster="$pro.imgPaths.split("_")[0]" x5-video-player-type="h5" x5-video-player-fullscreen="true" webkit-playsinline="true" x-webkit-airplay="true" playsinline="true">
+							 <source src="$pro.videoPath" >
+							</video>
+						</div>
+					</div>
+				</div>
+				<div class="tab-content-item">
+					<div class="swiper-container">
+						<div class="swiper-wrapper" style="height: 309px;">
+						#foreach($obj in $pro.imgPaths.split("_"))
+							<div class="swiper-slide"><a class="pic" href="javascript:void(0)" ><img src="$obj"></a></div>
+						#end
+			      		</div>
+						 <div class="swiper-scrollbar"></div>
+					</div>
+				</div>
+				<script>
+					jQuery(document).ready(function($) {
+						$(".banner-tab-btn a").click(function(){
+					  	var n = $(this).index();
+					  	$(this).addClass('active').siblings().removeClass('active');
+					  	$(".banner-tab-content > .tab-content-item").eq(n).addClass('active').siblings().removeClass('active');
+					  });
+
+				    var mySwiper = new Swiper ('.swiper-container', {
+					    loop: false,
+					    centeredSlides: true,
+					    scrollbar:'.swiper-scrollbar',
+					    observer:true,
+					    observeParents: true
+					  });
+					});
+			  </script>
+			</div>
+		</div>
+		#else
+		<div id="slides" class="slider-focus">
+			<div class="bd">
+				<ul>
+					#foreach($obj in $pro.imgPaths.split("_"))
+	              	<li><a class='pic' href='javascript:void(0)' style="height:100%; display:block;"><img src='$obj' /> </a></li>
+	              	#end
+				</ul>
+			</div>
+			<div class="hd">
+				<ul></ul>
+			</div>
+		</div>
+		#end
+		<!--  四个快捷  e  -->
+		<div class="cb"></div>
+		<!--  详情  s  -->
+		<div class="infoDiv oh" >
+			<div class="f-l fx w-70">
+				<p class="fw">$!pro.name</p>
+				<p >
+					<label>秒杀价格：</label>
+					<span class="cor-f40">$!regular.activityPrice</span>
+				</p>
+				<p >
+					<label>日常零售价：</label>
+					<span class="cor-f40" style="text-decoration:line-through; color:rgb(153, 153, 153);">$!regular.previewPrice</span>
+				</p>
+			</div>
+			<div class="f-r w-30" style="margin-top: 35px;">
+				 #if($pro.saleNum)
+	            <p>销量<span>$!pro.saleNum</span>件</p>
+	            #else
+	            <p>销量<span>0</span>件</p>
+	            #end
+	            <p>库存<span id="inventory" data-value="$pro.inventory">$!pro.inventory</span>件</p>
+			</div>
+		</div>
+		<div class="mart15" style="background-color:#ffffff;">	
+			<div class="bp_s">				
+				<div class="chunBtn oh marl5" style="padding-top:15px;margin-left:0;">
+					<span style="font-size:18px; float:left;">购买数量：</span>
+					<input type="text" class="spinnerExample" id="proNum" />
+					<span style="font-size:14px;float:left;line-height:25px;margin-left:90px;margin-top:-25px;">(每用户限购$!regular.buyNumLimit件)</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="chun" style="margin-bottom:-2px;">
+		<ul class="ansUl">
+			<li class="oh bg-fff">			
+				<div class="w-20 f-l"><img src="static/home/bcd/images/cart_img.jpg" class="unadapter" width="52" height="44"/></div>
+				<a href="/wxShopBase.java?cmd=init">
+					<div class="f-l w-75" >
+						<p class="f18">海鲜之家商城</p>
+						<p>全部宝贝<span>$proCount</span>个</p>
+					</div>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="tebDiv">
+		<ul class="nav">
+			<li class="nav_current" id="nav1" onClick="doClick(this)">图文详情</li>
+			<li class="nav_link" id="nav2" onClick="doClick(this)">产品参数</li>
+			<li class="nav_link" id="nav3" onClick="doClick(this)">用户评价</li>
+			<li class="nav_link" id="nav4" onClick="doClick(this)">同店推荐</li>
+		</ul>
+		<div class="nav-down">
+			<div class="dis" id="sub1">
+				<p>
+				#if($pro.goods_details)
+					$pro.goods_details
+				#else
+					此产品无图文详情
+				#end
+				</p>
+			</div>
+			<div class="undis" id="sub2">
+				#if($pro.getCanshu().keySet().size()>0)
+					#foreach($attr in $pro.getCanshu().keySet())
+					<p>$attr： <span>$pro.getCanshu().get($attr)</span></p>
+					#end
+				#else
+					此产品无参数
+				#end
+			</div>
+			<!--用户评价-->
+			<div class="undis" id="sub3">
+				<div class="c_list askbor cb">
+					<ul class="comment_list">
+						#foreach($!obj in $!pl4.result)
+						<li class="oh">
+							<div class="user_comment">
+								<div class="user">
+									<div class="user_images"><img src="$!{obj.user.follower.headimgurl}" alt=""  class="flag" style="width: 40px; height:40px;"></div>
+									<div class="user_text">
+										<div class="user_title">$!obj.user.follower.nickname</div>
+										<div class="user_subtitle">
+											<p class="f-l">
+											#if($!obj.startdis==5)
+											    <span class="range"></span>
+											    <span class="range"></span>
+											    <span class="range"></span>
+											    <span class="range"></span>
+											    <span class="range"></span>
+											#elseif($!obj.startdis==4)
+											    <span class="range"></span>
+											    <span class="range"></span>
+											    <span class="range"></span>
+											    <span class="range"></span>
+											    <span ></span>
+											#elseif($!obj.startdis==3)
+											    <span class="range"></span>
+											    <span class="range"></span>
+											    <span class="range"></span>
+											    <span ></span>
+											    <span ></span>
+											#elseif($!obj.startdis==2)
+											    <span class="range"></span>
+											    <span class="range"></span>
+											    <span ></span>
+											    <span ></span>
+											    <span ></span>
+											#elseif($!obj.startdis==1)
+											    <span class="range"></span>
+											    <span ></span>
+											    <span ></span>
+											    <span ></span>
+											    <span ></span>
+											#else
+											 	<span></span>
+											    <span></span>
+											    <span></span>
+											    <span></span>
+											    <span></span>
+											#end
+											
+											</p>
+											<p class="f-l">$!obj.createDate</p>
+										</div>
+									</div>
+								</div>
+								<div class="comment">$!obj.content</div>
+							</div>
+							#foreach($!obj2 in $!obj.replysList)
+							<div class="seller_comment" id="business_comment">
+								<p class="seller"><span>海鲜之家</span>回复：</p>
+								<p class="describe">$!obj2.content</p>
+								<p class="time">$!obj2.date</p>
+							</div>
+							#end
+						</li>
+						#end
+	                </ul>
+				</div>
+			</div>
+			<div class="undis" id="sub4">
+				<div class="c_list askbor cb">
+					<ul>
+						#if($proList)
+		                	#foreach($obj in $proList)
+		                    <li class="oh" onClick="toProDet($obj.id)">
+		                        <div class="w-15 buyImgDiv f-l"><img class="unadapter" src='$obj.imgPaths.split("_")[0]' width="52" height="44"></div>
+		                        <div class="w-85 f-l">
+		                            <p class="buyP">$obj.name</p>
+									<p><span class="lse">￥$obj.amt</span></p>
+		                        </div>
+		                    </li>
+						    #end
+					    #else
+						    <li class="oh">
+		                        	无同店推荐
+		                    </li>
+					    #end
+					    #if($proList.size()>=5)
+                    	<li class="oh">
+                        	<div class="moreDiv">
+						    	<a href="javascript:addMore2();" id="addMore2">加载更多</a>
+						    </div>
+	                    </li>
+	                    #end
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<form id="thisForm" name="thisForm" action="wxShopPromotions.java">
+		<input type="hidden" id="cmd" name="cmd" value="requestSecKillRight" >
+		<input type="hidden" id="proId" name="proId" value="$pro.id" >
+		<input type="hidden" id="payProNum" name="payProNum" value="" >
+		<input type="hidden" id="regularId" name="regularId" value="$regular.id" >
+	</form>
+
+	<div style="height: 120px;"></div>
+
+	<ul class="infoMenu" style="position: fixed; left: 0;bottom: 50px;">
+		<li id="flushButton" class="bg-f80 imBuy" style="width:100%;">刷新抢购</li>
+	</ul>
+	
+	<div id="waitDialog">
+		<div class="dialog">
+			<span id="waitDialogNotice">排队中。。。</span>
+		</div>
+	</div>
+	
+	<!--  底部浮动导航  s  -->
+	#parse("/bcd/wxshop/common/foot.html")
+	<!--  底部浮动导航  e  -->
+
+	<!--  加减js  --> 
+	<script type="text/javascript">
+	$(function(){
+		//购买数量控件
+		$('.spinnerExample').spinner();
+		
+		//初始化
+		if("$!regular.state" == "shelving"){
+			window.intvalId = setInterval("flushLocal()", 1000);
+			$("#flushButton").css("background-color", "rgb(153, 153, 153)");
+		}else if("$!regular.state" == "empty"){
+			$("#flushButton").text("商品售罄");
+			$("#flushButton").css("background-color", "rgb(153, 153, 153)");	
+		}else if("$!regular.state" == "end"){		
+			$("#flushButton").text("活动结束");
+			$("#flushButton").css("background-color", "rgb(153, 153, 153)");
+		}else if("$!regular.state" == "start"){
+			$("#flushButton").click(buy);
+		}else{
+			$("#flushButton").css("background-color", "rgb(153, 153, 153)");
+		}
+		
+		$(".increase").click(proNumChange);
+		$("#proNum").blur(proNumChange);
+	});
+	function proNumChange(){
+		var data = $("#proNum").val();			
+		//查看是否大于限购数量
+		if(data > $!regular.buyNumLimit){
+			alert("限购"+$!regular.buyNumLimit+"件！");
+			$("#proNum").val($!regular.buyNumLimit);
+		}
+		//查看是否大于库存
+		if(data > $!pro.inventory){
+			alert("库存"+$!pro.inventory+"件，最多只能购买$!pro.inventory件！");
+			$("#proNum").val($!pro.inventory);
+		}
+	}
+	function flushLocal(){
+		var startDate = new Date();
+		startDate.setTime($!regular.startDate.getTime());
+		var currDate = new Date();
+		var sd=startDate.getTime()-currDate.getTime();
+		var ed=$!regular.endDate.getTime()-currDate.getTime();
+		var days=Math.floor(ed/(24*3600*1000));
+		var leave1=sd%(24*3600*1000);
+		var leave2=leave1%(3600*1000);
+		var minutes=Math.floor(leave2/(60*1000));
+		var leave3=leave2%(60*1000);
+		var seconds=Math.round(leave3/1000);
+		if(minutes>=5){
+			$("#flushButton").text("开始时间："+"$!regular.startDate");
+		}else if(minutes>=1 && minutes<5){
+			$("#flushButton").text("剩余时间："+minutes+"分钟:"+seconds+"秒");
+		}else if(minutes==0){
+			$("#flushButton").text("倒计时："+seconds+"秒");
+		}else{
+			$("#flushButton").css("background-color", "red");
+			$("#flushButton").click(buy);
+			clearInterval(window.intvalId);
+		}
+	}
+	function flushQueue(){
+		var noticeQueue = new Array("排队中。", "排队中。。", "排队中。。。", "排队中。。。。");
+		if(window.noticeIndex == undefined){
+			window.noticeIndex = 0;
+		}
+		++window.noticeIndex;
+		window.noticeIndex = window.noticeIndex % noticeQueue.length;
+		$("#waitDialogNotice").text(noticeQueue[window.noticeIndex]);
+	}
+	</script>
+	
+	<script>
+	/*
+	 * 功能：评论的加载更多
+	 */
+	var curPage=1;
+	function addMore(){
+	 	curPage++;
+		jQuery.ajax({
+			method:"post",
+			url:"/shopDiscuss.java?cmd=addMoreDiscuss&curPage="+curPage+"&pId=$pId",
+			success:function(data,text){
+				if(data==""){
+					alert("没有更多要加载的了");
+					jQuery("#addMore").attr("href","javascript:return false");
+				}
+				jQuery("#addMore").parent().before(data)
+			}
+		})
+	}
+	/*
+	 * 功能：商品推荐的加载更多
+	 */
+	var curPage2=1;
+	function addMore2(){
+	 	curPage2++;
+		jQuery.ajax({
+			method:"post",
+			url:"/shopProduct.java?cmd=addMoreProduct&curPage="+curPage2+"&pId=$pId",
+			success:function(data,text){
+				if(data==""){
+					alert("没有更多要加载的了");
+					jQuery("#addMore2").attr("href","javascript:return false");
+				}
+				jQuery("#addMore2").parent().before(data)
+			}
+		})
+	}
+	/*
+	 * 功能：跳转到推荐商品的详情页
+	 */
+	function toProDet(id){
+		window.location.href="shopProduct.java?cmd=toProDet&pId="+id;
+	}
+	/*
+	 * 功能：点击立即购买的响应操作
+	 */
+	function buy(){
+		//查看是否大于限购数量
+		if(parseInt($("#proNum").val()) > $!regular.buyNumLimit){
+			alert("限购"+$!regular.buyNumLimit+"件！");
+			$("#proNum").val($!regular.buyNumLimit);
+			return;
+		}
+		
+		if(parseInt($("#proNum").val()) > parseInt($("#inventory").attr("data-value"))){
+			alert("购买数量大于库存数量，请减少购买量！");
+			return ;
+		}
+		if(parseInt($("#proNum").val())<=0){
+			alert("亲，购物数量不能为0或负值噢^_^！");
+			return ;
+		}
+		$("#payProNum").val($("#proNum").val());
+		$("#flushButton").css("background-color", "rgb(153, 153, 153)");
+		$("#waitDialog").show();
+		setInterval("flushQueue()", 500);		
+		$("#thisForm").submit();		
+	}
+	</script>
+	<script type="text/javascript">
+	//该代码功能在于商品详情页的所有图片文件的适配设置
+	$(function(){
+		var _w = parseInt($(window).width());//获取浏览器的宽度
+		$("img").each(function(i){
+			var img = $(this);
+			var realWidth;//真实的宽度
+			var realHeight;//真实的高度
+			var styleClass = $(img).attr("class");		
+			if(styleClass != undefined && styleClass.indexOf("unadapter") != -1){
+				$(img).attr("width", "52px").attr("height", "44px");
+				return;
+			}
+			//这里做下说明，$("<img/>")这里是创建一个临时的img标签，类似js创建一个new Image()对象！
+			$("<img/>").attr("src", $(img).attr("src")).load(function() {			
+				/*
+					如果要获取图片的真实的宽度和高度有三点必须注意
+					1、需要创建一个image对象：如这里的$("<img/>")
+					2、指定图片的src路径
+					3、一定要在图片加载完成后执行如.load()函数里执行
+				*/
+				realWidth = this.width;
+				realHeight = this.height;
+				//如果真实的宽度大于浏览器的宽度就按照100%显示
+				if(realWidth >= _w){
+					$(img).css("width", "100%").css("height", "auto");
+				}else{	//如果小于浏览器的宽度按照原尺寸显示
+					if(styleClass != undefined && styleClass.indexOf("flag") != -1){
+						$(img).css("width",'40px').css("height",'40px');
+						return;
+					}else{
+					$(img).css("width", realWidth+'px').css("height", realHeight+'px');}
+				}
+			});
+			
+		});	
+	});
+	</script>
+	<script src="/static/home/bcd/js/foot.js"></script>
+	</body>
+</html>

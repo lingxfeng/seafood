@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script>
+//品牌保存
+function save(){
+	jQuery("#theForm").submit();
+}
+</script>
+
+</head>
+<body>
+<form action="/logisticsCompany.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+  <input name="id" id="id" type="hidden" value="$!{entry.id}" />
+ #if($entry)
+    <input name="cmd" type="hidden" value="update">
+  #else
+    <input name="cmd" type="hidden" value="save">
+  #end
+  <div class="cont">
+    <h1 class="seth">物流公司</h1>
+    
+    <div class="nav_list"> 
+	 
+    <ul>
+         <li><a href="/logisticsCompany.java?cmd=list"><b>管理</b></a></li> 
+	<li><a href="/logisticsCompany.java?cmd=toSave" class="this"><b>新增</b></a></li>
+	  	</ul>
+		
+    </div>
+    <div class="edit">
+    <div class="editul setcont" id="base">
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>物流公司名称</li>
+        <li><span class="webname">
+          <input name="name" type="text" id="first_word" value="$!{entry.name}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>物流公司编号</li>
+        <li><span class="webname">
+          <input name="code" type="text" id="first_word" value="$!{entry.code}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <!-- <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>num</li>
+        <li><span class="webname">
+          <input name="num" type="text" id="first_word" value="@{entry.num}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul> -->
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>是否开启</li>
+        <li>
+	        <span class="webname">
+	        	<select name="status" id = "status">
+		        	<option>请选择</option>
+					<option value="0"  #if($!{entry.status}==0) selected="selected" #end>关闭</option>
+					<option value="1"  #if($!{entry.status}==1) selected="selected" #end>开启</option>
+				</select>
+	        </span>
+        </li>
+    </ul>
+          </div>
+    </div>  
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="save();"></span>
+  </div>
+  </div>
+
+</form>
+
+
+</body></html>

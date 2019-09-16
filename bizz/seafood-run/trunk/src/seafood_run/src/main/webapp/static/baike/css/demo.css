@@ -1,0 +1,75 @@
+body, html { font-size: 100%; 	padding: 0; margin: 0;}
+
+/* Reset */
+*,
+*:after,
+*:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before,
+.clearfix:after {
+	content: " ";
+	display: table;
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+body{
+	//background: #494A5F;
+  //background: #eeeeee;
+  //background-image: linear-gradient(143deg, #2945cb 20%, #2b83f9 81%, #3a9dff);
+	background-image:url(back.jpg);
+  background-repeat:repeat-y; 
+  background-size:100% 14.5%;
+  -moz-background-size:100% 100%;
+	color: #D5D6E2;
+	font-weight: 500;
+	font-size: 1.05em;
+	font-family: "Microsoft YaHei","Segoe UI", "Lucida Grande", Helvetica, Arial,sans-serif;
+}
+.aui-right-list {
+    padding: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.aui-product {
+    border-radius: 3px;
+    background: #fff;
+    padding: 15px;
+    position: relative;
+}
+
+.aui-product h2 {
+    font-size: 0.95rem;
+    text-align: center;
+    color: #46abf6;
+    font-weight: normal;
+    position: relative;
+    background: #fff;
+    margin: 0 auto;
+
+    z-index: 2;
+}
+
+.aui-product:after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    bottom: 25px;
+    left: 50%;
+    width: 60%;
+    margin-left: -30%;
+    height: 1px;
+    border-bottom: 1px dashed #37a4f6;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    -webkit-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+}

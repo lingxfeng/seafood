@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>绑定pc端用户名</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="/static/home/bcd/js/jquery-1.11.1.min.js"></script>
+</head>
+
+<body>
+<div class="page">
+<div class="wrap bg-fff">
+</div>
+<div class="main">
+		<div class="clear-b"></div>
+		<div class="item item-username">
+			<input id="name" name="name" class="txt-input txt-username w-100" type="text" placeholder="绑定用户名"/>
+			<input type="password" id="password" name="password" class="txt-input txt-username w-100" type="text" placeholder="密码"/>
+			<input type="password" id="password2" name="password2" class="txt-input txt-username w-100" type="text" placeholder="确认密码"/>
+        </div>
+        <div class="ui-btn-wrap"> <button class="ui-btn-lg ui-btn-primary btn-no" onclick="binding();">绑定pc端用户名</button></div>
+    </div>
+</div>
+<div class="hei40" ></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+</body>
+
+<script type="text/javascript">
+function binding(){
+	var name=$("#name").val();
+	var password=$("#password").val();
+	var password2=$("#password2").val();
+	if(!$("#name").val().match(/^[a-zA-Z]([a-zA-Z0-9_])+$/)){
+		alert("用户为应为以英文字母开头的4-20位英文字母数字或下划线");
+		$("#name").focus();
+		return ;
+	}
+	if(!password.match(/^[A-Za-z0-9]{6,18}/)){
+		alert("密码为6到18位的字母或数字");
+		$("#name").focus();
+		return ;
+	}
+	if(password2!=""){
+		if(password2!=password){
+			alert("确认密码与密码不一致，请重新输入");
+			$("#password2").focus();
+			return ;
+		}
+	}else{
+		alert("确认密码不能为空");
+		return ;
+	}
+	jQuery.ajax({
+		method:"post",
+		url:"/wxShopMemberCenter.java?cmd=bindingName&date="+new Date().getTime(),
+		data : "name="+name+"&password="+password+"&password2="+password2,
+		dataType : "json",
+		success:function(data,text){
+			if(data.success){
+				alert("成功绑定pc端用户名");
+				window.location.href="/wxShopMemberCenter.java?cmd=toMyInfo";
+			}else{
+				alert(data.errors.msg);
+			}
+		}
+	})
+}
+</script>
+</html>

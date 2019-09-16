@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>收益统计</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<link href="/static/home/bcd/css/font-awesome.css" type="text/css" rel="stylesheet">
+
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<div class="wx_wrap">
+	<div class="peoList">
+    	<img src="#if($!member.pic)$!member.pic#else/static/home/bcd/images/avatar3.jpg#end" class="peoImg">
+        <div class="ansName">
+        	<p>$!member.name</p>
+            <p>加入时间<span>$!member.registerTime</span></p>
+        </div>
+    </div>
+
+	<!--  精品推荐  s  -->
+	<div class="oh">
+    	<ul class="ansUl">
+        	<div class="myComTitle">共浏览<span>#if($proList)$proList.size()#else 0 #end</span>个商品</div>
+        	#if($proList)
+        	#foreach($obj in $proList)
+        	<li onclick="shopProduct.java?cmd=toProDet&pId=$obj.id">
+            	<p>$obj.name</p>
+            	#if($obj.intro!="")
+                <p>$obj.intro</p>
+                #else
+                <p>此产品暂无简介</p>
+                #end
+                <div class="ansMOn"></div>
+            </li>
+            #end
+            #else
+            <li>
+            	无浏览记录
+            </li>
+            #end          
+        </ul>
+    </div>
+	<!--  精品推荐  e  -->
+</div>
+<div class="hei40"></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+</body>
+</html>

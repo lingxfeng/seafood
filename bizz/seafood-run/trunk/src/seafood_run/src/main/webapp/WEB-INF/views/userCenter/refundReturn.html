@@ -1,0 +1,73 @@
+<script>
+jQuery.validator.addMethod("mobile_telephone",
+		function(value, element) {
+		    if (jQuery("#telephone").val() == "" && jQuery("#mobile").val() == "") {
+		        return false;
+
+		    } else return true;
+		});
+		jQuery(document).ready(function() {
+		    //
+		    jQuery.validator.addMethod("isMobile", function(value, element) {    
+			  var length = value.length;
+			  return this.optional(element) || (length == 11 && /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/.test(value));    
+			});
+		    jQuery("#theForm2").validate({
+		        ignore: "",
+		        reason: {
+	        		required: true
+	            },
+		        messages: {
+		        	reason: {
+		                required: "退款原因不能为空"
+		            }
+		        },
+		        errorPlacement: function(error, element) {
+		            element.parent().siblings().html("");
+		            error.appendTo(element.parent().siblings());
+		        }
+		    });
+		});
+		
+		function tj(){
+			if($("#reason").val()=="其他"){
+				if($("#remarks").val()==""){
+					alert("备注信息不能为空");
+					return ;
+				}
+			}
+			$("#theForm2").submit();
+		}
+		
+		
+</script>
+
+<form action="/pcShopMemberCenter.java" method="post" id="theForm2" name="theForm2" enctype="multipart/form-data">
+	<input type="hidden" id="cmd" name="cmd" value="orderRefund"/>
+	<input type="hidden" id="orderId" name="orderId" value="$!orderId"/>
+	<table style="float:left;" width="100%" border="0" cellspacing="0" cellpadding="0" class="white_table">
+		<tr style="line-height: 30px;">
+			<td width="100" align="right" valign="top"><span>申请退货原因</span>：</td>
+			<td style="text-align: left;">
+				<select name="reason" id="reason">
+					<option value="收到商品少件或破损">收到商品少件或破损</option>
+					<option value="卖家发错货">卖家发错货</option>
+					<option value="质量问题">质量问题</option>
+					<option value="其他">其他</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td width="100" align="right" valign="top"><span>备注</span>：</td>
+			<td align="left">
+			<span><textarea name="remarks" id="remarks" style="width: 260px;height: 90px;"></textarea></span></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<span class="inputbtn">
+					<input name="" id="" type="button" value="提交" onclick="tj();" style="cursor:pointer;" class="white_btn" />
+				</span>
+			</td>
+		</tr>
+	</table>
+</form>

@@ -1,0 +1,23 @@
+<div class="user_guess_b">
+	<h3><strong>猜您喜欢</strong></h3>
+	<div class="user_guess_box_like"> <span class="guess_left" style="cursor:pointer" id="like_goods_left"></span>
+		<div class="tempWrap" style="overflow:hidden; position:relative; width:948px">
+			<div class="guess_like_box_like" id="like_goods_box" style="width: 3002px; left: -1896px; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
+			    #foreach($!obj in $ylikes.result)
+			    <ul class="guess_like_one">
+				    <li class="guess_img">
+					    <a href="/goShop.java?cmd=productDetail&id=$obj.id" target="_blank">
+						    <span class="img_cspan">
+						      <p><img src='$!obj.imgPaths.split("_")[0]'' width="165" height="165" /></p>
+							</span>
+						</a>
+					</li>
+				    <li class="guess_name"><a href="/goods_41.htm" target="_blank">$!obj.name</a></li>
+				    <li class="guess_price">商城价：<strong>￥$!obj.amt</strong></li>
+				</ul>
+			  	#end
+			</div>
+		</div>
+	<span class="guess_right" style="cursor:pointer" id="like_goods_right"></span>
+	</div>
+</div>

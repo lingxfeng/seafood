@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>优惠券列表</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<meta name="format-detection" content="telephone=no"/>
+<link href="/static/home/meiyan2/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/static/home/meiyan2/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="/static/home/meiyan2/bootstrap/css/style.css" rel="stylesheet" type="text/css">
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style>
+span,p{ display:block}
+body{ background-color:#f0f0f0;}
+.coupon{width:90%; height:auto; overflow:hidden;margin:auto; border:1px solid #Fc6698; padding:10px 5px 10px; margin-top:5px; border-radius:10px; background-color:#FFF; position:relative}
+.coupon .left{ float:left; border-right:1px solid #Fc6698; text-align:center; background-color:#FFF; padding-right:5px; margin-right:20px;}
+.coupon .left span{ font-size:36px; color:#fc6698;}
+.coupon .left p{ font-size:14px; color:#fc6698;}
+.center{ background-color:#FFF; padding-top:10px;}
+.center p{ color:#666;}
+.center span{color:#fc6698}
+.check{ float:right; position:absolute; clear:left; bottom:30px;right:30px}
+</style>
+</head>
+<body>
+<div class="bao" id="yhqDiv">
+#if($pl.size() > 0)
+#foreach($obj in $pl)		
+	#if($obj.coupon.validState=="1")
+		<div class="coupon" style=" margin-top:40px;">
+			<div class="left">
+				<span>￥$obj.coupon.money</span>
+				<p>代金卷</p>
+			</div>
+			<div class="center">
+			   #if( $!obj.status==2)
+				<span>可以使用</span>
+			   #end	
+				<p>不限项目</p>
+				<p>有效期至：$!obj.coupon.endTime</p>
+			</div>
+			<div class="check">
+			  <img id="$!obj.id" src="/static/home/meiyan2/img/iconfont-checkmark.png" onclick="changePic($!obj.id);">
+			</div>
+		</div>
+	#end
+#end
+	<div  class="ui_register gray" style="margin-top:10px;">
+		<a href="javascript:void(0);" onclick="confirm();">
+		  <input id="comfirm" type="button" class="reg_finish_btn" value="确认使用" onclick="confirm();">
+		</a>
+	</div>
+#else
+  <div class="coupon" style=" margin-top:40px;">尚无可用优惠券</div>
+  	<div  class="ui_register gray" style="margin-top:10px;">
+		<a href="javascript:void(0);" onclick="confirm();">
+		  <input id="comfirm" type="button" class="reg_finish_btn" value="返回" onclick="confirm();">
+		</a>
+	</div>
+#end	
+</div>
+<script src="/static/home/meiyan2/bootstrap/js/jquery-2.1.4.min.js"></script>
+<script src="/static/home/meiyan2/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+var yhqId = 0;
+function changePic(v){
+	element=document.getElementById(v);
+	yhqId = v;
+	var list=document.getElementById("yhqDiv").getElementsByTagName("img");
+	console.dir(list);
+	for (var i = 0; i < list.length; i++) {
+	    var img=list[i];
+	    if(img.src.match("iconfont-checkmark1")){
+	    	alert("您已经完成选择！");
+	    	return;
+	    }
+	}
+	if(element.src.match("iconfont-checkmark1"))
+	  {
+	  element.src="/static/home/meiyan2/img/iconfont-checkmark.png";
+	  }
+	else
+	  {
+	  element.src="/static/home/meiyan2/img/iconfont-checkmark1.png";
+	  }
+}
+//确认优惠券 
+function confirm(){
+	window.location.href="/bFaceMember.java?cmd=useCoupons&orderId=$!orderId&totalPrice=$!totalPrice&biaoz=$!biaoz&yhqId="+yhqId;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>绑定老用户</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="/static/home/bcd/js/jquery-1.11.1.min.js"></script>
+</head>
+
+<body>
+<div class="page">
+<div class="wrap bg-fff">
+</div>
+<div class="main">
+		<div class="clear-b"></div>
+		<div class="item item-username">
+			<input id="name" class="txt-input txt-username w-100" type="text" placeholder="请输入老用户名称"  name="name" />
+        </div>
+        <div class="ui-btn-wrap"> <button class="ui-btn-lg ui-btn-primary btn-no" onclick="binding();"/>绑定</button></div>
+    </div>
+</div>
+<div class="hei40" ></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+</body>
+
+<script type="text/javascript">
+function binding(){
+	var name=$("#name").val();
+	if(name==""){
+		alert("请输入用户名");
+		$("#name").focus();
+		return ;
+	}
+	jQuery.ajax({
+		method:"post",
+		url:"/wxShopMemberCenter.java?cmd=bindingOldUser",
+		data : "name="+name,
+		dataType : "json",
+		success:function(data,text){
+			if(data.success){
+				alert("绑定老用户成功");
+				window.location.href="/wxShopMemberCenter.java?cmd=toMyInfo";
+			}else{
+				alert(data.errors.msg);
+			}
+		}
+	})
+}
+</script>
+</html>

@@ -1,0 +1,20 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+	<persistence-unit name="djs-app-unit" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jar-file>WEB-INF\lib\otransos-security-2.1.5-SNAPSHOT.jar</jar-file>
+		<jar-file>WEB-INF\lib\otransos-application-2.1.5-SNAPSHOT.jar</jar-file>
+		<jar-file>WEB-INF\lib\otransos-cms-2.1.5-SNAPSHOT.jar</jar-file>
+		<jar-file>WEB-INF\lib\otransos-payment-2.1.5-SNAPSHOT.jar</jar-file>
+		<jar-file>WEB-INF\lib\otransos-weixin-2.1.5-SNAPSHOT.jar</jar-file>
+		<jar-file>WEB-INF\lib\otransos-seafood-2.1.5-SNAPSHOT.jar</jar-file>
+		
+		<jar-file>WEB-INF\lib\bcd_shop_distribution-0.1.0-SNAPSHOT.jar</jar-file>
+		<properties>
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.use_sql_comments">false</property><!-- 是否显示原始HQL以便跟SQL对照 -->
+			<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+			<property name="hibernate.cache.use_second_level_cache">false</property>
+		</properties>
+	</persistence-unit>
+</persistence>

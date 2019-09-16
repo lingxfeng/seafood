@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"
+		type="text/css">
+		<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+		<script type="text/javascript">
+		function gotoPage(n) {
+		    location.href = "/shopDistributor.java?cmd=listCommission&currentPage=" + n;
+		}
+		</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">微店会员</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/shopDistributor.java?cmd=list" class="this"><b>微店会员</b></a></li>
+			</ul>
+		</div>
+		<div >
+			开始时间<input name="name" type="text">结束时间<input name="name" type="text">
+		</div>
+			<div class="fshoptb2">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+														<th width="7%" align="center"><span class="form_btna">店铺名</span></th>
+														<th width="7%" align="center"><span class="form_btna">开店会员</span></th>
+														<th width="7%" align="center"><span class="form_btna">店铺类型</span></th>
+														<th width="7%" align="center"><span class="form_btna">手机号</span></th>
+														<th width="10%" align="center"><span class="form_btna">推广二维码</span></th>
+														<th width="7%" align="center"><span class="form_btna">加入时间</span></th>
+														<th width="7%" align="center"><span class="form_btna">上级姓名</span></th>
+														<th width="7%" align="center"><span class="form_btna">累计收益</span></th>
+														<th width="7%" align="center"><span class="form_btna">隶属体验店</span></th>
+														<th align="center"><b class="form_btna">操作</b></th>
+						</tr>
+						#foreach($obj in $list)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"><input name="ids" id="ids"
+								type="checkbox" value="1"></td>
+														<td align="center">$!obj.myShopName</td>
+														<td align="center">$!{obj.member.follower.nickname}</td>
+														#if($!obj.exStatus == 1)
+														<td align="center">体验店</td>
+														#else
+														<td align="center">微店</td>
+														#end
+														<td align="center">$!obj.mobile</td>
+														<td align="center"><img src="$!obj.qRcodeImg" height="100px"/></td>
+														<td align="center">$!obj.joinTime</td>
+														<td align="center">$!{obj.parent.member.nickname}</td>													
+														<td align="center">$fu.getYj($!obj.disCommission)</td>
+														<td align="center">$!obj.topDistributor.myShopName</td>
+														<td align="center" class="hui oprate_con">
+															<a href="/commissionDetail.java?cmd=listCommissionDetail&id=${obj.id}" class="blue">查看明细</a>|
+														</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+			</div>
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="/static/common/base.css" />
+	<link rel="stylesheet" href="/static/common/plugin/assets/css/font-awesome.min.css" type="text/css"/>
+	<link href="/static/home/bcd/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+	<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+	<script src="/static/home/bcd/js/jquery.datetimepicker.js"></script>
+	<script>	
+	//后台传递需要前台弹窗提示的信息
+	#if($msg)
+		alert("$msg");
+	#end
+	
+	$(function(){
+		$(".datetime").datetimepicker({
+			format: "Y-m-d H:i:s",
+			allowBlank: true,
+			step: 10
+		});
+	});
+	function toggleRecmmend(id){
+		var address = "/integralBuyRegular.java?cmd=toggleRecmmend&id="+id;
+		$.ajax({
+			url: address,
+			type: "GET",
+			dataType: "json",
+			success: function(data){
+				alert(data.msg);
+				window.location.reload();
+			}
+		});		
+	}
+	function exchangeUp(handler){
+		var currId = $(handler).parents("tr").attr("row-id");
+		var otherId = $(handler).parents("tr").prev().attr("row-id");
+		if(currId == otherId){
+			alert("该记录已经处于顶端！");
+			return;
+		}
+		ajax_exchange(currId, otherId);
+	}
+	function exchangeTop(handler){
+		var currId = $(handler).parents("tr").attr("row-id");
+		var topId = $(".top-row").attr("row-id");
+		if(currId == topId){
+			alert("该记录已经置顶！");
+			return;
+		}
+		ajax_exchange(currId, topId);
+	}
+	function ajax_exchange(firstId, secondId){
+		var address = "/integralBuyRegular.java?cmd=exchangeRegularWeight&"+"regularFirstId="+firstId+"&regularSecondId="+secondId;
+		$.ajax({
+			url: address,
+			type: "GET",
+			dataType: "json",
+			success: function(data){
+				alert(data.msg);
+				window.location.reload();
+			}
+		});
+	}
+	</script>
+	<style>
+	td{
+		text-align: center;
+	}
+	.fshop_table2{
+		border:1px solid #C6C9CA;
+	}
+	.fshop_table2 th{
+		border:1px solid #C6C9CA;
+	}
+	.link-address{
+		color: blue;
+	}
+	.link-address:hover{
+		color: red;
+	}
+	</style>	
+</head>
+	
+<body>
+	<div class="cont">
+		<h3 class="seth">积分活动管理</h3>
+		
+		<div class="nav_list">
+			<ul>				
+				<li><a href="/integralBuyRegular.java?cmd=circleImgList" class=""><b>轮播图列表</b></a></li>
+				<li><a href="/integralBuyRegular.java?cmd=toCircleImgSave" class=""><b>新增轮播图</b></a></li>
+				<li><a href="/integralBuyRegular.java?cmd=toSquenceRecommendRegular" class="this"><b>推荐排序</b></a></li>
+			</ul>
+		</div>
+		
+		<form name="ListForm" id="ListForm" action="/integralBuyRegular.java" method="post" enctype="multipart/form-data">
+		
+			<div class="operation">
+				<h3>友情提示</h3>
+				<ul>
+					<li></li>
+				</ul>
+			</div>
+		
+			<div class="fshoptb2">
+				<table width="100%" class="fshop_table2">
+					<tbody>
+						<tr>
+							<th><span>商品名称</span></th>
+							<th><span>商品ID</span></th>
+							<th><span>积分价格</span></th>
+							<th><span>限购数量</span></th>
+							<th><span>活动上架时间</span></th>
+							<th><span>活动下架时间</span></th>
+							<th><span>活动创建时间</span></th>
+							<th><span>活动状态</span></th>
+							<th width="" align="center"><span class="form_btna">推荐位置操作</span></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" row-id="$obj.id"
+							#if($foreach.count == 1)
+							class="top-row"
+							#end
+						>
+							<td>$!obj.pro.name</td>
+							<td>$!obj.pro.id</td>
+							<td>$!obj.integralPrice</td>
+							<td>$!obj.buyNumLimit</td>							
+							<td>$!obj.shelvingDate</td>
+							<td>$!obj.unshelvingDate</td>
+							<td>$!obj.createDate</td>
+							<td>$!obj.getStateCN()</td>
+							<td align="center">
+								#if($foreach.count != 1)
+								<a onclick="exchangeUp(this);">上移</a>&nbsp;
+						        <a onclick="exchangeTop(this);">置顶</a>&nbsp;
+								#end						        
+						        <a onclick="toggleRecmmend($obj.id);">取消推荐</a>
+						    </td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+
+		</form>
+
+	</div>
+</body>
+</html>

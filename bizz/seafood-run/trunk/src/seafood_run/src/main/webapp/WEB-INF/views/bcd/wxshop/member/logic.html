@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>查看物流</title>
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+        <meta content="yes" name="apple-mobile-web-app-capable"/>
+        <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+        <meta content="telephone=no" name="format-detection"/>
+        <link href="/static/logic/css/style.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+
+        <section class="aui-flexView">
+            <header class="aui-navBar aui-navBar-fixed b-line">
+                <a href="javascript:;" class="aui-navBar-item">
+                    <i class="icon icon-return"></i>
+                </a>
+                <div class="aui-center">
+                    <span class="aui-center-title">查看物流</span>
+                </div>
+                <a href="javascript:;" class="aui-navBar-item">
+                    <i class="icon icon-more"></i>
+                </a>
+            </header>
+            <section class="aui-scrollView">
+                <div class="aui-flex aui-flex-lag">
+                    <div class="aui-aircraft-img">
+                        <img src="/static/logic/images/icon-fj.png" alt="">
+                    </div>
+                    <div class="aui-flex-box">
+                        <h2>
+                            物流公司：<em>$!name</em>
+                        </h2>
+                        <h2>
+                            物流单号：<em>$!num</em>
+                        </h2>
+                    </div>
+                    <div class="aui-text-copy">复制
+                    </div>
+                </div>
+                <div class="divHeight"></div>
+                <div class="aui-flex aui-flex-lag">
+                    <div class="aui-flex-box">
+                        <h2 style="color:#333">订单跟踪</h2>
+                    </div>
+                </div>
+                <div class="aui-timeLine b-line">
+                    <ul class="aui-timeLine-content">
+                    #foreach($order in $list)
+                        <li class="aui-timeLine-content-item">
+                            <em class="aui-timeLine-content-icon"></em>
+                            <p>$order.context</p>
+                            <p style="margin-top: 10px;">$order.time</p>
+                        </li>
+                     #end
+                        <li class="aui-timeLine-content-item">
+                            <em class="aui-timeLine-content-icon"></em>
+                            <p>【南宁市】您的订单在京东【南宁分拨中心】分拣完成</p>
+                            <p style="margin-top: 10px;">2017-08-18 07:25:08</p>
+                        </li>
+                        <li class="aui-timeLine-content-item">
+                            <em class="aui-timeLine-content-icon"></em>
+                            <p>您的订单已经进入京东2号库准备出库</p>
+                            <p style="margin-top: 10px;">2017-08-18 07:25:08</p>
+                        </li>
+                        <li class="aui-timeLine-content-item">
+                            <em class="aui-timeLine-content-icon"></em>
+                            <p>您提交了订单，请等待系统确认</p>
+                            <p style="margin-top: 10px;">2017-08-18 07:25:08</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="b-line divHeight"></div>
+                
+            </section>
+            <footer class="aui-footer aui-footer-fixed">
+                <div class="aui-artificial">
+                    	海鲜之家，美味到家
+                </div>
+            </footer>
+        </section>
+    </body>
+</html>

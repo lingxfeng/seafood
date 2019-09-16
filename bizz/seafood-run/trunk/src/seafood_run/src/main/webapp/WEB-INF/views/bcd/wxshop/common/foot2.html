@@ -1,0 +1,61 @@
+<!--  底部浮动导航  s  -->
+<div class="wx_nav wx_menu">
+	#if($distributor)
+	<a href="$distributor.url" class="nav_index">首页</a>
+	#else
+	<a href="/wxShopBase.java?cmd=init" class="nav_index ">首页</a>
+	#end
+	
+	#if($member)
+			#if($su.checkApply($member) == 1 && $su.getMemberType($member)!= 0)
+				<a href="/distributionCore.java?cmd=toDistributorInfo" class="nav_search">店铺管理</a>
+			#elseif($su.checkApply($member) == 1 && $su.getMemberType($member) == 0)
+				<a href="/distributionCore.java?cmd=toApply" class="nav_search">我要开店</a>
+			#else
+			<a href="#" class="nav_search">暂停申请</a>
+			#end
+	#else
+		<a href="#" class="nav_search">刷新重试</a>
+	#end
+	<a href="/shoppingCart.java?cmd=toShoppingCart" class="nav_shopcart">购物车</a>
+	<a href="/wxShopMemberCenter.java?cmd=toMyInfo" class="nav_me">个人中心</a>
+</div>
+#if(!$setWeixinJs)
+	#parse("/wxcommon/weixinJsSdk.html")
+	#set($indexImg="")
+	#foreach($obj in $nu.getLinkImg("index",1))
+	   #set($indexImg=$obj.imgPath)
+	#end
+	<script type="text/javascript">
+	wx.ready(function(){
+		wx.onMenuShareTimeline({
+		    title: "海鲜之家商城欢迎您",
+		    link: '$!{indexUrl}',
+		    imgUrl: '$!{su.getDomain()}/$!{indexImg}',
+		    success: function (res) {
+		  	  if(MenuShareTimelineObj.returnFun){
+		  		  MenuShareTimelineObj.returnFun();
+		  	  }
+		    },
+		    cancel: function (res) {
+		      alert('你已经取消分享');
+		    }
+		  });
+		wx.onMenuShareAppMessage({
+			title: "海鲜之家商城欢迎您",
+		    desc: '海鲜之家商城欢迎您的光临！！！', // 分享描述
+		    link: '$!{indexUrl}',
+		    imgUrl: '$!{su.getDomain()}/$!{indexImg}',
+		    success: function () { 
+		        // 用户确认分享后执行的回调函数
+		    },
+		    cancel: function () { 
+		        // 用户取消分享后执行的回调函数
+		    }
+		});
+		wx.hideMenuItems({
+		    menuList: ["menuItem:share:qq"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+		});
+	});
+	</script>
+#end

@@ -1,0 +1,57 @@
+<div xmlns:ext="http://www.extjs.com" class="body-wrap"><h1>Class <a href="source/core-3.2.html#cls-Disco.Ext.CachedRemoteStore">Disco.Ext.CachedRemoteStore</a></h1><table cellspacing="0"><tr><td class="label">Package:</td><td class="hd-info">Disco</td></tr><tr><td class="label">Defined In:</td><td class="hd-info">core-3.2.js</td></tr><tr><td class="label">Class:</td><td class="hd-info"><a href="source/core-3.2.html#cls-Disco.Ext.CachedRemoteStore">Ext.CachedRemoteStore</a></td></tr><tr><td class="label">Extends:</td><td class="hd-info">Ext.data.Store</td></tr></table><div class="description">拥有本地缓存的store。<br/>
+该store能在第一次从服务器端获得数据后，将数据缓存在本地缓存中。之后所有的请求，如果在没有清空proxy中的数据情况下<br/>
+所有的查询都直接从本地缓存中查询。包括分页等操作。<br/>
+该store一般用于报表类查询。如果报表查询的条件没有改变的话，就可以多次的从本地缓存中列出相同的数据，减轻服务器端的报表查询压力。<br/>
+注意：该store后端对应的url，必须一次将所有数据都查询出来，分页的操作是在前端自动完成的。<br/>
+<pre>
+<code><i>//一个使用了CacheRemoteStore的报表的关键代码
+</i>
+BaseAccountChartPanel=Ext.extend(BaseGridPanel,{<i>//可以继承CrudListPanel，屏蔽所有的业务操作方法，也可以继承BaseGridPanel
+</i>
+url:<em>'chartHelper.java?cmd=stockNoOrders'</em>,<i>//设置URL
+</i>
+<i>//在initComponent中，指定store为CachedRemoteStore。
+</i>
+initComponent:<b>function</b>(){
+this.store = <b>new</b> Disco.Ext.CachedRemoteStore({
+id : &quot;id&quot;,
+url : this.url,
+varName:&quot;REPORT:stockNoOrder&quot;,
+disableClientFilter:true,
+pageSize:this.pageSize,
+root : &quot;result&quot;,
+remoteSort : false,
+totalProperty : &quot;rowCount&quot;,
+fields : this.storeMapping
+});
+this.store.paramNames.sort = &quot;orderBy&quot;;
+this.store.paramNames.dir = &quot;orderType&quot;;
+BaseAccountChartPanel.superclass.initComponent.call(this);
+}
+<i>//查询方法，如果发现查询的条件没有改变，则直接从缓存中查询，如果查询条件已经修改
+</i>
+<i>//则调用this.store.prox.getData().clear()方法清空缓存。然后重新从服务器端请求数据。
+</i>
+quickSearch:<b>function</b>(){
+<b>var</b> parsep = this.parseParams();
+<b>var</b> tag = parsep === undefined||parsep === true;
+this.store.proxy.getData().clear();
+this.store.searchKeys=Ext.urlEncode(this.store.baseParams);
+<b>if</b>(this.forceReload===true){
+this.store.baseParams.forceReload = true;
+this.forceReload = false;
+}
+<b>if</b>(!tag){
+<b>return</b> false;
+}
+this.refresh();
+},</code>
+</pre></div><div class="hr"></div><a id="Disco.Ext.CachedRemoteStore-props"></a><h2>Public Properties</h2><div class="no-members">This class has no public properties.</div><a id="Disco.Ext.CachedRemoteStore-methods"></a><h2>Public Methods</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Method</th><th class="msource-header">Defined By</th></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CachedRemoteStore-enableCache"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CachedRemoteStore-enableCache">enableCache</a></b>(&nbsp;<code>Boolean&nbsp;b</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">设置是否启用缓存&#13;
+如果设置为true，则默认开启缓存。也可以在运行状态中通过设置enableCache(false)来动态关闭store的缓存功能</div><div class="long">设置是否启用缓存<br/>
+如果设置为true，则默认开启缓存。也可以在运行状态中通过设置enableCache(false)来动态关闭store的缓存功能<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>b</code> : Boolean<div class="sub-desc">是否开启缓存</div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.CachedRemoteStore</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CachedRemoteStore-isCache"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CachedRemoteStore-isCache">isCache</a></b>()
+    :
+                                        Boolean<div class="mdesc"><div class="short">判断当前store是否开启缓存功能</div><div class="long">判断当前store是否开启缓存功能<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li><code>Boolean</code><div class="sub-desc">ret 返回当前store是否开启了缓存功能</div></li></ul></div></div></div></td><td class="msource">Ext.CachedRemoteStore</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="Disco.Ext.CachedRemoteStore-refreshCache"></a><b><a href="source/core-3.2.html#method-Disco.Ext.CachedRemoteStore-refreshCache">refreshCache</a></b>()
+    :
+                                        void<div class="mdesc"><div class="short">对外提供的重新刷新缓存的方法 该方法会清空当前store对应缓存中的数据，并重新从服务器端加载数据</div><div class="long">对外提供的重新刷新缓存的方法<br/> 该方法会清空当前store对应缓存中的数据，并重新从服务器端加载数据<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">Ext.CachedRemoteStore</td></tr></tbody></table><a id="Disco.Ext.CachedRemoteStore-events"></a><h2>Public Events</h2><div class="no-members">This class has no public events.</div></div>

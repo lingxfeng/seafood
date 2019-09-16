@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的订单</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user_index.css" type="text/css" rel="stylesheet">
+<!--滑动-->
+<link rel="stylesheet" href="/static/home/bcd/css/idangerous.swiper.css">
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<div class="wrap">
+    <ul class="nav w30">
+    	<li class="nav_current" id="nav1" onclick="javascript:doClick(this)">全部</li>
+        <li class="nav_link" id="nav2" onclick="javascript:doClick(this)">未支付</li>
+        <li class="nav_link" id="nav3" onclick="javascript:doClick(this)">已支付</li>
+        <li class="nav_link" id="nav4" onclick="javascript:doClick(this)">已发货</li>
+        <li class="nav_link" id="nav5" onclick="javascript:doClick(this)">已收货</li>
+        <li class="nav_link" id="nav6" onclick="javascript:doClick(this)">申请退货</li>
+        <li class="nav_link" id="nav7" onclick="javascript:doClick(this)">退货完成</li>
+        <li class="nav_link" id="nav8" onclick="javascript:doClick(this)">取消订单</li>
+    </ul>
+    
+    <div class="nav-down">
+        <!--  全部  s  -->
+        <div class="dis" id="sub1">
+	        <div style = "height:30px;"></div>
+    	
+        	#foreach($order in $orderList)
+	        	#if($order.isSpokesman==0)
+	        	<a href="shopOrderInfo.java?cmd=orderDetail2&orderId=$!order.id">
+	        	#else
+	        	<a href="wxSpokesmanProduct.java?cmd=orderDetail&orderId=$!order.id">
+	        	#end
+	        	
+	        	<div class="content-slide">
+	                <div class="orderTitle">订单号：<span>$!order.code</span>
+	                <b>$!order.getStatusCh()</b> #if($!order.status>=2)<b>
+	                 <a href="shopOrderInfo.java?cmd=searchKuaidi&orderId=$!order.id" class="order_bottom_btn" target="_blank" style="background:#f40;">
+	                <button name="ckwl" style="background-color:#4CAF50;border: none;color: white;padding: 5px 5px;border-radius:3px;text-align: center;text-decoration: none;display: inline-block;font-size: 14px;" >查看物流</button></a></b>#end
+	                </div>
+                
+	                #set($num=0)
+	                #set($price=0)
+	                #foreach($orderDetail in $order.orderdetails)
+	                <div class="oh orderBox">
+	                    <div class="w-15 buyImgDiv f-l"><img src="$!{orderDetail.pro.imgPaths.split("_")[0]}" width="52" height="44"></div>
+	                    <div class="w-65 f-l">
+	                        <p class="buyP">$!orderDetail.pro.name</p>
+	                    </div>
+	                    <div class="w-20 buyDel tex-r f-l">
+	                        <p><span class="lse">￥$!orderDetail.unit_price</span><span id = "num_$!orderDetail.id" value = "$!orderDetail.num">×$!orderDetail.num</span></p>
+	                        #set($num=$num+$!orderDetail.num)
+	                        <span type="hidden" id ="price_$!orderDetail.id" value ="$!orderDetail.gross_price" ></span>
+	                        #set($price = $price +$!orderDetail.gross_price)
+	                    </div>
+	                   #if($order.getStatusCh().equals("已收货"))   
+		                        <!-- 评价晒单 -->
+		                      #if($!orderDetail.isDiscuss)
+		                      <div class="f-r"><button style="background-color: #e7e7e7; color: black;border: none;padding: 5px 5px;text-align: center;text-decoration: none;display: inline-block;font-size: 14px;">已评价</button></div>
+		                      #else
+		                      <div class="f-r"><a href ="javascript:goDiscuss('$!{orderDetail.id}')"><button style="background-color: #e7e7e7; color: black;border: none;padding: 5px 5px;text-align: center;text-decoration: none;display: inline-block;font-size: 14px;">评价晒单</button></a></div>
+		                	  #end
+	                	  #end
+	                </div>                
+           			#end
+           	
+	            	#set($total = $price +$!order.freight)
+		            <div class="oh orderDivBox">
+		                <div class="f-l">共<span>$num</span>件</div>
+		                <div class="f-r">付款：<span>$total</span>元</div>
+		            </div>
+		            <div class="oh orderDivBox">
+		                <div class="f-l">下单时间：<span class="">$fu.getDate3($!order.ceateDate)</span></div>
+														                		                
+			            #if($order && $order.getStatusCh().equals("未支付"))
+			            <div class="f-r" style="margin-right:5px;"><a href = "wxShopMemberCenter.java?cmd=toCancel&orderId=$!order.id"><button class="bg-f40">取消订单</button></a></div> 
+		                <div class="f-r" style="margin-right:5px;"><button class="bg-f40" onclick="toPay('$!{order.id}')">立即支付</button></div> 
+		                #elseif($order && $order.getStatusCh().equals("已支付") || $order.getStatusCh().equals("已收货"))
+		                <div class="f-r">
+                    	<!-- <a href="http://www.kuaidi100.com/chaxun?com=$!{order.logisticsCompany.code}&nu=$!{order.expressCode}" class="bg-f40">查询物流详情</a> -->
+                     		<a href = "javascript:tkth('$!{order.id}')"><button class="bg-f40">退款\退货</button></a>
+                     	</div>
+                     	 #elseif($order && $order.getStatusCh().equals("已发货") )
+                     	 <div class="f-r">
+      
+                     		<a href = "javascript:tkth('$!{order.id}')"><button class="bg-f40">退款\退货</button></a>
+                     	</div>
+                     	<div class="f-r">
+               				<a href = "javascript:qrsh('$!{order.id}')"><button class="bg-f40">确认收货</button></a>
+                    	</div>
+		                #end			        	
+			        </div>
+			   	</div>
+		    
+	        </a>
+	        #end
+	                
+ 			#if($orderList.size() == 0)
+ 			<div class="content-slide" style="clear: both;">
+ 				<p>该状态下没有订单，赶快去下单吧！</p>
+ 			</div>
+ 			#end
+ 			
+ 		</div>
+        
+        <!--  全部  e  -->
+        <!--  待付款  s  -->
+        <div class="undis" id="sub2">
+            <div style = "height:30px;"></div>  
+        	#foreach($orderUnpaid in $unpaidOrder)
+        	#if($orderUnpaid.isSpokesman==0)
+        	<a href="shopOrderInfo.java?cmd=orderDetail2&orderId=$!orderUnpaid.id">
+        	#else
+        	<a href="wxSpokesmanProduct.java?cmd=orderDetail&orderId=$!orderUnpaid.id">
+        	#end
+	        	<div class="content-slide">
+	                <div class="orderTitle">订单号：<span>$!orderUnpaid.code</span><b>$!orderUnpaid.getStatusCh()</b></div>
+	                #set($num=0)
+	                #set($price=0)
+	                #foreach($orderDetail in $orderUnpaid.orderdetails)
+	                
+	                <div class="oh orderBox">
+	                    <div class="w-15 buyImgDiv f-l"><img src="$!{orderDetail.pro.imgPaths.split("_")[0]}" width="52" height="44"></div>
+	                    <div class="w-65 f-l">
+	                        <p class="buyP">$!orderDetail.pro.name</p>
+	                    </div>
+	                    <div class="w-20 buyDel tex-r f-l">
+	                        <p><span class="lse">￥$!orderDetail.unit_price</span><span>×$!orderDetail.num</span></p>
+	                          #set($num=$num+$!orderDetail.num)
+	                        <span type="hidden" id ="price_$!orderDetail.id" value ="$!orderDetail.gross_price" ></span>
+	                        #set($price = $price +$!orderDetail.gross_price)
+	                    </div>
+	                </div>
+	                
+	                #end	           
+           
+		            #set($total = $price +$!orderUnpaid.freight)
+		            <div class="oh orderDivBox">
+		                 <div class="f-l">共<span>$num</span>件</div>
+		                <div class="f-r">付款：<span>$total</span>元</div>
+		            </div>
+		            <div class="oh orderDivBox">
+		                <div class="f-l">下单时间：<span class="timeformate">$fu.getDate3($!orderUnpaid.ceateDate)</span></div>
+		                #if($orderUnpaid && $orderUnpaid.getStatusCh().equals("未支付"))
+		                 <div class="f-r" style="margin-right:5px;"><button class="bg-f40" onclick="toPay('$!{order.id}')">立即支付</button></div>
+		                 <div class="f-r" style="margin-right:5px;"><a href = "wxShopMemberCenter.java?cmd=toCancel&orderId=$!orderUnpaid.id"><button class="bg-f40">取消订单</button></a></div>
+		                #end
+		            </div>
+				</div>		        
+            </a>
+ 			#end
+ 			
+			#if($unpaidOrder.size() == 0)
+ 			<div class="content-slide" style="clear: both;">
+ 				<p>该状态下没有订单，赶快去下单吧！</p>
+ 			</div>
+ 			#end
+        </div>
+        <!--  待付款  e  -->
+        <!--  已完成  s  -->
+        <div class="undis" id="sub3">
+                <div style = "height:30px;">
+    	</div>  
+        	#foreach($order in $paidOrder)
+        	#if($order.isSpokesman==0)
+        	<a href="shopOrderInfo.java?cmd=orderDetail2&orderId=$!order.id">
+        	#else
+        	<a href="wxSpokesmanProduct.java?cmd=orderDetail&orderId=$!order.id">
+        	#end
+        	<div class="content-slide"  id="ord$!order.id">
+                <div class="orderTitle">订单号：<span>$!order.code</span><b>$!order.getStatusCh()</b></div>
+                #set($num=0)
+                #set($price=0)
+                #foreach($orderDetail in $order.orderdetails)
+                <div class="oh orderBox">
+                    <div class="w-15 buyImgDiv f-l"><img src="$!{orderDetail.pro.imgPaths.split("_")[0]}" width="52" height="44"></div>
+                    <div class="w-65 f-l">
+                        <p class="buyP">$!orderDetail.pro.name</p>
+                    </div>
+                    <div class="w-20 buyDel tex-r f-l">
+                        <p><span class="lse">￥$!orderDetail.unit_price</span><span>×$!orderDetail.num</span></p>
+                    </div>
+                     #set($num=$num+$!orderDetail.num)
+                        <span type="hidden" id ="price_$!orderDetail.id" value ="$!orderDetail.gross_price" ></span>
+                        #set($price = $price +$!orderDetail.gross_price)
+                </div>
+                
+                #end
+                 #set($total = $price +$!order.freight)
+                <div class="oh orderDivBox">
+                     <div class="f-l">共<span>$num</span>件</div>
+                    <div class="f-r">付款：<span>$total</span>元</div>
+                </div>
+                <div class="oh orderDivBox">
+                    <div class="f-l">下单时间：<span class="timeformate">$fu.getDate3($!order.ceateDate)</span></div>
+                    <div class="f-r">
+                    <!-- <a href="http://www.kuaidi100.com/chaxun?com=$!{order.logisticsCompany.code}&nu=$!{order.expressCode}" class="bg-f40">查询物流详情</a> -->
+                     <a href = "javascript:tkth('$!{order.id}')"><button class="bg-f40">退款\退货</button></a>
+                     </div>
+                </div>
+            </div>
+            </a>
+ 			#end
+ 			
+ 			#if($paidOrder.size() == 0)
+ 			<div class="content-slide" style="clear: both;">
+ 				<p>该状态下没有订单，赶快去下单吧！</p>
+ 			</div>
+ 			#end 	
+        </div>
+        <!--  待发货  e  -->
+        <!--  已发货  s  -->
+        <div class="undis" id="sub4">
+                <div style = "height:30px;">
+    	</div>  
+        	#foreach($order in $deliverOrder)
+        	#if($order.isSpokesman==0)
+        	<a href="shopOrderInfo.java?cmd=orderDetail2&orderId=$!order.id">
+        	#else
+        	<a href="wxSpokesmanProduct.java?cmd=orderDetail&orderId=$!order.id">
+        	#end
+        	<div class="content-slide">
+                <div class="orderTitle">订单号：<span>$!order.code</span><b>$!order.getStatusCh()</b>#if($!order.status>=2)<b>
+                <a href="shopOrderInfo.java?cmd=searchKuaidi&orderId=$!order.id" class="order_bottom_btn" target="_blank" style="background:#f40;">
+                <button name="ckwl" style="background-color:#4CAF50;border-radius:3px;border: none;color: white;padding: 5px 5px;text-align: center;text-decoration: none;display: inline-block;font-size: 14px;" >查看物流</button></a></b>#end</div>
+                #set($num=0)
+                #set($price=0)
+                #foreach($orderDetail in $order.orderdetails)
+                
+                <div class="oh orderBox">
+                    <div class="w-15 buyImgDiv f-l"><img src="$!{orderDetail.pro.imgPaths.split("_")[0]}" width="52" height="44"></div>
+                    <div class="w-65 f-l">
+                        <p class="buyP">$!orderDetail.pro.name</p>
+                    </div>
+                    <div class="w-20 buyDel tex-r f-l">
+                        <p><span class="lse">￥$!orderDetail.unit_price</span><span>×$!orderDetail.num</span></p>
+                    </div>
+                     #set($num=$num+$!orderDetail.num)
+                        <span type="hidden" id ="price_$!orderDetail.id" value ="$!orderDetail.gross_price" ></span>
+                        #set($price = $price +$!orderDetail.gross_price)
+                </div>
+                #end
+                 #set($total = $price +$!order.freight)
+                <div class="oh orderDivBox">
+                     <div class="f-l">共<span>$num</span>件</div>
+                    <div class="f-r">付款：<span>$total</span>元</div>
+                </div>
+                <div class="oh orderDivBox">
+                    <div class="f-l">下单时间：<span class="timeformate">$fu.getDate3($!order.ceateDate)</span></div>
+                    <div class="f-r">
+               			<a href = "javascript:qrsh('$!{order.id}')"><button class="bg-f40">确认收货</button></a>
+                   		 已付款
+                    </div>
+                </div>
+            </div>
+            </a>
+ 			#end
+ 			
+ 			#if($deliverOrder.size() == 0)
+ 			<div class="content-slide" style="clear: both;">
+ 				<p>该状态下没有订单，赶快去下单吧！</p>
+ 			</div>
+ 			#end
+        </div>
+        <!--  待收货  e  -->
+        <!--  已完成  s  -->
+        <div class="undis" id="sub5">
+                <div style = "height:30px;">
+    	</div>  
+        	#foreach($order in $receiveOrder)
+        	#if($order.isSpokesman==0)
+        	<a href="shopOrderInfo.java?cmd=orderDetail2&orderId=$!order.id">
+        	#else
+        	<a href="wxSpokesmanProduct.java?cmd=orderDetail&orderId=$!order.id">
+        	#end
+        	<div class="content-slide">
+                <div class="orderTitle">订单号：<span>$!order.code</span><b>$!order.getStatusCh()</b>#if($!order.status>=2)<b>
+                <a href="shopOrderInfo.java?cmd=searchKuaidi&orderId=$!order.id" class="order_bottom_btn" target="_blank" style="background:#f40;">
+                <button name="ckwl" style="background-color:#4CAF50;border: none;border-radius:3px;color: white;padding: 5px 5px;text-align: center;text-decoration: none;display: inline-block;font-size: 14px;" >查看物流</button></a></b>#end</div>
+                #set($num=0)
+                #set($price=0)
+                #foreach($orderDetail in $order.orderdetails)
+                <div class="oh orderBox">
+                    <div class="w-15 buyImgDiv f-l"><img src="$!{orderDetail.pro.imgPaths.split("_")[0]}" width="52" height="44"></div>
+                    <div class="w-65 f-l">
+                        <p class="buyP">$!orderDetail.pro.name</p>
+                    </div>
+                    <div class="w-20 buyDel tex-r f-l">
+                        <p><span class="lse">￥$!orderDetail.unit_price</span><span>×$!orderDetail.num</span></p>
+                    </div>
+                     #set($num=$num+$!orderDetail.num)
+                        <span type="hidden" id ="price_$!orderDetail.id" value ="$!orderDetail.gross_price" ></span>
+                        #set($price = $price +$!orderDetail.gross_price)
+                      <!-- 评价晒单 -->
+                      #if($!orderDetail.isDiscuss)
+                      <div class="f-r"><button style="background-color: #e7e7e7; color: black;border: none;padding: 5px 5px;text-align: center;text-decoration: none;display: inline-block;font-size: 14px;">已评价</button></div>
+                      #else
+                      <div class="f-r"><a href ="javascript:goDiscuss('$!{orderDetail.id}')"><button style="background-color: #e7e7e7; color: black;border: none;padding: 5px 5px;text-align: center;text-decoration: none;display: inline-block;font-size: 14px;">评价晒单</button></a></div>
+                	  #end
+                </div>
+                #end
+                 #set($total = $price +$!order.freight)
+                <div class="oh orderDivBox">
+                    <div class="f-l">共<span>$num</span>件</div>
+                    <div class="f-r">付款：<span>$total</span>元</div>
+                </div>
+                <div class="oh orderDivBox">
+                    <div class="f-l">下单时间：<span class="timeformate">$fu.getDate3($!order.ceateDate)</span></div>
+                    <div class="f-r"><a href = "javascript:tkth('$!{order.id}')"><button class="bg-f40">退款\退货</button></a></div>
+                </div>
+            </div>
+            </a>
+ 			#end
+ 			
+ 			#if($receiveOrder.size() == 0)
+ 			<div class="content-slide" style="clear: both;">
+ 				<p>该状态下没有订单，赶快去下单吧！</p>
+ 			</div>
+ 			#end
+        </div>        
+        <!--  待发货  e  -->
+        <!--  申请退货  s  -->
+        <div class="undis" id="sub6">
+                <div style = "height:30px;">
+    	</div>  
+        	#foreach($order in $backOrder)
+        	#if($order.isSpokesman==0)
+        	<a href="shopOrderInfo.java?cmd=orderDetail2&orderId=$!order.id">
+        	#else
+        	<a href="wxSpokesmanProduct.java?cmd=orderDetail&orderId=$!order.id">
+        	#end
+        	<div class="content-slide">
+        	<a href="shopOrderInfo.java?cmd=orderDetail2&orderId=$!order.id">
+                <div class="orderTitle">订单号：<span>$!order.code</span><b>$!order.getStatusCh()</b></div>
+                #set($num=0)
+                #set($price=0)
+                #foreach($orderDetail in $order.orderdetails)
+                <div class="oh orderBox">
+                    <div class="w-15 buyImgDiv f-l"><img src="$!{orderDetail.pro.imgPaths.split("_")[0]}" width="52" height="44"></div>
+                    <div class="w-65 f-l">
+                        <p class="buyP">$!orderDetail.pro.name</p>
+                    </div>
+                    <div class="w-20 buyDel tex-r f-l">
+                        <p><span class="lse">￥$!orderDetail.unit_price</span><span>×$!orderDetail.num</span></p>
+                    </div>
+                     #set($num=$num+$!orderDetail.num)
+                        <span type="hidden" id ="price_$!orderDetail.id" value ="$!orderDetail.gross_price" ></span>
+                        #set($price = $price +$!orderDetail.gross_price)
+                </div>
+                #end
+                 #set($total = $price +$!order.freight)
+                <div class="oh orderDivBox">
+                    <div class="f-l">共<span>$num</span>件</div>
+                    <div class="f-r">付款：<span>$total</span>元</div>
+                </div>
+                <div class="oh orderDivBox">
+                    <div class="f-l">下单时间：<span class="timeformate">$fu.getDate3($!order.ceateDate)</span></div>
+                    <div class="f-r">已付款</div>
+                </div>
+                </a>
+            </div>
+            </a>
+ 			#end
+ 			
+ 			#if(!$backOrder || $backOrder.size() == 0)
+ 			<div class="content-slide" style="clear: both;">
+ 				<p>该状态下没有订单，赶快去下单吧！</p>
+ 			</div>
+ 			#end
+        </div>
+        
+        
+        <!--  待发货  e  -->
+        <!--  同意退货  s  -->
+        <div class="undis" id="sub7">
+                <div style = "height:30px;">
+    	</div>  
+        	#foreach($order in $returnOrder)
+        	#if($order.isSpokesman==0)
+        	<a href="shopOrderInfo.java?cmd=orderDetail2&orderId=$!order.id">
+        	#else
+        	<a href="wxSpokesmanProduct.java?cmd=orderDetail&orderId=$!order.id">
+        	#end
+        	<div class="content-slide">
+        	<a href="shopOrderInfo.java?cmd=orderDetail2&orderId=$!order.id">
+                <div class="orderTitle">订单号：<span>$!order.code</span><b>$!order.getStatusCh()</b></div>
+                #set($num=0)
+                #set($price=0)
+                #foreach($orderDetail in $order.orderdetails)
+                <div class="oh orderBox">
+                    <div class="w-15 buyImgDiv f-l"><img src="$!{orderDetail.pro.imgPaths.split("_")[0]}" width="52" height="44"></div>
+                    <div class="w-65 f-l">
+                        <p class="buyP">$!orderDetail.pro.name</p>
+                    </div>
+                    <div class="w-20 buyDel tex-r f-l">
+                        <p><span class="lse">￥$!orderDetail.unit_price</span><span>×$!orderDetail.num</span></p>
+                    </div>
+                     #set($num=$num+$!orderDetail.num)
+                        <span type="hidden" id ="price_$!orderDetail.id" value ="$!orderDetail.gross_price" ></span>
+                        #set($price = $price +$!orderDetail.gross_price)
+                </div>
+                #end
+                 #set($total = $price +$!order.freight)
+                <div class="oh orderDivBox">
+                    <div class="f-l">共<span>$num</span>件</div>
+                    <div class="f-r">付款：<span>$total</span>元</div>
+                </div>
+                <div class="oh orderDivBox">
+                    <div class="f-l">下单时间：<span class="timeformate">$fu.getDate3($!order.ceateDate)</span></div>
+                    <div class="f-r">已付款</div>
+                </div>
+                </a>
+            </div>
+            </a>
+ 			#end
+ 			
+ 			#if(!$backOrder || $backOrder.size() == 0)
+ 			<div class="content-slide" style="clear: both;">
+ 				<p>该状态下没有订单，赶快去下单吧！</p>
+ 			</div>
+ 			#end
+        </div>
+        
+        <!--  待收货  e  -->
+        <!--  取消订单  s  -->
+        <div class="undis" id="sub8">
+                <div style = "height:30px;">
+    	</div>  
+        	#foreach($order in $cancelOrder)
+	        	#if($order.isSpokesman==0)
+	        	<a href="shopOrderInfo.java?cmd=orderDetail2&orderId=$!order.id">
+	        	#else
+	        	<a href="wxSpokesmanProduct.java?cmd=orderDetail&orderId=$!order.id">
+	        	#end
+	        	
+		        	<div class="content-slide">
+		                <div class="orderTitle">订单号：<span>$!order.code</span><b>$!order.getStatusCh()</b></div>
+		                #set($num=0)
+		                #set($price=0)
+		                #foreach($orderDetail in $order.orderdetails)
+		                <div class="oh orderBox">
+		                    <div class="w-15 buyImgDiv f-l"><img src="$!{orderDetail.pro.imgPaths.split("_")[0]}" width="52" height="44"></div>
+		                    <div class="w-65 f-l">
+		                        <p class="buyP">$!orderDetail.pro.name</p>
+		                    </div>
+		                    <div class="w-20 buyDel tex-r f-l">
+		                        <p><span class="lse">￥$!orderDetail.unit_price</span><span>×$!orderDetail.num</span></p>
+		                    </div>
+		                     #set($num=$num+$!orderDetail.num)
+	                        <span type="hidden" id ="price_$!orderDetail.id" value ="$!orderDetail.gross_price" ></span>
+	                        #set($price = $price +$!orderDetail.gross_price)
+		                </div>
+		                #end
+		                
+		                #set($total = $price +$!order.freight)
+		                <div class="oh orderDivBox">
+		                     <div class="f-l">共<span>$num</span>件</div>
+		                     <div class="f-r">付款：<span>$total</span>元</div>
+		                </div>
+		                <div class="oh orderDivBox">
+		                    <div class="f-l">下单时间：<span class="timeformate">$fu.getDate3($!order.ceateDate)</span></div>
+		                    <div class="f-r">已付款</div>
+		                </div>
+		            </div>
+            	</a>
+ 			#end
+ 			
+ 			#if($cancelOrder.size() == 0)
+ 			<div class="content-slide" style="clear: both;">
+ 				<p>该状态下没有订单，赶快去下单吧！</p>
+ 			</div>
+ 			#end
+        </div>
+        
+        <!--  已完成  e  -->
+    </div>
+</div>
+<div class="hei40"></div>
+
+<link rel="stylesheet" href="/static/home/bcd/css/jquery-ui.min.css" type="text/css"/>
+<script src="/static/home/bcd/js/jquery-ui.min.js"></script>
+<!-- 弹窗 -->
+<div id="inputDialog" title="退款原因" style="min-height: 40px">
+	<form id="thisForm" action="" name="thisForm">
+		<div style="margin-top:10px;">
+			<input type="hidden" id="orderId" name="orderId" value="">
+			<textarea id="reason" name="reason" value="" style="width: 100%;height: 60px; "></textarea>
+		
+		</div>
+	</form>
+</div>
+
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+<!--  滑动  -->
+<script>
+function doClick(o){
+	 o.className="nav_current";
+	 var j;
+	 var id;
+	 var e;
+	 for(var i=1;i<=8;i++){ 
+	   id ="nav"+i;	   
+	   j = document.getElementById(id);
+	   e = document.getElementById("sub"+i);
+	   if(id != o.id){
+	   	 j.className="nav_link";
+	   	 e.style.display = "none";
+	   }else{
+			e.style.display = "block";
+	   }
+	 }
+	 }
+function toCancel(orderId){
+	window.location.href="/wxShopMemberCenter.java?cmd=toCancel&orderId="+orderId;
+}
+function toPay(orderId){
+	window.location.href="/wxShopTrade.java?cmd=payNow&orderId="+orderId;
+}
+
+//时间字符串格式化
+$(function(){
+	var elements = $(".timeformate");
+	for(var i=0; i<elements.length; ++i){
+		var timeVal = $(elements).html();
+		var tempTimeVal = timeVal.substring(0, 16);
+		$(elements[i]).html(tempTimeVal);
+	}
+});
+</script>
+
+<script>
+$(function(){
+	$("#inputDialog").dialog({
+		modal: true,
+		autoOpen: false,
+		width: "80%",
+		buttons: [
+			{
+				text: "确定",
+				click: function() {
+					$.ajax({
+				        type: "post",
+				        url: "/wxShopMemberCenter.java?cmd=orderRefund",
+				        data: $("#thisForm").serialize(),
+				        dataType:"json",
+				        success: function(data) {
+				        	if(data.success){
+				        		alert("已申请退货");
+				        		$("#inputDialog").dialog("close");
+				        		$("#ord"+$("#orderId").val()).remove();
+				        		window.location.href="wxShopMemberCenter.java?cmd=toOrder";
+				        	}else{
+				        		alert(data.errors.msg)
+				        	}
+				        },
+				        error: function(XMLHttpRequest, textStatus, errorThrown) {
+				            alert("没找到");
+				        }
+				    });
+				}
+			},
+			{
+				text: "取消",
+				click: function() {
+					$(this).dialog( "close" );
+				}
+			}
+		],
+		close: function(event, ui){
+			$(".wx_nav.wx_menu").show();
+			$(document).unbind('scroll');
+		},
+		open: function(event, ui){
+			$(".wx_nav.wx_menu").hide();
+			$(document).bind('scroll', function(event){
+				$("#inputDialog").dialog( "option", "position", { my: "center", at: "center", of: window } );
+
+			});
+		}
+	});
+	$("#inputDialog").dialog("close");	
+});
+
+function tkth(id){
+	$("#orderId").val(id);
+	$("#inputDialog").dialog("open");
+}
+
+function qrsh(id){
+	if(confirm("是否确认收货？")){
+		$.ajax({
+	        type: "post",
+	        url: "/wxShopTrade.java?cmd=qrsh",
+	        dataType : "json",
+	        data: "id="+id,
+	        success: function(data) {
+	            if (data.success) {
+	            	window.location.href="wxShopMemberCenter.java?cmd=toOrder";
+	            } else {
+	                alert(data.errors.msg)
+	                return;
+	            }
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) {
+	            alert("没找到");
+	        }
+	    });
+	}
+}
+function goDiscuss(detailId){
+	window.location.href="wxShopTrade.java?cmd=goShopDiscuss&detailId="+detailId;
+}
+</script>
+</body>
+</html>

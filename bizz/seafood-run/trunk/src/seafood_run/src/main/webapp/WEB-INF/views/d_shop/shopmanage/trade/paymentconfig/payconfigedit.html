@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script>
+jQuery(document).ready(function(){
+ jQuery("#status").val("$!{entry.status}");
+ jQuery("#intro").val("$!{entry.intro}");
+ jQuery("#type").val("$!{entry.type}");
+jQuery("#theForm").validate({
+    rules:{
+    	name:{
+    		required:true
+    	},
+    	bargainorId:{
+    		required:true
+    	},
+    	bargainorKey:{
+    		required:true
+    	}
+	 },
+	messages:{
+		name:{required:"支付名称不可为空"},
+		bargainorId:{required:"商家ID不可为空"},
+		bargainorKey:{required:"商户私钥不可为空"}
+	 }
+  });
+});
+//品牌保存
+function saveShopOrderdetail(method){
+	jQuery("#theForm").submit();
+}
+</script>
+
+</head>
+<body>
+<form action="/shopPayConfig.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+  <input name="id" id="id" type="hidden" value="$!{entry.id}">
+  #if($entry)
+  <input name="cmd" id="cmd" type="hidden" value="update">
+  #else
+  	<input name="cmd" id="cmd" type="hidden" value="save">
+  #end
+  <div class="cont">
+    <h1 class="seth">支付配置</h1>
+    
+    <div class="nav_list"> 
+	 
+    <ul>
+         <li><a href="/shopPayConfig.java?cmd=list"><b>管理</b></a></li> 
+	<li><a href="/shopPayConfig.java?cmd=list" class="this"><b>新增</b></a></li>
+	  	</ul>
+		
+    </div>
+    <div class="edit">
+    <div class="editul setcont" id="base">
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>支付名称</li>
+        <li><span class="webname">
+          <input name="name" type="text" id="name" value="$!{entry.name}">
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>支付支付类型</li>
+        <li><span class="webname">
+        <select name="type" id="type">
+        	<option value="WEIXINMPAPI">微信支付网页api支付</option>
+        	<option value="WEIXINMPSM">扫码支付</option>
+        	<option value="WEIXINTURNLQ">转账到零钱</option>
+        	<option value="TENPAY">微信开放平台app支付</option>
+        	<option value="ALIPAYMWEB">支付宝支付手机网页版</option>
+        	<option value="ALIPAYNET">支付宝网银支付</option>
+        	<option value="ALIPAYPCWEB">支付宝支付pc网页版</option>
+        	<option value="AliPAYSDK">支付宝快捷支付</option>
+        	<option value="YLAPP">银联app支付</option>
+        	<option value="YLPC">银联pc支付</option>
+        </select>
+        </span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>商家ID</li>
+        <li><span class="webname">
+          <input name="bargainorId" type="text" id="bargainorId" value="$!{entry.bargainorId}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w">第三方支付公司提供的唯一商家ID，微信支付时apiId</strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>商户私钥</li>
+        <li><span class="webname">
+          <input name="bargainorKey" type="text" id="bargainorKey" value="$!{entry.bargainorKey}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w">第三方支付公司提供的商户私钥，微信支付时api密钥</strong><strong class="c"></strong></span></li>
+      </ul>
+       <ul class="set1">
+        <li class="setcont_bg">商家账号</li>
+        <li><span class="webname">
+          <input name="seller_email" type="text" id="seller_email" value="$!{entry.seller_email}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w">支付宝支付或银联支付时提供的商家帐号</strong><strong class="c"></strong></span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg">商家密钥</li>
+        <li><span class="webname">
+          <input name="partnerkey" type="text" id="partnerkey" value="$!{entry.partnerkey}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w">微信支付时商家密钥</strong><strong class="c"></strong></span></li>
+      </ul>
+       <ul class="set1">
+        <li class="setcont_bg">证书路径</li>
+        <li><span class="webname">
+          <input name="perPath" type="text" id="perPath" value="$!{entry.perPath}">
+        </span><span id="nothis"><strong class="q"></strong><strong class="w">微信支付商家证书路径</strong><strong class="c"></strong></span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg">logo图标</li>
+        <li><span class="webname">
+          <input name="logo" type="file" id="logo"/>
+          #if($entry && $entry.logo)
+          	<img src="$!entry.logo"/>
+          #end
+        </span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg">是否启用</li>
+        <li><span class="webname">
+        	<select name="status" id="status">
+        		<option value="1">启用</option>
+        		<option value="0">不启用</option>
+        	</select>
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg">排序</li>
+        <li><span class="webname">
+          <input name="sequence" type="text" id="sequence" value="$!{entry.sequence}"/>
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg">介绍</li>
+        <li><span class="webname">
+          <textarea rows="5" name="intro" id="intro" cols="40"></textarea>
+        </span></li>
+      </ul>
+          </div>
+    </div>  
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="saveShopOrderdetail();"></span>
+  </div>
+  </div>
+
+</form>
+
+
+</body></html>

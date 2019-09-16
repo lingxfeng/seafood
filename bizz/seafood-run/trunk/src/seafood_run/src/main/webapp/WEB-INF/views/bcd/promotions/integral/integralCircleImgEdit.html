@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script>
+jQuery(document).ready(function(){
+ 	jQuery("#imgTarget").val("$!{entry.imgTarget}")
+ 	jQuery("#status").val("$!{entry.status}")
+ 	jQuery("#linkUrl").val(getLinkString("id"))
+});
+
+function getLinkString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = "$!{entry.linkUrl}".substr(1).match(reg);
+     if(r!=null)
+    	 return  unescape(r[2]); 
+     return null;
+}
+
+//品牌保存
+function saveShopLinkImg(method){
+	jQuery("#theForm").submit();
+}
+
+#if($msg)
+	alert("$msg");
+#end
+</script>
+
+</head>
+<body>
+<form action="/integralBuyRegular.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+  <input name="id" id="id" type="hidden" value="$!{entry.id}">
+  #if($entry)
+  	<input name="cmd" id="cmd" type="hidden" value="circleImgEdit">
+  #else
+  	<input name="cmd" id="cmd" type="hidden" value="circleImgSave">
+  #end
+  <div class="cont">
+    <h1 class="seth">链接图片管理</h1>
+    
+    <div class="nav_list"> 
+	 
+    <ul>
+        <li><a href="/integralBuyRegular.java?cmd=circleImgList" class=""><b>轮播图列表</b></a></li>
+        #if($entry)
+        <li><a href="/integralBuyRegular.java?cmd=toCircleImgEdit&id=$entry.id" class="this"><b>编辑轮播图</b></a></li>
+        <li><a href="/integralBuyRegular.java?cmd=toCircleImgSave" class=""><b>新增轮播图</b></a></li>
+        #else
+		<li><a href="/integralBuyRegular.java?cmd=toCircleImgSave" class="this"><b>新增轮播图</b></a></li>
+		#end
+		<li><a href="/integralBuyRegular.java?cmd=toSquenceRecommendRegular"><b>推荐排序</b></a></li>
+	</ul>
+		
+    </div>
+    <div class="edit">
+	    <div class="editul setcont" id="base">
+			<ul class="set1">
+				<li class="setcont_bg"><strong class="sred">*</strong>图片标题</li>
+				<li><span class="webname"> <input name="title"
+						type="text" id=title value="$!{entry.title}"></span><span><strong
+						class="q"></strong><strong class="w"></strong><strong
+						class="c"></strong></span></li>
+			</ul>
+			<ul class="set1">
+				<li class="setcont_bg"><strong class="sred">*</strong>上传图片</li>
+				<li><span class="webname"> <input name="imgPath"
+						type="file" id="imgPath"> #if($entry.imgPath) <img
+							width="200px" height="100px" src="$!{entry.imgPath}" />
+							#end </span><span><strong class="q"></strong><strong
+						class="w"></strong><strong class="c"></strong></span></li>
+			</ul>
+			<ul class="set1">
+				<li class="setcont_bg"><strong class="sred">*</strong>打开方式</li>
+				<li><span class="webname"> <select
+						name="imgTarget" id="imgTarget">
+							<option value="_blank">在新窗口打开</option>
+							<option value="_self">在相同的框架中打开</option>
+							<option value="_parent">在父框架集中打开</option>
+							<option value="_top">在整个窗口中打开</option>
+					</select>
+				</span><span><strong class="q"></strong><strong class="w"></strong><strong
+						class="c"></strong></span></li>
+			</ul>
+			<ul class="set1">
+				<li class="setcont_bg"><strong class="sred">*</strong>积分活动id</li>
+				<li><span class="webname"> <input name="regularId"
+						type="text" id="linkUrl" value=""></span><span><strong
+						class="q"></strong><strong class="w"></strong><strong
+						class="c"></strong></span></li>
+			</ul>
+			#if($entry)
+			<ul class="set1">
+				<li class="setcont_bg">链接地址</li>
+				<li><span class="webname"> <input name="linkUrl"
+						type="text" id="linkUrl2" value="$!{entry.linkUrl}"></span><span><strong
+						class="q"></strong><strong class="w"></strong><strong
+						class="c"></strong></span></li>
+			</ul>
+			#end
+			<ul class="set1">
+				<li class="setcont_bg">排序</li>
+				<li><span class="webname"> <input name="sequence"
+						type="text" id="linkUrl" value="$!{entry.sequence}"></span><span><strong
+						class="q"></strong><strong class="w"></strong><strong
+						class="c"></strong></span></li>
+			</ul>
+		</div>
+    </div>  
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="saveShopLinkImg();"></span>
+  </div>
+  </div>
+
+</form>
+
+
+</body></html>

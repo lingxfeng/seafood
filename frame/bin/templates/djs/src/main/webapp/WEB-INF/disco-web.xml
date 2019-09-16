@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<disco-web xmlns="http://www.disco.cn/schema/disco/web"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.disco.org.cn/schema/disco/web http://www.disco.cn/schema/disco/web/disco-web-2.0.xsd ">
+	<framework-setting>
+		<property name="cn.disco.debug">false</property><!--调试模式，每次加载都会重新初始化Disco-->
+		<property name="cn.disco.maxUploadFileSize">51200</property><!--最大上传文件为51200kb-->
+		<property name="cn.disco.uploadSizeThreshold">512</property><!--上传文件缓存值-->
+	</framework-setting>
+	<import resource="mvc.xml" />
+</disco-web>
+

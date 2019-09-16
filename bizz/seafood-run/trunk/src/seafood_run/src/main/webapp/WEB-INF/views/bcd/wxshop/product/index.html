@@ -1,0 +1,282 @@
+<!DOCTYPE html >
+<html>
+<head>
+#if($toProId)
+	<meta http-equiv="Refresh" content="0; URL=/shopProduct.java?cmd=toProDet&pId=$!{toProId}">
+#end
+
+#if($pId && $regularId)
+	<meta http-equiv="Refresh" content="0; URL=/wxShopPromotions.java?cmd=toTimeLimitDetail&pId=$pId&regularId=$regularId">
+#end
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<link rel="stylesheet" href="/static/home/bcd/css/user_index_old_v3.css" type="text/css" />
+<link rel="stylesheet" href="/static/home/bcd/css/user_index_new_v4.css" type="text/css" />
+<link rel="stylesheet" href="/static/home/bcd/css/font-awesome.css" type="text/css" />
+<script src="/static/home/bcd/js/TouchSlide.1.1.js"></script>
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js"></script>
+
+<title>首页</title>
+<script type="text/javascript">
+	var fontSize = window.innerWidth/1080*16;
+	//$("html").css("font-size", fontSize+"px");	
+	
+	$(function(){
+		//轮播图
+		TouchSlide({ 
+			slideCell:"#slides",
+			titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+			mainCell:".bd ul", 
+			effect:"leftLoop", 
+			autoPage:true,//自动分页
+			autoPlay:true //自动播放
+		});
+	});	
+</script>
+
+</head>
+<body>
+
+<div class="wx_wrap" style="padding-bottom:60px">
+
+	<!-- 轮播图  -->
+	<div id="slides" class="slider-focus">
+        <div class="bd">
+            <ul>
+            #foreach($obj in $nu.getLinkImg("index",6))
+            <li><a href='$obj.linkUrl' style="height:150px"><img class="circle-img" src='$obj.imgPath'/></a></li>
+            #end
+            </ul>
+        </div>
+		<div class="hd">
+			<ul></ul>
+		</div>
+    </div>
+	
+	<!-- 搜索栏目 -->
+	<div class="oh search">
+    	<form class="search-form" action="/wxShopBase.java" method="post" id="searchForm" enctype="multipart/form-data">
+	    	<input type="hidden" name="cmd" value="toPage">
+	    	<input type="hidden" name="topage" value="/bcd/wxshop/product/searchlist.html">
+	    	<input type="text" class="sechInp search-text" placeholder="商品名称：请输入商品关键字" id="searchtext" name="searchtext" value="$!{searchtext}">
+	        <button id="searchbutton" class="search-button"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+    
+    <!-- 商品分类栏目 -->
+    <ul class="category listPro oh">
+    	#foreach($obj in $su.getPtypeQuery().setIsRecommend(true).setLevel(1).list())
+			#if(!$su.judgeSpeProType($obj.id))
+	    	<li class="category-list"><a href="/wxShopBase.java?cmd=toPage&tId=$!{obj.id}&orderBy=saleNum&isDesc=true&topage=/bcd/wxshop/product/productlist.html">$obj.name</a></li>
+		    #else
+		    <li class="category-list"><a href="javascript:firLogin($obj.id);">$obj.name</a></li>
+		    #end
+    	#end
+		<!-- <li class="category-list"><a href="/wxSpokesmanProduct.java?cmd=productList">代言商品</a></li>
+		<li class="category-list"><a href="/wxShopPromotions.java?cmd=topage">抽奖</a></li> -->
+    </ul>
+    <div class="activity">
+    	<a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI3ODM3MzM4MQ==&scene=110#wechat_redirect">
+		<img src="/static/home/bcd/images/gongzhonghao.jpg" style="width:100%;">
+		</a>
+    </div>
+    <div class="activity">
+    	<a href="/static/home/bcd/explain.html">
+		<img src="/static/home/bcd/images/yonghushouce.jpg" style="width:100%;">
+		</a>
+    </div>
+    
+    
+	<!--  活动入口  -->
+	<div class="activity">
+		<h2 class="acitvity-title indexH2"><span>活动专区</span></h2>
+		<div class="activity-left">
+			<a href="wxShopPromotions.java?cmd=timeLimitList">
+				<img src="/static/home/bcd/images/tuangou.jpg"/>
+			</a>
+		</div>
+		<div class="activity-right">
+			<div class="activity-rtop">
+				<a href="wxShopPromotions.java?cmd=secKillList ">
+					<img src="/static/home/bcd/images/xianshi.jpg"/>
+				</a>
+			</div>
+			<div class="activity-rbottom">
+				<div class="activity-rbleft">
+					<a href="wxIntegralBuy.java?cmd=toIntegralProductList">
+						<img src="/static/home/bcd/images/jifen.jpg"/>
+					</a>
+				</div>
+				<div class="activity-rbright">
+					<a href="wxShopPromotions.java?cmd=topage">
+						<img src="/static/home/bcd/images/choujiang.jpg"/>
+					</a>
+				</div>
+			</div>
+		</div>	    	    
+	</div>
+	
+	<div style="clear:both;"></div>
+	
+	<!--  商品列表  s  -->	
+	<div class="product" id="product">
+		<h2 class="product-title indexH2"><span>热销商品</span></h2>
+				    
+        #foreach($obj in $su.getProductQuery().setOrderBy("sequence").setNum("4").setIsRecommend(true).list())
+       	<div class="product-list">		      			            
+            <div class="product-list-img">
+            	<a href="shopProduct.java?cmd=toProDet&pId=$obj.id">
+            		<img src='$obj.imgPaths.split("_")[0]'/>
+            	</a>
+            </div>
+            <div class="product-list-desc">	            	
+	            <p class="desc-title">$obj.name</p>
+				<div class="desc-other">
+					<div class="desc-other-left">￥<span>$obj.amt</span></div> 
+					<div class="desc-other-right">已售：<span>$obj.saleNum</span></div>
+				</div>
+            </div>		      
+	    </div>
+        #end
+         
+    </div>
+	
+	<!-- 加载更多的等待进度 -->
+	<div class="preloader" id="preloader" style="text-align:center; clear:both;">
+		<img id="loadingPic" src="/static/home/bcd/images/loading.gif" style="align:center; margin-top:20px; "/>
+	</div>
+	
+</div>
+
+<!--  底部浮动导航  s  -->
+<link rel="stylesheet" href="/static/home/bcd/css/jquery-ui.min.css" type="text/css"/>
+<script src="/static/home/bcd/js/jquery-ui.min.js"></script>
+<!-- 弹窗 -->
+<div id="inputDialog" title="权限验证">
+	<div style="margin-top:10px;">
+		<span>访问密码</span>
+		<input type="hidden" id="protId" name="protId" value="">
+		<input id="password" name="password" value="">
+	</div>
+</div>
+<!-- 
+<script>
+$(function(){
+	$("#inputDialog").dialog({
+		modal: true,
+		autoOpen: false,
+		width: "80%",
+		buttons: [
+			{
+				text: "确定",
+				click: function() {
+					//$(this).dialog( "close" );
+					var protId=$("#protId").val();
+					var password=$("#password").val();
+					if(password==""){
+						alert("密码不能为空");
+						return;
+					}
+					jQuery.ajax({
+						method:"post",
+						url:"/specialProType.java?cmd=saveSpeProType&date="+new Date().getTime(),
+						dataType : "json",
+						data : "protId="+protId+"&password="+password,
+						success:function(data,text){
+							if(data.success){
+								window.location.href="/wxShopBase.java?cmd=toPage&tId="+protId+"&orderBy=saleNum&isDesc=true&topage=/bcd/wxshop/product/productlist.html";
+							}else{
+								alert(data.errors.msg);
+							}
+						}
+					})
+				}
+			},
+			{
+				text: "取消",
+				click: function() {
+					$(this).dialog( "close" );
+				}
+			}
+		],
+		close: function(event, ui){
+			$(".wx_nav.wx_menu").show();
+			$(document).unbind('scroll');
+		},
+		open: function(event, ui){
+			$(".wx_nav.wx_menu").hide();
+			$(document).bind('scroll', function(event){
+				$("#inputDialog").dialog( "option", "position", { my: "center", at: "center", of: window } );
+
+			});
+		}
+	});
+	$("#inputDialog").dialog("close");	
+});
+</script> -->
+#parse("/bcd/wxshop/common/foot.html")
+
+<script type="text/javascript">
+jQuery("#searchbutton").click(function(){
+	var searchText = jQuery("#searchtext").val();
+	if(searchText){
+		jQuery("#searchForm").submit();
+	}
+});
+</script>
+<script>
+var curPage=1;
+function addMore(){
+	curPage++;
+	jQuery.ajax({
+		method:"post",
+		url:"/wxShopBase.java?cmd=toPage&curPage="+curPage+"&topage=/bcd/wxshop/product/indexprolist.html",
+		success:function(data,text){
+			jQuery("#product").append(data);
+			if(data.length < 5){
+				$("#loadingPic").hide();
+			}
+		}
+	})
+}
+$(function(){
+	$(window).on("scroll",function(){        
+        var blankHeight = 50;
+        var bottomLength = $(window).scrollTop()+$(window).height()-blankHeight;
+		//alert(bottomLength+":"+$(".wx_wrap").height());
+        //当滚屏的最低边线的高度大于 .wx_wrap 的高度，则加载更多
+        if(bottomLength >= $(".wx_wrap").height()){
+        	addMore();
+        }
+    });
+})
+function firLogin(id){
+	var ptId=id;
+	jQuery.ajax({
+		method:"post",
+		url:"/specialProType.java?cmd=judgeFirLogin&date="+new Date().getTime(),
+		dataType : "json",
+		data : "ptId="+ptId,
+		success:function(data,text){
+			if(data.success){
+				window.location.href="/wxShopBase.java?cmd=toPage&tId="+id+"&orderBy=saleNum&isDesc=true&topage=/bcd/wxshop/product/productlist.html";
+			}else{
+				if(data.errors.msg=="0"){
+					$("#protId").val(id);
+					$("#inputDialog").dialog("open");
+				}else{
+					alert(data.errors.msg);
+				}
+			}
+		}
+	})
+}
+</script>
+
+</body>
+</html>

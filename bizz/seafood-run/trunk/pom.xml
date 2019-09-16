@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.seafood</groupId>
+	<artifactId>seafood_parent</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>seafood_parent pom</name>
+	<modules>
+		<module>src/seafood_run</module><!-- WEB运行环境 -->
+	</modules>
+	<properties>
+		<source.version>1.7</source.version>
+		<target.version>1.7</target.version>
+		<file.encoding>UTF-8</file.encoding>
+		<maven.test.skip>true</maven.test.skip><!-- 跳过单元测试 -->
+		<downloadSources>true</downloadSources><!-- 自动下载并关联源码 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<maven-jar-plugin>2.4</maven-jar-plugin>
+		<maven-source-plugin>2.2.1</maven-source-plugin>
+		<maven-clean-plugin.version>2.5</maven-clean-plugin.version>
+		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
+
+		<junit.version>4.11</junit.version>
+		<otransos.version>2.1.5-SNAPSHOT</otransos.version>
+		<jetty.version>9.1.5.v20140505</jetty.version>
+		<commons-httpclient>3.1</commons-httpclient>
+		<shcm.version>1.0</shcm.version>
+		<shiro.version>1.2.2</shiro.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.shcm</groupId>
+			<artifactId>shcm</artifactId>
+			<version>${shcm.version}</version>
+		</dependency>
+		<dependency>
+			<groupId> org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>1.8.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-core</artifactId>
+			<version>${otransos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-ext</artifactId>
+			<version>${otransos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-security</artifactId>
+			<version>${otransos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-payment</artifactId>
+			<version>${otransos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-application</artifactId>
+			<version>${otransos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-generator</artifactId>
+			<version>${otransos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eastinno.otransos</groupId>
+			<artifactId>otransos-cms</artifactId>
+			<version>${otransos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<!--生成源码JAR包 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven-source-plugin}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- 生成JAR包 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin}</version>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+						<index>false</index>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+						<manifestEntries>
+							<Implementation-Revision>${buildNumber}</Implementation-Revision>
+						</manifestEntries>
+					</archive>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<!-- 编译源代码 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.plugin.version}</version>
+				<configuration>
+					<source>${source.version}</source>
+					<target>${target.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<verbose>true</verbose>
+					<showWarnings>true</showWarnings>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+			<!-- 管理资源文件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<!-- 开发者-->
+	<!--<developers>
+		<developer>
+			<id>lengyu</id>
+			<name>lengyu</name>
+			<email>ksmwly@gmail.com</email>
+		</developer>
+	</developers>
+	<repositories>
+		<repository>
+			<id>osc</id>
+			<name>osc</name>-->
+			<!-- <url>http://maven.kmengfang.com:4900/nexus/content/repositories/releases/</url> -->
+			<!-- <url>http://maven.kmengfang.com:4900/nexus/content/repositories/snapshots/</url>-->
+		<!-- </repository>
+	</repositories>-->
+</project>

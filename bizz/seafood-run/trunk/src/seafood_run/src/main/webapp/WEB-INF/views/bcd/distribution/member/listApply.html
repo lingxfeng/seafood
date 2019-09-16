@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="/static/common/base.css" />
+	<link rel="stylesheet" href="/static/common/plugin/assets/css/font-awesome.min.css" type="text/css"/>
+		<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+		<script type="text/javascript">
+		function gotoPage(n) {
+		    location.href = "/commissionWithdraw.java?cmd=applyListList&currentPage=" + n;
+		}
+		$(function(){
+			#foreach($obj in $pl.result)
+				var tm = "$!obj.createTime";
+				var newDate = new Date();
+				newDate.setTime(parseInt(tm))
+				var tt=newDate.toLocaleString().replace("/", "-").replace("/", "-");
+				$("#time_$!obj.id").html(tt);
+			#end
+		})
+		
+		$(function(){			
+			#foreach($obj in $pl.result)
+				$("#press_$!obj.id").one("click",function(){
+					var id = "$obj.id"
+					if(!confirm("确认支付?")){
+						return;
+					}
+					window.location.href="/commissionWithdraw.java?cmd=confirmApply&id=" + id;
+				});
+			#end
+		}
+			);
+		</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">申请列表</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/commissionWithdraw.java?cmd=payedList" ><b>支付记录</b></a></li>
+				<li><a href="/commissionWithdraw.java?cmd=applyList" class="this"><b>申请列表</b></a></li>
+			</ul>
+		</div>
+			<div class="fshoptb2">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+														<th width="10%" align="center"><span class="form_btna">申请会员名称</span></th>
+														<th width="10%" align="center"><span class="form_btna">店名称</span></th>
+														<th width="10%" align="center"><span class="form_btna">申请金额</span></th>
+														<th width="10%" align="center"><span class="form_btna">佣金余额</span></th>
+														<th width="10%" align="center"><span class="form_btna">申请时间</span></th>
+														<th width="10%" align="center"><span class="form_btna">开户名称</span></th>
+														<th width="10%" align="center"><span class="form_btna">银行卡号</span></th>
+														<th width="10%" align="center"><span class="form_btna">银行开户信息</span></th>
+														<th width="10%" align="center"><span class="form_btna">联系方式</span></th>
+														<th align="center"><b class="form_btna">操作</b></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"></td>
+														<td align="center">$!obj.user.nickname</td>
+														<td align="center">$!obj.distributor.myShopName</td>
+														<td align="center">$!obj.commission</td>
+														<td align="center">$fu.getYj("$!obj.distributor.disCommission")</td>
+														<td align="center" id="time_$!obj.id"></td>
+														<td align="center" >$!obj.distributor.openAccountName</td>
+														<td align="center" >$!obj.distributor.bankCardNum</td>
+														<td align="center" >$!obj.distributor.openAccountType</td>
+														<td align="center" >$!obj.distributor.mobile</td>
+														#if($!obj.commission <= $!obj.distributor.disCommission)
+														<td align="center" class="hui oprate_con">
+															<span id = "press_$obj.id" class="blue" value="$obj.id">确认支付</span>
+														</td>
+														#else
+														#end
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+			</div>
+	</div>
+</body>
+</html>

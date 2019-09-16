@@ -1,0 +1,23 @@
+       <!-- 个人中心 -->
+        <div class="top_user_hb" id="top_user_hb" style="z-index: 1000"> 
+       #if($user)
+        <span class="top_user_login">您好${user.name}<a href="/shopMemberCenter.java?cmd=signOut" >退出商城</a></span>
+       #end
+        <ul class="top_user_ul">
+          <li><i><img src="/static/home/shopmanage/images/usercenter/waitgoods.png" /></i><a href="/pcShopMemberCenter.java?cmd=getMyOrder&menuId=myOrder&status=0">待收货</a>#if($user)<span style="color:#F00">($!{list2Num})</span>#end</li>
+          <li><i><img src="/static/home/shopmanage/images/usercenter/mygoods.png" /></i><a href="/pcShopMemberCenter.java?cmd=getMyOrder&menuId=myOrder">我的订单</a></li>
+          <li><i><img src="/static/home/shopmanage/images/usercenter/waitpay.png" /></i><a href="/pcShopMemberCenter.java?cmd=getMyOrder&menuId=myOrder&status=0">待付款订单</a>#if($user)<span style="color:#F00">($!{list0Num})</span>#end</li>
+          <li><i><img src="/static/home/shopmanage/images/usercenter/buygoods.png" /></i><a href="/pcShopMemberCenter.java?cmd=toEvaluation&menuId=toEvaluation&type=1">待评价</a>#if($user)<span style="color:#F00">($!{pjCount})</span>#end</li>
+          <!-- <li><i><img src="/static/home/shopmanage/images/usercenter/backpay.png" /></i><a href="http://mengfang001.eicp.net/pcShopMemberCenter.java?cmd=getMyOrder&menuId=myOrder">返修退换货</a>#if($user)<span style="color:#F00">($!{list2bNum})</span>#end</li> -->
+          <li><i><img src="/static/home/shopmanage/images/usercenter/save_top.png" /></i><a href="/pcShopMemberCenter.java?cmd=myCollection&menuId=goodsCollection">我的收藏</a>#if($user)<span style="color:#F00">($!{myCollectionsNum})</span>#end</li>
+        </ul>
+                <div class="top_user_browse">
+        <h3>最近浏览的商品</h3>
+        <span>  
+        #foreach($obj in $yhistory.result)
+        	<a href="/goShop.java?cmd=productDetail&id=$obj.id" target="_blank"><img src='$obj.imgPaths.split("_")[0]' width="50" height="50"/></a>
+        #end
+                </span>
+        </div>
+              </div>
+     

@@ -1,0 +1,715 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0052)/store_goods_list_1.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<title>$!{pType.name} - Powered by 海鲜之家商城</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="generator" content=""/>
+<meta name="author" content=""/>
+<meta name="copyright" content="Copyright 2012-2015 ISkyShop Inc. All rights reserved"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/goods.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<script src=/static/home/shopmanage/js/jquery-1.6.2.js></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+
+<style>
+.rmcp {
+    padding: 6px;
+    z-index: 100;
+    top: -7px;
+    left: -7px;
+    box-shadow: 0px 0px 9px #FF8A09;
+    border: 1px solid #ff8a00;
+    float: left;
+}
+</style>
+<script>
+jQuery(document).ready(function(){
+	
+		jQuery(".img_a").click(function(){
+			if(jQuery(this).find("i").hasClass("this")){
+				jQuery(this).find("i").removeClass("this");	
+				jQuery(this).parent().next().slideToggle();	
+			}else{
+				jQuery(this).find("i").addClass("this");
+				jQuery(this).parent().next().slideToggle();
+			}
+		});
+		#if($pType.level==3)
+			jQuery("#gc_${pType.parent.id}").parent().parent().find(".img_a").click();
+		#end
+		#if($pType.level==2)
+			jQuery("#gc_${pType.id}").parent().parent().find(".img_a").click();
+		#end
+		#if($pType.level==1)
+			jQuery("#gc_${pType.chilren.get(0).id}").parent().parent().find(".img_a").click();
+		#end
+
+    jQuery(".midsearch_class .open a").click(function(){
+	var status = jQuery(this).attr("status");
+	   if(status=="show"){ 
+	   jQuery(this).parent().parent().find("ul").addClass("goods_pro_open");
+	   	var mark = jQuery(this).attr("mark");
+		 jQuery("#detail_property_status").val(jQuery("#detail_property_status").val()+","+mark);					
+	     jQuery(this).hide();
+	     jQuery(this).parent().parent().find(".open:last a").show();
+	     
+	     jQuery("#all_property_status").val("open"); 
+	 	 jQuery("dl.midsearch_class").show();
+	 	 jQuery("#all_property_open").hide().parent().find("span[mark='hide']").show();
+	   }
+	   if(status=="hide"){ 
+	     jQuery(this).parent().parent().find("ul").removeClass("goods_pro_open");
+		 jQuery(this).hide();
+	     jQuery(this).parent().parent().find(".open:first a").show();
+	     
+	     jQuery("#all_property_status").val("close");	
+	 	 jQuery("dl.midsearch_class:gt(3)").hide();	
+	 	 jQuery("#all_property_close").hide().parent().find("span[mark='show']").show();
+	   }	   
+ });
+//
+jQuery(".main_search_more p span").click(function(){
+	var mark =jQuery(this).attr("mark");
+	if(mark=="show"){
+		jQuery("#all_property_status").val("open"); 
+		jQuery("dl.midsearch_class").show();
+		jQuery(this).hide().parent().find("span[mark='hide']").show();
+		
+		jQuery(".midsearch_class .open a[status=show]").click();
+	}else{
+		jQuery("#all_property_status").val("close");	
+		jQuery("dl.midsearch_class:gt(3)").hide();	
+		jQuery(this).hide().parent().find("span[mark='show']").show();
+		
+		jQuery(".midsearch_class .open a[status=hide]").click();
+	}	
+});
+
+   //
+ jQuery(".list_bar_a a").click(function(){
+ var orderBy = jQuery(this).attr("orderBy");
+ var orderType = jQuery(this).attr("orderType");
+ jQuery("#orderBy").val(orderBy);
+ jQuery("#orderType").val(orderType);
+ jQuery("#ListForm").submit(); 
+ });
+     jQuery(".list_bar_a a").removeClass("this").find("i").removeClass("this");
+    var orderByStr=""
+    #if($orderBy)
+    	orderByStr = "$orderBy";
+    #else
+    	orderByStr ='sequence';
+    #end
+    jQuery(".list_bar_a a[orderBy='"+orderByStr+"']").addClass("this").find("i").addClass("this");
+         jQuery(".pro_list_one").mouseenter(function(){
+    jQuery(".pro_list_one ul").removeClass("this");		
+	jQuery(".pro_list_shop").hide();
+	jQuery(".pro_list_evaluate").hide();
+    jQuery(this).find("ul").addClass("this");
+	jQuery(this).find(".pro_list_shop").show();
+	jQuery(this).find(".pro_list_evaluate").show();
+	jQuery(this).find(".list_contrast").show();	
+  }).mouseleave(function(){
+    jQuery(this).find("ul").removeClass("this");
+	jQuery(".pro_list_one ul").removeClass("this");		
+	jQuery(".pro_list_shop").hide();
+	jQuery(".pro_list_evaluate").hide();
+	jQuery(this).find(".list_contrast").hide();
+  });
+  //
+  jQuery(".pro_them_team b").mouseover(function(){
+      var img_id="#"+jQuery(this).attr("goods_id")+"_main_img";
+	  var middle_img=jQuery(this).attr("middle_img");
+	  jQuery(img_id).attr("src",middle_img);
+	  jQuery(this).parent().find("b").removeClass("this_b");
+	  jQuery(this).addClass("this_b");
+	  jQuery(this).parent().find(".team_san").hide();
+	  jQuery(this).find(".team_san").show();
+  });
+  //
+  jQuery(".img_cspan img").lazyload({effect:"fadeIn",width:210,height:210});
+  jQuery(".pro_them_team img").lazyload({effect:"fadeIn",width:30,height:30});
+  //
+  jQuery(":radio[id=goods_inventory][value=$!{goods_inventory}]").attr("checked",true);
+  jQuery(":radio[id=goods_type][value=-1]").attr("checked",true);
+  jQuery(":checkbox[id=goods_transfee][value=]").attr("checked",true);
+  jQuery(":checkbox[id=goods_cod][value=]").attr("checked",true);
+  jQuery(":radio[id=goods_inventory]").click(function(){
+    jQuery("#ListForm").submit();
+  });
+  jQuery(":radio[id=goods_type]").click(function(){
+    jQuery("#ListForm").submit();
+  }); 
+  jQuery("#goods_transfee").click(function(){
+	jQuery("#currentPage").val(null);
+    jQuery("#ListForm").submit();
+  });
+  jQuery("#goods_cod").click(function(){
+	jQuery("#currentPage").val(null);
+    jQuery("#ListForm").submit();
+  });
+  //
+   jQuery(".contrast a").click(function(e){	
+		if(jQuery("#goods_compare_cart dl").size()<4){
+	 e.stopPropagation();
+	  var goods_main_img=jQuery(this).attr("goods_main_img");
+	  var goods_id=jQuery(this).attr("goods_id");
+	 jQuery(".contrast_center").show();
+	 jQuery(".contrast_center_nothing").hide();
+	 jQuery('body').append('<div id="float_img"><img src="'+goods_main_img+'" width="50" height="50" /></div');
+	 var x=jQuery(e.target).offset().left;
+	 var y=jQuery(e.target).offset().top;
+	 jQuery("#float_img").css({"left":x,"top":y,"position":"absolute"});
+	 var target_x=jQuery(".contrast_center_center").offset().left+jQuery(".contrast_center_center").width()/2;
+	 var target_y=jQuery(".contrast_center_center").offset().top+50;
+	 jQuery(this).parent().parent().find(".contrast").hide();
+	 jQuery(this).parent().parent().find(".contrast_off").show();
+	 if(!jQuery("#float_img").is(':animated')){
+	 jQuery("#float_img").animate({'left': target_x,'top': target_y,'opacity': 0},1000,'',
+		function(){
+		  jQuery('#float_img').remove();
+		  jQuery.ajax({type:'POST',url:'/goShop.java?cmd=comparisonAdd',data:{"id":goods_id},
+					  success:function(data){
+		                   jQuery("#goods_compare_cart").empty().append(data);   
+						   if(jQuery("#goods_compare_cart dl").size()>1){
+							  jQuery(".contrast_b_yes a").attr("href","/goShop.java?cmd=comparison").attr("target","_blank").css("background","#F00");
+						   }
+						   if(jQuery("#goods_compare_cart dl").size()>0){
+						      jQuery(".contrast_center_center_nothing").hide();
+						   }
+		               }
+		  });
+	  });
+	 }
+	}else{
+	   showDialog("msg_info","","同时最多对比4件商品,请删除对比栏中一件商品！",2,"warning",3,'');
+	}
+	  });
+   jQuery(".contrast_off a").click(function(){
+	 var goods_id=jQuery(this).attr("goods_id");	
+	 jQuery.ajax({type:'POST',url:'/goShop.java?cmd=comparisonRemove',data:{"id":goods_id},
+					  success:function(data){
+		                   jQuery("#goods_compare_cart").empty().append(data);  
+						   if(jQuery("#goods_compare_cart dl").size()<2){
+						     jQuery(".contrast_b_yes a").attr("href","javascript:void(0);").removeAttr("target").css("background","#CCC");
+						   }
+						   if(jQuery("#goods_compare_cart dl").size()==0){
+						      jQuery(".contrast_center_center_nothing").show();
+						   }
+	                       jQuery("a[goods_id="+goods_id+"]").parent().parent().find(".contrast").show();
+	                       jQuery("a[goods_id="+goods_id+"]").parent().parent().find(".contrast_off").hide();
+		               }
+		  });									
+   });
+   
+   jQuery(".contrast_center_center_close").live("mouseover",function(){
+	     jQuery(this).css("cursor","pointer");
+	  }).live("click",function(){
+      var goods_id=jQuery(this).attr("goods_id");
+	  jQuery.ajax({type:'POST',url:'/goShop.java?cmd=comparisonRemove',data:{"id":goods_id},
+					  success:function(data){
+		                   jQuery("#goods_compare_cart").empty().append(data);   
+						   if(jQuery("#goods_compare_cart dl").size()<2){
+						     jQuery(".contrast_b_yes a").attr("href","javascript:void(0);").removeAttr("target").css("background","#CCC");
+						   }
+						   if(jQuery("#goods_compare_cart dl").size()==0){
+						      jQuery(".contrast_center_center_nothing").show();
+						   }
+						  
+						     jQuery(".contrast").show();
+	                         jQuery(".contrast_off").hide();
+						 
+		               }
+	   });
+   });
+   //
+   jQuery(".contrast_b_clear").click(function(){
+	   jQuery.cookie("duibipros",null);
+	   jQuery("#goods_compare_cart").empty();        
+       jQuery(".contrast_b_yes a").attr("href","javascript:void(0);").removeAttr("target").css("background","#CCC");
+	   jQuery(".contrast").show();
+	   jQuery(".contrast_off").hide();
+	   jQuery(".contrast_center_center_nothing").show();
+   });
+   //添加到购物车
+   jQuery("a[id^=goods_cart_]").live("click",function(e){
+	  var goods_id=jQuery(this).attr("goods_id");//商品id
+	  var goods_spec="0";//商品规格0表示无规格
+	  var goods_num=1;//要加入购物车的数量
+	  
+	  var goods_type=jQuery(this).attr("goods_type");
+	  
+		jQuery.ajax({type:'POST',url:'/goShop.java?cmd=addToCar',data:{"id":goods_id,num:goods_num,spec:goods_spec},
+			  success:function(data){
+				  num=data.num;
+				  jQuery("b[id=cart_goods_count_top]").html(num);
+					if(!jQuery("#float_div").is(':animated')){
+						   var tar_x= jQuery("b[id=cart_goods_count_top]").offset().left;
+						   var tar_y= jQuery("b[id=cart_goods_count_top]").offset().top;
+						   var div = jQuery("div[data-bind="+goods_id+"]");
+						   var src = jQuery(div).find("img[id="+goods_id+"_main_img]").attr("src");
+						   var x=jQuery(div).offset().left+6;
+						   var y=jQuery(div).offset().top+1;
+						   var html = "<div id='float_div' style='border:3px solid #ececec;left:"+x+"px;top:"+y+"px;position:absolute;padding:5px; background:#fff;z-index:9999'><img width='210px' height='210px' src='"+src+"' style=''/></div>";
+							jQuery("body").append(html);
+							jQuery("#float_div,#float_div img").animate({'left':x+150,'top':y},400,'').animate({'left':tar_x,'top':tar_y,'width':1,'height':1},600,'',num);
+							setTimeout(function(){
+								jQuery("#float_div").remove();
+							},1000)
+						   }	
+			  }
+		});
+   });
+});////
+
+function goods_property_remove(type,id){
+	if(type=="brand"){
+	var ids = id.split(",");
+       var brand_ids=jQuery("#brand_ids").val();
+	   brand_ids=brand_ids.replace(ids[0]+",","");
+	   jQuery("#brand_ids").val(brand_ids);
+	   jQuery("#ListForm").submit();	  
+	}
+	if(type=="properties"){
+		var properties="$!properties";
+		properties=properties.replace((id+","),"");
+	   jQuery("#properties").val(properties);
+	   jQuery("#ListForm").submit();	 
+	}	
+}
+function goods_property_generic(type,id){
+   if(type=="brand"){
+	  /* var brand_ids=jQuery("#brand_ids").val();
+	  if(brand_ids.indexOf(s)<0){
+	    brand_ids=brand_ids+id+",";
+	    jQuery("#brand_ids").val(brand_ids);
+		jQuery("#ListForm").submit();  
+	  } */
+	  if(id != ""){
+		  jQuery("#ListForm").attr("action", "/goShop.java?cmd=toBrand&id="+id);
+		  jQuery("#ListForm").submit();
+	  }	  
+   }
+   if(type=="properties"){
+	  var properties="$!properties";
+	  if(properties){
+		  properties+=id+",";
+	  }else{
+		  properties = id+",";
+	  }
+	  jQuery("#properties").val(properties);
+		jQuery("#ListForm").submit();
+   }   
+}
+function re_fresh(){
+	window.location.href="/goShop.java";
+}
+function search_gc(gc_id){
+	window.location.href="/goShop.java?cmd=queryPro&pid="+gc_id;
+}	
+</script>
+</head>
+<body>
+#parse("/common/top.html")
+#parse("/common/left.html")
+
+<div class="main">       <div class="position"><a href="#">
+<b>
+#if($pType)
+	$pType.name
+#end
+</b></a><i></i></div>
+    <div class="main_top">
+    <div class="main_left" onmouseout="qc()">
+      <div class="main_left_top">
+        <ul class="main_leftop_ul">
+        #foreach($obj in $pType.getTopPType().chilren)
+        	<li>
+            <div class="li_a"><a class="img_a" href="javascript:void(0)"><i></i></a><a class="word_a" href="javascript:void(0)" onclick="search_gc('$obj.id')"><b id="gc_$obj.id">$obj.name</b></a></div>
+            <ul style="display:none">
+            				#foreach($obj2 in $obj.chilren)
+            					<li id="gc_$obj2.id"><a href="javascript:void(0)" #if($obj2.id==$pType.id) class="red" #end onclick="search_gc($obj2.id)">$obj2.name</a></li>
+            				#end
+                          </ul>
+          </li>
+        #end
+                  </ul>
+      </div>
+      
+      
+      #if($hotPros)
+	<div>
+		<div>
+			<h3><strong>热卖推荐<i></i></strong></h3>
+			<div>
+			#foreach($hotPro in $hotPros)                                           
+			<dl id="tc$!hotPro.id" onmouseover="tc($!hotPro.id)">
+				<dt>
+					<a href="$!html.autoLink($!hotPro)" target="_blank"  style="margin-top: 10px;">
+						<span><img id="32773_main_img" src='$hotPro.imgPaths.split("_")[0]' width="180" height="180"></img></span>
+					</a>
+				</dt>
+				<dt style="margin-top: 10px;">
+					<span>${hotPro.name}</span>
+				</dt>
+				<dt style="margin-top: 10px;">
+					<span>销量：<b>¥${hotPro.saleNum}</b></span>&nbsp;&nbsp;
+					<span>抢购价：<b>¥${hotPro.amt}</b></span>
+				</dt>
+			</dl>
+			#end
+			</div>
+		</div>
+	</div>
+          #end
+      
+      
+       </div>
+    <form action="/goShop.java?cmd=queryPro" method="post" id="ListForm">
+      <div class="main_right">
+      <!-- #if($hotPro)
+                <div class="main_right_top">
+                
+          <div class="top_hotbuy">
+            <h3><strong>热卖推荐<i></i></strong></h3>
+            <div class="top_hotbuy_hid">                                           
+                                          <dl class="top_hotbuy_dl">
+                <dt><a href="$!html.autoLink($!hotPro)" target="_blank"><span>
+                  <p><img src='$hotPro.imgPaths.split("_")[0]' width="120" height="120"></p>
+                  </span></a></dt>
+                <dd>
+                  <h4><a href="$!html.autoLink($!hotPro)" target="_blank">${hotPro.name}</a></h4>
+                  <em>抢购价：<b>¥${hotPro.amt}</b></em><a class="panic" href="$!html.autoLink($!hotPro)" target="_blank">立即抢购</a></dd>
+              </dl>
+               </div>
+          </div>
+        </div>
+          #end -->
+          #if($pType)
+                <div class="main_search_mid">
+                  <h3>
+                    <strong><b>$pType.name</b> - 商品筛选</strong></h3>
+                  #if($properties && $properties.split(",")[0]!=""))
+		<dl class="midsearch_class_choose">
+            <dt>
+                您已选择：
+            </dt>
+            <dd>
+                <div class="class_choose_ul">
+                    <ul style="height:auto">
+                    	#foreach($obj2 in $properties.split(","))
+                        <li style="margin-bottom:5px">
+                            <a href="javascript:void(0);">$tu.getAttrValStr($obj2)</a><a class="close" href="javascript:void(0);" onclick="goods_property_remove('properties','$obj2')"></a>
+                        </li>
+                        #end
+                    </ul>
+                </div>
+            </dd>
+        </dl>		
+        		#end
+                           <!--商品类型属性--> 
+          #set($num2=1)
+          #foreach($obj in $pType.getAllAttrs("1"))
+          #if(!$properties || $!properties.indexOf($obj.id.toString())==-1)
+          #if($num2>4)
+          	<dl class="midsearch_class" style="display:none">
+          #else
+          	<dl class="midsearch_class">
+          #end
+          	
+            <dt>$obj.name：</dt>
+            <dd>
+              <div class="class_brand_ul">
+                <ul>
+                	#set($num=1)
+                	#foreach($obj2 in $obj.value.split(","))
+                		<li> <a href="javascript:void(0);" onclick="goods_property_generic('properties','${obj.id}_$num')">$obj2</a></li>
+                	#set($num=$num+1)
+                	#end
+                </ul>
+              </div>
+              #if($num>15)
+              <span class="open"><a href="javascript:void(0);" status="show" mark="gss${obj.id}_${obj.id}">展开<s class="open_down"></s></a></span> <span class="open"><a href="javascript:void(0);" status="hide" style="display:none">收起<s class="open_up"></s></a></span>
+              #end
+               </dd>
+          </dl>
+          #end
+          #set($num2=$num2+1)
+          #end
+          
+                              <!--商品类型关联品牌--> 
+                              #if($num2>3)
+                              <dl class="midsearch_class" style="display:none">
+                              #else
+                              <dl class="midsearch_class" >
+                              #end
+            <dt>品牌：</dt>
+            <dd>
+              <div class="class_brand_ul">
+                <ul>		#set($num=1)
+                			#foreach($obj in $pType.getAllBrands())
+                				<li> <a href="javascript:void(0);" onclick="goods_property_generic('brand','$obj.id','$obj.name')">$obj.name</a></li>
+                			#set($num=$num+1)
+                			#end
+                                  </ul>
+              </div>
+               #if($num>15)
+              <span class="open"><a href="javascript:void(0);" status="show" mark="gss_">展开<s class="open_down"></s></a></span> <span class="open"><a href="javascript:void(0);" status="hide" style="display:none">收起<s class="open_up"></s></a></span>
+              #end
+			</dd>
+          </dl>
+                     </div>
+                     <div class="main_search_more">
+          <p> <span id="all_property_open" mark="show" style="cursor:pointer;">更多<i><img src="/static/home/shopmanage/images/arrow_01.gif"></i></span> <span id="all_property_close" mark="hide" style="cursor:pointer;display:none;">收起<i><img src="/static/home/shopmanage/images/arrow_02.gif"></i></span> </p>
+        </div>
+                     #end
+                <div class="main_list_box">
+          <div class="main_list_function">
+            <div class="main_list_bar"><span class="list_fenye"><b class="list_fenya_b">共$!{pList.result.size()}个商品</b></span> <b class="list_bar_px">排序：</b> <b class="list_bar_a"> <a href="javascript:void(0);" orderby="sequence" ordertype="asc" class="this">默认<i class="this"></i></a> <a href="javascript:void(0);" orderby="saleNum" ordertype="desc">销量<i></i></a> <a href="javascript:void(0);" orderby="collectNum" ordertype="desc">人气<i></i></a> <a href="javascript:void(0);" orderby="cridNum" ordertype="desc">好评<i></i></a> <a href="javascript:void(0);" orderby="amt" ordertype="asc">价格<i class="price"></i></a> 
+              <!--price为默认状态,up为由低到高,down为由高到低--> 
+              </b></div>
+            <div class="main_list_barb"> <i class="listbar_n_a">库存：</i> <b class="listbar_check"> <i>
+              <label>
+                <input name="goods_inventory" type="radio" id="goods_inventory" value="-1">
+                全部 </label>
+              </i> <i>
+              <label>
+                <input name="goods_inventory" type="radio" id="goods_inventory" value="0">
+                仅显示有货 </label>
+              </i> </b></div>
+          </div>
+          	#if($pList.result.size()>0)
+             <div class="pro_list">
+             #foreach($obj in $pList.result)
+             	<div class="pro_list_one" data-bind="$obj.id">
+              <ul class="">
+                <li class="pro_list_img">                                     
+                                     <a href="/goShop.java?cmd=productDetail&menuId=allAdvice&id=$!{obj.id}" target="_blank"><span class="img_cspan">
+                  <p><img id="${obj.id}_main_img" src='$obj.imgPaths.split("_")[0]' original="$obj.imgPaths.split("_")[0]" onerror="$obj.imgPaths.split("_")[0]" width="210" height="210" data-bind="134" style="display: inline;"></p>
+                  </span></a></li>
+                <li class="pro_them">
+                  <div class="pro_them_team">
+                    <p style="position:absolute; width:700px; left:0px;display:block;"> 
+                    #set($num=1)
+                    #foreach($obj2 in $obj.imgPaths.split("_"))
+                    #if($num==1)
+                    	<b class="pro_team_b this_b" goods_id="$obj.id" middle_img="$obj2"> 
+                    	<img src="$obj2" original="$obj2" width="30" height="30" onerror="this.src='$obj2'" style="display: inline;"> <i class="team_san"></i></b>
+                    #else
+                    	<b class="pro_team_b" goods_id="$obj.id" middle_img="$obj2"> 
+                    	<img original="$obj2" width="30" height="30" onerror="this.src='$obj2'" style="display: inline;"> <i class="team_san" style="display:none"></i></b>
+                    #end
+                    
+                    #set($num=$num+1)
+                    #end
+                      </p>
+                  </div>
+                </li>
+                <li class="pro_list_name"><a href="/goShop.java?cmd=productDetail&menuId=allAdvice&id=$obj.id" target="_blank">$obj.name</a></li>
+                <li class="pro_list_price"><b>¥$obj.amt</b>
+                                                            	                                                                                                </li><li class="pro_list_evaluate" style="display: none;">
+                  <dl>
+                    <dt>$obj.saleNum</dt>
+                    <dd>商品销量</dd>
+                  </dl>
+                  <dl>
+                    <dt>${obj.cridNum}</dt>
+                    <dd>用户评论</dd>
+                  </dl>
+                  <dl style=" border-right:none;">
+                    <dt class="content_unonline" dialog_uri="/user_dialog_login.htm" dialog_title="会员登录" dialog_width="430" dialog_height="100" dialog_id="user_login"></dt>
+                    <dd>在线客服</dd>
+                  </dl>
+                </li>
+                                                <li class="list_contrast" style="display: none;">                                     <div class="list_contrast_buy"><a href="javascript:void(0);" goods_id="$obj.id" goods_type="1" user_id="$!{user.id}" id="goods_cart_$obj.id">加入购物车</a></div>
+                  #if($comparisons.contains($obj))
+                  <div class="contrast_off" style="display:block;"><i></i><a goods_id="$obj.id" href="javascript:void(0);">取消对比</a></div>
+                  <div class="contrast" style="display:none"><a goods_id="$obj.id" goods_main_img='$obj.imgPaths.split("_")[0]' href="javascript:void(0);"><i></i>加入对比</a></div>
+                  #else
+                  <div class="contrast" style="display:block"><a goods_id="$obj.id" goods_main_img='$obj.imgPaths.split("_")[0]' href="javascript:void(0);"><i></i>加入对比</a></div>
+                  <div class="contrast_off" style="display:none;"><i></i><a goods_id="$obj.id" href="javascript:void(0);">取消对比</a></div>
+                  #end
+                </li>
+                <li class="pro_list_shop" style="display: none;"> <a href="/goShop.java" target="_blank">海鲜之家商城</a> </li>
+              </ul>
+            </div>
+             #end          
+             </div>
+         $!paginationForBcd4
+          #else
+          	<div class="main_list_none"> <span class="main_none_box"> <i></i>
+              <p> 抱歉，没有找到符合条件的商品！<a href="/goShop.java?cmd=queryPro&pid=$pid">查看全部商品</a></p>
+              </span></div>
+          #end
+           </div>
+      </div>
+      <input name="gs_ids" type="hidden" id="gs_ids" value="">
+      <input name="brand_ids" type="hidden" id="brand_id" value="$!brand_id">
+      <input name="properties" type="hidden" id="properties" value="$!properties">
+      <input name="currentPage" type="hidden" id="currentPage" value="1">
+      <input name="orderBy" type="hidden" id="orderBy" value="$!orderBy">
+      <input name="orderType" type="hidden" id="orderType" value="$!orderType">
+      <input name="all_property_status" type="hidden" id="all_property_status" value="">
+      <input name="detail_property_status" type="hidden" id="detail_property_status" value="">
+      <input name="keyword" type="hidden" id="keyword" value="$!keyword">
+      <input name="pid" type="hidden" id="pid" value="$!pid">
+    </form>
+    <!--右侧对比 -->
+    <div class="contrast_center" style="display:none;z-index: 100000;">
+      <div class="contrast_center_top"><span>对比栏<i><a href="javascript:void(0);" onclick="jQuery(&#39;.contrast_center&#39;).hide();jQuery(&#39;.contrast_center_nothing&#39;).show();">隐藏</a></i></span></div>
+      <div class="contrast_center_center">
+        <div id="goods_compare_cart"> 
+#foreach($obj in $comparisons)
+<dl>
+  <dt><a href="/goShop.java?cmd=productDetail&id=$obj.id" target="_blank"><img src='$obj.imgPaths.split("_")[0]' /></a></dt>
+  <span class="contrast_center_center_close" goods_id="$obj.id"></span>  
+  <dd><a href="/goShop.java?cmd=productDetail&id=$obj.id" target="_blank">$obj.name</a></dd>
+</dl>
+#end
+        	
+        </div>
+        #if(!$comparisons || $comparisons.size()<1)
+        <div class="contrast_center_center_nothing"></div>
+        #end
+        <!--没有数据 display:none -->
+        <div class="contrast_b">
+        #if($comparisons.size()>1)
+        <div class="contrast_b_yes"><a href="/goShop.java?cmd=comparison" style="background:#F00;">对比</a></div>
+        #else
+        <div class="contrast_b_yes"><a href="javascript:void(0);" style="background:#CCC;">对比</a></div>
+        #end
+        <div class="contrast_b_clear"><a href="javascript:void(0);">清空</a></div>
+        </div>
+      </div>
+    </div>
+    <!--对比隐藏 -->
+    <div class="contrast_center_nothing" onclick="jQuery('.contrast_center').show();jQuery('.contrast_center_nothing').hide();"><a href="javascript:void(0);">对比栏</a></div>
+  </div>
+</div>
+﻿<script>
+jQuery(document).ready(function(){
+		var tempLengths = 0; //临时变量,当前移动的长度
+		var viewNums = 5; //设置每次显示图片的个数量
+		var moveNums = 4; //每次移动的数量
+		var moveTimes = 500; //移动速度,毫秒
+		var scrollDivs = jQuery(".bottom_rbox_position"); //进行移动动画的容器
+		var scrollItemss = jQuery(".bottom_rbox_position ul"); //移动容器里的集合
+		var moveLengths = scrollItemss.eq(0).width() * moveNums; //计算每次移动的长度
+		var countLengths = (scrollItemss.length - viewNums) * scrollItemss.eq(0).width(); //计算总长度,总个数*单个长度
+		var all_lengths=scrollItemss.eq(0).width()*scrollItemss.length;
+		jQuery(".bottom_rbox_position").css("width",all_lengths);
+		//下一张
+		jQuery("#left").bind("click",function(){
+			if(tempLengths < countLengths){
+				if((countLengths - tempLengths) > moveLengths){
+					scrollDivs.animate({left:"-=" + moveLengths + "px"}, moveTimes);
+					tempLengths += moveLengths;
+				}else{
+					scrollDivs.animate({left:"-=" + (countLengths - tempLengths) + "px"}, moveTimes);
+					tempLengths += (countLengths - tempLengths);
+				}
+			}
+		});
+		//上一张
+		jQuery("#right").bind("click",function(){
+			if(tempLengths > 0){
+				if(tempLengths > moveLengths){
+					scrollDivs.animate({left: "+=" + moveLengths + "px"}, moveTimes);
+					tempLengths -= moveLengths;
+				}else{
+					scrollDivs.animate({left: "+=" + tempLengths + "px"}, moveTimes);
+					tempLengths = 0;
+				}
+			}
+		});
+	});  
+</script>
+
+<div class="main_bottom">
+  <div class="main_bottom_left">
+    <h3><span>最近浏览</span></h3>
+                #foreach($obj in $yhistory.result)
+                	<dl>
+      <dt><a href="$!html.autoLink($!obj)" target="_blank"><span class="img_cspan"><img src='$obj.imgPaths.split("_")[0]' width="50" height="50"></span></a></dt>
+      <dd>
+        <h4><a href="$!html.autoLink($!obj)" target="_blank">$obj.name</a></h4>
+        <b>$obj.amt</b></dd>
+    </dl>
+                #end
+     <span class="main_bleft_a"></span></div>
+  <div class="main_bottom_right">
+    <h3>根据浏览猜你喜欢</h3>
+    <div class="main_bottom_rbox"> <span class="rbox_left"><a href="javascript:void(0);" id="right"></a> </span>
+      <div class="bottom_rbox">
+
+        <div class="bottom_rbox_position" style="width: 3540px;">
+        #foreach($obj in $ylikes.result)                             
+                                  <ul class="rbox_ul">
+            <li class="rbox_ul_img"><a href="$!html.autoLink($!obj)" target="_blank"><span class="img_cspan">
+              <p><img src='$obj.imgPaths.split("_")[0]' width="150" height="150"></p>
+              </span></a></li>
+            <li class="rbox_ul_name"><a href="$!html.autoLink($!obj)" target="_blank">$obj.name</a></li>
+                        <li>
+              <div class="five_star" style="margin-left:40px"><b title="0.0%" style="width:0.0%;"></b></div>
+            </li>
+            <li class="rbox_ul_evaluate">(已有0人评价)</li>
+            <li class="rbox_ul_price">¥$obj.amt</li>
+          </ul>
+         #end                               
+                                        
+           </div>
+      </div>
+      <span class="rbox_right"><a href="javascript:void(0);" id="left"></a></span> </div>
+  </div>
+</div>
+ 
+  ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+
+function tc(id){
+	$("#tc"+id).siblings().removeClass("rmcp");
+	$("#tc"+id).addClass("rmcp");
+}
+function qc(){
+	$(".main_left dl").removeClass("rmcp");
+}
+</script>
+#parse("/common/footer.html")
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/store_goods_list_1.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+
+<script>
+function gotoPage(val){
+	console.dir(val);
+	$("#currentPage").val(val);
+	$("#ListForm").submit();
+}  
+</script>
+
+</body></html>

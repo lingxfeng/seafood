@@ -1,0 +1,113 @@
+<div xmlns:ext="http://www.extjs.com" class="body-wrap"><h1>Class <a href="source/core-3.2.html#cls-BaseGridList">BaseGridList</a></h1><table cellspacing="0"><tr><td class="label">Package:</td><td class="hd-info">Global</td></tr><tr><td class="label">Defined In:</td><td class="hd-info">core-3.2.js</td></tr><tr><td class="label">Class:</td><td class="hd-info"><a href="source/core-3.2.html#cls-BaseGridList">BaseGridList</a></td></tr><tr><td class="label">Extends:</td><td class="hd-info">Ext.Panel</td></tr></table><div class="description">一个基础的包含了grid的panel组件。该组件一般用于报表等只需要grid的情况。
+<pre>
+<code><i>//一个简单的包装基础报表的基础类
+</i>
+BaseOrderChartPanel = Ext.extend(BaseGridList, {
+autoLoadGridData : false,
+pagingToolbar : false,
+gridBorder : false,
+showMenu : false,
+ableShowPic : false,
+readOnlyNumRender : <b>function</b>(v) {
+<b>if</b> (v == 0)
+<b>return</b> &quot;&quot;;
+<b>return</b> v;
+},
+createQuery : <b>function</b>() {
+},
+createButtonToolBar : <b>function</b>() {
+},
+createToolbar : <b>function</b>() {
+this.createQuery();
+<b>var</b> search_btn = this.createButtonToolBar();
+<b>var</b> fixBtn = [&quot;-&quot;, {
+text : &quot;查询&quot;,
+iconCls : <em>'advance-search-icon'</em>,
+handler : this.quickSearch,
+scope : this
+}, {
+id : &quot;btn_refresh&quot;,
+text : &quot;刷新&quot;,
+iconCls : <em>'f5'</em>,
+handler : this.resetSearch,
+scope : this
+}, {
+text : &quot;打印&quot;,
+iconCls : &quot;print-icon&quot;,
+handler : this.printList,
+scope : this
+}];
+Ext.each(fixBtn, <b>function</b>(o) {
+search_btn.push(o);
+}, this);
+this.gridTbar = <b>new</b> Ext.Toolbar(search_btn);
+},
+resetSearch : <b>function</b>() {
+this.gridTbar.items.each(<b>function</b>(o) {
+<b>if</b> (o.isFormField) {
+o.reset();
+}
+}, this);
+},
+quickSearch : <b>function</b>() {
+<b>var</b> tag = this.parseParams() === undefined
+|| this.parseParams() === true;
+<b>if</b> (!tag) {
+<b>return</b> false;
+}
+this.refresh();
+},
+printList : <b>function</b>() {
+<b>var</b> tag = this.parseParams() === undefined
+|| this.parseParams() === true;
+<b>if</b> (!tag) {
+<b>return</b> false;
+}
+this.parseParams();
+<b>var</b> s = Ext.urlEncode(this.store.baseParams);
+<b>var</b> win = <b>new</b> Ext.Window({
+title : &quot;打印窗口&quot;,
+html : &quot;&lt;iframe width=<em>'100%'</em> frameborder=<em>'no'</em> style=<em>'background:#FFF'</em> border=0 height=<em>'100%'</em> src =<em>'&quot;
++ this.url + &quot;&amp;print=true&amp;&quot; + s + &quot;'</em> &gt;&quot;
+});
+win.show();
+win.fitContainer();
+win.center();
+},
+showPic : <b>function</b>(grid, rowIndex, e) {
+<b>var</b> record = grid.getStore().getAt(rowIndex); <i>// Get the Record
+</i>
+<b>if</b> (!record.get(&quot;productId&quot;))
+<b>return</b> false;
+<b>if</b> (!this.chooser) {
+this.chooser = <b>new</b> ImageChooser({
+url : <em>'product.java?cmd=loadPic'</em>,
+width : 500,
+height : 400
+});
+}
+this.chooser.setParams({
+id : record.get(&quot;productId&quot;)
+});
+this.chooser.show(Ext.fly(e.getRelatedTarget()));
+},
+initComponent : <b>function</b>() {
+this.cm = this.getColumnModel();
+this.createToolbar();
+this.gridConfig = {
+enableHdMenu : false,
+plugins : [<b>new</b> Ext.ux.grid.GridSummary()]
+};
+BaseOrderChartPanel.superclass.initComponent.call(this);
+<b>if</b> (this.ableShowPic) {
+this.grid.on(&quot;rowdblclick&quot;, this.showPic, this);
+}
+}
+});</code>
+</pre></div><div class="hr"></div><a id="BaseGridList-configs"></a><h2>Config Options</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Config Options</th><th class="msource-header">Defined By</th></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-closable"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-closable">closable</a></b> : Boolean<div class="mdesc">页面是否显示关闭按钮</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-cm"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-cm">cm</a></b> : Ext.grid.ColumnModel<div class="mdesc">列表的ColumnModel</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-columnLock"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-columnLock">columnLock</a></b> : Boolean<div class="mdesc">配置列表是否开启列锁定功能，默认不开启</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-gridBorder"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-gridBorder">gridBorder</a></b> : Boolean<div class="mdesc">配置列表panel的边框</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-gridConfig"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-gridConfig">gridConfig</a></b> : Object<div class="mdesc">自定义的表格配置对象。</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-gridForceFit"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-gridForceFit">gridForceFit</a></b> : Boolean<div class="mdesc">强制表格自动适应 默认是</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-gridTbar"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-gridTbar">gridTbar</a></b> : Object|Array<div class="mdesc">配置的列表的tbar</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-gridViewConfig"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-gridViewConfig">gridViewConfig</a></b> : Object<div class="mdesc">自定义的表格视图配置对象。一般用于配置getRowClass等。</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-layout"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-layout">layout</a></b> : String<div class="mdesc">默认为fit</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-loadData"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-loadData">loadData</a></b> : Boolean<div class="mdesc">在页面加载完成后是否自动加载grid内容</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-menus"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-menus">menus</a></b> : Array<div class="mdesc">右键菜单项数组</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-pageSize"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-pageSize">pageSize</a></b> : Integer<div class="mdesc">每页显示的条数</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-pagingToolbar"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-pagingToolbar">pagingToolbar</a></b> : Boolean<div class="mdesc">是否显示分页组件 默认是</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-showMenu"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-showMenu">showMenu</a></b> : Boolean<div class="mdesc">在表格中是否显示右键菜单,默认显示</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-showMenu"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-showMenu">showMenu</a></b> : Boolean<div class="mdesc">在表格中是否显示右键菜单，默认不显示</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-store"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-store">store</a></b> : Ext.data.Store<div class="mdesc">可以直接配置列表的store</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-storeConfig"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-storeConfig">storeConfig</a></b> : Object<div class="mdesc">自定义列表store的配置对象</div></td><td class="msource">BaseGridList</td></tr><tr class="config-row  "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-storeType"></a><b><a href="source/core-3.2.html#cfg-BaseGridList-storeType">storeType</a></b> : Class<div class="mdesc">配置列表的store的类型。默认是Ext.data.JsonStore，还可以配置成CacheStore等。</div></td><td class="msource">BaseGridList</td></tr></tbody></table><a id="BaseGridList-props"></a><h2>Public Properties</h2><div class="no-members">This class has no public properties.</div><a id="BaseGridList-methods"></a><h2>Public Methods</h2><table cellspacing="0" class="member-table"><tbody><tr><th colspan="2" class="sig-header">Method</th><th class="msource-header">Defined By</th></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-doOperate"></a><b><a href="source/core-3.2.html#method-BaseGridList-doOperate">doOperate</a></b>(&nbsp;<code>&nbsp;grid</code>,&nbsp;<code>&nbsp;rowIndex</code>,&nbsp;<code>&nbsp;columnIndex</code>,&nbsp;<code>&nbsp;e</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">在列表的点击事件中执行由operateRender创建的column</div><div class="long">在列表的点击事件中执行由operateRender创建的column<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>grid</code> : <div class="sub-desc"></div></li><li><code>rowIndex</code> : <div class="sub-desc"></div></li><li><code>columnIndex</code> : <div class="sub-desc"></div></li><li><code>e</code> : <div class="sub-desc"></div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">BaseGridList</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-refresh"></a><b><a href="source/core-3.2.html#method-BaseGridList-refresh">refresh</a></b>()
+    :
+                                        void<div class="mdesc"><div class="short">刷新当前列表store</div><div class="long">刷新当前列表store<div class="mdetail-params"><strong>Parameters:</strong><ul><li>None.</li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">BaseGridList</td></tr><tr class="method-row expandable "><td class="micon"><a href="#expand" class="exi">&nbsp;</a></td><td class="sig"><a id="BaseGridList-showContextMenu"></a><b><a href="source/core-3.2.html#method-BaseGridList-showContextMenu">showContextMenu</a></b>(&nbsp;<code>Ext.grid.GridPanel&nbsp;g</code>,&nbsp;<code>Integer&nbsp;i</code>,&nbsp;<code>&nbsp;e</code>&nbsp;)
+    :
+                                        void<div class="mdesc"><div class="short">显示列表右键菜单</div><div class="long">显示列表右键菜单<div class="mdetail-params"><strong>Parameters:</strong><ul><li><code>g</code> : Ext.grid.GridPanel<div class="sub-desc">要显示右键菜单的列表</div></li><li><code>i</code> : Integer<div class="sub-desc">如果传入i，则首先选中列表第i列</div></li><li><code>e</code> : <div class="sub-desc"></div></li></ul><strong>Returns:</strong><ul><li>void</li></ul></div></div></div></td><td class="msource">BaseGridList</td></tr></tbody></table><a id="BaseGridList-events"></a><h2>Public Events</h2><div class="no-members">This class has no public events.</div></div>

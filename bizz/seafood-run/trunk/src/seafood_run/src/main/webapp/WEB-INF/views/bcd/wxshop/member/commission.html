@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的佣金</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="css/user.css" type="text/css" rel="stylesheet">
+<!--滑动-->
+<link rel="stylesheet" href="css/idangerous.swiper.css">
+<script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<div class="wrap">
+    <ul class="nav w50">
+    	<li class="nav_current" id="nav1" onclick="javascript:doClick(this)">当前佣金</li>
+        <li class="nav_link" id="nav2" onclick="javascript:doClick(this)">累计佣金</li>
+    </ul>   
+    <div class="nav-down">
+        <!--  当前佣金  s  -->
+        <div class="dis" id="sub1">
+    	<!--div class="errDiv">暂无收益</div-->
+        	<div class="myComTitle">共有<span>1</span>个店铺累计佣金<span>100</span>元</div>
+            <ul class="my_list"> 
+                <li class="tiao"><span class="myComSpan"><b>100</b>元</span><a href="#">李守晔的小店</a></li>
+                <li class="hr"></li>
+                <li class="tiao"><span class="myComSpan"><b>100</b>元</span><a href="#">李守晔的小店</a></li>
+                <li class="hr"></li>
+                <li class="tiao"><span class="myComSpan"><b>100</b>元</span><a href="#">李守晔的小店</a></li>
+                <li class="hr"></li>
+                <li class="tiao"><span class="myComSpan"><b>100</b>元</span><a href="#">李守晔的小店</a></li> 
+            </ul>
+        </div>
+        <!--  当前佣金  e  -->
+        <!--  累计佣金  s  -->
+        <div class="undis" id="sub2">    
+    	<!--div class="errDiv">暂无收益</div-->    	
+        	<div class="myComTitle">共有<span>10</span>个店铺累计佣金<span>1000</span>元</div>
+            <ul class="my_list"> 
+                <li class="tiao"><span class="myComSpan"><b>100</b>元</span><a href="#">李守晔的小店</a></li>
+                <li class="hr"></li>
+                <li class="tiao"><span class="myComSpan"><b>100</b>元</span><a href="#">李守晔的小店</a></li>
+                <li class="hr"></li>
+                <li class="tiao"><span class="myComSpan"><b>100</b>元</span><a href="#">李守晔的小店</a></li>
+                <li class="hr"></li>
+                <li class="tiao"><span class="myComSpan"><b>100</b>元</span><a href="#">李守晔的小店</a></li> 
+            </ul>
+        </div>
+        <!--  累计佣金  e  -->
+    </div>
+    
+</div>
+<div class="hei40" ></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+<!--  滑动  -->
+<script>
+function doClick(o){
+	 o.className="nav_current";
+	 var j;
+	 var id;
+	 var e;
+	 for(var i=1;i<=2;i++){ 
+	   id ="nav"+i;	   
+	   j = document.getElementById(id);
+	   e = document.getElementById("sub"+i);
+	   if(id != o.id){
+	   	 j.className="nav_link";
+	   	 e.style.display = "none";
+	   }else{
+			e.style.display = "block";
+	   }
+	 }
+	 }
+</script>
+</body>
+</html>

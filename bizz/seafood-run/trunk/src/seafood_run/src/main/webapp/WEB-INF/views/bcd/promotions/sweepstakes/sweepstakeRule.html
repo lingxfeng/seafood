@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/add_goods_second.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml" style=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>抽奖规则</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/home/kindeditor-4.1.10/themes/default/default.css">
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="/static/home/bcd/css/font-awesome.css">
+
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.zh.cn.js" charset="utf-8"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.base.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script charset="utf-8" src="/static/home/kindeditor-4.1.10/kindeditor.js"></script>
+<script charset="utf-8" src="/static/home/kindeditor-4.1.10/lang/zh_CN.js"></script>
+<script src="/static/home/shopmanage/js/swfupload.js"></script>
+<script src="/static/home/shopmanage/js/swfupload.queue.js"></script>
+<script>
+var options1 = {
+        cssPath : '/static/home/kindeditor-4.1.10/plugins/code/prettify.css',
+        filterMode : true,
+		uploadJson:'/cusUploadFile.java',
+		width : '860px',
+		height:'400px',
+		resizeType : 1,
+		allowImageUpload : true,
+		allowFlashUpload : true,
+		allowMediaUpload : true,
+		allowFileManager : true,
+		syncType:"form",
+		afterCreate : function() {
+							var self = this;
+							self.sync();
+						},
+		afterChange : function() {
+							var self = this;
+							self.sync();
+						},
+		afterBlur : function() {
+							var self = this;
+							self.sync();
+						},
+		afterError:function(){
+			alert(2)
+		},
+		items:['source', '|', 'fullscreen', 'undo', 'redo', 'cut', 'copy', 'paste',
+			'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+			'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+			'superscript', '|', 'selectall', 'clearhtml','quickformat','|',
+			'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+			'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image','flash', 'media', 'table', 'hr', 'emoticons', 'link', 'unlink', '|', 'about']
+}; 
+jQuery(document).ready(function() {
+	editor = KindEditor.create('#goods_details_web',options1);   
+	  #if($entry)
+		#end
+})
+function saveForm(){
+  editor.sync();//同步编辑器的数据到texterea
+  jQuery("#theForm").submit();
+ }
+  
+</script>
+</head>
+<body>
+<div class="cont">
+  <h3 class="seth">抽奖设置</h3>
+  <div class="nav_list">
+    <ul id="ul_table">
+      <li id="info"><a href="javascript:void(0);" class="this"><b>抽奖设置</b></a></li>
+    </ul>
+  </div>
+  <div class="adddetail">
+    <form action="/sweepstakeSystemConfig.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+     <input name="cmd" type="hidden" value="update"/>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabledetail" id="goods_info">
+        <tbody><tr>
+          <td colspan="2" class="tableh1">抽奖配置</td>
+        </tr>
+
+<!--         <tr>
+          <td align="right" valign="top">抽奖方式：</td>
+          <td class="sptable">
+          <label>
+              <input name="type" type="radio" value="0" #if($!{entry.type}=="0")checked="checked"#end #if(!$entry)checked="checked"#end>
+              		积分抽奖
+          </label>
+            <label>
+              <input type="radio" name="type" value="1" #if($!{entry.type}=="1")checked="checked"#end>
+             	佣金抽奖 </label>
+             <label>
+              <input type="radio" name="type" value="2" #if($!{entry.type}=="2")checked="checked"#end>
+             	两种可选抽奖 </label>
+            <span class="hui2">充值卡、消费券等属于虚拟商品</span></td>
+        </tr> -->
+        <tr>
+          <td align="right" valign="top">是否开启：</td>
+          <td class="sptable">
+          <label>
+              <input name="status" type="radio" value="1" #if($!{entry.status}=="1")checked="checked"#end #if(!$entry)checked="checked"#end/>
+              	开启</label>
+            <label>
+              <input name="status" type="radio"  value="0" #if($!{entry.status}=="0")checked="checked"#end/>
+             	 关闭   </label>
+            <span class="hui2">是否开启抽奖活动</span></td>
+        </tr>
+		
+		<tr>
+          <td align="right" valign="top">奖盘图片：</td>
+          <td class="sptable">
+				<span class="tabtxt1 size2" id="point">
+		          	<input name="imgPath" type="file" id="imgPath">
+        			</span><span id="nothis"><img id="imgPath" src="$!{entry.imgPaths}"></img><strong class="w">最佳尺寸142*66，支持格式gif,jpg,jpeg,png</strong><strong class="c"></strong>		
+	           </span> 
+          </td>
+        </tr>
+		
+
+        <tr>
+          <td align="right" valign="top">花费积分额：</td>
+          <td class="sptable">
+				<span class="tabtxt1 size2" id="point">
+		          	<input type="text" name="costInterval"  id="costInterval" value="$!{entry.costInterval}"/>
+	           </span> 
+            
+          </td>
+        </tr>
+         <tr>
+          <td align="right" valign="top">每天限制抽奖次数：</td>
+          <td class="sptable">
+				<span class="tabtxt1 size2" id="point">
+		          	<input type="text" name="count"  id="count" value="$!{entry.count}"/>
+	           </span> 
+            
+          </td>
+        </tr>
+        <tr>
+          <td align="right" valign="top">最小中奖概率基数：</td>
+          <td class="sptable">
+				<span class="tabtxt1 size2" id="point">
+		          	1/<input type="text" name="minbase"  id="minbase" value="$!{entry.minbase}"/>
+	           </span> 
+            
+          </td>
+        </tr>
+		 <tr>
+          <td align="right" valign="top" style="width:95px;">抽奖规则： </td>
+          <td id="detail_td_web"><div style="width:861px; float:left;">
+              <div id="goods_details_div_web" class="addphoto_c_textarea">
+                <textarea name="details" style="width:100%;height:400px;visibility:hidden;" id="goods_details_web">$!{entry.details}</textarea>
+              </div>
+            </div>
+            </td>
+        </tr>
+      </tbody></table>
+      <span class="submittable" style="margin-left:125px; margin-top:20px; float:left">
+      <input id="submitButton" name="" type="button" value="提交" onclick="saveForm();"/>
+      </span>
+    </form>
+  </div>
+</div>
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
+	
+	<script>
+	</script>
+</body>
+</html>

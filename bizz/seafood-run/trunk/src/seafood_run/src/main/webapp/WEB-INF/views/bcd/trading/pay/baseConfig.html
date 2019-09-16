@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/common/base.css">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css"/>
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.bigcolorpicker.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/commonutil.js"></script>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function(){
+	var isPay;
+	#foreach($obj in $pl.result)
+		#if("$obj.types"=="isPay")
+			isPay = '$!{obj.value}';
+		#end	
+	#end
+	if(isPay==0){
+		$("input[id=notPay]").click();
+	}else{
+		$("input[id=pay]").click();
+	}
+}
+);
+
+function saveConfig(){
+	$.ajax({
+        type: "post",
+        url: "/tradeMsg.java?cmd=baseConfig&pageType=tradePayConfig",
+        dataType: "json",
+        data: $("#ListForm").serialize(),
+        success: function(data) {
+        	alert("操作成功");
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("操作成功");
+        }
+    });
+}
+
+
+</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">商品分类</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/tradeMsg.java?cmd=list" class="this"><b>发起人留言</b></a></li>
+				<li><a href="/tradeMsg.java?cmd=toList"><b>代付人留言</b></a></li>
+				<li><a href="/tradeCommon.java?cmd=list&pageType=tradePayConfig"><b>基本设置</b></a></li>
+			</ul>
+		</div>
+		<form name="ListForm" id="ListForm" action="/tradeMsg.java?cmd=baseConfig&pageType=tradePayConfig" >
+			<div class="main_list_barb" style="padding-left:40px"> <i class="listbar_n_a">是否启用找人代付：&nbsp;&nbsp;</i> 
+               		<label>
+                 		<input name="isPay" type="radio" id="pay" value="1" checked="checked">&nbsp;&nbsp;开启&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 	</label>
+               		<label>
+                		<input name="isPay" type="radio" id="notPay" value="0" checked="unchecked">&nbsp;&nbsp;关闭
+               		</label>
+             </div>
+			<div class="operation">
+				<ul>
+					<li>代付时间：代付订单的自动关闭时间为7天，到期后如有退款，将退款到发起人的余额中；如有超付，超付部分将退款到发起人的余额中 </li>
+				</ul>
+			</div>
+		</form>
+		<div class="submit">
+		    <span style="padding-left:35px"><input name="" type="button" value="保存" onclick="saveConfig();"></span>
+		  </div>
+	</div>
+</body>
+</html>

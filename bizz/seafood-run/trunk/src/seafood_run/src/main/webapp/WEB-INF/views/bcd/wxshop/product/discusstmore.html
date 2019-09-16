@@ -1,0 +1,9 @@
+#foreach($obj in $proDiscussList)
+<li class="oh">
+    <div class="w-15 buyImgDiv f-l"><img src='$obj.pro.imgPaths.split("_")[0]' width="52" height="44"></div>
+    <div class="w-75 f-l">
+        <p class="ask">$obj.createDate</p>
+        <p class="">$obj.content</p>
+    </div>
+</li>
+#end

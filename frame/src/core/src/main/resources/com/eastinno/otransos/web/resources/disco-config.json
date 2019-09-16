@@ -1,0 +1,24 @@
+[{
+<<<<<<< HEAD
+    "global": {
+        "version": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": ""
+    },
+    "modules": [{
+        "path": "",
+        "action": "",
+        "page": {
+            "name": "",
+            "url": "",
+            "type": "",
+            "contentType": ""
+        }
+    }]
+=======
+    "global": {}
+>>>>>>> d3d12bf73259d41e48542a2f65eff51cdbbeab94
+}]

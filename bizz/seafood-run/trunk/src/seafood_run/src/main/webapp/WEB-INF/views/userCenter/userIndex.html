@@ -1,0 +1,394 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0045)/buyer/index.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<title>$!{sysconfig.siteName}</title>
+<meta name="keywords" content="www.iskyshop.com"/>
+<meta name="description" content="www.iskyshop.com"/>
+<meta name="generator" content="www.iskyshop.com"/>
+<meta name="author" content="www.iskyshop.com"/>
+<meta name="copyright" content="Copyright 2012-2015 ISkyShop Inc. All rights reserved"/>
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/user.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.SuperSlide.2.1.1.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script>
+jQuery(document).ready(function(){	
+	jQuery("#fav_goods").slide({mainCell:'ul',autoPlay:true,effect:'left', vis:3, scroll:1, autoPage:true,interTime:3000,prevCell:"#fav_goods_left",nextCell:"#fav_goods_right"});
+	//
+	jQuery("#fav_store").slide({mainCell:'ul',autoPlay:true,effect:'left', vis:3, scroll:1, autoPage:true,interTime:3000,prevCell:"#fav_store_left",nextCell:"#fav_store_right"});
+	//
+	jQuery("#fav_store").slide({mainCell:'ul',autoPlay:true,effect:'left', vis:3, scroll:1, autoPage:true,interTime:3000,prevCell:"#fav_store_left",nextCell:"#fav_store_right"});
+	//
+	jQuery("#integral_order").slide({mainCell:'ul',autoPlay:true,effect:'left', vis:3, scroll:1, autoPage:true,interTime:3000,prevCell:"#integral_order_left",nextCell:"#integral_order_right"});
+	//
+	jQuery(".see_all_order_center").slide({mainCell:'ul',autoPlay:true,effect:'left', vis:3, scroll:2, autoPage:true,interTime:3000,prevCell:".see_all_order_center_left",nextCell:".see_all_order_center_right"});
+	//
+	jQuery("#foot_point").slide({mainCell:'ul',autoPlay:true,effect:'left', vis:3, scroll:1, autoPage:true,interTime:3000,prevCell:"#foot_point_left",nextCell:"#foot_point_right"});
+	//
+	jQuery(".see_all_order_center").mouseenter(function(){
+	  jQuery(".see_all_order_center_left").show();
+	  jQuery(".see_all_order_center_right").show();
+	}).mouseleave(function(){
+	  jQuery(".see_all_order_center_left").hide();
+	  jQuery(".see_all_order_center_right").hide();
+	});
+	//
+	jQuery("#fav_goods_info").mouseenter(function(){
+	  jQuery("#fav_goods_left").show();
+	  jQuery("#fav_goods_right").show();
+	}).mouseleave(function(){
+	  jQuery("#fav_goods_left").hide();
+	  jQuery("#fav_goods_right").hide();
+	});
+	//
+	jQuery("#fav_store_info").mouseenter(function(){
+	  jQuery("#fav_store_left").show();
+	  jQuery("#fav_store_right").show();
+	}).mouseleave(function(){
+	  jQuery("#fav_store_left").hide();
+	  jQuery("#fav_store_right").hide();
+	});
+	//
+	jQuery("#integral_order_info").mouseenter(function(){
+	  jQuery("#integral_order_left").show();
+	  jQuery("#integral_order_right").show();
+	}).mouseleave(function(){
+	  jQuery("#integral_order_left").hide();
+	  jQuery("#integral_order_right").hide();
+	});
+	//
+	jQuery("#foot_point_info").mouseenter(function(){
+	  jQuery("#foot_point_left").show();
+	  jQuery("#foot_point_right").show();
+	}).mouseleave(function(){
+	  jQuery("#foot_point_left").hide();
+	  jQuery("#foot_point_right").hide();
+	});
+});
+</script>
+</head>
+<body>
+<!--点击收藏-->
+<script type="text/javascript">
+jQuery(document).ready(function(){
+  jQuery(".top_pull").mouseover(function(){
+	jQuery(this).find("div").show();
+	jQuery(this).find("em").addClass("em_this");
+	jQuery(this).find("s").addClass("this");
+  	}).mouseleave(function(){
+    jQuery(this).find("div").hide();
+	jQuery(this).find("em").removeClass("em_this");
+	jQuery(this).find("s").removeClass("this");
+  });					
+								});
+var browserEvent = function (obj, url, title) {
+    var e = window.event || arguments.callee.caller.arguments[0];
+    var B = {
+        IE : /MSIE/.test(window.navigator.userAgent) && !window.opera
+        , FF : /Firefox/.test(window.navigator.userAgent)
+        , OP : !!window.opera
+    };
+    obj.onmousedown = null;
+    if (B.IE) {
+        obj.attachEvent("onmouseup", function () {
+            try {
+                window.external.AddFavorite(url, title);
+                window.event.returnValue = false;
+            } catch (exp) {}
+        });
+    } else {
+        if (B.FF || obj.nodeName.toLowerCase() == "a") {
+            obj.setAttribute("rel", "sidebar"), obj.title = title, obj.href = url;
+        } else if (B.OP) {
+            var a = document.createElement("a");
+            a.rel = "sidebar", a.title = title, a.href = url;
+            obj.parentNode.insertBefore(a, obj);
+            a.appendChild(obj);
+            a = null;
+        }
+    }
+};
+</script>
+
+#parse("/common/top.html")
+#parse("/common/left.html")
+<div class="main">
+  <div class="usercenter"> <script src="/static/home/shopmanage/js/jquery.cookie.js"></script>
+<script>		  
+jQuery(document).ready(function(){
+  jQuery(".user_menu>span>b").click(function(){
+     var child_show=jQuery(this).parent().attr("child_show");
+	 if(child_show=="true"){
+		 jQuery(this).parent().find("ul").hide();
+	     jQuery(this).parent().find("i").removeClass("active");
+		 jQuery(this).parent().attr("child_show","false");
+	 }else{
+	    jQuery(this).parent().find("ul").show();
+		jQuery(this).parent().find("i").addClass("active");
+		jQuery(this).parent().attr("child_show","true");
+	 }
+	 var nav_status="";
+	 jQuery(".user_menu>span>b").each(function(){
+		nav_status=nav_status+jQuery(this).parent().attr("id")+","+jQuery(this).parent().attr("child_show")+";";
+	 }); 
+	 jQuery.cookie("buyer_nav",nav_status);
+  });
+  jQuery(".user_menu ul li a").removeClass("this");						
+  jQuery(".user_menu ul li a[op='']").addClass("this");	
+  //
+  if(jQuery.cookie("buyer_nav")!=null){
+      var nav_status=jQuery.cookie("buyer_nav");
+	  jQuery.each(nav_status.split(";"), function(index,item){
+	     var list=item.split(",");
+		 jQuery("#"+list[0]).attr("child_show",list[1]);
+		 if(list[1]=="true"){
+	       jQuery("#"+list[0]+" ul").show();
+		 }else{
+		   jQuery("#"+list[0]).find("i").removeClass("active");	 
+		   jQuery("#"+list[0]+" ul").hide(); 	 
+		 }
+	  });
+   }
+   //
+});
+</script>
+	#parse("/common/userCenterLeft.html")
+    <div class="usercenter_right">
+      <div class="usercenter_index_top">
+        <dl class="user_info">
+        	<dt class="user_info_img">
+        		#if($!user.pic)
+        			<img src="$!user.pic" width="100" height="100">
+        		#else
+	        	<img src="/static/home/shopmanage/images/user/member.jpg" width="100" height="100"/>
+	        	#end
+	        	<b><a href="pcShopMemberCenter.java?cmd=toUserInfo&menuId=a_userInfo">编辑资料</a></b>
+        	</dt>
+          <dt class="user_info_name">
+            <h3> <b><a href="#">$!user.name</a></b>
+            #if($!user.disType==0)
+           	<!-- <span><img src="/static/home/shopmanage/images/user/userlevel_3.png" width="35" height="55"/> -->
+             <div class="level">身份：会员</div>
+             #elseif($!user.disType==1)
+             <!-- <span><img src="/static/home/shopmanage/images/user/userlevel_2.png" width="35" height="55"/> -->
+             <div class="level">身份：微店</div>
+             #elseif($!user.disType==2)
+             <!-- <span><img src="/static/home/shopmanage/images/user/userlevel_1.png" width="35" height="55"/> -->
+             <div class="level">身份：体验店</div>
+             </span>
+             #end
+              <div class="user_password_safety">
+              #if($!user.securityLevel==1)
+                <h4>帐号安全等级： 低   </h4>
+                #elseif($!user.securityLevel==2)
+                <h4>帐号安全等级： 中   </h4>
+                #elseif($!user.securityLevel==3)
+                <h4>帐号安全等级： 高  </h4>
+                #end
+                <div class="user_password_safety_center">
+                  <div class="user_password_safety_center_line">
+                    <div class="user_password_safety_center_line_c" style="width:60%;"></div>
+                  </div>
+                  #if($!user.mobileTel && $!user.mobileTel!="")
+                  <div class="safety_email">手机：<i class="this"><a href="/shopMember.java?cmd=toPage&toHtml=updateMobile&menuId=a_mobile">已绑定</a></i></div>
+                  #else
+                  <div class="safety_email">手机：<i class="this"><a href="/shopMember.java?cmd=toPage&toHtml=updateMobile&menuId=a_mobile">未绑定</a></i></div>
+                  #end
+                  
+                  #if($!user.email && $!user.email!="")
+                  <div class="safety_phone">邮箱：<i class="this"><a href="/shopMember.java?cmd=toPage&toHtml=updateEmail&menuId=a_email">已绑定</a></i></div>
+                  #else
+                  <div class="safety_phone">邮箱：<i class="this"><a href="/shopMember.java?cmd=toPage&toHtml=updateEmail&menuId=a_email">未绑定</a></i></div>
+                  #end
+                </div>
+              </div>
+            </h3>
+          </dt>
+          <dd>
+          <div class="user_deposit">
+              <div class="user_deposit_word">账户余额</div>
+              <div class="user_deposit_number">¥$fu.getYj($!user.remainderAmt)</div>
+              <!-- <div class="user_deposit_button"><a href="http://b2b2c.iskyshop.com/buyer/predeposit.htm">充值</a></div> -->
+            </div>
+            <div class="user_deposit">
+              <div class="user_deposit_word">可用积分</div>
+              <div class="user_deposit_number"> $!user.availableIntegral分 </div>
+              <!-- <div class="user_deposit_button"><a href="/integral/index.htm" target="_blank">积分商城</a></div> -->
+            </div>
+            <div class="user_deposit">
+              <div class="user_deposit_word">优惠券</div>
+              <div class="user_deposit_number">$!couponCount<i>张</i></div>
+              <!-- <div class="user_deposit_button"><a href="http://b2b2c.iskyshop.com/buyer/coupon.htm">查看</a></div> -->
+            </div>
+            <div class="user_deposit">
+              <div class="user_deposit_word">我的推广id</div>
+              <div class="user_deposit_number">$!user.id</div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="usercenter_index_myorder">
+        <h3><a href="/pcShopMemberCenter.java?cmd=getMyOrder&menuId=myOrder" class="see_all_order">查看全部订单</a><strong>实物交易订单</strong>
+        <span class="idx_myorder_sp">  
+        
+        <a href="/pcShopMemberCenter.java?cmd=getMyOrder&menuId=myOrder&status=0"> 待付款 #if($!nonPaymentCount==$null) 0 #else $!nonPaymentCount #end</a>
+ 		<a href="/pcShopMemberCenter.java?cmd=getMyOrder&menuId=myOrder&status=2"> 待收货  #if($!paymentCount==$null) 0 #else $!paymentCount #end </a>
+      	<a href="/pcShopMemberCenter.java?cmd=getMyOrder&menuId=myOrder?cmd=myOrder&status=3"> 已完成  #if($!completeCount==$null) 0 #else $!completeCount #end  </a>
+        </span>
+        </h3>
+               <div class="see_all_order_center">
+          <div class="see_all_order_center_c">
+            <div class="tempWrap" style="overflow:hidden; position:relative; width:954px">
+            <ul style="width: 1908px; left: 0px; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
+               
+               #foreach($!obj in $orderList)
+               #set($num=0)
+               #foreach($obj2 in $obj.orderdetails)
+               	#set($num=$num+$obj2.num)
+               #end
+               <li class="see_all_order_center_one" style="float: left; width: 309px;">
+                <div class="see_all_order_center_one_top">共计：$!{num}件商品<span>
+                
+                #if($!obj.status==0)
+                [ 待付款 ]
+                #elseif($!obj.status==2)
+                [ 待收货 ]
+                #elseif($!obj.status==3)
+                [ 已完成 ]
+                #end
+                </span></div>
+                <div class="see_all_order_center_one_center">
+                  <dl>
+                    <dt>
+	                    <a href="#">
+	                    	<img src='$!obj.orderdetails[0].pro.imgPaths.split("_")[0]'/>
+	                    </a>
+                    </dt>
+                    <dd>
+	                    <span>
+							#if($!obj.status==0)
+			                [ 订单已提交，等待付款 ]
+			                #elseif($!obj.status==2)
+			                [ 商家已发货，等待收货 ]
+			                #elseif($!obj.status==3)
+			                [ 订单已完成 ]
+			                #end
+	                    </span>
+	                    $!obj.ceateDate
+                    </dd>
+                  </dl>
+                </div>
+                <div class="see_all_order_center_one_b">
+                  <dl>
+                    <dd>订单号：$!obj.code</dd>
+					#if($!obj.status==0)
+					<dt>
+	                <a href="/shopTrade.java?cmd=toPay&orderId=$!obj.id">立即付款</a>
+	                </dt>
+	                #end
+                  </dl>
+                </div>
+              </li>
+               
+               #end
+               
+			</ul></div>
+          </div>
+                    <div class="see_all_order_center_left" style="cursor: pointer; display: none;"></div>
+          <div class="see_all_order_center_right" style="cursor: pointer; display: none;"></div>
+                    </div>
+               </div>
+      <div class="user_guess_center">
+        <div class="user_guess" id="fav_goods_info">
+          <h3 class="idx_myorder_h3"><a href="/pcShopMemberCenter.java?cmd=myCollection&menuId=goodsCollection" class="see_all_order">更多收藏</a><strong>我收藏的商品</strong></h3>
+                    <div class="user_guess_box" id="fav_goods">
+            <div class="guess_like_box">
+              <ul>
+              	#foreach($obj in $myColls)
+              	 <li class="guess_like_one">
+                  <div class="guess_img"><a href='/goShop.java?cmd=productDetail&id=$obj.id' target="_blank"><span class="img_cspan">
+                    <p><img src='$!obj.imgPaths.split("_")[0]' width="150" height="150"></p>
+                    </span></a></div>
+                  <div class="guess_name"><a href="/goShop.java?cmd=productDetail&id=$obj.id" target="_blank">$!obj.name </a></div>
+                  <div class="guess_price">商城价：<strong>¥$!obj.amt</strong></div>
+                </li>
+                     #end
+              	</ul>
+              	
+              	
+              	
+            </div>
+             </div>
+           </div>
+        <div class="user_guess" id="fav_store_info">
+        <div class="user_guess" id="foot_point_info">
+          <h3 class="idx_myorder_h3"><a href="javascript:void(0)" class="see_all_order">更多足迹</a><strong>我的查看记录</strong></h3>
+          <div class="user_guess_box" id="foot_point">
+            <div class="guess_like_box">
+              <div class="tempWrap" style="overflow:hidden; position:relative; width:474px">
+              <ul style="width: 2370px; left: -948px; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
+              
+              
+              		#foreach($obj in $!yhistory.result)
+	                   <li class="guess_like_one" style="float: left; width: 150px;">
+                  <div class="guess_img"><a href="/goShop.java?cmd=productDetail&id=$obj.id" target="_blank"><span class="img_cspan">
+                    <p><img src='$!obj.imgPaths.split("_")[0]' width="150" height="150"/></p>
+                    </span></a></div>
+                  <div class="guess_name"><a href="/goShop.java?cmd=productDetail&id=$obj.id" target="_blank">$!obj.name</a></div>
+                  <div class="guess_price">商城价：<strong>¥$!obj.amt</strong></div>
+                </li>
+	                     #end 
+              
+              
+                              </ul></div>
+            </div>
+                        <span class="guess_left" style="cursor: pointer; display: none;" id="foot_point_left"></span> <span class="guess_right" style="cursor: pointer; display: none;" id="foot_point_right"></span>
+                         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+
+  <div class="footer">
+    <ul>
+                  <li class="hui2">Copyright 2012-2015 海鲜之家商城 Inc. All rights reserved</li>
+      <li class="hui2">Powered by 海鲜之家商城</li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/goShop.java" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/buyer/index.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+ </div>
+
+
+</body></html>

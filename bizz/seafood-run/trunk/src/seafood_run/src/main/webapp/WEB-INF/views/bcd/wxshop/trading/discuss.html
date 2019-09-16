@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" pageEncoding="UTF-8"/>
+<title>订单</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<link href="/static/home/bcd/css/taobao.css" type="text/css" rel="stylesheet">
+
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+	<!--  填写评论样式  -->
+	<style>
+		.wrap {
+		    background: #fff;
+		}
+		.buy_goods {
+			overflow: hidden;
+			text-align: left;
+			padding: 10px;
+			border-bottom: 1px solid #e8e8e8;
+		}
+		.buy_goods .buyImg{
+			width: 15%;
+			margin-top: 15px;
+		}
+		.buy_goods .buyImg img {
+		    border: 0 none;
+		    vertical-align: top;
+		}
+		.buy_goods .buyText{
+			width: 85%;
+		}
+		.buy_goods .buyText .buyTitle {
+			height: 50px;
+		    margin-top: 14px;
+		    margin-left: 15px;
+		    overflow: hidden;
+		}
+		.buy_goods .buyText .price {
+		    margin-left: 15px;
+		}
+		.buy_star{
+			padding: 16px 10px;
+			font-size: 14px;
+			overflow: hidden;
+		}
+		.buy_star .comment{
+			font-size: 24px;
+           	color: #666;
+           	line-height: 0.8;
+		}
+		.buy_star .comment li{
+			float: left;
+			padding-right: 2px;
+			background-image: url("/static/common/img/commstar.png");
+			background-repeat: no-repeat;
+			background-position: 0px 0px;
+			width: 16px;
+			height: 16px;
+		}
+		.buy_star .comment li.range{
+			background-position: 0px -16px;
+		}
+		.message{
+			background: #f3f3f3;
+		}
+		.message textarea{
+			background: none;
+			margin: 10px;
+			resize: none;
+			width: 93%;
+			border: none;
+		}
+		.btn_comment{
+			width: 80%;				
+		    margin: 10px auto;			    
+		    line-height: 35px;
+		    height: 35px;
+		    text-align: center;
+		    border-radius: 5px;
+		    background: #f80;
+		    color: #fff;
+		    display: block;
+		}
+	</style>
+</head>
+	<body style="background: #fff;">
+	<!--  填写评论  -->	
+	<div class="wrap">
+		<div class="buy_goods">			
+            <div class="buyImg f-l">
+            	<img class="unadapter" src="$!{detail.pro.imgPaths.split("_")[0]}" width="52px" height="44px">
+            </div>
+            <div class="buyText f-l">
+                <p class="buyTitle">$!detail.pro.name</p>
+				<p><span class="price">$!detail.unit_price</span></p>
+            </div>	                    						
+		</div>
+		<div class="buy_star">
+			<p class="wd f-l">评分：</p>
+			<ul class="comment f-l">
+			    <li></li>
+			    <li></li>
+			    <li></li>
+			    <li></li>
+			    <li></li>
+			</ul>
+		</div>
+		<div class="message">
+			<textarea name="comments" id="peComment" cols="30" rows="10" placeholder="请填写255个字以内的评价内容。"></textarea>
+		</div>
+		<div class="btn_comment" id="comment_submit">提交</div>
+	</div>
+
+<div class="hei40" ></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+<script type="text/javascript">
+$(function(){		
+	//给点击的li添加一个类样式
+	$(".comment li").click(function(){
+		$(".comment li").removeClass("range");
+		$(this).addClass("range").prevAll("li").addClass("range");				
+	});
+
+	//点击提交
+	$("#comment_submit").off("click").click(function(){
+		var id = "$!{detail.id}";
+		var num_str = $(".comment li.range").length;   //选中的星星数量
+		var text = $("#peComment").val();              //留言内容
+		if(text.lenth >= 255 || text == ""){
+			alert("请填写评论");
+		}else{
+			window.location.href="wxShopTrade.java?cmd=addGoShopDiscuss&detailId="+id+"&starts="+num_str+"&content="+text;
+		}
+	});
+});
+</script>
+</body>
+</html>

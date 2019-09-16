@@ -1,0 +1,82 @@
+<div class="usercenter_left">
+<h3><a href="/pcShopMemberCenter.java?cmd=toMyUserCenter&status=-1">用户中心</a></h3>
+      <div class="user_menu">
+        <span child_show="true" id="trade_menu"><b>我的交易<i class="active"></i></b>
+          <ul>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyOrder&menuId=myOrder" op="order" #if($menuId=='myOrder') class="this" #end)>我的订单</a></li>
+            <!-- <li><a href="/pcShopMemberCenter.java?cmd=getMyEvaluation&menuId=myEvaluation" op="evaluate"  #if($menuId=='myEvaluation') class="this" #end>商品评价</a></li> -->
+            <li><a href="/pcShopMemberCenter.java?cmd=toEvaluation&menuId=toEvaluation&type=1" op="evaluate"  #if($menuId=='toEvaluation') class="this" #end>商品评价</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=toSweepstakeRecord&menuId=toSweepstakeRecord" op="sweepstake"  #if($menuId=='toSweepstakeRecord') class="this" #end>抽奖记录</a></li>
+          </ul>
+        </span>
+        <span child_show="true" id="trade_menu"><b>我的资产<i class="active"></i></b>
+          <ul>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyIntegralRecord&menuId=myIntegralRecord&status=-1" op="myIntegralRecord" #if($menuId=='myIntegralRecord') class="this" #end)>我的积分</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=toIntegralRecharge&menuId=myIntegralRecharge" op="myIntegralRecharge" #if($menuId=='myIntegralRecharge') class="this" #end)>积分充值</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getIntegralRecharge&menuId=getIntegralRecharge" op="getIntegralRecharge" #if($menuId=='getIntegralRecharge') class="this" #end)>积分充值记录</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyCoupons&menuId=myCoupons" op="myCoupons"  #if($menuId=='myCoupons') class="this" #end>我的优惠券</a></li>
+            <!-- <li><a href="/shopMember.java?cmd=myCollection&menuId=myCollection" op="favorite" #if($menuId=='myCollection2') class="this" #end>账户余额</a></li> -->
+          </ul>
+        </span>
+        <span child_show="true" id="trade_menu"><b>我的关注<i class="active"></i></b>
+          <ul>
+            <li><a href="/pcShopMemberCenter.java?cmd=myCollection&menuId=goodsCollection" op="order" #if($menuId=='goodsCollection') class="this" #end)>商品收藏</a></li>
+            <!-- <li><a href="/pcShopMemberCenter.java?cmd=myCollection&menuId=shopsCollection" op="evaluate"  #if($menuId=='shopsCollection') class="this" #end>店铺收藏</a></li> -->
+          </ul>
+        </span>
+        <span child_show="true" id="trade_menu"><b>会员资料<i class="active"></i></b>
+          <ul>
+          	 <li><a href="/pcShopMemberCenter.java?cmd=toUserInfo&menuId=a_userInfo" op="account" #if($menuId=='a_userInfo') class="this" #end)>账户信息</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=myDeliveryAddress&menuId=myDeliveryAddress" op="address" #if($menuId=='myDeliveryAddress') class="this" #end>收货地址</a></li>
+          </ul>
+        </span>
+        <span child_show="true" id="trade_menu"><b>我要开店<i class="active"></i></b>
+          <ul>
+          	#if($user.myDistributor.exStatus==1)
+            #else
+            <li><a href="/pcShopMemberCenter.java?cmd=toApplyMicroShop&menuId=applyMicroShop" op="order" #if($menuId=='applyMicroShop') class="this" #end)>申请微店</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=toApplyEntityShop&menuId=applyEntityShop" op="evaluate"  #if($menuId=='applyEntityShop') class="this" #end>申请体验店</a></li>
+            #end
+            #if($user.myDistributor.status==1 || $user.myDistributor.exStatus==1)
+            <li><a href="/pcShopMemberCenter.java?cmd=toApplyProduct&menuId=applyProduct" op="evaluate"  #if($menuId=='applyProduct') class="this" #end>地方特色商品销售申请</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=toApplyProductList&menuId=applyProductList" op="evaluate"  #if($menuId=='applyProductList') class="this" #end>申请商品列表</a></li>
+            #end
+          </ul>
+        </span>
+        #if($user.myDistributor.status==1 || $user.myDistributor.exStatus==1)
+        <span child_show="true" id="trade_menu"><b>店铺管理<i class="active"></i></b>
+          <ul>
+          	#if($user.myDistributor.status==1 && $user.myDistributor.exStatus!=1)
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyWdGroup&menuId=myWdGroup" op="myWdGroup" #if($menuId=='myWdGroup') class="this" #end)>微店团</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyMemberInfo&menuId=myMemberInfo" op="myMemberInfo"  #if($menuId=='myMemberInfo') class="this" #end>我的会员信息</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyQRCode&menuId=QRCode" op="QRCode" #if($menuId=='QRCode') class="this" #end)>店铺二维码</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyMemberOrder&menuId=myMemberOrder" op="myMemberOrde"  #if($menuId=='myMemberOrder') class="this" #end>会员订单</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyWdPartnerOrder&menuId=myWdPartnerOrder" op="myWdPartnerOrder" #if($menuId=='myWdPartnerOrder') class="this" #end)>我的微店伙伴订单</a></li>
+            <!-- <li><a href="/pcShopMemberCenter.java?cmd=toApplyShop&menuId=applyEntityShop2" op="applyEntityShop2"  #if($menuId=='applyEntityShop2') class="this" #end>申请实体店(微店看到)</a></li> -->
+            #end
+            #if($user.myDistributor.exStatus==1)
+            <!-- <li><a href="/pcShopMemberCenter.java?cmd=toApplyReflectRecord&menuId=applyReflectRecord" op="applyReflectRecord" #if($menuId=='applyReflectRecord') class="this" #end)>申请提现</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyReflectRecord&menuId=myReflectRecord" op="myReflectRecord" #if($menuId=='myReflectRecord') class="this" #end)>我的提现记录</a></li> -->
+            <!-- <li><a href="/pcShopMemberCenter.java?cmd=getMyWdGroup&menuId=myWdGroup" op="myWdGroup" #if($menuId=='myWdGroup') class="this" #end)>微店团</a></li> -->
+            <!-- <li><a href="/pcShopMemberCenter.java?cmd=getMyMemberInfo&menuId=myMemberInfo" op="myMemberInfo"  #if($menuId=='myMemberInfo') class="this" #end>我的会员信息</a></li> -->
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyQRCode&menuId=QRCode" op="QRCode" #if($menuId=='QRCode') class="this" #end)>店铺二维码</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyMemberOrder&menuId=myMemberOrder" op="myMemberOrde"  #if($menuId=='myMemberOrder') class="this" #end>会员订单</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyWdPartnerOrder&menuId=myWdPartnerOrder" op="myWdPartnerOrder" #if($menuId=='myWdPartnerOrder') class="this" #end)>我的微店伙伴订单</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyMicroShop&menuId=myMicroShop" op="myMicroShop" #if($menuId=='myMicroShop') class="this" #end)>隶属我的微店</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyAllMemberInfo&menuId=myAllMemberInfo" op="myAllMemberInfo" #if($menuId=='myAllMemberInfo') class="this" #end)>我的会员</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyShopAllOrderInfo&menuId=myAllOrderInfo" op="myAllOrderInfo" #if($menuId=='myAllOrderInfo') class="this" #end)>店内所有订单</a></li>
+            #end
+            
+          </ul>
+        </span>
+        #end
+        <span child_show="true" id="trade_menu"><b>客户服务<i class="active"></i></b>
+          <ul>
+          	 <li><a href="/pcShopMemberCenter.java?cmd=getMyRefundReturn&menuId=myRefundReturn" op="account" #if($menuId=='myRefundReturn') class="this" #end)>退款/退货</a></li>
+          	 <li><a href="/pcShopMemberCenter.java?cmd=toApplyWithdrawingCash&menuId=applyWithdrawingCash" op="applyWithdrawingCash" #if($menuId=='applyWithdrawingCash') class="this" #end)>账户提现</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getMyWithdrawingCash&menuId=myWithdrawingCash" op="myWithdrawingCash" #if($menuId=='myWithdrawingCash') class="this" #end)>提现记录</a></li>
+            <li><a href="/pcShopMemberCenter.java?cmd=getRemainderAmtHistory&menuId=remainderAmtHistory" op="remainderAmtHistory" #if($menuId=='remainderAmtHistory') class="this" #end)>余额变动记录</a></li>
+          </ul>
+        </span>
+      </div>
+    </div>

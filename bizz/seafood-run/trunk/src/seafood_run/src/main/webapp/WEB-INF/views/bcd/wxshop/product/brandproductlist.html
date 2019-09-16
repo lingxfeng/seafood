@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>商品列表</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<!--滑动-->
+<link rel="stylesheet" href="/static/home/bcd/css/idangerous.swiper.css">
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<link href="/static/home/bcd/css/font-awesome.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="wrap">      	
+            <!--  搜索  s  -->    
+            <div class="seacherBox oh">
+                <form action="/wxShopBase.java" method="post" id="searchForm" enctype="multipart/form-data">
+		    	<input type="hidden" name="cmd" value="toPage">
+		    	<input type="hidden" name="topage" value="/bcd/wxshop/product/searchlist.html">
+		    	<input type="text" class="sechInp" placeholder="商品名称：请输入商品关键字" id="searchtext" name="searchtext" value="$!{searchtext}">
+		        <button id="searchbutton"><i class="fa fa-search"></i></button>
+		        </form>
+            </div>
+            <ul class="ProList oh">
+	            <li><a href="#">$su.getBrandByCode($!{brandCode}).name</a></li>
+            </ul>
+            <!--  搜索  e  --> 
+            <!--  全部  s  -->
+        	<ul class="fansTitle bg-fff">
+        	#if($orderBy=="createDate")
+        		#if($isDesc=="true")
+        			<li><a href="/wxShopBase.java?cmd=toPage&tId=$!{tId}&orderBy=createDate&isDesc=false&topage=/bcd/wxshop/product/productlist.html">新品<i class='fa fa-angle-double-down cor-f40'></i></a></li>
+        		#else
+        			<li><a href="/wxShopBase.java?cmd=toPage&tId=$!{tId}&orderBy=createDate&isDesc=true&topage=/bcd/wxshop/product/productlist.html">新品<i class='fa fa-angle-double-up cor-f40'></i></a></li>
+        		#end
+                <li><a href="/wxShopBase.java?cmd=toPage&tId=$!{tId}&orderBy=saleNum&isDesc=true&topage=/bcd/wxshop/product/productlist.html">销量<i class='fa fa-angle-double-up'></i></a></li>
+                <li><a href="/wxShopBase.java?cmd=toPage&tId=$!{tId}&orderBy=amt&isDesc=true&topage=/bcd/wxshop/product/productlist.html">价格<i class='fa fa-angle-double-up'></i></a></li>
+        	#end
+            #if($orderBy=="saleNum")
+            	<li><a href="/wxShopBase.java?cmd=toPage&tId=$!{tId}&orderBy=createDate&isDesc=true&topage=/bcd/wxshop/product/productlist.html">新品<i class='fa fa-angle-double-up'></i></a></li>
+        		#if($isDesc=="true")
+        			 <li><a href="/wxShopBase.java?cmd=toPage&tId=$!{tId}&orderBy=saleNum&isDesc=false&topage=/bcd/wxshop/product/productlist.html">销量<i class='fa fa-angle-double-down cor-f40'></i></a></li>
+        		#else
+        			 <li><a href="/wxShopBase.java?cmd=toPage&tId=$!{tId}&orderBy=saleNum&isDesc=true&topage=/bcd/wxshop/product/productlist.html">销量<i class='fa fa-angle-double-up cor-f40'></i></a></li>
+        		#end
+                <li><a href="/wxShopBase.java?cmd=toPage&tId=$!{tId}&orderBy=amt&isDesc=true&topage=/bcd/wxshop/product/productlist.html">价格<i class='fa fa-angle-double-up'></i></a></li>
+        	#end
+        	#if($orderBy=="amt")
+            	<li><a href="/wxShopBase.java?cmd=toPage&tId=$!{tId}&orderBy=createDate&isDesc=true&topage=/bcd/wxshop/product/productlist.html">新品<i class='fa fa-angle-double-up'></i></a></li>
+            	<li><a href="/wxShopBase.java?cmd=toPage&tId=$!{tId}&orderBy=saleNum&isDesc=true&topage=/bcd/wxshop/product/productlist.html">销量<i class='fa fa-angle-double-up'></i></a></li>
+        		#if($isDesc=="true")
+        			<li><a href="/wxShopBase.java?cmd=toPage&tId=$!{tId}&orderBy=amt&isDesc=false&topage=/bcd/wxshop/product/productlist.html">价格<i class='fa fa-angle-double-down cor-f40'></i></a></li>
+        		#else
+        			<li><a href="/wxShopBase.java?cmd=toPage&tId=$!{tId}&orderBy=amt&isDesc=true&topage=/bcd/wxshop/product/productlist.html">价格<i class='fa fa-angle-double-up cor-f40'></i></a></li>
+        		#end
+        	#end
+            </ul>
+        	<div class="content-slide">
+        	#foreach($obj in $su.getProductQuery().setBrandCode($!{brandCode}).setOrderBy($!{orderBy}).setIsDesc($!{isDesc}).setNum("5").setCurPage(1).list())
+        	<div class="oh orderBox" onclick="toProDet($obj.id)">
+                    <div class="w-15 buyImgDiv f-l"><img src='$obj.imgPaths.split("_")[0]' width="52" height="44"></div>
+                    <div class="w-75 f-l" >
+                        <p class="buyP">$!{obj.name}</p>
+                        <div class="w-20 buyDel f-l">
+                            <p><span class="lse">￥$!{obj.amt}</span></p>
+                            <p class="">已售<span>$!{obj.saleNum}</span></p>
+                        </div>
+                    </div>
+                </div>
+        	#end
+            </div>
+    <!-- <div class="moreDiv">
+    	<a href="javascript:addMore();" id="addMore">加载更多</a>
+    </div> -->
+	<div class="preloader" id="preloader" style="text-align:center; clear:both;">
+		<img id="loadingPic" src="/static/home/bcd/images/loading.gif" style="align:center; margin-top:20px; "/>
+	</div>
+</div>
+<div class="hei40"></div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+<!--  滑动  -->
+<script>
+function doClick(o){
+	 o.className="nav_current";
+	 var j;
+	 var id;
+	 var e;
+	 for(var i=1;i<=5;i++){ 
+	   id ="nav"+i;	   
+	   j = document.getElementById(id);
+	   e = document.getElementById("sub"+i);
+	   if(id != o.id){
+	   	 j.className="nav_link";
+	   	 e.style.display = "none";
+	   }else{
+			e.style.display = "block";
+	   }
+	 }
+	 }
+jQuery("#searchbutton").click(function(){
+	var searchText = jQuery("#searchtext").val();
+	if(searchText){
+		jQuery("#searchForm").submit();
+	}
+});
+
+function toProDet(id){
+	window.location.href="shopProduct.java?cmd=toProDet&pId="+id;
+}
+</script>
+<script>
+var curPage=1;
+function addMore(){
+	curPage++;
+	jQuery.ajax({
+		method:"post",
+		url:"/wxShopBase.java?cmd=toPage&curPage="+curPage+"&topage=/bcd/wxshop/product/indexprolist.html",
+		success:function(data,text){
+			jQuery("#proList").append(data);
+			if(data.length < 5){
+				$("#loadingPic").hide();
+			}
+		}
+	})
+}
+$(function(){
+	$(window).on("scroll",function(){        
+        var blankHeight = 50;
+        var bottomLength = $(window).scrollTop()+$(window).height()-blankHeight;
+		//alert(bottomLength+":"+$(".wx_wrap").height());
+        //当滚屏的最低边线的高度大于 .wx_wrap 的高度，则加载更多
+        if(bottomLength >= $(".wx_wrap").height()){
+        	addMore();
+        }
+    });
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0047)/buyer/address.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>收货地址-海鲜之家商城 -海鲜之家商城V1.0</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="generator" content=""/>
+<meta name="author" content=""/>
+<meta name="copyright" content=""/>
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/user.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.iskyshop.validate.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script src="/static/home/shopmanage/js/jquery.SuperSlide.2.1.1.js"></script>
+<style id="poshytip-css-tip-skyblue" type="text/css">div.tip-skyblue{visibility:hidden;position:absolute;top:0;left:0;}div.tip-skyblue table, div.tip-skyblue td{margin:0;font-family:inherit;font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;}div.tip-skyblue td.tip-bg-image span{display:block;font:1px/1px sans-serif;height:10px;width:10px;overflow:hidden;}div.tip-skyblue td.tip-right{background-position:100% 0;}div.tip-skyblue td.tip-bottom{background-position:100% 100%;}div.tip-skyblue td.tip-left{background-position:0 100%;}div.tip-skyblue div.tip-inner{background-position:-10px -10px;}div.tip-skyblue div.tip-arrow{visibility:hidden;position:absolute;overflow:hidden;font:1px/1px sans-serif;}</style>
+<style></style>
+<script>
+jQuery(document).ready(function(){
+	jQuery(".user_guess_box_like").slide({mainCell:'.guess_like_box_like',autoPlay:true,effect:'left', vis:6, scroll:2, autoPage:true,interTime:3000,prevCell:"#like_goods_left",nextCell:"#like_goods_right"});
+})
+function gotoPage(val){
+	window.location.href="/pcShopMemberCenter.java?cmd=getMyCoupons&amp;menuId=myCoupons&currentPage="+val;
+}
+</script>
+</head>
+<body>
+#parse("/common/top.html")
+#parse("/common/left.html")
+
+<div class="main">
+  <div class="usercenter"> <script src="/static/home/shopmanage/js/jquery.cookie.js"></script>
+#parse("/common/userCenterLeft.html")
+    <div class="usercenter_right">
+      <div class="myorder">
+        <h4><span class="myorder_fright"></span><strong>我的优惠券</strong></h4>
+      </div>
+      
+      <div class="user_list">
+        <div class="user_list_title">
+          <ul class="user_title_ul">
+            <li class="this"><i></i><a href="/pcShopMemberCenter.java?cmd=getMyCoupons&amp;menuId=myCoupons">我的优惠券</a></li>
+            <!-- <li ><i></i><a href="/pcShopMemberCenter.java?cmd=myCollection&menuId=shopsCollection">收藏店铺</a></li> -->
+          </ul>
+        </div>
+              <form action="" method="post" id="ListForm">
+          <div class="show_smallimg">
+			<table border="0" cellpadding="0" cellspacing="0" class="user_order_table">
+				<tbody>
+				
+				<tr>
+					<th width="20%">优惠券类型</th>
+	                <th width="10%">使用条件</th>
+	                <th width="10%">抵现金额</th>
+	                <th width="20%">获取时间</th>
+	                <th width="20%">使用时间</th>
+	                <th width="10%">使用状态</th>
+	                <!-- <th width="20%">操作</th> -->
+              	</tr>
+              	#foreach($obj in $couponList)
+				<tr id="41"  #if($obj.status==0) #if($obj.coupon.currentStatus==2)style="background-color: #C7C2C2;"#end#end>
+				<td width="10%" align="center">#if($obj.coupon.type==0)全场可用#elseif($obj.coupon.type==1)
+					使用品牌：
+					#foreach($obj in $obj.coupon.brandlist)
+						$obj.name&nbsp;,
+					#end
+				#end</td>
+	                <td width="10%" align="center">满$obj.coupon.usecondition可用</td>
+	                <td width="10%" align="center"">$obj.coupon.value</td>
+	                <td width="20%" align="center">$obj.createTime</td>
+	                <td width="30%" align="center"> $obj.coupon.beginTime <br/>至<br/> $obj.coupon.outTime </td>
+	                <td width="10%" align="center"> #if($obj.status==0)未使用#elseif($!obj.status==1)已使用#end</td>
+<!-- 	                <td width="20%" align="center" class="user_order_table_yes"><a href="javascript:void(0);" onclick="showDialog('msg_info','','删除后不可恢复，是否继续?',1,'question',3,function(){window.location.href='http://b2b2c.iskyshop.com/buyer/address_del.htm?mulitId=41&amp;currentPage=1'});" class="del_a">删除</a><a href="javascript:void(0);" dialog_uri="http://b2b2c.iskyshop.com/buyer/address_edit.htm?id=41&amp;currentPage=1" dialog_title="编辑地址" dialog_width="400" dialog_id="address_add" class="del_a">编辑</a></td>
+ -->				</tr>
+				#end
+				</tbody>
+			</table>        
+             </div>
+          $!paginationForBcd
+        </form>
+        #parse("/userCenter/common/guessYL.html")
+             </div>
+      
+    </div>
+  </div>
+
+  <div class="footer">
+    <ul>
+                  <li class="hui2"></li>
+      <li class="hui2">海鲜之家商城V1.0</li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/buyer/address.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+ </div>
+<div id="contant"> </div>
+
+
+<div class="tip-skyblue"><div class="tip-inner tip-bg-image"></div><div class="tip-arrow"></div></div><div class="tip-skyblue"><div class="tip-inner tip-bg-image"></div><div class="tip-arrow"></div></div></body></html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<!--提示IE最新版显示-->
+<link rel="stylesheet" href="/static/home/bcd/css/user.css" type="text/css" />
+<link rel="stylesheet" href="/static/home/bcd/css/font-awesome.css" type="text/css" />
+<link rel="stylesheet" href="/static/home/bcd/css/stage2/style.css" type="text/css" />
+<style type="text/css">
+.selectsta{
+	background-color:#F30;
+	color:#fff;
+}
+#sub1 img{
+	width: 100%;
+}
+.buyP {
+    margin-top: 14px;
+    margin-left: 15px;
+    overflow: hidden;
+}
+.lse{
+	margin-left: 15px;
+}
+</style>
+<script type="text/javascript" src="/static/home/bcd/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/static/home/bcd/js/jquery.spinner.js?v=151007"></script>
+<script type="text/javascript" src="/static/home/bcd/js/tab.js"></script>
+<script src="/static/home/bcd/js/TouchSlide.1.1.js"></script>
+<title>详情</title>
+</head>
+<body>
+
+<div class="wx_wrap">
+	<div id="slides" class="slider-focus">
+		<div class="bd">
+			<ul>
+				#foreach($obj in $sp.product.imgPaths.split("_"))
+              	<li><a class='pic' href='javascript:void(0)' style="height:100%; display:block;"><img src='$obj' /> </a></li>
+              	#end
+			</ul>
+		</div>
+		<div class="hd">
+			<ul>
+			</ul>
+		</div>
+	</div>
+
+	<div class="cb"></div>
+	<!--  详情  s  -->
+	<div class="infoDiv oh">
+		<div class="f-l fx w-70">
+			<p class="fw">$!sp.product.name</p>
+			<p>统一零售价：<span class="cor-f40 fw" >￥<label id="spjg">$!sp.product.amt</label></span></p>
+			<p ><span class="cor-f40"><label></label></span></p>
+		</div>
+		<div class="f-r w-30">
+            <p>商城代卖，优惠多多！</p>
+            <p>满100元包邮</p>
+		</div>
+	</div>
+	
+	<div class="mart15" style="background-color:#ffffff;">	
+		<div class="bp_s">
+			<div id="kcsl" class="buypage_num">库存: $!sp.product.inventory</div>
+			<div class="chunBtn oh marl5"> <input type="text" class="spinnerExample" id="proNum"/></div>
+		</div>
+	</div>
+	<div class="mart15" style="background-color:#ffffff;">	
+		<div class="bp_s">
+			<div class="buypage_num">规格</div>
+			<div class="chunBtn oh">
+				#set($num=1)
+				#foreach($obj in $!sp.product.shopSpecs)
+	           	<a id="gg$obj.id" href="javascript:void(0)" onclick="xzGg($obj.id,$obj.amt,$obj.inventory,$obj.store_price,$obj.tydAmt);" #if($num==1) class="selectsta" #end href="index.html" value="$obj.inventory">$obj.name</a>
+	           	
+	            #set($num=$num+1)
+	           	#end
+			</div>
+		</div>
+	</div>
+	<div class="mart15" style="background-color:#ffffff;">	
+		<div class="bp_s">
+			<div class="buypage_num">购买方式</div>
+			<div class="chunBtn oh">
+	           	<a id="type1"  href="javascript:void(0)" onclick="xzType(1);" class="selectsta" value="1">买一送二</a>
+	           	<a id="type2"  href="javascript:void(0)" onclick="xzType(2);" value="2">商城代卖</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="chun">
+	<ul class="ansUl">
+		<li class="oh bg-fff">			
+			<div class="w-20 f-l"><img src="static/home/bcd/images/cart_img.jpg" class="unadapter" width="52" height="44"/></div>
+			<a href="/wxShopBase.java?cmd=init">
+				<div class="f-l w-75" >
+					<p class="f18">海鲜之家商城</p>
+					<p>全部宝贝<span>$proCount</span>个</p>
+				</div>
+			</a>
+		</li>
+		<div class="chunBtn oh">
+			<a href="/wxShopBase.java?cmd=toPage&orderBy=saleNum&isDesc=true&topage=/bcd/wxshop/product/productlist2.html">查看所有商品</a>
+            <a href="/wxShopBase.java?cmd=init">进店逛逛</a>
+		</div>
+	</ul>
+</div>
+<div class="tebDiv">
+	<ul class="nav">
+		<li class="nav_current" id="nav1" onClick="doClick(this)">图文详情</li>
+		<li class="nav_link" id="nav2" onClick="doClick(this)">产品参数</li>
+		<li class="nav_link" id="nav3" onClick="doClick(this)">代卖收益</li>
+		<li class="nav_link" id="nav4" onClick="doClick(this)">用户评价</li>
+	</ul>
+	<div class="nav-down">
+		<div class="dis" id="sub1">
+			<p>
+			#if($!sp.product.goods_details)
+			$!sp.product.goods_details
+			#else
+			此产品无图文详情
+			#end</p>
+		</div>
+		<div class="undis" id="sub2"> 
+			<!--p>暂无资料提供</p-->
+			#if($!sp.product.getCanshu().keySet().size()>0)
+			#foreach($attr in $!sp.product.getCanshu().keySet())
+				<p>$attr： <span>$!sp.product.getCanshu().get($attr)</span></p>
+			#end
+			#else
+			此产品无参数
+			#end
+		</div>
+		<div class="undis" id="sub3"> 
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tbody>
+						<tr>
+							<th width="40%" align="center"><span class="form_btna">返还次数</span></th>
+							<th width="20%" align="center"><span class="form_btna">返还金额</span></th>
+						</tr>
+						#set($numstr=[1..$totalmonth])
+						#foreach($obj in $numstr)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td align="center">$obj</td>
+							<td align="center">$!sp.restitution</td>
+						</tr>
+						#end
+						<tr>
+							<td align="center">总计</td>
+							<td align="center">$!{sp.restitution}*$totalmonth</td>
+						</tr>
+					</tbody>
+				</table>
+		</div>
+		<div class="undis" id="sub4">
+			<div class="c_list askbor cb">
+				<ul>
+					#if($discuss)
+                	#foreach($obj in $discuss)
+                    <li class="oh">
+                        <div class="w-15 buyImgDiv f-l"><img src='$obj.pro.imgPaths.split("_")[0]' width="52" height="44"></div>
+                        <div class="w-75 f-l">
+                            <p class="ask">$obj.createDate</p>
+                            <p class="">$obj.content</p>
+                        </div>
+                    </li>
+                    #end
+                    #else
+                    <li class="oh">
+                        	此产品无评论
+                    </li>
+                    #end
+                    #if($discuss.size()>=5)
+                    	<li class="oh">
+                        	<div class="moreDiv">
+						    	<a href="javascript:addMore();" id="addMore">加载更多</a>
+						    </div>
+                    </li>
+                    #end
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<form id="thisForm" name="thisForm" action="wxSpokesmanProduct.java">
+<input type="hidden" id="cmd" name="cmd" value="createRelation" >
+<input type="hidden" id="proId" name="proId" value="$!sp.product.id" >
+<input type="hidden" id="payProNum" name="payProNum" value="" >
+<input type="hidden" id="ggId" name="ggId" value="" >
+<input type="hidden" id="pkcsl" name="pkcsl" value="" />
+<input type="hidden" id="type" name="type" value="" />
+<input type="hidden" id="pid" name="pid" value="" />
+</form>
+<!--  详情  e  -->
+
+</div>
+<div style="height: 120px;"></div>
+#if($!identity.equals("1"))
+<div>$!identity</div>
+	<ul class="infoMenu" style="position: fixed; left: 0;bottom: 50px;">
+		<li class="bg-f80 imBuy"  style="width:100%" onClick="buy();">立即购买</li>
+	</ul>
+#else
+	<ul class="infoMenu" style="position: fixed; left: 0;bottom: 50px;">
+		<li class="bg-f80 imBuy"  style="width:100%"onClick="showAddBox();">立即购买</li>
+	</ul>
+#end
+
+
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+
+
+<!-- 确认推荐人 -->
+<section id = "inputid" class="id_add_box add_box clearfix box_hide">
+	<div class="add_box_main clearfix">
+    	<div class="add_box_main_close"><a href="javascript:void(0);" onclick="hideAddBox();"></a></div>
+        <div class="add_box_main_msg">请填写推荐人信息</div>
+        <div class="add_box_main_input"><input name="pspokesmanid" id="pspokesmanid" placeholder="请填推荐人编号（个人中心可查）" type="text" "  style="height:40px;" value=""></div>
+        <div class="add_box_main_input"><input name="pspokesmanname" id="pspokesmanname" placeholder="请填推荐人名称（个人中心可查）" type="text"style="height:40px;" value=""></div>
+        <div class="add_box_main_btn"  style ="height: 40px; width: 130px;float:left; margin-left: 10px; background-color: #ffc501;display: block; margin-top: 10px;line-height: 40px; text-align: center; font-size: 1.2em; font-weight: 400;"onclick="check();" id ="btn1" >确认</div>
+        <div class="add_box_main_btn"  style ="height: 40px; width: 130px;float:left; margin-left: 10px; background-color: #ffc501; display: block;margin-top: 10px;line-height: 40px; text-align: center; font-size: 1.2em; font-weight: 400;" onclick="buy();" id ="btn2">没有推荐人</div>
+    </div>
+</section>
+<!-- 确认推荐人 -->
+
+<!-- 展示推荐人信息 -->
+<section  id ="details" class="id_add_box add_box clearfix box_hide">
+	<div class="add_box_main clearfix">
+    	<div class="add_box_main_close"><a href="javascript:void(0);" onclick="hideAddBox2();"></a></div>
+        <div class="add_box_main_msg">请填写推荐人信息</div>
+        <div  id = "turetype" class="box_hide">
+        	<div class="add_box_main_input">推荐人ID:<span id = "pmemberid"></span></div>
+        	<div class="add_box_main_input">推荐人昵称:<span id = "pmembername"></span></div>
+        	<div class="add_box_main_btn"  style ="height: 40px; width: 130px;float:left; margin-left: 10px; background-color: #ffc501;display: block; margin-top: 10px;line-height: 40px; text-align: center; font-size: 1.2em; font-weight: 400;"onclick="buy();" id ="btn1" >确认</div>
+        	<div class="add_box_main_btn"  style ="height: 40px; width: 130px;float:left; margin-left: 10px; background-color: #ffc501; display: block;margin-top: 10px;line-height: 40px; text-align: center; font-size: 1.2em; font-weight: 400;" onclick="inputagin();" id ="btn2">重新输入</div>
+        </div>
+        <div id = "falsetype" class="box_hide">
+        	<div class="add_box_main_input"><span>您输入的id账号有误请查证!!!!!!</span></div>
+        	<div class="add_box_main_btn"  style ="height: 40px; width: 90%;float:left; margin-left: 10px; background-color: #ffc501; display: block;margin-top: 10px;line-height: 40px; text-align: center; font-size: 1.2em; font-weight: 400;" onclick="inputagin();" id ="btn2">重新输入</div>
+        </div>
+       
+    </div>
+</section>
+<!-- 确认推荐人 -->
+<script type="text/javascript">
+function showAddBox(){
+    $(window).scrollTop(0);
+	$("#inputid").removeClass('box_hide');
+	
+}
+
+function hideAddBox(){
+    $("#inputid").addClass('box_hide');
+    $("#pspokesmanid").attr("value","");
+}
+
+function showAddBox2(){
+    $(window).scrollTop(0);
+	$("#details").removeClass('box_hide');
+	
+}
+
+function hideAddBox2(){
+    $("#details").addClass('box_hide');
+    $("#pspokesmanid").attr("value","");
+}
+function inputagin(){
+	hideAddBox2();
+	showAddBox();
+	$("#falsetype").addClass('box_hide');
+	$("#pid").attr("value","");
+}
+function check(){
+	
+	var pspokesmanid = $("#pspokesmanid").val();
+	$("#pid").val(pspokesmanid);
+	hideAddBox();
+	$.ajax({
+        type: "post",
+        url: "wxSpokesmanProduct.java?cmd=checkId&pspokesmanid="+ pspokesmanid,
+        dataType:"json",			
+        success:function(data){
+        	var msg = data.msg;
+        	if(msg == 2){
+        		alert(msg)
+        		$("#falsetype").removeClass('box_hide');
+        		
+        	}else{
+        		$("#pmemberid").html(data.id);
+        		$("#pmembername").html(data.name);
+        		$("#turetype").removeClass('box_hide');
+        	}
+        }
+    });
+	showAddBox2();
+}
+function buy(){
+	var selectEle = $("a[class~=selectsta]");
+	if($!sp.product.shopSpecs.size()!=0){
+		if($("#proNum").val()=="0"){
+			alert("购物车商品数量不能为0！！！");
+			return;
+		}
+		
+		if(selectEle.length!=2){
+			alert("请选择规格或购买方式")
+			return;
+		}
+		if(selectEle.length==0){
+			if(parseInt($("#proNum").val())>parseInt($!pro.inventory)){
+				alert("库存不足");
+				return ;
+			}
+		}
+		if(parseInt($("#proNum").val())>parseInt($("#pkcsl").val())){
+			alert("库存不足");
+			return ;
+		}
+		alert($(selectEle[1]).attr("value"))
+		$("#ggId").val($(selectEle[0]).attr("id").substring(2))
+		$("#type").val($(selectEle[1]).attr("value"))
+	}else{
+		if(parseInt($("#proNum").val())>parseInt($!pro.inventory)){
+			alert("库存不足");
+			return ;
+		}
+		if(selectEle.length!=1){
+			alert("请选择规格或购买方式")
+			return;
+		}
+		$("#type").val($(selectEle[0]).attr("value"))
+		alert($("#type").val())
+		
+	}
+	
+	$("#payProNum").val($("#proNum").val())
+	$("#thisForm").submit();
+}
+</script>
+<script type="text/javascript">
+$(function(){
+	var _w = parseInt($(window).width());//获取浏览器的宽度
+	$("img").each(function(i){
+		var img = $(this);
+		var realWidth;//真实的宽度
+		var realHeight;//真实的高度
+		var styleClass = $(img).attr("class");		
+		if(styleClass != undefined && styleClass.indexOf("unadapter") != -1){
+			$(img).attr("width", "52px").attr("height", "44px");
+			return;
+		}
+		//这里做下说明，$("<img/>")这里是创建一个临时的img标签，类似js创建一个new Image()对象！
+		$("<img/>").attr("src", $(img).attr("src")).load(function() {			
+			/*
+				如果要获取图片的真实的宽度和高度有三点必须注意
+				1、需要创建一个image对象：如这里的$("<img/>")
+				2、指定图片的src路径
+				3、一定要在图片加载完成后执行如.load()函数里执行
+			*/
+			realWidth = this.width;
+			realHeight = this.height;
+			//如果真实的宽度大于浏览器的宽度就按照100%显示
+			if(realWidth >= _w){
+				$(img).css("width", "100%").css("height", "auto");
+			}else{	//如果小于浏览器的宽度按照原尺寸显示
+				$(img).css("width", realWidth+'px').css("height", realHeight+'px');
+			}
+		});
+		
+	});	
+});
+</script>
+<script>
+function xzGg(id,amt,inventory,store_price,tydAmt){
+	$("#gg"+id).siblings().removeClass("selectsta");
+	$("#gg"+id).addClass("selectsta");
+	$("#spjg").html(amt);
+	$("#ggId").val(id)
+	$("#kcsl").html("库存："+inventory);
+	$("#pkcsl").val($("#"+id).attr("value"));
+}
+function xzType(type){
+	$("#type"+type).siblings().removeClass("selectsta");
+	$("#type"+type).addClass("selectsta");
+	$("#type").val(type);
+}
+
+$(document).ready(function (){
+	var selectEle = $("a[class~=selectsta]");
+	if(selectEle.length==2){
+		var id=$(selectEle[0]).attr("id");
+		$("#ggId").val(id.substring(2))
+		$("#kcsl").html("库存："+$("#"+id).attr("value"));
+		$("#pkcsl").val($("#"+id).attr("value"))
+		$("#type").val($(selectEle[1]).attr("value"))
+	}else if(selectEle.length==1){
+		$("#type").val($(selectEle[0]).attr("value"))
+	}
+})
+</script>
+<script type="text/javascript">
+$(function(){
+	$('.spinnerExample').spinner();
+});
+
+</script>
+
+<script src="/static/home/bcd/js/foot.js"></script>
+</body>
+</html>

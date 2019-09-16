@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>开店申请</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="/static/home/bcd/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/static/home/bcd/js/jquery.spinner.js"></script>
+<script type="text/javascript" src="/static/home/bcd/js/tab.js"></script>
+<script type="text/javascript" src="/static/home/bcd/js/dis.js"></script>
+</head>
+
+<body>
+
+<div class="page">
+<div class="wrap bg-fff">
+	<ul class="wyfxList">
+		<li><img src="$!{member.pic}">$!{member.nickname}</li>		
+	</ul>
+	<p class="tjr">我的推荐人</p>
+	<ul class="wyfxList">
+		#if($member.pmember)
+		<li><img src="$!{member.pmember.pic}">$!{member.pmember.nickname}</li>
+		#else	
+		<li>总店</li>
+		#end
+	</ul>
+</div>
+<div class="main">
+		<div class="item item-username">
+			#if($member && $member.myDistributor)
+				#if($member.myDistributor.getDisType()==1 && $member.myDistributor.getStatus()==0)
+				<h2>您的微店申请已经提交，系统正在审核...</h2>
+				#elseif($member.myDistributor.getDisType()==1 && $member.myDistributor.getStatus()==2)
+					<h2 style="margin-bottom:20px;">您的上次微店申请已经被拒绝，如需再次申请，请填写下面信息并提交！</h2>
+					
+					<div style="margin-bottom: 10px; width: 100%;">
+						<select class="applyType" style="width:100%; height:40px; text-align: center;">
+							<option  value="weidian">微店申请</option>
+							<option  value="shitidian">体验店申请</option>
+						</select>
+					</div>
+				
+				    <form id="theForm" action="/distributionCore.java" method="post" enctype="multipart/form-data">
+				    	<input type="hidden" name="cmd" id="cmd" />
+						<input type="hidden" value="$!{distributorObj.id}"  name="parentId">
+						<input type="hidden" name="disType" value="1"/>
+						<input type="hidden" id="area_id" name="area_id" value=""/>
+				        <!-- <input id="name2" class="txt-input txt-username w-100" type="text" placeholder="用户账户"  name="name" onblur="check2();">
+				        <input id="password2" class="txt-input txt-username w-100" type="password" placeholder="请输入密码" name="password" style="margin-top: 10px;"> -->
+				        <input id="myShopName" class="txt-input txt-username w-100" type="text" placeholder="请输入店铺名称"  name="myShopName" style="margin-top: 10px;"/>
+				        <input id="mobile" class="txt-input txt-username w-100" type="text" placeholder="请输入联系电话" name="mobile" style="margin-top: 10px;"/>
+				        <!-- <input id="openAccountName" class="txt-input txt-username w-100" type="text" placeholder="请输入银行卡的开户人姓名（目前只支持农行）" name="openAccountName" style="margin-top: 10px;">		        
+				        <input id="bankCardNum" class="txt-input txt-username w-100" type="text" placeholder="请输入提取利润的银行卡卡号（目前只支持农行）" name="bankCardNum" style="margin-top: 10px;"> 
+				        <span style="color:red">目前只支持农行</span> -->
+				        <br />
+				        <span>        
+				                       地区 ：
+				          <select id="provice" class="areaBlank" onchange="choice_pro(this.value)"   style="margin-top: 10px;">
+				          	#foreach($obj in $rList)
+				          	<option value="$obj.sn">$obj.title</option>
+				          	#end
+				          </select>
+				          <select id="city" class="areaBlank" onchange="choice_city(this.value)"  style="margin-top: 10px;">
+				          </select>
+				          <select id="area" class="areaBlank" style="margin-top: 10px; " onchange="choice_area(this.value)">
+				          </select>
+				        </span>
+				        <textarea style="margin-top: 10px;" id="intro" class="txt-input txt-username w-100" name="openAccountAddress" placeholder="实体店详细地址地址"></textarea>
+				    </form>              
+	        
+					<div class="clear-b"></div>
+			        <div class="ui-btn-wrap"> <button class="ui-btn-lg ui-btn-primary btn-no" onclick="addFx();" id="submitButton">提交申请</button> </div>
+				
+				#elseif($member.myDistributor.getDisType()==2 && ($member.myDistributor.getExStatus()==-1 || $member.myDistributor.getExStatus()==0))
+				<h2>您的实体店申请已经提交，系统正在审核...</h2>
+				#elseif($member.myDistributor.getDisType()==2 && $member.myDistributor.getExStatus()==2)
+					<h2 style="margin-bottom:20px;">您的上次实体店申请已经被拒绝，如需再次申请，请填写下面信息并提交！</h2>
+					
+					<div style="margin-bottom: 10px; width: 100%;">
+						<select class="applyType" style="width:100%; height:40px; text-align: center;">							
+							<option  value="shitidian">体验店申请</option>
+						</select>						
+					</div>
+					<form id="theForm" action="/distributionCore.java" method="post" enctype="multipart/form-data">
+				    	<input type="hidden" name="cmd" id="cmd" />
+						<input type="hidden" value="$!{distributorObj.id}"  name="parentId">
+						<input type="hidden" name="disType" value="2"/>
+						<input type="hidden" id="area_id" name="area_id" value=""/>
+				        <!-- <input id="name2" class="txt-input txt-username w-100" type="text" placeholder="用户账户"  name="name" onblur="check2();">
+				        <input id="password2" class="txt-input txt-username w-100" type="password" placeholder="请输入密码" name="password" style="margin-top: 10px;"> -->
+				        <input id="myShopName" class="txt-input txt-username w-100" type="text" placeholder="请输入店铺名称"  name="myShopName" style="margin-top: 10px;"/>
+				        <input id="mobile" class="txt-input txt-username w-100" type="text" placeholder="请输入联系电话" name="mobile" style="margin-top: 10px;"/>
+				        <!-- <input id="openAccountName" class="txt-input txt-username w-100" type="text" placeholder="请输入银行卡的开户人姓名（目前只支持农行）" name="openAccountName" style="margin-top: 10px;">		        
+				        <input id="bankCardNum" class="txt-input txt-username w-100" type="text" placeholder="请输入提取利润的银行卡卡号（目前只支持农行）" name="bankCardNum" style="margin-top: 10px;"> 
+				        <span style="color:red">目前只支持农行</span> -->
+				        <br />
+				        <span>        
+				                       地区 ：
+				          <select id="provice" class="areaBlank" onchange="choice_pro(this.value)"   style="margin-top: 10px;">
+				          	#foreach($obj in $rList)
+				          	<option value="$obj.sn">$obj.title</option>
+				          	#end
+				          </select>
+				          <select id="city" class="areaBlank" onchange="choice_city(this.value)"  style="margin-top: 10px; /* width: 20%; */">
+				          </select>
+				          <select id="area" class="areaBlank" style="margin-top: 10px;" onchange="choice_area(this.value)">
+				          </select>
+				        </span>
+				        <textarea style="margin-top: 10px;" id="intro" class="txt-input txt-username w-100" name="openAccountAddress" placeholder="实体店详细地址"></textarea>
+				    </form>
+				    
+				    <div class="clear-b"></div>
+			        <div class="ui-btn-wrap"> <button class="ui-btn-lg ui-btn-primary btn-no" onclick="addFx();" id="submitButton">提交申请</button> </div>	
+				
+				#else
+				
+					<div style="margin-bottom: 10px; width: 100%;">
+						<select class="applyType" style="width:100%; height:40px; text-align: center;">
+							<option value="shitidian">体验店申请</option>
+						</select>						
+					</div>
+					<form id="theForm" action="/distributionCore.java" method="post" enctype="multipart/form-data">
+				    	<input type="hidden" name="cmd" id="cmd" />
+						<input type="hidden" value="$!{distributorObj.id}"  name="parentId">
+						<input type="hidden" name="disType" value="2"/>
+						<input type="hidden" id="area_id" name="area_id" value=""/>
+				        <!-- <input id="name2" class="txt-input txt-username w-100" type="text" placeholder="用户账户"  name="name" onblur="check2();">
+				        <input id="password2" class="txt-input txt-username w-100" type="password" placeholder="请输入密码" name="password" style="margin-top: 10px;"> -->
+				        <input id="myShopName" class="txt-input txt-username w-100" type="text" placeholder="请输入店铺名称"  name="myShopName" style="margin-top: 10px;"/>
+				        <input id="mobile" class="txt-input txt-username w-100" type="text" placeholder="请输入联系电话" name="mobile" style="margin-top: 10px;"/>
+				        <!-- <input id="openAccountName" class="txt-input txt-username w-100" type="text" placeholder="请输入银行卡的开户人姓名（目前只支持农行）" name="openAccountName" style="margin-top: 10px;">		        
+				        <input id="bankCardNum" class="txt-input txt-username w-100" type="text" placeholder="请输入提取利润的银行卡卡号（目前只支持农行）" name="bankCardNum" style="margin-top: 10px;"> 
+				        <span style="color:red">目前只支持农行</span> -->
+				        <br />
+				        <span>        
+				                       地区 ：
+				          <select id="provice" class="areaBlank" onchange="choice_pro(this.value)"   style="margin-top: 10px;">
+				          	#foreach($obj in $rList)
+				          	<option value="$obj.sn">$obj.title</option>
+				          	#end
+				          </select>
+				          <select id="city" class="areaBlank" onchange="choice_city(this.value)"  style="margin-top: 10px;">
+				          </select>
+				          <select id="area" class="areaBlank" style="margin-top: 10px;" onchange="choice_area(this.value)">
+				          </select>
+				        </span>
+				        <textarea style="margin-top: 10px;" id="intro" class="txt-input txt-username w-100" name="openAccountAddress" placeholder="实体店详细地址"></textarea>
+				    </form>
+				    
+				    <div class="clear-b"></div>
+			        <div class="ui-btn-wrap"> <button class="ui-btn-lg ui-btn-primary btn-no" onclick="addFx();" id="submitButton">提交申请</button> </div>			    
+				#end
+				
+			#else
+				<div style="margin-bottom: 10px; width: 100%;">
+					<select class="applyType" style="width:100%; height:40px; text-align: center;">
+						<option  value="weidian">微店申请</option>
+						<option  value="shitidian">体验店申请</option>
+					</select>
+				</div>
+			
+			    <form id="theForm" action="/distributionCore.java" method="post" enctype="multipart/form-data">
+			    	<input type="hidden" name="cmd" id="cmd" />
+					<input type="hidden" value="$!{distributorObj.id}"  name="parentId">
+					<input type="hidden" name="disType" value="1"/>
+					<input type="hidden" id="area_id" name="area_id" value=""/>
+			        <!-- <input id="name2" class="txt-input txt-username w-100" type="text" placeholder="用户账户"  name="name" onblur="check2();">
+			        <input id="password2" class="txt-input txt-username w-100" type="password" placeholder="请输入密码" name="password" style="margin-top: 10px;"> -->
+			        <input id="myShopName" class="txt-input txt-username w-100" type="text" placeholder="请输入店铺名称"  name="myShopName" style="margin-top: 10px;"/>
+			        <input id="mobile" class="txt-input txt-username w-100" type="text" placeholder="请输入联系电话" name="mobile" style="margin-top: 10px;"/>
+			        <!-- <input id="openAccountName" class="txt-input txt-username w-100" type="text" placeholder="请输入银行卡的开户人姓名（目前只支持农行）" name="openAccountName" style="margin-top: 10px;">		        
+			        <input id="bankCardNum" class="txt-input txt-username w-100" type="text" placeholder="请输入提取利润的银行卡卡号（目前只支持农行）" name="bankCardNum" style="margin-top: 10px;"> 
+			        <span style="color:red">目前只支持农行</span> -->
+			        <br />
+			        <span>        
+			                       地区 ：
+			          <select id="provice" class="areaBlank" onchange="choice_pro(this.value)"   style="margin-top: 10px;">
+			          	#foreach($obj in $rList)
+			          	<option value="$obj.sn">$obj.title</option>
+			          	#end
+			          </select>
+			          <select id="city" class="areaBlank" onchange="choice_city(this.value)"  style="margin-top: 10px;">
+			          </select>
+			          <select id="area" class="areaBlank" style="margin-top: 10px;" onchange="choice_area(this.value)">
+			          </select>
+			        </span>
+			        <textarea style="margin-top: 10px;" id="intro" class="txt-input txt-username w-100" name="openAccountAddress" placeholder="实体店详细地址"></textarea>
+			    </form>              
+        
+				<div class="clear-b"></div>
+		        <div class="ui-btn-wrap"> <button class="ui-btn-lg ui-btn-primary btn-no" onclick="addFx();" id="submitButton">提交申请</button> </div>				
+			#end
+			</div>
+    </div>
+</div>
+<!--  底部浮动导航  s  -->
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+
+</body>
+
+<script type="text/javascript">
+$(function(){
+	$(".applyType").change(function(){
+		var type = $(this).val();
+		if(type == "weidian"){
+			$("#disType").val("1");
+			$("#cmd").val("applyDistributor");			
+		}else{
+			$("#disType").val("2");
+			$("#cmd").val("applyEntityShop");	
+		}
+	});
+	applyTypeInit();
+});
+function applyTypeInit(){	
+	var type = $(".applyType").val();	
+	if(type == "weidian"){
+		$("#disType").val("1");
+		$("#cmd").val("applyDistributor");			
+	}else{
+		$("#disType").val("2");
+		$("#cmd").val("applyEntityShop");	
+	}
+}
+function addFx() {	
+	//检查用户名输入
+	var trueName = $("#myShopName").val().trim();
+	if(trueName.length == 0 || trueName.length > 20){
+		result = false;
+		$("#myShopName").css("border", "solid 1px red");
+		$("#myShopName").focus();
+		alert("店铺名称必须在20个字符以内！");
+		return;
+	}else{
+		$("#myShopName").css("border", "");
+	}
+	
+	//检查联系电话
+	var reg = /^1\d{10}$/;
+	var mobileTel = $("#mobile").val();
+	if(!reg.test(mobileTel)){
+		result = false;
+		$("#mobile").css("border", "solid 1px red");
+		$("#mobile").focus();
+		alert("电话号码11位，必须填写！");
+		return;
+	}else{
+		$("#mobile").css("border", "");
+	}
+	
+   	var id = "theForm";
+   	$("#submitButton").attr("disabled", "disabled");
+   	$("#submitButton").css("background-color", "grey");
+   	$("#"+id).submit();
+}
+
+
+
+</script>
+</html>

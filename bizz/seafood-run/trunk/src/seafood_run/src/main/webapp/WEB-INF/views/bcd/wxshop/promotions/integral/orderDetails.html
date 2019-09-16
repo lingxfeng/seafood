@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>订单详情</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--提示IE最新版显示-->
+<!--css-->
+<link href="/static/home/bcd/css/user.css" type="text/css" rel="stylesheet">
+<link href="/static/home/bcd/css/taobao.css" type="text/css" rel="stylesheet">
+<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<div class="wx_wrap">
+
+	<div class="order-address mui-flex align-center" id="address_774681802" >
+		<div class="cell fixed align-center">
+			<div class="icon"></div>
+		</div>
+		<div class="cell content" >
+			<div class="info"  style="">
+				<span  style="float:left; margin-left: -5px;">收货人：</span>				
+				<span  style="float:left;">$!order.addr.trueName</span>
+				<span class="tel">$!order.addr.telephone</span>
+			</div>
+			<div class="detail tiao"  id="addr" style="clear:left">
+				<span >收货地址：</span>
+				<span >$!order.addr.area.loadFullTitle("-")&nbsp;$!order.addr.area_info</span>
+			</div>			
+		</div>			
+	</div>
+	
+	<div id="order_b_165131794386" class="order-order" >
+		<header class="order-orderInfo mui-flex align-center" id="orderInfo_b_165131794386" >
+			<div class="cell fixed" ></div>
+			<div class="cell content" >
+				<div class="info">海鲜之家商城</div>
+			</div>
+			<div class="cell fixed align-center" ></div>
+		</header>
+		<div id="" class="order-item" style="border-top:1px solid #eee;">
+			#set($num=0)
+			#set($price=0)
+            #foreach($obj in $order.getOrderdetails())
+			<div class="order-itemInfo mui-flex" style="background-color:white; border-bottom:1px solid #eee;">
+				
+				<div class="cell fixed item-pic" >
+					<div class="img-cell" >
+						<div class="img" style="background-image:url($!obj.pro.imgPaths.split('_')[0]);" ></div>
+					</div>
+				</div>
+				<input type="hidden" name="cartids" value="$obj.id">
+				<div class="content cell" >
+					<div class="title" style="font-weight:normal;">$obj.pro.name</div>
+					<div class="sku-info" >
+						<span >
+							<span >数量</span>
+							<span >:</span>
+							<span >$!obj.buyNum</span>
+						</span>											
+					</div>					
+					<div class="icon-ext" ></div>
+					<div class="icon-main" ></div>
+					<span ></span>
+				</div>
+				<div class="ext cell fixed item-pay" >
+					<div class="price" style="margin-left:20px;">
+						<span　class="main-price" style="font-size:14px;">
+							<p><span class="lse"><b id= "amt_$obj.id">$!regular.integralPrice</span>(积分)</p>	                    	
+						</span>				
+					</div>
+					<div class="quantity"　>
+						<span　>X</span>
+						<span　id= "num_$obj.id">$!obj.num</span>
+					</div>
+					<div class="weight"　></div>
+				</div>
+				#set($num=$num+$!obj.num)
+                	<span type="hidden" id ="price_$!orderDetail.id" value ="$!obj.gross_price" ></span>
+                #set($price = $price +$!regular.integralPrice*$num)				
+			</div>			
+				
+			<!-- 配送方式 -->
+			<div >
+				<div class="order-deliveryMethod nativeDeliveryMethod select" id="deliveryMethod_b_165131794386" >
+					<label class="buy-single-row mui-flex align-center" >			
+						<div class="cell content" style="font-weight:normal;">
+							<p>品牌:$!{obj.pro.brand.name}&nbsp;&nbsp;&nbsp;&nbsp;运费:包邮</p>
+						</div>
+					</label>
+					
+					<div class="seperator-wrap">
+						<hr class="seperator">
+					</div>
+				</div>
+			</div>
+			
+			#end
+		</div>		
+		
+		
+		<!-- 订单编号 -->
+		<div class="buy-single-row label-input order-memo input" id="memo_b_165131794386" >
+			<label class="mui-flex align-center" >
+				<div class="cell fixed title input-label mui-flex align-center" >
+					<div class="cell fixed" >订单编号：</div>
+				</div>
+				<div class="cell" >
+					<span>$!order.code</span> 
+				</div>
+			</label>
+			<div class="seperator-wrap" >
+				<hr class="seperator" >
+			</div>
+		</div>
+		
+		<!-- 买家留言 -->
+		<div class="buy-single-row label-input order-memo input" id="memo_b_165131794386" >
+			<label class="mui-flex align-center" >
+				<div class="cell fixed title input-label mui-flex align-center" >
+					<div class="cell fixed" >买家留言：</div>
+				</div>
+				<div class="cell" >
+					<span>$!order.msg_self</span> 
+				</div>
+			</label>
+			<div class="seperator-wrap" >
+				<hr class="seperator" >
+			</div>
+		</div>
+		
+		<!-- 合计 -->
+		<div class="order-orderPay buy-single-row" id="" >
+			<div class="line" >
+				<span >共</span>
+				<span id="totalnum">$num</span>
+				<span >件，</span>
+				<span　></span>
+				<span >积分总价:</span>
+				<div class="price" >
+					<span　class="" id="">$price</span>
+				</div>&nbsp;&nbsp;
+				#set($total = $!price + $!order.freight)				
+				<span >应付积分:</span>
+				<div class="price" >
+					<span　class="main-price" id = "total"><span id="final">$total</span></span>					
+				</div>
+			</div>
+		</div>		
+	</div>
+	<!-- 确认订单 -->
+	#if($order.status == 0)
+	<div class="oh fu">
+    	<ul>
+            <li class="padt5"><a class="sbmt" ><button style="width: 100px; height: 40px; text-align: center; font-size: 16px;" id = "confirm">确认支付</button></a></li>
+        </ul>
+	</div>
+	#elseif($order.status == 1)
+	<div class="oh fu">
+    	<ul>
+            <li class="padt5"><a class="sbmt">待发货</button></a></li>
+            <li class="padt5">订单状态</li>
+        </ul>
+	</div>
+	#elseif($order.status == 2)
+	<div class="oh fu">
+    	<ul>
+            <li class="padt5"><a class="sbmt">已发货</button></a></li>
+            <li class="padt5">订单状态</li>
+            <li class="padt5"><a href="http://m.kuaidi100.com/index_all.html?type=$!{order.logisticsCompany.code}&postid=$!{order.expressCode}">查看物流详情</a></li>
+        </ul>
+	</div>
+	#elseif($order.status == 3)
+	<div class="oh fu">
+    	<ul>
+            <li class="padt5"><a class="sbmt">订单已完成</button></a></li>
+            <li class="padt5">订单状态</li>
+        </ul>
+	</div>
+	#elseif($order.status == -1)
+	<div class="oh fu">
+    	<ul>
+            <li class="padt5"><a class="sbmt">订单已取消</button></a></li>
+            <li class="padt5">订单状态</li>
+        </ul>
+	</div>
+	#else
+	<div class="oh fu">
+    	<ul>
+            <li class="padt5"><a class="sbmt">未知状态</button></a></li>
+            <li class="padt5">订单状态</li>
+        </ul>
+	</div>
+	#end
+</div>
+<script>
+$(function(){
+	controllDigital("totalprice");
+	controllDigital("final");
+});
+function controllDigital(idVal){
+	var oldNum = $("#"+idVal).text();
+	var dotIndex = oldNum.indexOf(".");
+	var newNum = oldNum.substring(0, dotIndex+3);		
+	$("#"+idVal).text(newNum);
+}
+</script>
+
+<div class="hei40" ></div>
+<!--  底部浮动导航  s  -->
+#set($setWeixinJs=true)
+#parse("/bcd/wxshop/common/foot.html")
+<!--  底部浮动导航  e  -->
+</body>
+</html>

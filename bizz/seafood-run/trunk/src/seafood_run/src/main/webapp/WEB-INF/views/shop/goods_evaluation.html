@@ -1,0 +1,19 @@
+<div class="img_list_dl">                                     <li>
+	<div class="img_list_dl_word">
+   	#foreach($obj in $goodsEvaluationList)
+	<dl class="details_dis_dl">
+		<dt><span>
+		<p><a href="javascript:void(0)" target="_blank">
+		#if($!obj.user.pic)
+		<img src="$!obj.user.pic" width="60" height="60"/ style="border-radius:50%;"></a></p>
+		#else
+		<img src="" width="60" height="60"/ style="border-radius:50%;"></a></p>
+		#end
+		</span></dt>
+		<p class="details_dis_p"><span><a href="/sns/other_sns.htm?id=27" target="_blank">$obj.user.name</a>$obj.content<br/>$obj.createDate</span><b></b></p>
+	</dl>
+	#end
+	</div>
+</div>
+<!-- <div class="details_discus_page"><span target_id="goods_evas_list"><a href='javascript:void(0);' onclick='return ajaxPage("/goods_evaluation.htm?1=1",1,this)'>首页</a> <a href='javascript:void(0);' onclick='return ajaxPage("/goods_evaluation.htm?1=1",0,this)'>上一页</a> 第　<a class='this' href='javascript:void(0);' onclick='return ajaxPage("/goods_evaluation.htm?1=1",1,this)'>1</a> 页　<a href='javascript:void(0);' onclick='return ajaxPage("/goods_evaluation.htm?1=1",2,this)'>下一页</a> <a href='javascript:void(0);' onclick='return ajaxPage("/goods_evaluation.htm?1=1",1,this)'>末页</a> </span></div> -->
+$!paginationForBcd3

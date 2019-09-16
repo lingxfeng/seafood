@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css" />
+	<link href="/static/home/bcd/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+	<script src="/static/home/bcd/js/jquery-1.11.1.min.js"></script>
+	<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+	<script src="/static/home/bcd/js/jquery.datetimepicker.js"></script>
+	<script src="/static/home/bcd/js/dis.js"></script>
+	<script>
+	function submitForm(){
+		var result = true;
+		if(result){
+			$("#theForm").submit();	
+		}
+		return false;
+	}
+	
+	#if($msg)
+		alert("$msg");
+	#end
+	
+	$(function(){
+		$("#modifyAddressButton").change(function(){
+			fireModifyAddress(this);
+		});
+		fireModifyAddress($("#modifyAddressButton"));
+	});
+	function fireModifyAddress(handler){
+		var isChecked = $(handler).prop("checked");
+		if(isChecked){
+			$("#modifyAddress").css("display", "block");
+		}else{
+			$("#modifyAddress").css("display", "none");
+			$("#area_id").val($("#pre_area_id").val());
+			$("#openAccountAddress").val($("#pre_openAccountAddress").val());
+		}
+	}
+	</script>
+</head>
+<body>
+	<form action="/shopDistributor.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm"/>
+	
+		<input name="id" id="id" type="hidden" value="$!{entry.id}" />
+		<input name="cmd" id="cmd" type="hidden" value="update" />
+
+		<div class="cont">
+			<h1 class="seth">微店基本信息变更</h1>
+			<div class="nav_list">
+				<ul>
+					<li><a href="/shopDistributor.java?cmd=list" class="this"><b>微店会员</b></a></li>
+					<li><a href="/shopDistributor.java?cmd=list&status=0&disType=1"><b>会员申请</b></a></li>
+					<li><a href="/shopDistributor.java?cmd=tydapply"><b>体验店申请</b></a></li>
+					<li><a href="/shopDistributor.java?cmd=toEditDIsSet"><b>基本设置</b></a></li>
+				</ul>
+			</div>
+			
+			<div class="operation">
+				<h3>友情提示</h3>
+				<ul>
+					<li>修改操作，请谨慎！<strong class="w"></strong></li>
+				</ul>
+			</div>
+			
+			<div class="edit">
+				<div class="editul setcont" id="base">
+					
+					<ul class="set1">
+						<li class="setcont_bg">店铺名称</li>
+						<li>
+							<span class="webname">
+								<input name="myShopName" type="text" id="myShopName" value="$!{entry.myShopName}" />
+							</span>
+						</li>						
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">分销商手机号</li>
+						<li>
+							<span class="webname">
+								<input name="mobile" type="text" id="mobile" value="$!{entry.mobile}" />
+							</span>
+						</li>
+					</ul>
+										
+					<ul class="set1">
+						<li class="setcont_bg">银行卡号</li>
+						<li>							
+							<span class="webname">
+								<input name="bankCardNum" type="number" id="bankCardNum" value="$!{entry.bankCardNum}" min="1"/>								
+							</span>
+						</li>						
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">店铺位置</li>
+						<li>
+							<span class="webname">
+								<label>$!entry.area.loadFullTitle("-") $!{entry.openAccountAddress}</label>
+								<input type="checkbox" style="width: 20px; height: 12px; margin-left: 20px;" id="modifyAddressButton"/>修改地址
+								<br />
+								<input type="hidden" id="pre_area_id" name="pre_area_id" value="$!entry.area.id"/>
+								<input type="hidden" id="area_id" name="area_id" value="$!entry.area.id"/>
+								<div id="modifyAddress">
+									<select id="provice" onchange="choice_pro(this.value)">
+							         	#foreach($obj in $rList)
+							          	<option value="$obj.sn">$obj.title</option>
+							          	#end
+							        </select>
+							        <select id="city" onchange="choice_city(this.value)">
+							        </select>
+							        <select id="area" onchange="choice_area(this.value)">
+							        </select>
+							        <input name="pre_openAccountAddress" type="hidden" id="pre_openAccountAddress" value="$!{entry.openAccountAddress}" />
+									<input name="openAccountAddress" type="text" id="openAccountAddress" value="$!{entry.openAccountAddress}" />
+								</div>
+							</span>
+						</li>
+					</ul>
+					
+					<ul class="set1">
+						<li class="setcont_bg">分销商简介</li>
+						<li>
+							<span class="webname">
+								<textarea  name="intro" id="intro">$!{entry.intro}</textarea>
+							</span>
+						</li>
+					</ul>
+					
+				</div>				
+			</div>
+			<div class="submit">
+				<span class="pad120">
+					<input name="" type="submit" value="提交" onclick="submitForm();" />
+				</span>
+			</div>
+		</div>
+	</form>
+
+</body>
+</html>

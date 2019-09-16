@@ -1,0 +1,25 @@
+<<<<<<< .mine
+#foreach($obj in $su.getProductQuery().setOrderBy($!{orderBy}).setIsDesc($!{isDesc}).setNum("5").setCurPage($!{curPage}).list())
+<div class="oh orderBox">
+    <div class="w-15 buyImgDiv f-l"><img src='$obj.imgPaths.split("_")[0]' width="100" height="80"></div>
+    <div class="w-75 f-l" onclick="toProDet($obj.id)">
+        <p class="buyP">$!{obj.name}</p>
+        <div class="w-20 buyDel f-l" style="width:30%;">
+            <p><span class="lse">￥$!{obj.amt}</span></p>
+            <p class="">已售<span>$!{obj.saleNum}</span></p>
+        </div>
+    </div>
+</div>
+#end=======
+#foreach($obj in $su.getProductQuery().setOrderBy($!{orderBy}).setIsDesc($!{isDesc}).setNum("5").setCurPage($!{curPage}).list())
+<div class="oh orderBox">
+           <div class="w-15 buyImgDiv f-l"><img src='$obj.imgPaths.split("_")[0]' width="100" height="80"></div>
+           <div class="w-75 f-l">
+               <p class="buyP">$!{obj.name}</p>
+               <div class="w-20 buyDel f-l" style="width:30%;">
+                   <p><span class="lse">￥$!{obj.amt}</span></p>
+                   <p class="">已售<span>$!{obj.saleNum}</span></p>
+               </div>
+           </div>
+       </div>
+#end>>>>>>> .r3

@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>文章分类</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script>
+jQuery(document).ready(function(){
+ 	jQuery("#parentId").val("$!{parentId}");
+ 	jQuery("#status").val("$!{entry.status}")
+ 	jQuery("#elite").val("$!{entry.elite}")
+ 	jQuery("#isTop").val("$!{entry.isTop}")
+jQuery("#theForm").validate({
+    rules:{
+	 },
+	messages:{
+	 }
+  });
+});
+//品牌保存
+function saveShopNewsDir(method){
+	jQuery("#theForm").submit();
+}
+</script>
+
+</head>
+<body>
+<form action="/shopNewsDir.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm">
+  <input name="id" id="id" type="hidden" value="$!entry.id"/>
+  <input name="type" id="type" type="hidden" value="1"/>
+  #if($entry)
+  <input name="cmd" id="cmd" type="hidden" value="update"/>
+  #else
+  	<input name="cmd" id="cmd" type="hidden" value="save"/>
+  #end
+  <div class="cont">
+    <h1 class="seth">文章分类</h1>
+    
+    <div class="nav_list"> 
+	 
+    <ul>
+         <li><a href="/shopNewsDir.java?cmd=list&type=1"><b>管理</b></a></li> 
+	<li><a href="/shopNewsDir.java?cmd=list&type=1" class="this"><b>新增</b></a></li>
+	  	</ul>
+		
+    </div>
+    <div class="edit">
+    <div class="editul setcont" id="base">
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>分类名称</li>
+        <li><span class="webname">
+          <input name="name" type="text" id="name" value="$!{entry.name}">
+        </span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>栏目编码</li>
+        <li><span class="webname">
+          <input name="code" type="text" id="code" value="$!{entry.code}">
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg">父级栏目</li>
+        <li><span class="webname">
+        	<select name="parentId" id="parentId">
+        		<option value="0">请选择上级分类...</option>
+        		#foreach($obj in $parents)
+        			<option value="$obj.id">$obj.name</option>
+        			#if($obj.children)
+        				#foreach($obj2 in $obj.children)
+        					<option value="$obj2.id">&nbsp;&nbsp;&nbsp;$!{obj2.name}</option>
+        				#end
+        			#end
+        		#end
+        	</select>
+        </span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg">栏目图标</li>
+        <li><span class="webname">
+          <input name="imgPath" type="file" id="imgPath" value="$!{entry.imgPath}">
+        </span><span>
+        #if($entry && $entry.imgPath)
+          	<img src="$entry.imgPath"/>
+          #end
+          </span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>是否生效</li>
+        <li><span class="webname">
+        <select name="status" id="status">
+        	<option value="1">是</option>
+        	<option value="0">否</option>
+        </select>
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>是否推荐</li>
+        <li><span class="webname">
+        <select name="elite" id="elite">
+        	<option value="0">否</option>
+        	<option value="1">是</option>
+        </select>
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>是否置顶</li>
+        <li><span class="webname">
+        <select name="isTop" id="isTop">
+        	<option value="0">否</option>
+        	<option value="1">是</option>
+        </select>
+        </span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>排序</li>
+        <li><span class="webname">
+          <input name="sequence" type="text" id="sequence" value="$!{entry.sequence}"/>
+        </span></li>
+      </ul>
+          </div>
+    </div>  
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="saveShopNewsDir();"></span>
+  </div>
+  </div>
+
+</form>
+
+
+</body></html>

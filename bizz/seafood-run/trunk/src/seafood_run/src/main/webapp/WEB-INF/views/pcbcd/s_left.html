@@ -1,0 +1,24 @@
+<div class="usercenter_left">
+<h3><a href="#">问题分类</a></h3>
+<div class="user_menu">
+	#set($num=0)
+	#foreach($obj in $newsDirList)
+	<span child_show="true" id="trade_menu"><b>$obj.name<i class="active"></i></b>
+		<ul>
+			#foreach($obj2 in $NU.getNewDocList($obj.code,-1))
+				#if($name=="bcdsfoot1") 
+					<li><a href="/goShop.java?cmd=toService&docId=$obj2.id&menuId=$obj2.id&name=bcdsfoot1" op="order" #if($menuId=="$obj2.id") class="this" #end)>$obj2.title</a></li>
+				#elseif($name=="bcdsfoot2")
+					<li><a href="/goShop.java?cmd=toService&docId=$obj2.id&menuId=$obj2.id&name=bcdsfoot2" op="order" #if($menuId=="$obj2.id") class="this" #end)>$obj2.title</a></li>
+				#elseif($name=="bcdsfoot3")
+					<li><a href="/goShop.java?cmd=toService&docId=$obj2.id&menuId=$obj2.id&name=bcdsfoot3" op="order" #if($menuId=="$obj2.id") class="this" #end)>$obj2.title</a></li>
+				#elseif($name=="bcdsright")
+					<li><a href="/goShop.java?cmd=toService&docId=$obj2.id&menuId=$obj2.id&name=bcdsright" op="order" #if($menuId=="$obj2.id") class="this" #end)>$obj2.title</a></li>
+				#end
+			#end
+		</ul>
+	</span>
+	#set($num=$num+1)
+	#end
+</div>
+</div>

@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="/static/common/base.css" />
+	<link rel="stylesheet" href="/static/common/plugin/assets/css/font-awesome.min.css" type="text/css"/>
+	<link href="/static/home/bcd/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+	<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+	<script src="/static/home/bcd/js/jquery.datetimepicker.js"></script>
+	<script type="text/javascript">
+	function gotoPage(n) {
+	    location.href = "singleDispatchCouponRecord.java?cmd=list&currentPage=" + n;
+	}
+	
+	</script>
+	
+</head>
+	
+<body>
+	<div class="cont">
+		<h3 class="seth">单独发放记录</h3>
+		
+		<div class="nav_list">
+			<ul>
+				<li><a href="/coupon.java?cmd=validList" ><b>有效优惠券</b></a></li>
+				<li><a href="/coupon.java?cmd=invalidList"><b>无效优惠券</b></a></li>
+				<li><a href="/coupon.java?cmd=outTimeList" ><b>过期优惠券</b></a></li>
+				<li><a href="/coupon.java?cmd=toSave"><b>新增优惠券</b></a></li>
+				<li><a href="/singleDispatchCouponRecord.java?cmd=list" class="this"><b>单独发放记录</b></a></li>
+				<li><a href="/singleDispatchCouponRecord.java?cmd=pList"><b>批量发放记录</b></a></li>
+			</ul>
+		</div>
+		
+<!-- 		<form name="ListForm" id="ListForm" action="/integralBuyRecord.java" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="cmd" value="list"/>
+			<div class="search" style="margin-left: 20px;">				
+				<span class="size100">活动code：<input name="regularCode" placeholder="活动code" type="text" id="regularCode" value="$!regularCode" /></span>
+				<span class="size100">商品名称：<input name="proName" placeholder="商品名称" type="text" id="proName" value="$!proName" /></span>
+				<span class="size120">下单时间：<input class="datetime" name="startDate" placeholder="秒杀开始时间" type="text" id="startDate" value="$!startDate" />-<input class="datetime" name="endDate" placeholder="秒杀结束时间" type="text" id="endDate" value="$!endDate" /> </span>				
+				<span>
+					<input name="" type="submit" value="搜索" style="cursor: pointer;" class="search_btn" />
+				</span>
+			</div>
+		</form> -->
+	
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li></li>
+			</ul>
+		</div>
+		
+		<form name="ListForm" id="ListForm" action="/.java?cmd=list" method="post">
+			<div class="fshoptb2">
+
+				<table width="100%" class="fshop_table2">
+					<tbody>
+						<tr>
+							<th><span class="form_btna">ID</span></th>
+							<th><span class="form_btna">发放时间</span></th>
+							<th><span class="form_btna">获取人昵称</span></th>
+							<th><span class="form_btna">优惠券金额 </span></th>
+							<th><span class="form_btna">优惠券金类型</span></th>							
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td align="center">$!obj.id</td>
+							<td align="center">$!obj.createTime</td>
+							<td align="center">$!obj.shopMember.nickname</td>
+							<td align="center">$!obj.coupon.value</td>
+							#if($!obj.coupon.type == 0)
+							<td align="center">全场可用</td>
+							#elseif($!obj.coupon.type == 1)							
+							<td align="center">限定品牌可用</td>
+							#elseif($!obj.coupon.type == 2)
+							<td align="center">限定商品可用</td>							
+							#end
+						</tr>
+						#end				
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}				
+			</div>
+		</form>
+
+	</div>
+</body>
+</html>

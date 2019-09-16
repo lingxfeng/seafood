@@ -1,0 +1,56 @@
+<script>
+jQuery(function(){ 
+   jQuery(".consultation_top_nav li").css("cursor","pointer");
+   jQuery(".consultation_top_nav li").removeClass("this");
+   jQuery(".consultation_top_nav li[consult_type=产品咨询]").addClass("this");
+})
+</script>
+
+<div class="consultation_top_nav">
+  <ul>
+    <li consult_type="0" style="cursor: pointer;" #if($menuId=='allAdvice') class="this" #end>全部咨询<i>（#if($!qbzxCount) $!qbzxCount #else 0 #end ）</i></li>
+                  <li consult_type="1" style="cursor: pointer;" #if($menuId=='goodsAdvice') class="this" #end>产品咨询<i>（#if($!cpzxCount) $!cpzxCount #else 0 #end ）</i></li>
+                  <li consult_type="2" style="cursor: pointer;" #if($menuId=='kcjps') class="this" #end>库存及配送<i>（#if($!kujpsCount) $!kujpsCount #else 0 #end ）</i></li>
+                  <li consult_type="3" style="cursor: pointer;" #if($menuId=='zfjfp') class="this" #end>支付及发票<i>（#if($!zfjfpCount) $!zfjfpCount #else 0 #end ）</i></li>
+                  <li consult_type="4" style="cursor: pointer;" #if($menuId=='shzx') class="this" #end>售后咨询<i>（#if($!shzxCount) $!shzxCount #else 0 #end ）</i></li>
+                  <li consult_type="5" style="cursor: pointer;" #if($menuId=='cxhd') class="this" #end>促销活动<i>（#if($!cxhdCount) $!cxhdCount #else 0 #end ）</i></li>
+  </ul>
+</div>
+<div class="consultation_top"  >
+  <div class="pro_prompt">
+    <div class="pro_prompt_word">因厂家更改商品包装、场地、附配件等不做提前通知，且每位咨询者购买、提问时间等不同。为此，客服给到的回复仅对提问者3天内有效，其他网友仅供参考！给您带来的不变还请谅解，谢谢 </div>
+    <div class="consultation_top_t"><span>如有购买问题，请向卖家咨询！</span>
+    
+    
+    #if($user)
+    <i><a class="inte_login_btn" href="javascript:void(0)" dialog_uri="/shopMemberCenter.java?cmd=tozixun&proId=$!{proId}" dialog_title="产品咨询" dialog_width="430" dialog_height="100" dialog_id="goods_cousult_win"> 我要咨询</a></i>
+    #else
+    <i><a href="javascript:void(0);" dialog_uri='/shopMemberCenter.java?cmd=toLogin2&rUrl=${tu.urlenCode("/goShop.java?cmd=productDetail&id=$!{id}")}' dialog_title="会员登录" dialog_width="430" dialog_height="100" dialog_id="user_login" class="inte_login_btn">我要咨询</a></i>
+    #end
+    
+    </div>
+  
+  </div>
+    <div class="consultation_top_center">
+    
+    #foreach($!obj in $goodsAdviceList)
+                   <div class="consultation_top_center_one">
+                    <div class="consultation_top_center_one_ask">
+                      <div class="consultation_top_center_one_ask_user">$user.name</div>
+                      <div class="consultation_top_center_one_ask_word">$!obj.content</div>
+                      <div class="consultation_top_center_one_ask_time">$!obj.createDate</div>
+                    </div>
+                    
+                      <!-- <div class="consultation_top_center_one_bottom">
+                      <div class="consultation_top_center_one_bottom_yes"><a href="javascript:void(0);" onclick="satisfy('8',this)">满意 (2)</a></div>
+                      <div class="consultation_top_center_one_bottom_no"><a href="javascript:void(0);" onclick="unsatisfy('8',this)">不满意 (0)</a></div>
+                    </div> -->
+                    
+                  </div>
+                    #end
+    
+    
+        <div class="details_discus_page"> 
+        <span target_id="goods_consult_list"><a href='javascript:void(0);' onclick='return ajaxPage("/goods_consult.htm?1=1",1,this)'>首页</a> <a href='javascript:void(0);' onclick='return ajaxPage("/goods_consult.htm?1=1",0,this)'>上一页</a> 第　<a class='this' href='javascript:void(0);' onclick='return ajaxPage("/goods_consult.htm?1=1",1,this)'>1</a> 页　<a href='javascript:void(0);' onclick='return ajaxPage("/goods_consult.htm?1=1",2,this)'>下一页</a> <a href='javascript:void(0);' onclick='return ajaxPage("/goods_consult.htm?1=1",1,this)'>末页</a> </span> </div>
+  </div>
+   </div>

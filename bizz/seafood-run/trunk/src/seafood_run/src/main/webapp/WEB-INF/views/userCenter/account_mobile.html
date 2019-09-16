@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0047)/buyer/account.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<title>个人信息修改</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="generator" content=""/>
+<meta name="author" content=""/>
+<meta name="copyright" content=""/>
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/user.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.zh.cn.js" charset="utf-8"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script>
+jQuery(document).ready(function(){
+	 //
+		jQuery.validator.addMethod("verify",function(value,element){
+		    var re =  /^[a-zA-Z]([a-zA-Z0-9_])+$/;
+		       if(re.test(jQuery("#name").val())){			
+				return true;
+			  } 
+			  else {
+			    return false;
+				  }		  
+		});
+		// 手机号码验证    
+	    jQuery.validator.addMethod("isMobile", function(value, element) {    
+	      var length = value.length;    
+	      return this.optional(element) || (length == 11 && /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(value));    
+	    }, "请正确填写您的手机号码。");
+	 jQuery("#theForm").validate({				 
+		errorPlacement:function(error, element) {
+	       error.appendTo(element.parent().parent());  
+	      },
+			rules:{
+			  	mobileTel:{
+				  required:true,
+				  isMobile:true
+				},
+				code:{
+				  required:true
+				},
+			},
+		  messages:{
+		    mobileTel:{
+			  required:"手机号码不能为空",
+			  isMobile:"手机格式不正确"
+			},
+			code:{
+			  required:"验证码不能为空"
+			}
+		  },
+			submitHandler: function(formTar){
+				
+				$.ajax({
+			        type: "post",
+			        url: "/pcShopMemberCenter.java?cmd=updateMobileTel",
+			        data: "mobileTel="+$("#mobileTel").val()+"&code="+$("#code").val(),
+			        success: function(data) {
+			            if (data.success) {
+			                alert("修改成功");
+			                window.location.href="/pcShopMemberCenter.java?cmd=toPage&toHtml=updateMobile&menuId=a_mobile";
+			                return;
+			            } else {
+			                alert(data.errors.msg)
+			                return;
+			            }
+
+			        },
+			        error: function(XMLHttpRequest, textStatus, errorThrown) {
+			            alert("没找到");
+			        }
+			    });
+				
+	        }  
+		});
+	});
+	
+function sendCode(){
+	if (!$("#mobileTel").val().match(/^1[3|4|5|7|8][0-9]\d{4,8}$/)) {
+        alert("请正确输入手机格式");
+        return;
+    }
+	$.ajax({
+        type: "post",
+        url: "/shopMember.java?cmd=getCode",
+        data: $("#theForm").serialize(),
+        dataType:"json",
+        success: function(data) {
+            if (data.success) {
+            	$("#mobileTel").attr("disabled","disabled");
+                alert("发送成功");
+                return;
+            } else {
+                alert(data.errors.msg)
+                return;
+            }
+
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("没找到");
+        }
+    });
+}
+</script>
+</head>
+<body>
+#parse("/common/top.html")
+#parse("/common/left.html")
+<div class="main">
+  <div class="usercenter">
+     <script src="/static/home/shopmanage/css/jquery.cookie.js"></script>
+<script>		  
+jQuery(document).ready(function(){
+  jQuery(".user_menu>span>b").click(function(){
+     var child_show=jQuery(this).parent().attr("child_show");
+	 if(child_show=="true"){
+		 jQuery(this).parent().find("ul").hide();
+	     jQuery(this).parent().find("i").removeClass("active");
+		 jQuery(this).parent().attr("child_show","false");
+	 }else{
+	    jQuery(this).parent().find("ul").show();
+		jQuery(this).parent().find("i").addClass("active");
+		jQuery(this).parent().attr("child_show","true");
+	 }
+	 var nav_status="";
+	 jQuery(".user_menu>span>b").each(function(){
+		nav_status=nav_status+jQuery(this).parent().attr("id")+","+jQuery(this).parent().attr("child_show")+";";
+	 }); 
+	 jQuery.cookie("buyer_nav",nav_status);
+  });
+  jQuery(".user_menu ul li a").removeClass("this");						
+  jQuery(".user_menu ul li a[op='account']").addClass("this");	
+  //
+  if(jQuery.cookie("buyer_nav")!=null){
+      var nav_status=jQuery.cookie("buyer_nav");
+	  jQuery.each(nav_status.split(";"), function(index,item){
+	     var list=item.split(",");
+		 jQuery("#"+list[0]).attr("child_show",list[1]);
+		 if(list[1]=="true"){
+	       jQuery("#"+list[0]+" ul").show();
+		 }else{
+		   jQuery("#"+list[0]).find("i").removeClass("active");	 
+		   jQuery("#"+list[0]+" ul").hide(); 	 
+		 }
+	  });
+   }
+   //
+});
+</script>
+	#parse("/common/userCenterLeft.html")
+    <div class="usercenter_right">
+      <div class="myorder">
+        <h4><strong>账户信息</strong></h4>
+      </div>
+      <div class="user_list">
+        <div class="user_list_title">
+          #parse("/common/accountInfo.html")
+       
+        <div class="add_usercenter">
+        <form action="" id="theForm" name="theForm" method="post" novalidate="novalidate">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="user_base_table">
+            <tbody>
+            <tr>
+              <td align="right">绑定手机号码：</td>
+              <td><div><input name="mobileTel" type="text" class="base_txt" value="" id="mobileTel"/></div></td>
+            </tr>
+            <tr>
+              <td align="right"></td>
+              <td><input type="button" class="base_txt" value="发送验证码" onclick="sendCode();"/></td>
+            </tr>
+            <tr>
+              <td align="right">手机验证码：</td>
+              <td><div><input name="code" type="text" class="base_txt" value="" id="code"/></div></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td><input name="button" type="submit" value="保存" class="save"/></td>
+            </tr> 
+          </tbody></table>
+            </form>
+        </div> 
+      </div>
+    </div>
+  </div>
+  ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+
+  <div class="footer">
+    <ul>
+                  <li class="hui2"></li>
+      <li class="hui2"></li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/buyer/account.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+
+</div>
+</div>
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>

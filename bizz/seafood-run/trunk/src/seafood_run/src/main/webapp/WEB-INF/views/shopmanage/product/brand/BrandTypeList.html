@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title>品牌管理</title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"
+		type="text/css">
+		<link rel="stylesheet" href="/static/common/base.css">
+		<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+		<script type="text/javascript">
+function gotoPage(n) {
+    location.href = "/brandType.java?cmd=toBrandType&status=2&currentPage=" + n;
+}
+</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">品牌分类管理</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/brand.java?cmd=list&status=1" #if($status==1) class="this" #end><b>品牌管理</b></a></li>
+				<li><a href="/brandType.java?cmd=getBrandTypeList&status=2" #if($status==2) class="this" #end><b>品牌分类</b></a></li>
+				<li><a href="/brandType.java?cmd=toBrandTypeSave"><b>新增品牌分类</b></a></li>
+			</ul>
+		</div>
+		<form name="queryForm" id="queryForm" action="/brandType.java" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="cmd" value="list" />
+    <div class="search">
+      <span>品牌分类名称</span> <span class="size150">
+          <input name="name" type="text" id="name" value="$!name"/>
+          </span> <span>品牌代码</span> <span class="size150">
+          <input name="code" type="text" id="code" value="$!code"/>
+          </span> <span class="btn_search">
+          <input name="" type="submit" value="搜索" style="cursor:pointer;" class="search_btn"/>
+          </span> 
+ 
+    </div>
+  </form>
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>通过商品品牌管理，你可以进行查看、编辑、删除系统商品品牌</li>
+				<li>设置推荐的品牌会在商城首页根据序号从小到大的顺利轮换显示</li>
+				<li>设置品牌首字母，在品牌列表页通过首字母搜索品牌</li>
+			</ul>
+		</div>
+		<form name="ListForm" id="ListForm" action="/brand.java?cmd=list"
+			method="post">
+			<div class="fshoptb2">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+														<th width="3%"><span class="form_btna">&nbsp;</span></th>
+														<th width="30%" align="center"><span class="form_btna">品牌分类名称</span></th>
+														<th width="30%" align="center"><span class="form_btna">品牌分类编码</span></th>
+														<th width="20%"><span class="form_btna">排序</span></th>
+														<th align="center"><b class="form_btna">操作</b></th>
+						</tr>
+						#foreach($obj in $brandTypeList)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"><input name="ids" id="ids"
+								type="checkbox" value="1"></td>
+														<td align="center">$obj.name</td>
+														<td align="center">$!obj.code</td>
+														<td align="center">$obj.sequence</td>
+														<td align="center" class="hui oprate_con"><a
+								href="/brandType.java?cmd=toEditBrandType&id=$!{obj.id}" class="blue">编辑</a>
+								|<a href="javascript:void(0);"
+								onclick="if(confirm('删除分类会同时删除该分类的所有下级，是否继续?'))window.location.href='/brandType.java?cmd=remove&id=$!{obj.id}&status=2'" class="blue">删除</a></td>
+						</tr>
+							#set($num=$num+1)
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				<!-- <div class="fenye">
+					<input type="hidden" name="currentPage" id="currentPage" value="1">
+						<input name="mulitId" type="hidden" id="mulitId"> 
+						<a href="/brand.java?cmd=list&currentPage=1">首页</a>
+							第 <a class="this" href="/brand.java?cmd=list&currentPage=2">1</a>页 
+							<a href="/brand.java?cmd=list&currentPage=3">末页</a>
+				</div>  -->
+				$!{paginationForBlueIdea}
+				<div class="oper_sp">
+					<span class="oper_check"><input type="checkbox" name="all"
+						id="all" value="" onclick="selectAll(this)">全部</span> <span
+						class="oper_del"></span>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</body>
+</html>

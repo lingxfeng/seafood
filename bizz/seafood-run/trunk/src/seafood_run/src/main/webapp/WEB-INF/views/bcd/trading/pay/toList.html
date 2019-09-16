@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/common/base.css">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css"/>
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.bigcolorpicker.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/commonutil.js"></script>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+
+<script type="text/javascript">
+	function gotoPage(n) {
+	    location.href = "/tradeMsg.java?cmd=list&currentPage=" + n;
+	}
+</script>
+<script>
+function doremove(id){
+	var url = "/tradeMsg.java?cmd=remove&id="
+	window.location.href=url+id
+}
+
+function addMsg(type,id,content){
+	if(content==undefined){
+		content = "";
+	}
+	var actionTo = "/tradeMsg.java?cmd=update";
+	if(id==""){
+		actionTo = "/tradeMsg.java?cmd=save";
+	}
+	var htmlstr='<form name="rejectForm" id="rejectForm" action="'+actionTo+'" method="post">'+
+				'<input type="hidden" name="type" value="' + type + '" />';
+				if(id!=""){
+					htmlstr+='<input type="hidden" name="id" value="' + id + '" />';
+				}
+			    htmlstr+='<table id='+id+'_table" width="80%" border="0" cellspacing="0" cellpadding="0" class="fshop_table">'+
+					'<tbody>'+
+						'<tr width="100%">'+
+							'<td width="100%"><textarea style="width:350px;height:100px;" name="content" cols="" rows="" id="rejectDesc">'+content+'</textarea></td>'+
+						'</tr>'+
+						'<tr>'+
+							'<td colspan="2">'+
+								'<span>'+
+									'<input name="" value="取消" style="cursor: pointer;margin-left:50px;padding-left:20px" class="search_btn" onclick="doCacel();">'+
+									'<input name="" type="submit" value="确定" style="cursor: pointer;margin-left:30px" class="search_btn">'+
+								'</span>'+
+							'</td>'+
+						'</tr>'+
+					'</tbody>'+
+				'</table>'+
+			'</form>';
+    createDialogcur("addDialog","添加",500,400,300,htmlstr);
+}
+
+function doCacel(){
+	jQuery("#addDialog").remove();
+}
+
+</script>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">商品分类</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="tradeMsg.java?cmd=list" class="this"><b>发起人留言</b></a></li>
+				<li><a href="tradeMsg.java?cmd=toList"><b>代付人留言</b></a></li>
+				<li><a href="/tradeCommon.java?cmd=list&pageType=tradePayConfig"><b>基本设置</b></a></li>
+			</ul>
+		</div>
+		<div class="search" style="margin-left: 20px;">
+			<span>
+				<input name="" type="submit" value="添加" style="cursor: pointer;" class="search_btn" onclick="addMsg('1','');"> 
+			</span>
+		</div>
+		<div class="operation">
+			<ul>
+				<li>可根据商城的销售商品类型，来设置自定义的个性留言内容，促进代付成功。商家可预先设置多条，手机端将随机1条显示</li>
+			</ul>
+		</div>
+		<form name="ListForm" id="ListForm" >
+			<div class="fshoptb2">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="85%"><span class="form_btna">发起人留言</span></th>
+							<th align="center"><b class="form_btna">操作</b></th>
+						</tr>
+						#foreach($obj in $pl.result)
+						<tr id="$obj.id" level="$obj.id" levelnum="1"> 
+							<td align="center">$!{obj.content}</td>
+							<td align="center" class="hui oprate_con">
+								<a href="javascript:void(0);" onclick="addMsg('1','$!{obj.id}','$!{obj.content}')" class="blue">编辑</a>
+								<a href="javascript:void(0);"
+								onclick="if(confirm('确定删除?'))window.location.href='/tradeMsg.java?cmd=remove&id=${obj.id}'"
+								class="blue">删除</a>
+							</td>
+					    </tr>
+					    #end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+			</div>
+		</form>
+	</div>
+</body>
+</html>

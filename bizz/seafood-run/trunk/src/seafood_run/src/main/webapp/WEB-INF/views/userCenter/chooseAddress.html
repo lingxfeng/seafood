@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0047)/buyer/address.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<title>收货地址-海鲜之家商城 -海鲜之家商城V1.0</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="generator" content=""/>
+<meta name="author" content=""/>
+<meta name="copyright" content=""/>
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/user.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.iskyshop.validate.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<style id="poshytip-css-tip-skyblue" type="text/css">div.tip-skyblue{visibility:hidden;position:absolute;top:0;left:0;}div.tip-skyblue table, div.tip-skyblue td{margin:0;font-family:inherit;font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;}div.tip-skyblue td.tip-bg-image span{display:block;font:1px/1px sans-serif;height:10px;width:10px;overflow:hidden;}div.tip-skyblue td.tip-right{background-position:100% 0;}div.tip-skyblue td.tip-bottom{background-position:100% 100%;}div.tip-skyblue td.tip-left{background-position:0 100%;}div.tip-skyblue div.tip-inner{background-position:-10px -10px;}div.tip-skyblue div.tip-arrow{visibility:hidden;position:absolute;overflow:hidden;font:1px/1px sans-serif;}</style></head>
+<body>
+#parse("/common/top.html")
+#parse("/common/left.html")
+
+<div class="main">
+  <div class="usercenter"> <script src="/static/home/shopmanage/js/jquery.cookie.js"></script>
+<script>		  
+jQuery(document).ready(function(){
+  jQuery(".user_menu>span>b").click(function(){
+     var child_show=jQuery(this).parent().attr("child_show");
+	 if(child_show=="true"){
+		 jQuery(this).parent().find("ul").hide();
+	     jQuery(this).parent().find("i").removeClass("active");
+		 jQuery(this).parent().attr("child_show","false");
+	 }else{
+	    jQuery(this).parent().find("ul").show();
+		jQuery(this).parent().find("i").addClass("active");
+		jQuery(this).parent().attr("child_show","true");
+	 }
+	 var nav_status="";
+	 jQuery(".user_menu>span>b").each(function(){
+		nav_status=nav_status+jQuery(this).parent().attr("id")+","+jQuery(this).parent().attr("child_show")+";";
+	 }); 
+	 jQuery.cookie("buyer_nav",nav_status);
+  });
+  jQuery(".user_menu ul li a").removeClass("this");						
+  jQuery(".user_menu ul li a[op='address']").addClass("this");	
+  //
+  if(jQuery.cookie("buyer_nav")!=null){
+      var nav_status=jQuery.cookie("buyer_nav");
+	  jQuery.each(nav_status.split(";"), function(index,item){
+	     var list=item.split(",");
+		 jQuery("#"+list[0]).attr("child_show",list[1]);
+		 if(list[1]=="true"){
+	       jQuery("#"+list[0]+" ul").show();
+		 }else{
+		   jQuery("#"+list[0]).find("i").removeClass("active");	 
+		   jQuery("#"+list[0]+" ul").hide(); 	 
+		 }
+	  });
+   }
+   //
+});
+
+function gotoPage(val){
+	window.location.href="/pcShopMemberCenter.java?cmd=myDeliveryAddress&menuId=myDeliveryAddress&currentPage="+val;
+}
+</script>
+#parse("/common/userCenterLeft.html")
+    <div class="usercenter_right">
+      <div class="myorder">
+        <h4><span class="myorder_fright"></span><strong>收货地址</strong></h4>
+      </div>
+      <div class="user_list">
+        <div class="user_list_title"> <span class="user_list_t_btn"><a class="newadd" href="javascript:void(0);" dialog_uri="/pcShopMemberCenter.java?cmd=toSaveAddress" dialog_title="新增地址" dialog_width="400" dialog_id="address_add"><b><i class="newadd_i"></i>新增地址</b></a></span>
+          <ul class="user_title_ul">
+            <li class="this"><i></i><a href="javascript:void(0);">收货地址</a></li>
+          </ul>
+        </div>
+          <form method="post" id="ListForm" >
+          <div class="user_list_box">
+            <table border="0" cellpadding="0" cellspacing="0" class="user_order_table">
+              <tbody><tr>
+                <th width="10%">收货人名</th>
+                <th width="15%">所在地区</th>
+                <th width="20%">详细地址</th>
+                <th width="10%">电话号码</th>
+                <th width="10%">手机电话</th>
+                <th>操作</th>
+              </tr>
+                            #foreach($obj in $addressList)
+              </tr>
+                <tr id="aId$!obj.id"  class="user_list_box_this" >
+                <td align="center">$!obj.trueName</td>
+                <td align="center">$!obj.area.parent.parent.title $!obj.area.parent.title $!obj.area.title</td>
+                <td align="center">$!obj.area.parent.parent.title $!obj.area.parent.title $!obj.area.title $!obj.area_info</td>
+                <td align="center"> $!obj.telephone </td>
+                <td align="center"> $!obj.mobile </td>
+                <td align="center" class="user_order_table_yes">
+                <a href="/pcShopMemberCenter.java?cmd=confirmAddress&rid=$!rid&aid=$!obj.id" class="del_a">选择</a>
+                <a href="javascript:void(0);" dialog_uri="/pcShopMemberCenter.java?cmd=toEditDeliveryAddress&id=$!obj.id" dialog_title="编辑地址" dialog_width="400" dialog_id="address_add" class="del_a">编辑</a>
+
+                </td>
+                 
+              </tr>
+              #end
+                          </tbody></table>
+          </div>
+          
+          $!paginationForBcd
+          <!-- <div class="userlist_allop">
+            <div class="user_list_page"><span class="user_page_sp"><a href="javascript:void(0);" onclick="return gotoPage(1)">首页</a> <a href="javascript:void(0);" onclick="return gotoPage(2)">上一页</a> 第　<a class="this" href="javascript:void(0);" onclick="return gotoPage(1)">1</a> <a href="javascript:void(0);" onclick="return gotoPage(2)">2</a> 页　<a href="javascript:void(0);" onclick="return gotoPage(2)">下一页</a> <a href="javascript:void(0);" onclick="return gotoPage(2)">末页</a> </span> </div>
+          </div> -->
+        </form>
+         </div>
+    </div>
+  </div>
+  ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+
+function szmr(id){
+	$.ajax({
+        type: "post",
+        url: "/shopTrade.java?cmd=setDeafaultAdd&id="+id,
+        data: $("#ListForm").serialize(),
+        success: function(data) {
+        	console.dir(data)
+            if (data) {
+                alert("设置成功");
+                window.location.href="/shopMember.java?cmd=myDeliveryAddress"
+            } else {
+                alert("设置失败");
+            }
+
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("没找到");
+        }
+    });
+}
+
+function delShopAddress(id){
+	$.ajax({
+        type: "post",
+        url: "/pcShopMemberCenter.java?cmd=delDeliveryAddress&id="+id,
+        dataType: "json",
+        success: function(data) {
+        	console.dir(data)
+            if (data.success) {
+                alert("删除成功");
+                $("#aId"+id).remove();
+            } else {
+                alert(data.errors.msg);
+            }
+
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("没找到");
+        }
+    });
+}
+</script>
+
+  <div class="footer">
+    <ul>
+                  <li class="hui2"></li>
+      <li class="hui2">海鲜之家商城V1.0</li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/buyer/address.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+ </div>
+<div id="contant"> </div>
+
+
+<div class="tip-skyblue"><div class="tip-inner tip-bg-image"></div><div class="tip-arrow"></div></div><div class="tip-skyblue"><div class="tip-inner tip-bg-image"></div><div class="tip-arrow"></div></div></body></html>

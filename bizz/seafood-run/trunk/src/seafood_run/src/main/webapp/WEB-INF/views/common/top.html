@@ -1,0 +1,404 @@
+<!--点击收藏-->
+<script type="text/javascript">
+jQuery(document).ready(function(){
+  jQuery(".top_pull").mouseover(function(){
+	jQuery(this).find("div").show();
+	jQuery(this).find("em").addClass("em_this");
+	jQuery(this).find("s").addClass("this");
+  	}).mouseleave(function(){
+    jQuery(this).find("div").hide();
+	jQuery(this).find("em").removeClass("em_this");
+	jQuery(this).find("s").removeClass("this");
+  });					
+								});
+var browserEvent = function (obj, url, title) {
+    var e = window.event || arguments.callee.caller.arguments[0];
+    var B = {
+        IE : /MSIE/.test(window.navigator.userAgent) && !window.opera
+        , FF : /Firefox/.test(window.navigator.userAgent)
+        , OP : !!window.opera
+    };
+    obj.onmousedown = null;
+    if (B.IE) {
+        obj.attachEvent("onmouseup", function () {
+            try {
+                window.external.AddFavorite(url, title);
+                window.event.returnValue = false;
+            } catch (exp) {}
+        });
+    } else {
+        if (B.FF || obj.nodeName.toLowerCase() == "a") {
+            obj.setAttribute("rel", "sidebar"), obj.title = title, obj.href = url;
+        } else if (B.OP) {
+            var a = document.createElement("a");
+            a.rel = "sidebar", a.title = title, a.href = url;
+            obj.parentNode.insertBefore(a, obj);
+            a.appendChild(obj);
+            a = null;
+        }
+    }
+};
+</script>
+<div class="top" id="top" style="">
+  <div class="top_page">
+    
+    
+    #if($!user)
+    	<div class="top_right"><span><a href="/pcShopMemberCenter.java?cmd=toMyUserCenter&status=-1">$!user.name...</a> 您好，欢迎来到$!{sysconfig.siteName}！
+	    <a href="/shopMemberCenter.java?cmd=signOut">退出</a>
+    #else
+    	<div class="top_right"><span> 您好，欢迎来到$!{sysconfig.siteName}！
+	    [<a href="/shopMemberCenter.java?cmd=toLogin">登录商城</a>]
+	    [<a href="/shopMemberCenter.java?cmd=toRegister">免费注册</a>]
+    #end
+    </span> <b>|</b> <span class="top_pull"> <a href="/pcShopMemberCenter.java?cmd=getMyOrder&menuId=myOrder">我的订单</a> </span> 
+    <!-- <b>|</b> 
+          微信商城
+          <span class="top_pull"> <em class="">客户服务<s class="this"></s></em>
+      <div class="top_this" style="display:none;">
+        <ul class="top_pull_con_style2">
+        #foreach($obj in $isTopNewsDocs)
+        	#if($obj.url)
+        	<li><a href="/$obj.url" target="_blank">$obj.title</a></li>
+        	#else
+        	<li><a href="/shopContent.java?cmd=toNewsDoc&newDocId=${obj.id}" target="_blank">$obj.title</a></li>
+        	#end
+        #end
+          <li><a href="/goShop.java?cmd=sjrz" target="_blank">商家入驻</a></li>
+        </ul>
+      </div>
+      </span> <b>|</b> -->        
+      </div>
+    <!-- <span class="top_collect"><a href="javascript:void(0);" onclick="browserEvent(this, '$!{sysconfig.domain}','$!{sysconfig.siteName}')">收藏本站</a></span> -->  <!-- <b class="top_b">|</b> <span class="top_shop"><a href="/goShop.java" target="_blank">商家登录</a></span> -->  </div>
+</div>
+#if($index)
+<!-- <div class="top_right_banner">
+  <div style="float:left;overflow:hidden;"><a href="#" target="_blank">
+  <img width="1200" height="100" src="$!{sysconfig.topImg}" style="border:none;"></a></div>
+</div> -->
+#end
+<div id="head_unbomb" style="height: 100px;"> 
+<script src="/static/home/shopmanage/js/jquery.cookie.js"></script>
+<script>
+jQuery(document).ready(function(){
+	search_history_data();
+	var head_h=jQuery("#head_h").height();
+	//搜索框获取焦点
+	jQuery("#keyword").click(function(){
+		var top = jQuery(document).scrollTop();
+		jQuery("div[id^='head_search_goodslist']").hide();
+		if(top>head_h){
+		   jQuery("#head_search_history_up").fadeIn();
+	  	}else{
+		   jQuery("#head_search_history").fadeIn();
+	  	}
+	}).keyup(function(){
+		if(jQuery(this).val()!=''){
+			jQuery("div[id^='head_search_history']").hide();
+		};
+		var keyword = jQuery(this).val();
+		<!--查询分类-->
+		jQuery.post("/goShop.java?cmd=searchProBykey",{"keyword":keyword},function(data){
+	    	if(data){
+				search_goodsclass_initialize();
+				jQuery.each(data.parent_gc,function(index,item){
+					if(index==0){
+						//构造提示框
+						jQuery("#head_search_goodslist>dl>dt>ul").append("<li class='this'><span><a href='/goShop.java?cmd=queryPro&pid="+item.id+"' target='_blank'>"+item.name+"</a></span></li>");
+						var str = "<dd id='head_search_dd_"+item.id+"'><span class='head_search_history_hot' style='margin-bottom:20px; height:25px; line-height:25px;'>"+item.name+"</span><span onclick='search_gc_close()' class='head_search_history_hot' style='margin-bottom:20px; height:25px;float:right; line-height:15px; color:#999;;cursor:pointer'>关闭</span><ul></ul></dd>"
+						jQuery("#head_search_goodslist>dl").append(str);
+						//下方的提示框
+						jQuery("#head_search_goodslist_up>dl>dt>ul").append("<li class='this'><span><a href='/goShop.java?cmd=queryPro&pid="+item.id+"' target='_blank'>"+item.name+"</a></span></li>");
+						str = "<dd id='head_search_up_dd_"+item.id+"'><span class='head_search_history_hot' style='margin-bottom:20px; height:25px; line-height:25px;'>"+item.name+"</span><span onclick='search_gc_close()' class='head_search_history_hot' style='margin-bottom:20px; height:25px;float:right; line-height:15px; color:#999;;cursor:pointer'>关闭</span><ul></ul></dd>"
+						jQuery("#head_search_goodslist_up>dl").append(str);
+					}else{
+						//构造提示框
+						jQuery("#head_search_goodslist>dl>dt>ul").append("<li><span><a href='/goShop.java?cmd=queryPro&pid="+item.id+"' target='_blank'>"+item.name+"</a></span></li>");
+						var str = "<dd id='head_search_dd_"+item.id+"' style='display:none'><span class='head_search_history_hot' style='margin-bottom:20px; height:25px; line-height:25px;'>"+item.name+"</span><span onclick='search_gc_close()' class='head_search_history_hot' style='margin-bottom:20px; height:25px;float:right; line-height:15px; color:#999;;cursor:pointer'>关闭</span><ul></ul></dd>"
+						jQuery("#head_search_goodslist>dl").append(str);
+						//下方的提示框
+						jQuery("#head_search_goodslist_up>dl>dt>ul").append("<li><span><a href='/goShop.java?cmd=queryPro&pid="+item.id+"' target='_blank'>"+item.name+"</a></span></li>");
+						var str = "<dd id='head_search_up_dd_"+item.id+"' style='display:none'><span class='head_search_history_hot' style='margin-bottom:20px; height:25px; line-height:25px;'>"+item.name+"</span><span onclick='search_gc_close()' class='head_search_history_hot' style='margin-bottom:20px; height:25px;float:right; line-height:15px; color:#999;;cursor:pointer'>关闭</span><ul></ul></dd>"
+						jQuery("#head_search_goodslist_up>dl").append(str);
+					}
+				})
+				jQuery.each(data.list_child,function(index,childs){
+						jQuery.each(childs,function(i,child){
+							jQuery("#head_search_goodslist>dl>dd").eq(index).find("ul").append("<li><a href='/goShop.java?cmd=productDetail&id="+child.id+"' target='_blank'>"+child.name+"</a></li>");
+							jQuery("#head_search_goodslist_up>dl>dd").eq(index).find("ul").append("<li><a href='/goShop.java?cmd=productDetail&id="+child.id+"' target='_blank'>"+child.name+"</a></li>");
+						})
+				})
+				var top = jQuery(document).scrollTop();
+				if(top>head_h){
+		   			jQuery("#head_search_goodslist_up").fadeIn();
+	  			}else{
+		   			jQuery("#head_search_goodslist").fadeIn();
+	  			}
+				//监听搜索分类提示鼠标上移事件
+				jQuery("div[id^='head_search_goodslist']>dl>dt>ul>li").mouseover(function() {
+                    var index = jQuery(this).index();
+					jQuery("div[id^='head_search_goodslist']>dl>dt>ul>li").removeClass("this");
+					jQuery("#head_search_goodslist>dl>dt>ul>li").eq(index).addClass("this");
+					jQuery("#head_search_goodslist_up>dl>dt>ul>li").eq(index).addClass("this");
+					jQuery("dd[id^='head_search_dd_']").hide();
+					jQuery("dd[id^='head_search_dd_']").eq(index).show();
+					jQuery("dd[id^='head_search_up_dd_']").hide();
+					jQuery("dd[id^='head_search_up_dd_']").eq(index).show();
+                });
+			}else{
+				search_goodsclass_initialize();
+			}
+	  	},"json");
+		<!--查询分类END-->
+	});
+	jQuery("div[id^='head_search_history']").mouseover(function(){
+		jQuery(this).show();
+	});
+	jQuery("div[id^='head_search_history']").mouseout(function(){
+		jQuery(this).hide();
+	});
+	jQuery(window).scroll(function(){
+		var top = jQuery(document).scrollTop();
+		if(top>head_h){
+			if(jQuery("#head_search_history").is(":visible")){
+				jQuery("#head_search_history").hide();
+				jQuery("#head_search_history_up").show();  
+		    };
+			if(jQuery("#head_search_goodslist").is(":visible")){  
+						jQuery("#head_search_goodslist").hide();
+						jQuery("#head_search_goodslist_up").show(); 
+			};
+	  	}else{
+		   if(jQuery("#head_search_history_up").is(":visible")){
+				jQuery("#head_search_history_up").hide();
+				jQuery("#head_search_history").show();
+		   };
+		   if(jQuery("#head_search_goodslist_up").is(":visible")){  
+				jQuery("#head_search_goodslist_up").hide();
+				jQuery("#head_search_goodslist").show(); 
+		   };
+	  	}
+		
+	});
+	//选定某一搜索历史
+	jQuery("#head_search_history").find("dl>dt>ul>li>span").click(function(){
+		jQuery("#keyword").val(jQuery(this).attr("data"));
+		jQuery("#searchForm").submit();
+	});
+	//鼠标经过用户中心
+   jQuery("#top_user_sp").mouseover(function(){
+		if(jQuery("#top_user_hb").size()==0){
+			jQuery.ajax({type:'POST',url:'/goShop.java?cmd=userCenterIndex',data:'',
+						   beforeSend:function(){
+							     jQuery("#top_user_hid").html('<div class="top_user_hb" id="top_user_hb"><span class="top_user_loading"><img src="/static/home/shopmanage/images/loading2.gif" /></span><b class="top_user_warning">加载中，请稍后...</b></div>');
+							     jQuery("#top_user_hid").show();
+							   },
+						  success:function(data){
+						     jQuery("#top_user_hid").empty();
+								 jQuery("#top_user_hid").html(data);
+							   }
+						});		
+		}else{
+			jQuery("#top_user_hid").show();
+			}
+	jQuery("#top_user_sp").addClass("top_user_sp_this");
+  	});
+   jQuery("#top_user").mouseleave(function(){
+    jQuery("#top_user_hid").hide();
+	jQuery("#top_user_sp").removeClass("top_user_sp_this");
+  });
+   
+   //鼠标经过购物车
+   jQuery("#goodscar_sp").mouseover(function(){
+			var gstatus =jQuery("#goodscar_con_box").attr("mark");
+			if(gstatus=="none")
+			  jQuery.ajax({type:'POST',url:'/goShop.java?cmd=searchshopCar',data:'',
+						   beforeSend:function(){
+							     jQuery("#goodscar_con_box").empty().html(' <div><span class="top_user_loading"><img src="/static/home/shopmanage/images/loading2.gif" /></span><b class="top_user_warning">加载中，请稍后...</b></div>');
+							     jQuery("#goodscar_con_box").show();
+							   },
+						  success:function(data){
+							  jQuery("#goodscar_con_box").attr("mark","show");
+							     jQuery("#goodscar_con_box").empty();
+								 jQuery("#goodscar_con_box").html(data);
+								
+								 
+							   }
+						});
+			  jQuery("#goodscar_sp").addClass("goodscar_sp_this");
+		   });
+		   jQuery("#goodscar").mouseleave(function(){
+			jQuery("#goodscar_con_box").attr("mark","none");
+			  jQuery("#goodscar_con_box").hide();
+			  jQuery("#goodscar_sp").removeClass("goodscar_sp_this");
+		   });
+});
+//初始化分类搜索提示模块
+function search_goodsclass_initialize(){
+	jQuery("div[class^='head_search_goodslist']").each(function(index,obj) {
+        jQuery(obj).remove();
+    });
+	var str = "<div class='head_search_goodslist' id='head_search_goodslist' style='display:none'><dl><dt><ul></ul></dt></dl></div>";
+	jQuery("#head_search").append(str);
+	str = "<div class='head_search_goodslist_up' id='head_search_goodslist_up' style='display:none'><dl><dt><ul></ul></dt></dl></div>";
+	jQuery("#head_search").append(str);
+}
+function search_gc_close(){
+	jQuery("div[id^='head_search_goodslist']").hide();
+}
+//加载搜索历史记录
+function search_history_data(){
+	var data = jQuery.cookie("search_history");
+	if(data==null){
+		jQuery("div[id^='head_search_history']").remove();
+	}else{
+		jQuery.each(data.split(","),function(index,item){
+			if(index<10){
+				jQuery("#head_search_history_up").find("dl>dt>ul").append("<li><span data='"+item+"'><a href='javascript:void(0)'>"+item+"</a></span><i onclick='search_data_del(this)'><a href='javascript:void(0)'>删除</a></i></li>");
+				jQuery("#head_search_history").find("dl>dt>ul").append("<li><span data='"+item+"'><a href='javascript:void(0)'>"+item+"</a></span><i onclick='search_data_del(this)'><a href='javascript:void(0)'>删除</a></i></li>");
+			}
+		});
+	}
+}
+//删除某一历史记录
+function search_data_del(obj){
+	var item = jQuery(obj).parent().find("span").attr("data");
+	var data = "";
+	var temp = jQuery.cookie("search_history");	
+	jQuery.each(temp.split(","),function(index,value){
+		if(item!=value){
+			if(data!=""){
+				data =data +","+value;
+			}else{
+				data = value;
+			}
+		}
+	});
+	if(data!=""){
+		jQuery.cookie("search_history",data);
+	}else{
+		jQuery.cookie("search_history",null);
+	}
+	search_html_restore();
+	search_history_data();
+}
+//删除全部历史记录
+function search_data_del_all(){
+	jQuery.cookie("search_history",null);
+	search_html_restore();
+	search_history_data();
+}
+//清空搜索历史下拉数据
+function search_html_restore(){
+	jQuery("#head_search_history_up").find("dl>dt>ul>li").each(function(index, element) {
+       if(index!=0){
+		   jQuery(this).remove();
+	   } 
+    });
+	jQuery("#head_search_history").find("dl>dt>ul>li").each(function(index, element) {
+       if(index!=0){
+		   jQuery(this).remove();
+	   } 
+    });
+}
+function search_form(){
+  var keyword=arguments[0];
+  var type=arguments[1];
+  if(keyword!=""&&keyword!=undefined){
+   jQuery("#keyword").val(keyword);
+  }
+  if(type!=""&&type!=undefined){
+    jQuery("#type").val(type);
+  }
+  jQuery("#searchForm").submit();	
+  jQuery("#keyword").val("");
+}
+		 		 		 
+function menu_cart_remove(id,spec,amt){
+	spec=spec==''?'0':spec;
+	jQuery.ajax({type:'POST',url:'/goShop.java?cmd=deleteShopCar',data:{"id":id,num:1,spec:spec},
+		  success:function(data){
+			  jQuery(".goodscar_list li[id="+id+"]").remove();
+			  var amtAll = jQuery("#cart_goods_price_top").html();
+				amtAll = parseFloat(amtAll)-parseFloat(amt);
+				jQuery("#cart_goods_price_top").html(amtAll);
+				var num = jQuery("#cart_goods_count_top").html()-1;
+				jQuery("#cart_goods_count_top").html(num)
+				jQuery("#st_count").html(num)
+		  }
+	});
+     }
+</script>
+<div class="head_width" id="head_h">
+  <div class="head"> 
+          <h1 class="logo"><span>
+      <p><a href="/goShop.java"> <img src="/static/home/bcd/images/logo.png" border="0"> </a></p>
+      </span></h1>
+    <form action="/goShop.java?cmd=queryPro" method="post" id="searchForm">
+      <input name="type" type="hidden" id="type" value="goods">
+      <div class="head_search" id="head_search" style="width:705px; margin-left:0px;"> 
+      <span class="head_seartxt">
+        <input name="keyword" type="text" id="keyword" placeholder="试试搜索，更加方便！" x-webkit-speech="" lang="zh-CN" onwebkitspeechchange="jQuery(&#39;#searchForm&#39;).submit()" class="h_sear_txt" style="padding-left:5px;width:618px;" autocomplete="off">
+        <input name="" type="submit" class="h_sear_btn" value="搜索">
+        </span><span class="head_searstr">热门搜索： 
+        #foreach($obj in $tu.getLinkImgs("rmss",9))
+        <a href="$!obj.linkUrl" target="$!obj.imgTarget">$obj.name</a>  
+        <!-- <a href="javascript:void(0);" onclick="search_form(&#39;iphone6&#39;,&#39;goods&#39;);">$obj.name</a> -->
+        #end
+        </span>
+      	<!--搜索历史 -->
+    	  <div class="head_search_history" id="head_search_history" style="display:none">
+    	<dl>
+        	<dt>
+            	<ul>
+                	<li class="head_search_history_top"><span>搜索历史</span><i ><a href="javascript:void(0)" onclick="search_data_del_all()">清除全部</a></i></li>
+                </ul>
+            </dt>
+            <dd><span  class="head_search_history_hot">热门搜索...</span>
+            	<ul>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+    <div class="head_search_history_up" id="head_search_history_up" style="display:none">
+    	<dl>
+        	<dt>
+            	<ul>
+                	<li class="head_search_history_top"><span>搜索历史</span><i ><a href="">清除全部</a></i></li>
+                </ul>
+            </dt>
+            <dd><span  class="head_search_history_hot">热门搜索...</span>
+            	<ul>
+                </ul>
+            </dd>
+        </dl>
+    </div>    	  
+        <!--搜索历史 -->
+            	
+      </div>
+    </form>
+    <!--用户中心开始-->
+    <div class="top_user" id="top_user">
+      <span class="top_user_sp" id="top_user_sp"><a href="/pcShopMemberCenter.java?cmd=toMyUserCenter&status=-1">用户中心</a><s></s></span>
+      <div class="top_user_hid" id="top_user_hid" style="display:none"> </div>
+    </div>
+    <div class="goodscar" id="goodscar">
+    
+    
+      <span class="goodscar_sp" id="goodscar_sp">
+      <span>
+      <i class="goodscar_img"></i>
+      #if($carNum)
+      <em class="goodscar_num"><b id="cart_goods_count_top">$!carNum</b></em>
+      #end
+      <a href="/goShop.java?cmd=toShopCar">去购物车结算</a>
+      </span>
+      </span>
+      
+
+      <div class="goodscar_con_box" id="goodscar_con_box" style="display:none" mark="none"> </div>
+    </div>
+    <!--购物车结束-->
+  </div>
+</div>
+ </div>

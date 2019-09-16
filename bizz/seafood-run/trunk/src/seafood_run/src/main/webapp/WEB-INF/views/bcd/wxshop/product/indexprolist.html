@@ -1,0 +1,16 @@
+#foreach($obj in $su.getProductQuery().setNum("4").setOrderBy("sequence").setCurPage($!{curPage}).setIsRecommend(true).list())     
+      <div class="product-list">		      			            
+            <div class="product-list-img">
+            	<a href="shopProduct.java?cmd=toProDet&pId=$obj.id">
+            		<img src='$obj.imgPaths.split("_")[0]'/>
+            	</a>
+            </div>
+            <div class="product-list-desc">	            	
+	            <p class="desc-title">$obj.name</p>
+				<div class="desc-other">
+					<div class="desc-other-left">￥<span>$obj.amt</span></div> 
+					<div class="desc-other-right">已售：<span>$obj.saleNum</span></div>
+				</div>
+            </div>		      
+	    </div>
+#end

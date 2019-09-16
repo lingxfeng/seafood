@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>个人信息修改 -海鲜之家商城</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="generator" content=""/>
+<meta name="author" content=""/>
+<meta name="copyright" content=""/>
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/user.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet"/>
+<link href="/static/home/shopmanage/css/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet"/>
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.zh.cn.js" charset="utf-8"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script>
+	jQuery(document).ready(function(){
+		 //
+			jQuery.validator.addMethod("verify",function(value,element){
+			    var re =  /^[a-zA-Z]([a-zA-Z0-9_])+$/;
+			       if(re.test(jQuery("#name").val())){			
+					return true;
+				  } 
+				  else {
+				    return false;
+					  }		  
+			});
+			jQuery.validator.addMethod("isCard", function(value, element) {    
+				// 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X  
+				   var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;  
+				   if(reg.test(jQuery("#idCard").val()))  
+				   {    
+				       return  true;  
+				   }else
+					   return false;
+				});
+		 jQuery("#theForm").validate({
+			errorPlacement:function(error, element) {
+		       error.appendTo(element.parent().parent());  
+		      },
+			rules:{
+			  	trueName:{
+				  required:true 
+				},
+				idCard:{
+				  required:true,
+				  isCard:true
+				},
+			},
+			  messages:{
+			    trueName:{
+				  required:"真实姓名不能为空"
+				  
+				},
+				idCard:{
+				  required:"身份证不能为空",
+				  isCard:"请输入有效的身份证号"
+				}
+			  }
+			});
+		});
+	    
+</script>
+</head>
+<body>
+
+#parse("/common/top.html")
+#parse("/common/left.html")
+<div class="main">
+  <div class="usercenter">
+     <script src="/static/home/shopmanage/js/jquery.cookie.js"></script>
+<script>		  
+jQuery(document).ready(function(){
+  
+});
+
+function pro_city(value) {
+    $("#city").empty();
+    $.ajax({
+        type: "post",
+        //url: "/popular.java?cmd=getCity",
+        url: "/systemRegion.java?cmd=getSystemRegionByParentSn",
+        data: "parentSn=" + value,
+        dataType: "json",
+        success: function(data) {
+        	//console.dir(data)
+            for (var i = 0; i < data.length; i++) {
+                $("#city").append("<option value='" + data[i].id + "'>" + data[i].title + "</option>");
+            }
+        }
+    });
+}
+
+function setpicImg(v){
+	var objUrl = getObjectURL(v.files[0]) ;
+	if (objUrl) {
+		var imgele=$("#tb1")
+		imgele.attr("src", objUrl);
+		$("#imgpicid").append(imgele);
+		$("#tp1").css("width", "130px");
+		$("#tp1").css("height", "151px");
+	}
+}
+
+function getObjectURL(file) {
+	var url = null ; 
+	if (window.createObjectURL!=undefined) { // basic
+		url = window.createObjectURL(file) ;
+	} else if (window.URL!=undefined) { // mozilla(firefox)
+		url = window.URL.createObjectURL(file) ;
+	} else if (window.webkitURL!=undefined) { // webkit or chrome
+		url = window.webkitURL.createObjectURL(file) ;
+	}
+	return url ;
+}
+</script>
+	#parse("/common/userCenterLeft.html")
+    <div class="usercenter_right">
+      <div class="myorder">
+        <h4><strong>账户信息</strong></h4>
+      </div>
+      <div class="user_list">
+        #parse("/common/accountInfo.html")
+       <form action="/pcShopMemberCenter.java" id="theForm" name="theForm" method="post" enctype="multipart/form-data">
+       <input type="hidden" name="cmd" value="updateUserInfo"/>
+        <div class="add_usercenter">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="user_base_table">
+            <tbody>
+            <tr>
+              <td width="170" align="right" valign="top">用户头像：</td>
+              <td>
+					<span id="imgpicid">
+						<img id= "tb1" #if($!user.pic) src="$!user.pic" #else  src="/static/home/shopmanage/images/user/member.jpg" #end width="110" height="110" id="touxiang"/>
+					</span>
+					<div id="imgdiv">
+						<div class="filebox">
+						<br/>
+						<input type="file" name="pic"  onchange="setpicImg(this);"/>
+					</div>
+					</div>
+              </td>
+            </tr>
+          </tbody>
+          </table>         
+             
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" class="user_base_table">
+	            <tbody>
+	            <tr>
+	              <td width="170" align="right"><strong class="redstr"></strong>昵称：</td>
+	              <td><div><input id="nickname" name="nickname" type="text" value="$!user.nickname" class="base_txt" /></div></td>
+	            </tr>
+	            <tr>
+	            <tr>
+	              <td width="170" align="right"><strong class="redstr"></strong>真实姓名：</td>
+	              <td><div><input id="trueName" name="trueName" type="text" value="$!user.trueName" class="base_txt" /></div></td>
+	            </tr>
+	            <tr>
+	              <td align="right"><strong class="redstr"></strong>用户性别：</td>
+	              <td><span class="base_sex">
+	              <label>
+	               <input type="radio" name="sex" id="radio" value="1" #if($!user.sex==1 || $!user.sex==$null) checked="checked" #end />男</label></span><span class="base_sex">
+	                <label>
+	                <input type="radio" name="sex" id="radio" value="0" #if($!user.sex==0) checked="checked" #end/>女</label></span><span class="base_sex">
+	                <label>
+	                <input type="radio" name="sex" id="radio" value="-1" #if($!user.sex==-1) checked="checked" #end/>保密</label></span></td>
+	            </tr>
+	            <tr>
+	              <td align="right">联系邮箱：</td>
+	              <td>
+	              #if($!user.email && $!user.email!="")
+	               <b class="base_ba">$!user.email</b>
+	               #else
+	              <b class="base_ba"><a href="/shopMember.java?cmd=toPage&amp;toHtml=updateEmail&amp;menuId=a_email">现在绑定</a></b>
+	              #end
+	              </td>
+	            </tr>
+	            <tr>
+	              <td align="right">联系手机：</td>
+	              <td>
+	              #if($!user.mobileTel && $!user.mobileTel!="")
+	               <b class="base_ba">$!user.mobileTel</b>
+	               #else
+	              <b class="base_ba"><a href="/shopMember.java?cmd=toPage&amp;toHtml=updateMobile&amp;menuId=a_mobile">现在绑定</a></b>
+	              #end
+	              </td>
+	            </tr>
+	            <tr>
+	              <td align="right">身份证号：</td>
+	              <td><div><input name="idCard" type="text" class="base_txt" value="$!user.idCard" id="idCard" /><div></td>
+	            </tr>
+	            <tr>
+	              <td>&nbsp;</td>
+	              <td><input type="submit" value="保存" class="save" /></td>
+	            </tr> 
+	          </tbody>
+          </table>
+        </div> 
+        </form>
+      </div>
+    </div>
+  </div>
+  ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+
+#if($!state==0)
+<script type="">
+	alert("保存成功");
+</script>
+#end
+
+
+  <div class="footer">
+    <ul>
+                  <li class="hui2"></li>
+      <li class="hui2"></li>
+      <li></li>
+    </ul>
+  </div>
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/buyer/account.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+
+</div>
+
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>

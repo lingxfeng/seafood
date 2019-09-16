@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>商品信息对比 - $!{sysconfig.siteName}</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="generator" content="">
+<meta name="author" content="">
+<meta name="copyright" content="">
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/goods.css" type="text/css" rel="stylesheet">
+<script src=/static/home/shopmanage/js/jquery-1.6.2.js></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script>
+jQuery(function(){ 
+   jQuery(window).scroll(function(){
+	   var top = jQuery(".contrast_main_center_nav").offset().top;
+	   if(top>=500){
+		   jQuery(".contrast_main_center_nav").css({"position":"fixed"}).show();
+	   }else{
+	       jQuery(".contrast_main_center_nav").css({"position":"relative"}).hide();
+	   }
+   });
+})
+
+</script>
+</head>
+<body>
+#parse("/common/top.html")
+#parse("/common/left.html")
+<div class="main">
+  <!-- 对比 start -->
+  <div class="contrast_main">             <div class="contrast_header_top">
+      <ul>
+        <li class="contrast_header_top_left">商品对比</li>
+      </ul>
+    </div>
+    <div class="contrast_main_center">
+      <div class="contrast_main_center_top">
+        <dl>
+          <dd> <span class="contrast_main_center_nav_left_top">商品图片</span>
+            <!--侧导航 -->
+            <div class="side_nav"> 
+            </div>
+          </dd>
+          #set($num=4)
+          #set($num2=1)
+          #foreach($obj in $comparisons)
+          <dt>
+            <div class="contrast_main_center_top_img"><img src='$obj.imgPaths.split("_")[0]'></div>
+            <div class="contrast_main_center_top_word"><a href="/goShop.java?cmd=productDetail&id=$obj.id" target="_blank">$obj.name</a></div>
+            <div class="contrast_main_center_top_edit"><a href="/goShop.java?cmd=comparison&removeId=$obj.id">删除</a></div>
+          </dt>
+          #set($num=$num-1)
+          #set($num2=$num2+1)
+          #end
+          	#set($arr=[0..$num])
+          	#foreach($obj in $arr)
+          	<dt>
+            <div class="contrast_main_center_top_img"><img src="/static/home/shopmanage/images/pro/contrast_nothing.png"></div>
+            <div class="contrast_main_center_top_word"><a href="/goShop.java?cmd=queryPro">马上添加商品</a></div>
+            <div class="contrast_main_center_top_edit"></div>
+          </dt>
+          	#end
+           
+                  </dl>
+      </div>
+      <!--当页面滑过 contrast_main_center_top 以后 style="display:block;  删除 position:relative-->
+      <div class="contrast_main_center_nav" style="display: none; position: relative;">
+        <div class="contrast_main_center_nav_left"> <span class="contrast_main_center_nav_left_t">商品信息</span>
+         <span class="contrast_main_center_nav_left_r">
+         <a href="javascript:void(0);" id="hide_info_2" onclick="hide_info();">隐藏相同项</a>
+         <a href="javascript:void(0);" id="show_all_2" onclick="show_all();" style="display:none;">显示相同项</a>
+         </span> 
+         <span class="contrast_main_center_nav_left_r">
+         <a href="javascript:void(0);" id="light_info_2" onclick="light_info();">高亮不同项</a>
+         <a href="javascript:void(0);" id="light_cancle_2" onclick="light_cancle();" style="display:none;">取消高亮项</a>
+         </span> 
+         </div>
+         #foreach($obj in $comparisons)
+         <div class="contrast_main_center_nav_one">
+          <div class="contrast_main_center_top_word"><a href="" target="_blank">$obj.name</a></div>
+          <div class="contrast_main_center_top_edit"><a href="/goShop.java?cmd=comparison&removeId=$obj.id">删除</a></div>
+        </div>
+         #end
+        #foreach($obj in $arr)
+          <div class="contrast_main_center_nav_one">
+          <div class="contrast_main_center_top_word">暂无商品</div>
+          <div class="contrast_main_center_top_edit"></div>
+        </div>
+        #end
+         </div>
+      <!--详细对比 start -->
+      <div class="contrast_main_center_main">
+        <!--左侧导航 左侧跟随页面滑动 -->
+        <div class="contrast_main_center_one">
+          <div class="contrast_main_center_one_center">
+            <dl>
+              <dt>商品价格</dt>
+              				#foreach($obj in $comparisons)
+              				<dd>¥$!{obj.amt}</dd>
+              				#end
+                          </dl>
+            <dl>
+              <dt>商品品牌</dt>
+              				#foreach($obj in $comparisons)
+              				<dd>
+              					#if($obj.brand)
+              					$!obj.brand.name
+              					#else
+              					-----
+              					#end
+              				</dd>
+              				#end
+                          </dl>
+            <dl>
+              <dt>好评率</dt>
+              #foreach($obj in $comparisons)
+              <dd>0.0%</dd>
+              #end
+                                                                      <dd></dd>
+                          </dl>
+            <dl>
+              <dt>中评率</dt>
+              #foreach($obj in $comparisons)
+              <dd>0.0%</dd>
+              #end
+                                                                      <dd></dd>
+                          </dl>
+            <dl>
+              <dt>差评率</dt>
+              #foreach($obj in $comparisons)
+              <dd>0.0%</dd>
+              #end
+                                                                      <dd></dd>
+                          </dl>
+                        <dl>
+              <dt>类型</dt>
+              				#foreach($obj in $comparisons)
+              				<dd>$obj.productType.name</dd>
+              				#end
+                                                                      <dd></dd>
+                          </dl>
+             </div>
+        </div>
+      </div>
+      <!--详细对比 end -->
+       </div>
+  </div>
+  <!-- 对比 end -->
+  ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+
+#parse("/common/footer.html")
+<!--返回最顶部-->
+<div id="back_box" style="position: fixed; width: 40px; height: 118px; float: left; right: 0px; bottom: 150px; display: none;">
+  <div class="back_index"><a href="/index.htm" target="_blank" title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="/goods_compare.htm#" bosszone="hometop" style="display: block;" title="返回顶部" target="_self"></a></div>
+</div>
+ </div>
+
+
+</body></html>

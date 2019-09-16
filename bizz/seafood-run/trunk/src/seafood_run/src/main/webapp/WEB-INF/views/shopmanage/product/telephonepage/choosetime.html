@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>技师管理</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/commonutil.js"></script>
+<script>
+
+function toCreateOrder(){
+	var virtualid =${shopProduct.id};
+	var cosmetologistid=${cosmetologist.id};
+	
+	var select3 = document.getElementById('Select2');
+	var select4 = document.getElementById('Select');
+	
+	var date=select3.options[select3.options.selectedIndex].text;//获取日期
+	var time=select4.options[select4.options.selectedIndex].text;
+	var timestr=date + time;
+	if(!virtualid){
+		alert("项目选择无效");
+		return;
+	}
+	window.location.href='cosmetologist.java?cmd=chooseCosmetologist&virtualid='
+			+virtualid+'cosmetologistid'+cosmetologistid+'timestr'+timestr;
+}
+function toChooseAgain(){
+	//var virtualid =${shopProduct.id};
+	//var cosmetologistid=${cosmetologist.id};
+	//var 
+	window.location.href='www.baidu.com';
+}
+function dele(){
+	//删除已占用时间段
+   
+}
+
+</script>
+
+ 
+</head>
+<body>
+  <div class="cont">
+    <h1 class="seth">订单详情</h1>
+
+    <div class="edit">
+    <div class="editul setcont" id="base">
+    	<ul class="set1">
+        	<li class="setcont_bg">
+        		<strong class="sred">*</strong>服务项目图片:
+        	</li>
+        	<li>
+       		 	<span id="nothis">
+       		 		<img src='$!{shopProduct.imgPaths.split("_")[0]}'alt="$shopProduct.name" style="width:200px; height:200px;float:left;"></img>
+       		 	</span>
+       		 </li>
+     	</ul>
+     	
+        <ul class="set1">
+        	<li class="setcont_bg"><strong class="sred">*</strong>服务项目名称:</li>
+        	<li>
+        		<span class="webname">
+          			$!{shopProduct.name}
+        		</span>
+        	</li>
+      	</ul>
+      	
+     	<ul class="set1">
+        	<li class="setcont_bg"><strong class="sred">*</strong>技师名称:</li>
+        	<li>
+        		<span class="webname">
+          			$!cosmetologist.name
+        		</span>
+        	</li>
+      	</ul>
+      	 <ul class="set1">
+        	<li class="setcont_bg"><strong class="sred">*</strong>服务项目价格:</li>
+        	<li>
+        		<span class="webname">
+          			$!{shopProduct.amt}
+        		</span>
+        	</li>
+      	</ul>
+      	<strong>选择预约时间：</strong>
+      	<div>
+      		<div style="width:110px;height:150px;border:1px solid #F00;float:left;margin-left:10px;">
+				<input id="Button" type="button" value="获取可预约日期" onclick="buileselect2();" />
+				<select id="Select2">
+					<option selected="selected">请选择日期</option>
+			    </select>
+			    <script type="text/javascript" language="javascript">
+			    function buileselect2()
+			    {	
+			    	var dd = new Date();
+			    	var m = dd.getMonth()+1;//获取当前月份的日期
+			        var d1 = dd.getDate();
+			        var d2 = dd.getDate()+1;
+			        var d3 = dd.getDate()+2;
+			        var d4 = dd.getDate()+3;
+			        var info = "1_"+m+"月"+d1+"日|2_"+m+"月"+d2+"日|3_"+m+"月"+d3+"日|4_"+m+"月"+d4+"日";
+			        var infoarray = info.split("|");
+			        var count = infoarray.length;
+			        var select = document.getElementById("Select2");
+			        for(var i = 0; i < count; i++)
+			        {
+			            var id = infoarray[i].split("_")[0];
+			            var name = infoarray[i].split("_")[1];
+			            select.options.add(new Option(name, id));
+			        }
+			    }
+			    </script>
+			</div>	
+				
+			</div>
+			<div style="width:110px;height:150px;border:1px solid #F00;float:left;margin-left:10px;">
+				<input id="Button1" type="button" onclick="buileselect();"
+				value="获取可预约时间"  />
+				<select id="Select">
+					<option selected="selected">请选择时间</option>
+			    </select>
+			   <script type="text/javascript" language="javascript">
+			    function  buileselect(){
+			    	//加载所有时间段
+			        var info = "1_8:00-10:00|2_10:00-12:00|3_12:00-14:00|4_14:00-16:00|5_16:00-18:00";
+			        var infoarray = info.split("|");
+			        var count = infoarray.length;
+			        var select = document.getElementById("Select");
+			        for(var i = 0; i < count; i++)
+			        {
+			            var id = infoarray[i].split("_")[0];
+			            var name = infoarray[i].split("_")[1];
+			            select.options.add(new Option(name, id));
+			        }					
+			        var select3 = document.getElementById('Select2');
+			    	var date=select3.options[select3.options.selectedIndex].text;//获取日期			    	
+			    	var datetime = new Array();
+			    	datetime[0]="";
+			    	datetime[1]=date+"8:00-10:00";
+			    	datetime[2]=date+"10:00-12:00";
+			    	datetime[3]=date+"12:00-14:00";
+			    	datetime[4]=date+"14:00-16:00";
+			    	datetime[5]=date+"16:00-18:00";
+			    	#foreach($obj in $time)
+			    		var timebussy=$obj.serviceTime
+			    		for(var i = 0; i <= count; i++){
+			    			if(datetime[i]==timebussy){
+			    				select.options.remove(i);
+			    			}
+			    		} 
+			    	#end			    	
+			    }
+			    </script>			   
+			</div>	
+      	</div>
+      	<ul class="set1">
+        	<li class="setcont_bg"><strong class="sred">*</strong>服务项目简介:</li>
+        	<li>
+        		<span class="webname">
+          			$!{shopProduct.goods_details}
+        		</span>
+        	</li>
+      	</ul>
+      
+    </div>
+    <div class="nextbtn">
+    <input name="goods_second" type="button" id="goods_second" style="cursor:pointer;" onclick="toChooseAgain();" value="重新选择">
+    	<input name="goods_second" type="button" id="goods_second" style="cursor:pointer;" onclick="toCreateOrder();" value="总计:￥$!{shopProduct.amt}&nbsp;&nbsp;确认订单">
+    </div>
+  </div>
+</div>
+</body>
+
+
+
+</html>

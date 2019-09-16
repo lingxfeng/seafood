@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<easyjf-web xmlns="http://disco.dgdy.cc/schema/disco/web"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://disco.dgdy.cc/schema/disco/web http://disco.dgdy.cc/schema/easyjf/web/disco-web-2.0.xsd ">
+	<framework-setting>
+		<property name="cn.disco.defaultActionPackages">
+			myapp
+		</property><!--设置自加Action扫描的路径，根据你的情况调整-->
+	</framework-setting>
+	<beans>
+		<!--异常处理Bean，把所有的异常控制都转到error.html这个页面-->
+		<bean name="exceptionHandler"
+			class="cn.disco.web.exception.DefaultExceptionHandle"
+			scope="singleton">
+			<!--	<property name="errorPage" value="/error.html"/>-->
+		</bean>
+		<!-- 重复提交时的处理Bean -->
+		<bean name="tokenExceptionHandler"
+			class="cn.disco.web.exception.DefaultTokenVaildExceptionHandler"
+			scope="singleton">
+		</bean>
+		<!--acegi异常处理器，使得acegi的相关异常可以得到正确的处理-->
+		<bean name="acegiException"
+			class="cn.disco.web.security.acegi.AcegiExceptionHandler" />
+		<bean name="springContainer"
+			class="org.springframework.web.context.support.XmlWebApplicationContext">
+			<property name="configLocations">
+				<list>
+					<value>WEB-INF/classes/application.xml</value>
+				</list>
+			</property>
+		</bean>
+		<bean name="innerSpringContainer"
+			class="cn.disco.container.impl.SpringContainer">
+			<property name="factory" ref="springContainer" />
+		</bean>
+	</beans>
+</easyjf-web>
+

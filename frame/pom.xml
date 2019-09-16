@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.eastinno.otransos</groupId>
+	<artifactId>parent</artifactId>
+	<packaging>pom</packaging>
+	<version>2.1.5-SNAPSHOT</version>
+	<name>oTransOS Parent Module</name>
+	<modules>
+		<module>src/ria</module>
+		<module>src/ext</module>
+		<module>src/dbo</module>
+		<module>src/cms</module>
+		<module>src/core</module>
+		<module>src/push</module>
+		<module>src/dubbo</module>
+		<module>src/report</module>
+		<module>src/search</module>
+		<module>src/weixin</module>
+		<module>src/mobile</module>
+		<module>src/android</module>
+		<module>src/security</module>
+		<module>src/workflow</module>
+		<module>src/generator</module>
+		<module>src/application</module>
+		<module>src/struts-support</module>
+		<module>src/payment</module>
+		<module>src/shop</module>
+	</modules>
+	<properties>
+		<parent.version>2.0</parent.version>
+		<source.version>1.7</source.version>
+		<target.version>1.7</target.version>
+		<file.encoding>UTF-8</file.encoding>
+		<maven.test.skip>true</maven.test.skip><!-- 跳过单元测试 -->
+		<downloadSources>true</downloadSources><!-- 自动下载并关联源码 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<maven-jar-plugin>2.4</maven-jar-plugin>
+		<maven-source-plugin>2.2.1</maven-source-plugin>
+		<compiler.version>3.1</compiler.version>
+
+		<servlet.version>3.1.0</servlet.version>
+		<velocity.version>1.7</velocity.version>
+		<velocity.tools.version>2.0</velocity.tools.version>
+		<dom4j.version>1.6.1</dom4j.version>
+		<jdom.version>1.1.3</jdom.version><!-- 此JAR不能升级不然短信发送不可用 -->
+		<log4j.version>1.2.17</log4j.version>
+		<jaxen.version>1.1.4</jaxen.version>
+		<junit.version>4.11</junit.version>
+		<fileupload.version>1.3</fileupload.version>
+		<druid.version>1.0.4</druid.version>
+		<jpa.version>2.1</jpa.version>
+		<acegisecurity.version>1.0.7</acegisecurity.version>
+		<hibernate.version>4.3.7.Final</hibernate.version>
+		<mysql.version>5.1.34</mysql.version>
+		<guice.version>2.0</guice.version>
+		<jsoup.version>1.7.3</jsoup.version>
+		<httpclient.version>4.3.4</httpclient.version>
+		<httpmime.version>4.3.4</httpmime.version>
+		<shiro.version>1.2.2</shiro.version>
+		<zxing.version>3.1.0</zxing.version>
+		<shcm.version>1.0</shcm.version><!-- 手机短信 -->
+
+		<spring.version>4.1.2.RELEASE</spring.version>
+		<validation.api.version>1.1.0.Final</validation.api.version>
+		<hibernate.validator.version>5.1.3.Final</hibernate.validator.version>
+		<spring.data.jpa.version>1.7.1.RELEASE</spring.data.jpa.version>
+
+		<spring.jpa.version>2.0.8</spring.jpa.version>
+		<aspectjrt.version>1.7.4</aspectjrt.version>
+		<aspectjweaver.version>1.7.4</aspectjweaver.version>
+		<ant.version>1.9.2</ant.version>
+		<derby.version>10.10.1.1</derby.version>
+		<struts1.version>1.3.10</struts1.version>
+		<struts2.version>2.3.16</struts2.version>
+		<commons.email.version>1.3.3</commons.email.version>
+		<slf4j.api.version>1.7.5</slf4j.api.version>
+		<yuicompressor.version>2.4.7</yuicompressor.version>
+		<jxl.version>2.6.12</jxl.version>
+		<xstream.version>1.4.6</xstream.version>
+		<jsoup.version>1.7.3</jsoup.version>
+		<itextpdf.version>5.4.5</itextpdf.version>
+		<commons.lang3.version>3.1</commons.lang3.version>
+		<batik.version>1.7</batik.version>
+		<mina.version>2.0.7</mina.version>
+		<netty.version>3.8.0.Final</netty.version>
+		<xml.apis.version>1.3.04</xml.apis.version>
+		<fastjson.version>1.1.39</fastjson.version>
+		<commons.beanutils.version>1.8.3</commons.beanutils.version>
+		<collections.version>3.2.1</collections.version>
+		<javadoc.version>2.9.1</javadoc.version>
+		<poi.version>3.11</poi.version>
+		<itext.version>4.2.1</itext.version>
+		<guava.version>18.0</guava.version>
+
+		<!-- android version -->
+		<platform.version>4.1.1.4</platform.version>
+	</properties>
+	<!-- developer -->
+	<developers>
+		<developer>
+			<id>lengyu</id>
+			<name>lengyu</name>
+			<email>ksmwly@gmail.com</email>
+		</developer>
+	</developers>
+	<build>
+		<plugins>
+			<!-- 编译源代码 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${compiler.version}</version>
+				<configuration>
+					<source>${source.version}</source>
+					<target>${target.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<compilerArguments>
+						<verbose />
+						<!-- 多个使用分号相隔 -->
+						<bootclasspath>${java.home}/lib/rt.jar;${java.home}/lib/jce.jar</bootclasspath>
+					</compilerArguments>
+					<showWarnings>true</showWarnings>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+			<!-- 生成javadoc  <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
+				<version>${javadoc.version}</version> <executions> <execution> <id>attach-javadocs</id> 
+				<goals> <goal>jar</goal> </goals> </execution> </executions> </plugin>
+				-->
+			<!-- 生成JAR包 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin}</version>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+
+					</archive>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<!--生成源码JAR包 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven-source-plugin}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- 管理资源文件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.html</include>
+					<include>**/*.properties</include>
+					<include>**/*.js</include>
+					<include>**/*.txt</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.js</include>
+					<include>**/*.txt</include>
+					<include>**/*.xml</include>
+					<include>**/*.xsd</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+	<!-- 发布版本到指定仓库 -->
+	<!--<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://maven.kmengfang.com:4900/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://maven.kmengfang.com:4900/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement> -->
+</project>
+

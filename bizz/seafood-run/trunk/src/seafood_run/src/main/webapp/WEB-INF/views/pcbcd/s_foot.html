@@ -1,0 +1,72 @@
+
+		
+<div class="ft_wrap">
+<div class="wrap ft_footer_service clearfix" id="footerIcon" style="width:100%;">
+<a  title="" data-tc="ad.0.0.17536-18431204" data-ref="17536_18431204_1" style="width:245px; margin-left:70px;" target="_blank">
+<img alt="" src="/static/home/pcbcd/images/foot/aqbz.png">
+<b>安全保真</b>
+<span>正品行货 放心选购</span>
+</a>
+<a  title="" data-tc="ad.0.0.17539-18431238" data-ref="17539_18431238_1" style="width:245px;" target="_blank">
+<img alt="" src="/static/home/pcbcd/images/foot/mbby.png">
+<b>满百包邮</b>
+<span>单品牌 满百包邮</span>
+</a>
+<a title="" data-tc="ad.0.0.17542-18431289" data-ref="17542_18431289_1" style="width:245px;" target="_blank">
+<img alt="" src="/static/home/pcbcd/images/foot/shwy.png">
+<b>售后无忧</b>
+<span>7天无理由退货</span>
+</a>
+<a  title="" data-tc="ad.0.0.17545-18434559" data-ref="17545_18434559_1" style="width:245px;" target="_blank">
+<img alt="" src="/static/home/pcbcd/images/foot/kssd.png">
+<b>快速送达</b>
+<span>收货时间由你做主</span>
+</a>
+</div>
+<div class="wrap ft_service_link clearfix">
+<div id="bottomHelpLinkId" class="ft_help_list clearfix" data-tpa="YHD_GLOBAl_FOOTER_HELP">
+#set($num=0)
+	#foreach($obj in $newsDirList)
+<dl>
+<dt>$obj.name</dt>
+#foreach($obj2 in $NU.getNewDocList($obj.code,6))
+<dd><a href="/goShop.java?cmd=toService&name=bcdsfoot1&docId=$obj2.id&menuId=$obj2.id" target="_blank">$obj2.title</a></dd>
+#end
+</dl>
+#end
+</div>
+<!--footer 二维码 begin -->
+<div class="ft_code_wrap clearfix" data-tpa="YHD_GLOBAl_HEADER_MOBILE" id="footerQRcode">
+<!-- <div class="ft_mobile_code clearfix">
+<p>百春达微信</p>
+<img src="/static/home/pcbcd/images/bcd_qr.jpg" alt="1号店官方微信二维码">
+</div> -->
+</div>
+</div>
+<!--footer 二维码 end-->
+<div id="footer" data-tpa="YHD_GLOBAl_FOOTER">
+<p class="ft_footer_link">
+		#set($n=1)
+		#foreach($obj in $!newsDocList1)
+			<a href="/goShop.java?cmd=toService&name=bcdsfoot2&docId=$obj.id&menuId=$obj.id" data-ref="YHD_FOOTER_NAV_about" target="_blank">$obj.title</a> #if($n<$newsDocList1.size())|#end
+		#set($n=$n+1)
+		#end
+</p>
+<p class="ft_footer_link">
+		#set($n=1)
+		#foreach($obj in $!newsDocList2)
+			<a href="/goShop.java?cmd=toService&name=bcdsfoot3&docId=$obj.id&menuId=$obj.id" target="_blank" rel="nofollow">$obj.title</a> #if($n<$newsDocList2.size())|#end
+		#set($n=$n+1)
+		#end
+</p>
+<p>Copyright© 海鲜之家商城 2017-2019，All Rights Reserved</p>
+<small id="footerbanner2LazyLoad" class="ft_pic_link">
+#foreach($obj in $NU.getLinkImg("index_gg_bottom",15))
+<a href="$obj.linkUrl" target="_blank" rel="nofollow">
+<img src="$obj.imgPath" alt="">
+</a>
+|
+#end
+</small>
+</div>
+</div>

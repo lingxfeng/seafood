@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title></title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script>
+jQuery(document).ready(function(){
+ 	jQuery("#productTypeId").val("$!{entry.productType.id}")
+ 	jQuery("#floorColor").val("$!{entry.floorColor}")
+ 	#if(${entry.isTopPro})
+ 		jQuery("#isTopPro").val("1")
+ 	#else
+ 		jQuery("#isTopPro").val("0");
+ 	#end
+jQuery("#theForm").validate({
+    rules:{
+	 },
+	messages:{
+	 }
+  });
+});
+//品牌保存
+function saveShopFloor(method){
+	jQuery("#theForm").submit();
+}
+</script>
+
+</head>
+<body>
+<form action="/shopFloor.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+  <input name="id" id="id" type="hidden" value="$!{entry.id}">
+  #if($entry)
+  <input name="cmd" id="cmd" type="hidden" value="update">
+  #else
+  <input name="cmd" id="cmd" type="hidden" value="save">
+  #end
+  <div class="cont">
+    <h1 class="seth">首页楼层</h1>
+    
+    <div class="nav_list"> 
+	 
+    <ul>
+         <li><a href="/shopFloor.java?cmd=list"><b>管理</b></a></li> 
+	<li><a href="/shopFloor.java?cmd=list" class="this"><b>新增</b></a></li>
+	  	</ul>
+		
+    </div>
+    <div class="edit">
+    <div class="editul setcont" id="base">
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>楼层名称</li>
+        <li><span class="webname">
+          <input name="name" type="text" id="name" value="$!{entry.name}">
+        </span><span ><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>楼层颜色</li>
+        <li><span class="webname">
+        <select name="floorColor" id="floorColor">
+        	<option value="orange_storey">桔黄色</option>
+        	<option value="blue_storey">海之蓝</option>
+        	<option value="pink_storey">清新粉</option>
+        </select>
+        </span><span ><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+             <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>楼层logo图标</li>
+        <li><span class="webname">
+          <input name="logoImg" type="file" id="logoImg">
+          #if($entry.logoImg)
+          	<img width="100px" height="30px" src="$entry.logoImg"/>
+          #end
+        </span><span ><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>显示的分类</li>
+        <li><span class="webname">
+        	<select name="productTypeId" id="productTypeId">
+        		#foreach($obj in $pTypes)
+        		<option value="$obj.id">$obj.name</option>
+        		#end
+        	</select>
+        </span><span ><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>是否显示置顶商品</li>
+        <li><span class="webname">
+        	<select name="isTopPro" id="isTopPro">
+        		<option value="0">不显示</option>
+        		<option value="1">显示</option>
+        	</select>
+        </span><span id="nothis"><strong class="q"></strong><strong class="w">不显示置顶商品时，每个分类下显示4个商品。显示置顶商品时，除显示置顶商品外没分类还将显示8个推荐商品</strong><strong class="c"></strong></span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>楼层广告图片</li>
+        <li><span class="webname">
+          <input name="advImg" type="file" id="advImg">
+          #if($entry.advImg)
+          	<img width="100px" src="$entry.advImg"/>
+          #end
+        </span><span ><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>楼层广告链接</li>
+        <li><span class="webname">
+          <input name="advUrl" type="text" id="advUrl" value="$!{entry.advUrl}">
+        </span><span ><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+      <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>排序</li>
+        <li><span class="webname">
+          <input name="sequence" type="text" id="sequence" value="$!{entry.sequence}">
+        </span><span ><strong class="q"></strong><strong class="w"></strong><strong class="c"></strong></span></li>
+      </ul>
+      <tr>
+          <ul class="set1">
+        <li class="setcont_bg"><strong class="sred">*</strong>楼层样式选择</li>
+          <td class="sptable">
+          <label>
+              <input name="type" type="radio" value="0" #if($!{entry.type}=="0")checked="checked"#end #if(!$entry)checked="checked"#end/>
+              	样式一</label>
+            <label>
+              <input name="type" type="radio"  value="1" #if($!{entry.type}=="1")checked="checked"#end/>
+             	 样式二</label>
+        </ul>   
+          </div>
+    </div>  
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="saveShopFloor();"></span>
+  </div>
+  </div>
+
+</form>
+
+
+</body></html>

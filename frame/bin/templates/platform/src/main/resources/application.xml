@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+    xsi:schemaLocation="
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <import resource="classpath:/cn/disco/application/application.xml" />
+   <!-- 打开spring注解 -->
+  <context:annotation-config />
+  <!-- 设定Spring去那些包中找注解 -->
+  <context:component-scan base-package="myapp" />
+
+  <!--由具体的项目自己引用 -->
+  <bean id="htmlGenerator" class="cn.disco.core.service.impl.HtmlGeneratorImpl">
+    <!-- 后期改为动态存到数据库中如果数据库中没有则默认取http://localhost:4944 -->
+    <property name="siteRoot" value="http://localhost:4944/"></property>
+  </bean>
+
+</beans>

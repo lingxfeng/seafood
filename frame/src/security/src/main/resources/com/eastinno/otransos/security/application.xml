@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- 引入核心框架的配置 -->
+	<import resource="classpath:/com/eastinno/otransos/ext/application.xml" />
+
+	<import resource="classpath:/com/eastinno/otransos/security/email.xml" />
+	<!-- 宁善斋基于Shiro开发的权限 -->
+	<import resource="classpath:/com/eastinno/otransos/security/applicationContext-shiro.xml" />
+
+	<aop:config>
+		<aop:pointcut id="discoSecurityServiceMethods" expression="execution(* com.eastinno.otransos.core.service.*.*(..))" />
+		<aop:advisor advice-ref="discoSecuritytxAdvice" pointcut-ref="discoSecurityServiceMethods" />
+	</aop:config>
+	<tx:advice id="discoSecuritytxAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="add*" propagation="REQUIRES_NEW" />
+			<tx:method name="del*" propagation="REQUIRES_NEW" />
+			<tx:method name="batchDel*" propagation="REQUIRES_NEW" />
+			<tx:method name="update*" propagation="REQUIRES_NEW" />
+		</tx:attributes>
+	</tx:advice>
+
+	<bean id="scriptLoader" class="com.eastinno.otransos.core.service.impl.ScriptLoaderImpl">
+		<property name="servers">
+			<list>
+				<!-- 后期改为动态配置到数据库站点配置中 -->
+				<value>http://ria.dgdy.cc</value>
+				<value>http://script.dgdy.cc</value>
+			</list>
+		</property>
+		<property name="debug" value="true" />
+		<property name="compress" value="false" />
+	</bean>
+
+	<!--页面静态化BEAN -->
+	<bean id="htmlGenerator" class="com.eastinno.otransos.core.service.impl.HtmlGeneratorServiceImpl">
+		<property name="siteRoot" value="${site.domain}"></property>
+	</bean>
+
+	<!-- 定义页面静态化自动生成任务 -->
+	<bean id="autoPublishNews" class="org.springframework.scheduling.timer.MethodInvokingTimerTaskFactoryBean">
+		<property name="targetObject">
+			<ref bean="dynamicStaticPairServiceImpl" />
+		</property>
+		<property name="targetMethod" value="autoPublish" />
+	</bean>
+	<bean id="scheduledPublishNewsTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+		<!-- 设置启动延迟 -->
+		<property name="delay" value="${global.scheduled.delay}" />
+		<!-- 后续延迟 -->
+		<property name="period" value="${global.scheduled.period}" />
+		<!-- 指定触发器信息 -->
+		<property name="timerTask" ref="autoPublishNews" />
+	</bean>
+	<bean class="org.springframework.scheduling.timer.TimerFactoryBean">
+		<property name="scheduledTimerTasks">
+			<list>
+				<ref bean="scheduledPublishNewsTask" />
+			</list>
+		</property>
+	</bean>
+</beans>

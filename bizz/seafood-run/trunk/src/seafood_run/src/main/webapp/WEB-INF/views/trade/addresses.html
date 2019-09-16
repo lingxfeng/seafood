@@ -1,0 +1,24 @@
+  #set($num=1)
+  #foreach($obj in $list)
+        <script>
+  jQuery(function(){ 
+     jQuery("#addr_id").val("$obj.id");
+	 //
+	 var addr_id=jQuery(".shopping_address_one:first").attr("addr_id");
+	 var obj=jQuery(".shopping_address_one:first a:last");
+	  addr_default(addr_id,obj);
+  })
+  </script>
+    <div addr_id="9" #if($num==1) class="shopping_address_one this" #else class="shopping_address_one" #end>
+  <ul>
+        <li class="shopping_address_one_top">收货人：$!{obj.trueName}</li>
+        <li class="shopping_address_one_tel">联系电话：$!{obj.telephone}&nbsp;&nbsp;</li>
+        <li class="shopping_address_one_address">收货地址：$!{obj.area.toString()}</li>
+        <li class="shopping_address_one_address_a">详细地址：$!{obj.area_info}</li>
+        <li class="shopping_address_one_coding">邮编：$!{obj.zip}</li>
+        <li class="shopping_address_one_edit" style="display:none;"><a href="javascript:void(0);" onclick="addr_edit('$!{obj.id}',this)">编辑</a></li>
+        <li class="shopping_address_one_default" style="display:none;"><a href="javascript:void(0);" onclick="addr_default('$!{obj.id}',this)">设为默认地址</a></li>
+      </ul>
+</div>
+#set($num=$num+1)
+#end

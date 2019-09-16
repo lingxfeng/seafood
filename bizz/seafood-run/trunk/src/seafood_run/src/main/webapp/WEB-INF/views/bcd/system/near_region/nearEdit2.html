@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+	<title></title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="/static/common/base.css" />
+	<link rel="stylesheet" href="/static/common/plugin/assets/css/font-awesome.min.css" type="text/css"/>
+	<script src="/static/home/bcd/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+	<script src="/static/home/bcd/js/jquery-ui.min.js" type="text/javascript"></script>
+	
+	<script>
+	#if($result)
+		#if($result.equals("success"))
+			alert($message);
+		#end
+	#end
+	</script>
+</head>
+	
+<body>
+	<div class="cont">
+		<h3 class="seth">附近地区设置</h3>
+			
+		<div class="nav_list">
+			<ul>
+				<li><a class="this"><b>附近地区设置</b></a></li>
+			</ul>
+		</div>
+
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>选择完子地区确认后，系统并未保存，需要点击页面底部的保存按钮系统才会保存设置的地区</li>
+			</ul>
+		</div>
+		<form id="pageForm" action="/regionClass.java?cmd=batchSetNearRegion" method="post">
+		<input type="hidden" name="regionId" id="regionId" value="$!{regionId}"/>
+			<button id="submitButton" type="submit">保存修改</button>
+			<table id="table_area_box" class="table tb-type2">
+		      <thead>
+		        <tr class="thead">
+		          <th class="thead-blank"></th>
+		          <th class="thead-province">省</th>
+		          <th class="thead-city">市</th>
+		        </tr>
+		      </thead>
+		      <tbody>        
+		        #foreach($region in $regionList)
+		        <tr style="">
+		          <td></td>
+		          <td>
+		          	<label>
+		              <input class="province_input" province-value="$region.id" city-num="$region.children.size()" type="checkbox" value="$region.id" name="provinceId" />
+		              <span>$region.title</span>
+		            </label>
+		          </td>
+		          <td>
+		          	#foreach($city in $region.children)
+		          	<div class="area-list">
+		          	  #if($city.children && $city.children.size()>0)
+		              <label>
+		                <input class="city_input" province-value="$region.id" city-value="$city.id" area-num="$city.children.size()" type="checkbox" value="$city.id" name="cityId" />
+		                <span>$city.title</span>
+		              </label>		              
+		              (<span title="已选下级地区">$city.children.size()</span>)
+		              <a class="area-list-edit">
+		              	<i class="fa fa-pencil table_td_edit" data-value="$city.id"></i>
+		              </a>
+		              #else
+		              <label>
+		                <input id="area_$city.id" class="city_input" province-value="$region.id" city-value="$city.id" area-num="1" type="checkbox" value="$city.id" name="areaIds" />
+		                <span>$city.title</span>
+		              </label>
+		              #end
+		            </div>
+			            #if($city.children && $city.children.size()>0)
+			            <div id="dialog_$city.id" class="dialog_wrapper" style="z-index: 1100; position: absolute; width: 500px;">
+							<div class="dialog_body" style="background: #fff; border: solid 1px #CCC; position: relative;">
+								<h3 class="dialog_head" style="cursor: move;">
+									<span class="dialog_title">
+										<span class="dialog_title_icon">选择 $city.title 子地区</span>
+									</span>
+									<span class="dialog_close_button">X</span>
+								</h3>
+								<div class="dialog_content" style="margin: 0px; padding: 0px;">
+									<table class="table_area_box_edit">
+										<tbody>
+											<tr>
+												<td style="background-color:white;">
+													<ul class="dialog_area_ul">
+														#foreach($area in $city.children)
+														<li><input id="area_$area.id" class="area_input" province-value="$region.id" city-value="$city.id" area_value="$area.id" type="checkbox" value="$area.id" name="areaIds" />$area.title</li>
+														#end												
+													</ul>
+												</td>
+											</tr>
+											<tr>
+												<td style="text-align:center;">
+													<button class="dialog-button"><span>确认</span></button>
+												</td>
+											</tr>
+											<tr >
+												<td style="background-color:white;text-align:center;color:#f30;">确认后，还需要点击页面顶部的【保存修改】按钮完成保存操作</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div style="clear:both; display:block;"></div>
+						</div>
+						#end
+		            #end
+		          </td>
+		        </tr>
+		        #end
+		      </tbody>	      
+		    </table>
+		 </form>
+	</div>
+</body>
+<style>
+thead,tbody,tfoot{
+	border-top: 1px solid #F3F5F8;
+}
+thead th{
+	border-left: 1px solid #F3F5F8;
+}
+tr{
+	margin-bottom: 10px;
+}
+tr:nth-child(even) td {
+    background-color: #F3F5F8;    
+}
+td{
+	padding: 16px 2px 6px 2px;
+}
+.area-list{
+	display: inline-block;
+	vertical-align: center;
+	width: 200px;
+	margin-bottom: 10px;	 
+}
+.area-list-edit{
+	margin-left: 8px;
+}
+.thead-province{
+	padding: 6px;
+	width: 190px;
+}
+.dialog_wrapper{    
+	display: none;
+	background-color: rgba(130, 130, 130, 0.25);
+    border-radius: 4px;
+    padding: 4px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.75);
+}
+.dialog_title {
+    background-color: #FFF;
+    display: inline-block;
+    height: 20px;
+    padding: 10px 20px;
+    border: none 0;
+}
+.dialog_close_button {
+	height: 10px;
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+.dialog_close_button:hover {
+	color: red;
+}
+.dialog_area_ul li{
+	display: inline-block;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	width: 120px;
+}
+.dialog-button{
+	font-size: 14px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+#submitButton{
+	padding: 10px;
+	background-color: white;
+	margin-left: 20px;
+	margin-top: 8px;
+	margin-bottom: 8px;	
+}
+#submitButton:hover{
+	background-color: rgb(240, 245, 255);
+}
+</style>
+<script>
+$(function(){
+	$(".dialog_close_button").click(function(){
+		$(".dialog_wrapper").hide();
+		return false;
+	});
+	$(".dialog-button").click(function(){
+		$(".dialog_wrapper").hide();
+		return false;
+	});
+	$(".table_td_edit").click(function(){		
+		showDialog($(this).attr("data-value"));
+	});
+	$(".province_input").click(function(){
+		var provinceId = $(this).attr("province-value");
+		if($(this).prop("checked")){
+			$("input[province-value="+provinceId+"]").prop("checked", true);
+		}else{
+			$("input[province-value="+provinceId+"]").prop("checked", false);
+		}
+	});
+	$(".city_input").click(function(){
+		var provinceId = $(this).attr("city-value");
+		if($(this).prop("checked")){
+			$("input[city-value="+provinceId+"]").prop("checked", true);
+		}else{
+			$("input[city-value="+provinceId+"]").prop("checked", false);
+		}
+	});
+	#foreach($near in $nearRegionList)
+	$("#area_$near.systemRegion.id").prop("checked", true);
+	#end
+	
+	flushChecked();
+});
+function flushChecked(){
+	var cityEle = $(".city_input");
+	var i = 0;
+	for(i=0; i<cityEle.length; ++i){
+		var cityVal = $(cityEle[i]).attr("city-value");
+		var areaNum = $(cityEle[i]).attr("area-num");
+		var areaCheckLength = $(".area_input[city-value='"+cityVal+"']:checked").length;
+		if(areaNum == areaCheckLength){
+			$(cityEle[i]).prop("checked", true);
+		}
+	}
+	var provinceEle = $(".province_input");
+	i = 0;
+	for(i=0; i<provinceEle.length; ++i){
+		var provinceVal = $(provinceEle[i]).attr("province-value");
+		var cityNum = $(provinceEle[i]).attr("city-num");
+		var cityCheckLength = $(".city_input[province-value='"+provinceVal+"']:checked").length;
+		if(cityNum==cityCheckLength && cityNum!=0){
+			$(provinceEle[i]).prop("checked", true);
+		}
+	}
+}
+function showDialog(cityId){
+	var left = 0;
+	var top = 0;
+	left =  $(window).width()/2-250;
+	top = $(window).scrollTop()+$(window).height()/2-250;
+	$("#dialog_"+cityId).css("top", top);
+	$("#dialog_"+cityId).css("left", left);
+	$("#dialog_"+cityId).show();
+}
+</script>
+</html>

@@ -1,0 +1,253 @@
+<style>
+#addSpec{
+	clear: both;	
+	margin-left: 20px;
+	display: none;
+}
+
+#addSpec span{
+	font-size: 14px;
+}
+#addSpec-item{
+	float: left;
+	padding-left: 20px;
+	padding-right: 20px;
+	border: 1px solid #e8e8e8;
+}
+#addSpec-item li{
+	border-top: 1px dashed #dedede;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+#addSpec-item li:first-child{
+	border-top: 0px dashed #dedede;
+}
+.addSpec-item-title{
+    font-weight: 400;
+    color: #999;
+    margin-right: 30px;
+}
+.addSpec-item-span{
+	margin-left: 20px;
+}
+.addSpec-item-span:hover{
+	color: pink;
+	cursor:pointer;
+}
+#addSpec-show{
+	float: left;
+	margin-left: 20px;	
+	padding-left: 20px;
+	padding-right: 20px;
+	border: 1px solid #e8e8e8;
+}
+#addSpec-show li{
+	padding-top: 10px;
+	border-top: 1px dashed #dedede;
+	padding-bottom: 10px;
+}
+#addSpec-show li:first-child{
+	border-top: 0px dashed #dedede;
+}
+.addSpec-show-title{
+    font-weight: 400;
+    color: #999;
+    margin-right: 30px;
+}
+.addSpec-show-span{
+	margin-left: 20px;
+	border: 1px solid #e8e8e8;
+	padding-left: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-right: 5px;  
+}
+.addSpec-show-span:hover{
+	color: pink;
+	cursor: pointer;
+	border-color: pink;
+}
+#addSpec-input{
+	clear: both;	
+	width: 600px;
+	padding-left: 20px;
+	border: 1px solid #e8e8e8;
+	margin: 0 auto;
+	margin-top: 10px;
+}
+#addSpec-input li{
+	border-top: 1px dashed #dedede;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin: 0 auto;
+}
+#addSpec-input li:first-child{
+	border-top: 0px dashed #dedede;
+}
+.addSpec-input-title{	
+    font-weight: 400;
+    color: #999;
+    margin-right: 30px;
+}
+.addSpec-input-input{
+	float: right;
+	margin-right: 200px;
+}
+#addSpec-sure{
+	text-align: center;
+	width: 10%;
+	height: 100%;
+	padding: 5px 0 5px 0;
+	background-color: rgb(225,239,248);
+	font-size: 16px;
+}
+#addSpec-sure:hover{	
+	background-color: rgb(84,179,235);	
+}
+#addSpec-back{
+	text-align: center;
+	width: 10%;
+	height: 100%;
+	padding: 5px 0 5px 0;
+	background-color: rgb(225,239,248);
+	font-size: 16px;
+}
+#addSpec-back:hover{	
+	background-color: rgb(84,179,235);	
+}
+</style>
+<script>
+function showAddSpec(){
+	$("#addSpec").show();
+	$("#goods_guig").hide();
+	$("#submitButton").hide();
+}
+$(function(){
+	$(".addSpec-item-span").click(function(){
+		var specName = $(this).attr("data-value");
+		var num = $(this).parent("li").attr("data-value");
+		$("#addSpec-show-"+num).append("<span class='fa fa-close addSpec-show-span'>"+specName+"</span>");
+		
+		$(".addSpec-show-span").click(function(){
+			$(this).remove();
+		});
+	});
+	$("#addSpec-sure").click(function(){
+		var specSet = new Array();
+		
+		#set($num=0)
+        #foreach($obj in $guigs)        
+	        specSet.push($("#addSpec-show-$num").children());	        
+        #set($num=$num+1)
+        #end
+        
+        var store = $("#addSpec-show-store").val();
+        var cost = $("#addSpec-show-cost").val();
+        var tydCost = $("#addSpec-show-tydCost").val();
+        var wdCost = $("#addSpec-show-wdCost").val();
+        var retailCost = $("#addSpec-show-retailCost").val();
+        var num = $("#addSpec-show-num").val();
+        
+        //下面的代码很费脑筋，如有需要，请联系作者--wb
+        var preResult = new Array();
+        var currResult = new Array();
+        for(var i=0; i<specSet.length; ++i){
+        	currResult = new Array();
+			if(preResult.length == 0){
+				for(var j=1; j<specSet[i].length; ++j){
+					currResult.push($(specSet[i][j]).text());	
+				}        		
+        	}else{
+        		for(var j=1; j<specSet[i].length; ++j){
+            		for(var k=0; k<preResult.length; ++k){
+            			currResult.push(preResult[k]+","+$(specSet[i][j]).text());	
+            		}        		
+            	}	
+        	}        	
+        	preResult = preResult.concat(currResult);
+        }
+        currResult = preResult;
+        
+        //依据currResult的处理结果，添加记录
+        for(var i=0; i<currResult.length; ++i){
+        	addSpec("类型", currResult[i], store, cost, tydCost, wdCost, retailCost, num);
+        }
+        
+        #set($num=0)
+        #foreach($obj in $guigs)        
+	        $("#addSpec-show-$num").html("<span class='addSpec-show-title'>$obj.name:</span>");	        
+        #set($num=$num+1)
+        #end
+        
+        $("#addSpec").hide();
+        $("#goods_guig").show();
+        $("#submitButton").show();
+        
+        return false;
+	});	
+	$("#addSpec-back").click(function(){
+		$("#addSpec").hide();
+        $("#goods_guig").show();
+        $("#submitButton").show();
+        return false;
+	});
+});
+function addSpec(key, name, store, cost, tydCost, wdCost, retailCost, num){
+	var gg="<tr id='p_gg_"+count+"'>";
+	gg+="<td>"+key+"</td>";
+	gg+="<td><input id='gg_name_"+count+"' name='gg_name_"+count+"' value='"+name+"' readonly=\"readonly\"/></td>";
+	gg+="<td>库存</td>";
+	gg+="<td><input id='gg_inventory_"+count+"' name='gg_inventory_"+count+"' value='"+store+"' type='number' required='required' /></td>";
+	gg+="<td>成本价格</td>";
+	gg+="<td><input id='gg_costAmt_"+count+"' name='gg_costAmt_"+count+"' value='"+cost+"' type='number' required='required' /></td>";
+	gg+="<td>体验店价格</td>";
+	gg+="<td><input id='gg_tydAmt_"+count+"' name='gg_tydAmt_"+count+"' value='"+tydCost+"' type='number' required='required' /></td>";
+	gg+="<td>微店价格</td>";
+	gg+="<td><input id='gg_store_price_"+count+"' name='gg_store_price_"+count+"' value='"+wdCost+"' type='number' required='required' /></td>";
+	gg+="<td>零售价格</td>";
+	gg+="<td><input id='gg_amt_"+count+"' name='gg_amt_"+count+"' value='"+retailCost+"' type='number' required='required' /></td>";
+	gg+="<td>货号</td>";
+	gg+="<td><input id='gg_code_"+count+"' name='gg_code_"+count+"' value='"+num+"' required='required' /></td>";
+	gg+="<td><a href='javascript:void(0);' onclick='delGg("+count+")' class='blue' style='cursor: pointer;'>删除</a></td>";
+	gg+="</tr>";
+	$("#gg_tbody").append(gg);
+	count++;
+	$("#guige_num").val(count);
+}
+</script>
+<div id="addSpec">
+	<div id="addSpec-item">
+		<ul>
+		#set($num=0)
+        #foreach($obj in $guigs)
+	        <li id="addSpec-item-$num" data-value="$num">
+	        	<span class="addSpec-item-title">$obj.name:</span>        
+		        #foreach($obj2 in $obj.value.split(","))
+		        	<span class="addSpec-item-span" data-value="$obj2">$obj2</span>
+		        #end        
+		    </li>
+        #set($num=$num+1)
+        #end
+        </ul>
+	</div>
+	<div id="addSpec-show">
+		#set($num=0)
+        #foreach($obj in $guigs)
+	        <li id="addSpec-show-$num" data-value="$num">
+	        	<span class="addSpec-show-title">$obj.name:</span>
+		    </li>
+        #set($num=$num+1)
+        #end
+	</div>
+	<br />
+	<div id="addSpec-input">
+	   <li><span class="addSpec-input-title">库存：</span><input id="addSpec-show-store" class="addSpec-input-input" type='number' value="0"/></li>
+	   <li><span class="addSpec-input-title">成本价格：</span><input id="addSpec-show-cost" class="addSpec-input-input" type='number' value="0"/></li>
+	   <li><span class="addSpec-input-title">体验店价格：</span><input id="addSpec-show-tydCost" class="addSpec-input-input" type='number' value="0"/></li>
+	   <li><span class="addSpec-input-title">微店价格：</span><input id="addSpec-show-wdCost" class="addSpec-input-input" type='number' value="0"/></li>
+	   <li><span class="addSpec-input-title">零售价格：</span><input id="addSpec-show-retailCost" class="addSpec-input-input" type='number' value="0"/></li>
+	   <li><span class="addSpec-input-title">货号：</span><input id="addSpec-show-num" class="addSpec-input-input" type='number' value="0"/></li>
+	   <li><button id="addSpec-sure">确定</button><button id="addSpec-back">返回</button></li>
+	</div>
+</div>
+<div style="clear: both;"></div>

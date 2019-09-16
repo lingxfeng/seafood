@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0052)/store_goods_list_1.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>$!{pType.name} - Powered by 海鲜之家商城</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="generator" content="www.iskyshop.com">
+<meta name="author" content="www.iskyshop.com">
+<meta name="copyright" content="Copyright 2012-2015 ISkyShop Inc. All rights reserved">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="/static/home/shopmanage/css/public.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/integral.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/public_auto.css" type="text/css" rel="stylesheet">
+<link href="/static/home/shopmanage/css/overlay.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery-ui-1.8.21.js"></script>
+<script src="/static/home/shopmanage/js/jquery.SuperSlide.2.1.1.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/jquery.iskyshop.validate.js"></script>
+<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+<script src="/static/home/shopmanage/js/jquery.lazyload.js"></script>
+<script>
+jQuery(document).ready(function(){
+      jQuery("#theForm").validate({
+	      rules:{
+		   exchange_count:{required:true,digits:true,max:$!regular.buyNumLimit,min:1}
+		  },
+		  messages:{
+		    exchange_count:{required:"秒杀数量不能为空",digits:"只能为整数",max:"最多购买$!regular.buyNumLimit",min:"最少购买1件"}
+		  },
+		  submitHandler:function(){
+	    	  $.ajax({
+	    		  url: "pcRushBuyShop.java",
+	    		  data: jQuery("#theForm").serialize(),
+	    		  type: "POST",
+			   	  success: function(data){			
+						var result = eval("("+data+")");
+						if(result.result == "success"){
+							showDialog(1, "秒杀活动", result.data, 2, "question", 10, function(){
+								window.location.href = result.returnUrl;
+							});
+						}else if(result.result == "failure"){								
+							showDialog(1, "秒杀活动", result.data, 2, "question", 10,function(){
+								window.location.href = result.returnUrl;
+							});
+						}
+					}
+	    	  });
+	    	  return false;
+	      }
+	   });
+      jQuery("#exchange_count").change(function(){
+    	  var proIdNums = "$regular.pro.id"+"_"+jQuery("#exchange_count").val()+"_";    	  
+    	  $("#proIdNums").val(proIdNums);
+      });
+      jQuery("#exchange_count").change();
+});
+
+#if(!$regular)
+	alert("请求的秒杀活动不存在！");
+	window.location.href = "/pcRushBuyShop.java?cmd=secKillList";
+#end
+
+</script>
+<style>
+.detailsul li {
+	padding-top: 12px;
+}
+</style>
+</head>
+<body>
+
+#parse("/common/top.html")
+#parse("/common/left.html")
+<div class="main"> 
+  <div class="index">
+    <div class="integ_details">
+    <form action="/pcRushBuyShop.java" method="post" id="theForm">
+      <input type="hidden" name="cmd" value="requestSecKillRight"/>
+      <input id="proIdNums" type="hidden" name="proIdNums" value=""/>
+      <input type="hidden" name="regularId" value="$regular.id"/>
+      <div class="details_in">
+        <h1>$!regular.pro.name</h1>
+        <div class="integ_img">
+        	<img src="$!regular.pro.imgPaths.split('_')[0]" width="384" height="384" />
+        </div>
+        <ul class="detailsul">
+          <li><span class="detulsp">上架时间:</span><span>$!regular.shelvingDate</span></li>
+          <li><span class="detulsp">秒杀时间:</span><span>$!regular.startDate至$!regular.endDate</span></li>
+          <li><span class="detulsp">秒杀限制:</span><span>无限制</span></li>
+          <li><span class="detulsp">商品原价:</span><span>¥$!regular.previewPrice</span></li>          
+          <li><span class="detulsp">秒杀价格:</span><span><strong class="font_size">$!regular.activityPrice</strong></span></li>          
+          <li><span class="detulsp">邮费:</span><span>商家承担</span></li>
+          <li><span class="detulsp">已售:</span><span><b>$!regular.pro.saleNum</b></span></li>
+          <li><span class="detulsp">购买数量:</span><span><i class="txt_detul">
+            <input name="exchange_count" type="text" id="exchange_count" value="1" />
+            </i>剩余<em>$!regular.pro.inventory</em>件</span></li>
+          <li>
+	          <i class="detspan">
+	          	#if($regular.pro.inventory < 1)
+	          	<input name="" type="submit" value="已经售罄" onclick="return false;" style="cursor:pointer; background-image:url('/static/home/shopmanage/images/integral/changedfalse.jpg');"/>
+	          	#elseif($regular.getState().equals("end"))
+	          	<input name="" type="submit" value="活动结束" onclick="return false;" style="cursor:pointer; background-image:url('/static/home/shopmanage/images/integral/changedfalse.jpg');"/>
+	          	#else
+	          	<input id="theSubmitButton" name="" type="submit" value="马上抢购" style="cursor:pointer; background-image:url('/static/home/shopmanage/images/integral/changed.jpg');"/>
+	          	#end
+	          </i>
+	          <input name="id" type="hidden" id="id" value="$!regular.id" />
+          </li>
+        </ul>
+      </div>
+      </form>
+      <div class="gift_explain">
+        <h1 style="background-image:url('/static/home/shopmanage/images/integral/gift.jpg');">
+        	<span style="background-image:url('/static/home/shopmanage/images/integral/giftexp.jpg');">商品介绍</span>
+        </h1>
+        <div class="explain_det">
+        	$!regular.pro.goods_details
+        </div>
+      </div>
+    </div>
+<!--     <div class="gift_recode">
+      <h1>礼品兑换记录</h1>
+      <ul>
+              </ul>
+    </div>-->
+   </div>
+  ﻿<script>
+jQuery(document).ready(function(){
+			//滚动条滚动事件
+	jQuery(window).scroll(function(){
+	var top = jQuery(document).scrollTop();
+	if(top==0){
+		  jQuery("#back_box").hide();
+		  jQuery(".back_box_x").hide();
+		}else{
+		  jQuery("#back_box").show();	
+	      jQuery(".back_box_x").show();
+		}
+	});	
+	//
+	jQuery("#toTop").click(function(){
+       jQuery('body,html').animate({scrollTop:0},1000);
+       return false;
+    });
+});
+</script>
+
+#parse("/common/footer.html")
+<!--返回最顶部-->
+<div id="back_box" style="position:fixed;width:40px; height:118px; float:left; right:0; display:none; bottom:150px; _position:absolute;/*兼容IE6的代码*/
+_bottom:auto;/*兼容IE6的代码*/
+_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));">
+  <div class="back_index"><a href="http://b2b2c.iskyshop.com/index.htm" target="_blank"  title="返回主页"></a></div>
+  <div class="back_top"><a id="toTop" href="#" bosszone="hometop" style="display: block;"  title="返回顶部" target="_self" ></a></div>
+</div>
+ </div>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>微店	等级编辑</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/commonutil.js"></script>
+<script>
+	jQuery("#theForm").validate({
+		rules : {
+			name : {
+				required : true,
+				maxlength : 20
+			},
+			levelCondition : {
+				required : true,
+				number : true,
+				range : [ 0, 1000000000 ]
+			},
+			leve1 : {
+				required : true,
+				number : true,
+				range : [ 0, 1000000000 ]
+			},
+			leve2 : {
+				required : true,
+				number : true,
+				range : [ 0, 1000000000 ]
+			},
+			leve3 : {
+				required : true,
+				number : true,
+				range : [ 0, 1000000000 ]
+			}
+		},
+		messages : {
+			name : {
+				required : "微店等级不能为空",
+				maxlength : "名称不能大于20字符"
+			},
+			levelCondition : {
+				required : "等级条件不能为空",
+				number : "等级条件只能是数字格式",
+				range : "等级条件必须是大于等于0的整数"
+			},
+			leve1 : {
+				required : "一级佣金增幅不能为空",
+				number : "一级佣金增幅只能是数字格式",
+				range : "一级佣金增幅必须是大于等于0的整数"
+			},
+			leve2 : {
+				required : "二级佣金增幅不能为空",
+				number : "二级佣金增幅只能是数字格式",
+				range : "二级佣金增幅必须是大于等于0的整数"
+			},
+			leve3 : {
+				required : "三级佣金增幅不能为空",
+				number : "三级佣金增幅只能是数字格式",
+				range : "三级佣金增幅必须是大于等于0的整数"
+			}
+		}
+	});
+//判定是否设置默认佣金分配规则
+$(function(){
+	var msg = "$!msg";
+	if(msg!=""){
+		alert("请先设置默认佣金分配规则！")
+		window.location.href='/shopDistributorRating.java?cmd=list';
+	}else{
+		if("$!{entry.id}"){
+			//等级类型
+			var levelType = "$!{entry.type}";
+			if (levelType == 0) { //佣金等级  
+				 $("#selectID").val(0);
+			} else { //自定义等级
+				 $("#selectID").val(1);
+			}
+			//佣金金额设置
+			getCommissionRatio("1");
+			getCommissionRatio("2");
+			getCommissionRatio("3");
+		}
+	}
+	
+	if($("#selectID").val()==1){
+		$("#choose").hide();
+		}
+	
+});
+jQuery(function(){
+	$("#selectID").change(function(){
+		if($("#selectID").val()==1){
+			$("#choose").hide();
+			$("#conditionf").empty();
+		}else{
+			$("#choose").show();
+		}
+	})
+});
+/**
+ * 佣金计算
+ */
+function getCommissionRatio(level) {
+	if ("1" == level) {
+		$("#one_spanid").text($('#defultcommission1').text()*$('#leve1').val());
+	} else if ("2" == level) {
+		$("#two_spanid").text($('#leve2').val() * $('#defultcommission2').text());
+	} else {
+		$("#three_spanid").text($('#leve3').val() * $('#defultcommission3').text());
+	}
+}
+
+/**
+ * 等级保存
+ */
+function saveLevel() {
+	$("#type").val($("#selectID").val());
+	$("#theForm").submit();
+}
+</script>
+
+</head>
+<body>
+	<form action="/shopDistributorRating.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+	#if($entry)
+	<input name="cmd" type="hidden" value="update">
+	#else
+	<input name="cmd" id="cmd" type="hidden" value="save">
+	#end
+	<input name="id" id="id" type="hidden" value="$!{entry.id}">
+	<input name="type" id="type" type="hidden" value="">
+	<div class="cont">
+   	<h1 class="seth">微店等级</h1>
+   	<div class="nav_list"> 
+    	<ul>
+   			<li><a href="/shopDistributorRating.java?cmd=list"><b>默认等级列表</b></a></li>
+			<li><a href="/shopDistributorRating.java?cmd=listCustom"><b>自定义等级列表</b></a></li>
+			<li><a class="this"><b>
+				#if($!entry)
+					编辑等级
+				#else
+					添加等级
+				#end
+			</b></a></li>
+	  	</ul>
+   	</div>
+
+    <div class="edit">
+	    <div class="editul setcont" id="base">
+	        <ul class="set1">
+	        	<li class="setcont_bg"><strong class="sred">*</strong>微店等级</li>
+	        	<li>
+	        		<span class="webname">
+	          			<input name="name" type="text" id="name" value="$!{entry.name}"/>
+	        		</span>
+	        	</li>
+	      	</ul>
+		    <ul class="set1">
+		        <li class="setcont_bg">类型</li>
+		        <li>
+			        <span class="webname">
+			        	<select id="selectID">
+			        		<option value=0>按佣金等级</option>
+			        		<option value=1>自定义等级</option>
+						</select>
+			        </span>
+		        </li>
+	        </ul>
+		    <ul class="set1" id="choose">
+		        <li class="setcont_bg"><strong class="sred">*</strong>等级条件</li>
+		        <li>
+		        	<span class="webname">
+		          		<input name="conditionf" id="conditionf" type="text" id="conditionf" value="$!{entry.conditionf}">
+		        	</span>
+		        	<span id="nothis"><strong class="q"></strong><strong class="w">累计佣金金额满足多少元即升级为该等级</strong><strong class="c"></strong>
+		        	</span>
+		        </li>
+		    </ul>
+		    <ul class="set1">
+		        <li class="setcont_bg">佣金计算公式</li>
+		        <li>
+		        	<span id="nothis">
+			        	<strong class="w">基础佣金比例 x 倍数 ＝ 实际佣金比例&nbsp&nbsp&nbsp如果商品有设置自定义佣金比例则按自定义算</strong>
+			        	<strong class="c"></strong>
+		        	</span>
+		        </li>
+		    </ul>
+	    	<ul class="set1">
+	            <li class="setcont_bg">一级佣金比例</li>
+	            <li>
+	            	<span class="webname">
+	            		<span id="defultcommission1">
+	            			$!commission.leve1
+	            		</span>
+	            		&nbsp&nbsp*&nbsp&nbsp<input name="leve1" type="text" id="leve1"
+	            		 value="$!{entry.leve1}" style="width:180px;" onblur="getCommissionRatio(1)">&nbsp=
+	            	</span>
+	            	<span id="one_spanid">
+	            	</span>&nbsp&nbsp%
+	            </li>
+	        </ul>
+	        <ul class="set1">
+	            <li class="setcont_bg">二级佣金比例</li>
+	            <li>
+	            	<span class="webname">
+	            		<span id="defultcommission2">
+	            			$!commission.leve2
+	            		</span>
+	            		&nbsp&nbsp*&nbsp&nbsp<input name="leve2" type="text" id="leve2"
+	            		 value="$!{entry.leve2}" style="width:180px;" onblur="getCommissionRatio(2)">&nbsp=
+	            	</span>
+	            	<span id="two_spanid">
+	            	</span>%
+	            </li>
+	        </ul>
+	      	<ul class="set1">
+	            <li class="setcont_bg">三级佣金比例</li>
+	            <li>
+	            	<span class="webname">
+	            		<span id="defultcommission3">
+	            			$!commission.leve3
+	            		</span>
+	            		&nbsp&nbsp*&nbsp&nbsp<input name="leve3" type="text" id="leve3"
+	            		 value="$!{entry.leve3}" style="width:180px;" onblur="getCommissionRatio(3)">&nbsp=
+	            	</span>
+	            	<span id="three_spanid">
+	            	</span>%
+	            </li>
+	        </ul>
+	    </div>
+	</div>  
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="saveLevel();"></span>
+    </div>
+</div>
+</form>
+</body>
+</html>
