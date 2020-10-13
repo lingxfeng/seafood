@@ -25,7 +25,7 @@
 		<maven-clean-plugin.version>2.5</maven-clean-plugin.version>
 		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
 
-		<junit.version>4.11</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<otransos.version>2.1.5-SNAPSHOT</otransos.version>
 		<jetty.version>9.1.5.v20140505</jetty.version>
 		<commons-httpclient>3.1</commons-httpclient>
