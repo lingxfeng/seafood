@@ -96,7 +96,7 @@ jQuery(document).ready(function() {
 			
     };   
     swf_upload = new SWFUpload(settings_object);//实例化一个SWFUpload，传入参数配置对象
-			function fileDialogStart(){
+	function fileDialogStart(){
 	  var stats = this.getStats();
 	  stats.successful_uploads=photo_count;
 	  this.setStats(stats);
@@ -594,6 +594,24 @@ input.error {
             	<option value="$obj2.id"  #if($!{obj2.id} == $!{entry.regionClass.id}) selected = "selected" #end>$obj2.name</option>
             	#end
             </select>
+            </span>
+            </td>
+        </tr>
+        
+        
+		<tr>
+          <td align="right" valign="top">定制运费方案：</td>
+          <td class="sptable"><span class="tabtxt1 size1">
+            <select name="deliveryRuleExtId" id="deliveryRuleExtId">
+             	<option value="">选择方案</option> 
+            	#foreach($obj3 in $deliveryRuleExtList)
+            	<option value="$obj3.id"  #if($!{obj3.id} == $!{entry.deliveryRuleExt.id}) selected = "selected" #end>$obj3.name</option>
+            	#end
+            </select>
+            </span>
+            <span class="hui2">选择定制运费方案后，上边的运费设置将失效</span>
+          </td>
+            
         </tr>
         
         <tr>
@@ -733,12 +751,12 @@ input.error {
 			  },"text");
 			 }
 			 jQuery("."+clz).show();			  
-			}
-			function show_album(clz,obj){
-				 jQuery(".tabbody_ul li").removeClass("this");
-			 	 jQuery(obj).addClass("this");
-				  jQuery("."+clz).show();		
-					}
+		}
+		function show_album(clz,obj){
+			 jQuery(".tabbody_ul li").removeClass("this");
+		 	 jQuery(obj).addClass("this");
+			 jQuery("."+clz).show();		
+		}
 		  </script>
           <td><div class="tab_body">
               <ul class="tabbody_ul">

@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0055)/admin/goods_brand_add.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>定制运费管理</title>
+<link href="/static/home/shopmanage/css/template.css" rel="stylesheet" type="text/css">
+<link href="/static/home/shopmanage/css/jquery.bigcolorpicker.css" type="text/css" rel="stylesheet">
+<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+<script src="/static/home/shopmanage/js/jquery.validate.min.js"></script>
+<script src="/static/home/shopmanage/js/commonutil.js"></script>
+<script>
+jQuery("#theForm").validate({
+    rules:{
+    	name:{required:true,maxlength:20}
+	 },
+	messages:{
+		 name:{required:"名称不能为空",maxlength:"名称不能大于20字符"}
+	 }
+});
+//品牌保存
+function saveDeliveryRuleExt(method){
+	if($("#name").val()==""){
+		alert("名称不能为空");
+		$("#name").focus();
+		return ;
+	}
+	jQuery("#theForm").submit();
+}
+
+</script>
+</head>
+<body>
+<form action="/deliveryRuleExt.java" method="post" enctype="multipart/form-data" name="theForm" id="theForm" novalidate="novalidate">
+  <input name="id" id="id" type="hidden" value="$!{deliveryRuleExt.id}"/>
+  #if($deliveryRuleExt)
+    	<input name="cmd" type="hidden" value="update"/>
+    #else
+    <input name="cmd" type="hidden" value="save"/>
+    #end
+  <div class="cont">
+    <h1 class="seth">定制运费管理</h1>
+    
+    <div class="nav_list"> 
+	 
+    <ul>
+	<li><a href="/deliveryRuleExt.java?cmd=list" class="this"><b>
+		#if($!deliveryRuleExt)
+			编辑
+		#else
+			新增
+		#end
+	</b></a></li>
+	  	</ul>
+		
+    </div>
+    <div class="edit">
+	    <div class="editul setcont" id="base">
+	      <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>运费方案名称</li>
+	        <li><span class="webname">
+	          <input name="name" type="text" id="name" value="$!{deliveryRuleExt.name}"/>
+	        </span></li>
+	      </ul>
+	      <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级一商品数量</li>
+	        <li><span class="webname">
+	          <input name="level1Num" type="text" id="level1Num" value="$!{deliveryRuleExt.level1Num}" />
+	        </span>
+	        </li>
+	      </ul>
+	      
+
+	      
+	      <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级一附近地区邮费</li>
+	        <li><span class="webname">
+	          <input name="level1NearValue" type="text" id="level1NearValue" value="$!{deliveryRuleExt.level1NearValue}"/>
+	        </span>
+	        </li>
+	      </ul>
+	      
+	      
+	     <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级一普通地区邮费</li>
+	        <li><span class="webname">
+	          <input name="level1CommonValue" type="text" id="level1CommonValue" value="$!{deliveryRuleExt.level1CommonValue}"/>
+	        </span>
+	        </li>
+	      </ul>
+	      
+	      <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级一偏远地区邮费</li>
+	        <li><span class="webname">
+	          <input name="level1FarValue" type="text" id="level1FarValue" value="$!{deliveryRuleExt.level1FarValue}"/>
+	        </span>
+	        </li>
+	      </ul>
+	      
+	     
+	      <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级二商品数量</li>
+	        <li><span class="webname">
+	          <input name="level2Num" type="text" id="level2Num" value="$!{deliveryRuleExt.level2Num}" />
+	        </span>
+	        </li>
+	      </ul>
+	      
+
+	      
+	      <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级二附近地区邮费</li>
+	        <li><span class="webname">
+	          <input name="level2NearValue" type="text" id="level2NearValue" value="$!{deliveryRuleExt.level2NearValue}"/>
+	        </span>
+	        </li>
+	      </ul>
+	      
+	      
+	     <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级二普通地区邮费</li>
+	        <li><span class="webname">
+	          <input name="level2CommonValue" type="text" id="level2CommonValue" value="$!{deliveryRuleExt.level2CommonValue}"/>
+	        </span>
+	        </li>
+	      </ul>
+	      
+	      <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级二偏远地区邮费</li>
+	        <li><span class="webname">
+	          <input name="level2FarValue" type="text" id="level2FarValue" value="$!{deliveryRuleExt.level2FarValue}"/>
+	        </span>
+	        </li>
+	      </ul>
+	      
+	      
+	      
+	      <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级三商品数量</li>
+	        <li><span class="webname">
+	          <input name="level3Num" type="text" id="level3Num" value="$!{deliveryRuleExt.level3Num}" />
+	        </span>
+	        </li>
+	      </ul>
+	      
+
+	      
+	      <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级三附近地区邮费</li>
+	        <li><span class="webname">
+	          <input name="level3NearValue" type="text" id="level3NearValue" value="$!{deliveryRuleExt.level3NearValue}"/>
+	        </span>
+	        </li>
+	      </ul>
+	      
+	      
+	     <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级三普通地区邮费</li>
+	        <li><span class="webname">
+	          <input name="level3CommonValue" type="text" id="level3CommonValue" value="$!{deliveryRuleExt.level3CommonValue}"/>
+	        </span>
+	        </li>
+	      </ul>
+	      
+	      <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级三偏远地区邮费</li>
+	        <li><span class="webname">
+	          <input name="level3FarValue" type="text" id="level3FarValue" value="$!{deliveryRuleExt.level3FarValue}"/>
+	        </span>
+	        </li>
+	      </ul>
+	      
+	      
+	      
+	      		<ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级四商品数量</li>
+	        <li><span class="webname">
+	          <input name="level4Num" type="text" id="level4Num" value="$!{deliveryRuleExt.level4Num}" />
+	        </span>
+	        </li>
+	      </ul>
+	      
+
+	      
+	      <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级四附近地区邮费</li>
+	        <li><span class="webname">
+	          <input name="level4NearValue" type="text" id="level4NearValue" value="$!{deliveryRuleExt.level4NearValue}"/>
+	        </span>
+	        </li>
+	      </ul>
+	      
+	      
+	     <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级四普通地区邮费</li>
+	        <li><span class="webname">
+	          <input name="level4CommonValue" type="text" id="level4CommonValue" value="$!{deliveryRuleExt.level4CommonValue}"/>
+	        </span>
+	        </li>
+	      </ul>
+	      
+	      <ul class="set1">
+	        <li class="setcont_bg"><strong class="sred">*</strong>等级四偏远地区邮费</li>
+	        <li><span class="webname">
+	          <input name="level4FarValue" type="text" id="level4FarValue" value="$!{deliveryRuleExt.level4FarValue}"/>
+	        </span>
+	        </li>
+	      </ul>
+	   
+	    </div>
+    </div>  
+    <div class="submit">
+    <span class="pad120"><input name="" type="button" value="提交" onclick="saveDeliveryRuleExt();" /></span>
+  </div>
+  </div>
+
+</form>
+
+
+</body></html>

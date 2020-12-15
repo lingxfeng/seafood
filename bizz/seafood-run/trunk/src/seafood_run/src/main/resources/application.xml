@@ -55,6 +55,7 @@
 				/manage.java* = user,frameperms
 				/shopManage.java* = anon
 				/regionClass.java* = user,frameperms
+				/deliveryRuleExt.java* = user,frameperms
 				/visitorStatistics.java* = anon
 				/**/*.java* = shopPath
 				/** = anon

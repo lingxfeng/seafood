@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0056)/admin/goods_class_list.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title>定制运费管理</title>
+	<link href="/static/home/shopmanage/css/template.css" rel="stylesheet"
+		type="text/css">
+		<link rel="stylesheet" href="/static/common/base.css">
+		<script src="/static/home/shopmanage/js/jquery-1.6.2.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.poshytip.min.js"></script>
+		<script src="/static/home/shopmanage/js/jquery.shop.common.js"></script>
+		<script type="text/javascript">
+function gotoPage(n) {
+    location.href = "/deliveryRuleExt.java?cmd=toBrandType&status=2&currentPage=" + n;
+}
+</script>
+<style>
+.fshop_table2 th {
+    height: 100px;
+    line-height: 30px;
+    border-bottom: 1px solid #C6C9CA;
+    white-space: pre-wrap; 
+    border-top: 1px solid #C6C9CA;
+    background: #F2F4F6;
+    padding: 0px;
+}
+</style>
+</head>
+<body>
+	<div class="cont">
+		<h3 class="seth">定制运费管理</h3>
+		<div class="nav_list">
+			<ul>
+				<li><a href="/deliveryRuleExt.java?cmd=list" class="this"><b>定制运费管理</b></a></li>
+				<li><a href="deliveryRuleExt.java?cmd=toSave"><b>新增</b></a></li>
+			</ul>
+		</div>
+		<form name="queryForm" id="queryForm" action="/deliveryRuleExt.java" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="cmd" value="list" />
+    <div class="search">
+      <span>名称</span> <span class="size150">
+          <input name="name" type="text" id="name" value="$!name"/>
+          </span>  <span class="btn_search">
+          <input name="" type="submit" value="搜索" style="cursor:pointer;" class="search_btn"/>
+          </span> 
+ 
+    </div>
+  </form>
+		<div class="operation">
+			<h3>友情提示</h3>
+			<ul>
+				<li>定制化设置不同数量商品运费金额</li>
+			</ul>
+		</div>
+		<form name="ListForm" id="ListForm" action="/deliveryRuleExt.java?cmd=list"
+			method="post">
+			<div class="fshoptb2" >
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="fshop_table2">
+					<tbody>
+						<tr>
+							<th width="3%"><span class="form_btna">&nbsp;</span></th>
+							<th width="5%" align="center"><span class="form_btna">名称</span></th>
+							<th width="5%" align="center"><span class="form_btna">一级数量</span></th>
+							<th width="5%" align="center"><span class="form_btna">一级附近邮费</span></th>
+							<th width="5%" align="center"><span class="form_btna">一级普通邮费</span></th>
+							<th width="5%" align="center"><span class="form_btna">一级偏远邮费</span></th>
+							
+							
+							<th width="5%" align="center"><span class="form_btna">二级数量</span></th>
+							<th width="5%" align="center"><span class="form_btna">二级附近邮费</span></th>
+							<th width="5%" align="center"><span class="form_btna">二级普通邮费</span></th>
+							<th width="5%" align="center"><span class="form_btna">二级偏远邮费</span></th>
+							
+							
+							<th width="5%" align="center"><span class="form_btna">三级数量</span></th>
+							<th width="5%" align="center"><span class="form_btna">三级附近邮费</span></th>
+							<th width="5%" align="center"><span class="form_btna">三级普通邮费</span></th>
+							<th width="5%" align="center"><span class="form_btna">三级偏远邮费</span></th>
+							
+							
+							<th width="5%" align="center"><span class="form_btna">四级数量</span></th>
+							<th width="5%" align="center"><span class="form_btna">四级附近邮费</span></th>
+							<th width="5%" align="center"><span class="form_btna">四级普通邮费</span></th>
+							<th width="5%" align="center"><span class="form_btna">四级偏远邮费</span></th>
+							
+							<th width="5%" align="center"><b class="form_btna">操作</b></th>
+						</tr>
+						#foreach($obj in $deliveryList)
+						<tr id="$obj.id" level="$obj.id" levelnum="1">
+							<td class="check_position"><input name="ids" id="ids"
+								type="checkbox" value="1"></td>
+							<td align="center">$obj.name</td>
+							<td align="center">$!obj.level1Num</td>
+							<td align="center">$obj.level1NearValue</td>
+							<td align="center">$obj.level1CommonValue</td>
+							<td align="center">$obj.level1FarValue</td>
+							
+							<td align="center">$!obj.level2Num</td>
+							<td align="center">$obj.level2NearValue</td>
+							<td align="center">$obj.level2CommonValue</td>
+							<td align="center">$obj.level2FarValue</td>
+							
+							
+							<td align="center">$!obj.level3Num</td>
+							<td align="center">$obj.level3NearValue</td>
+							<td align="center">$obj.level3CommonValue</td>
+							<td align="center">$obj.level3FarValue</td>
+							
+							
+							<td align="center">$!obj.level4Num</td>
+							<td align="center">$obj.level4NearValue</td>
+							<td align="center">$obj.level4CommonValue</td>
+							<td align="center">$obj.level4FarValue</td>
+							
+							<td align="center" class="hui oprate_con">
+								<a href="/deliveryRuleExt.java?cmd=toEdit&id=$!{obj.id}" class="blue">编辑</a>
+							</td>
+						</tr>
+							#set($num=$num+1)
+						#end
+					</tbody>
+				</table>
+			</div>
+			<div class="operate_bar">
+				$!{paginationForBlueIdea}
+				<div class="oper_sp">
+					<span class="oper_check"><input type="checkbox" name="all"
+						id="all" value="" onclick="selectAll(this)">全部</span> <span
+						class="oper_del"></span>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</body>
+</html>
