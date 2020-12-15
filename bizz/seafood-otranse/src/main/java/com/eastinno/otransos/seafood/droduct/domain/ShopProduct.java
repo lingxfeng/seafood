@@ -106,6 +106,10 @@ public class ShopProduct extends TenantObject implements AutoChangeLink, IJsonOb
 	@ManyToOne(fetch = FetchType.LAZY)
 	private RegionClass regionClass;
 
+	@POLoad(name = "deliveryRuleExtId")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private DeliveryRuleExt deliveryRuleExt;
+
 	public List<Coupon> getCoupons() {
 		return coupons;
 	}
@@ -440,6 +444,14 @@ public class ShopProduct extends TenantObject implements AutoChangeLink, IJsonOb
 
 	public void setRegionClass(RegionClass regionClass) {
 		this.regionClass = regionClass;
+	}
+
+	public DeliveryRuleExt getDeliveryRuleExt() {
+		return deliveryRuleExt;
+	}
+
+	public void setDeliveryRuleExt(DeliveryRuleExt deliveryRuleExt) {
+		this.deliveryRuleExt = deliveryRuleExt;
 	}
 
 	public String getVideoPath() {
